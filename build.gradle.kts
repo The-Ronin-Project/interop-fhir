@@ -1,6 +1,7 @@
 plugins {
     id("com.projectronin.interop.gradle.jackson") version "1.0.0-SNAPSHOT"
     id("com.projectronin.interop.gradle.mockk") version "1.0.0-SNAPSHOT"
+    id("com.projectronin.interop.gradle.publish") version "1.0.0-SNAPSHOT"
 }
 
 dependencies {
