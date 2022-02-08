@@ -1,6 +1,13 @@
 rootProject.name = "interop-fhir"
 
 pluginManagement {
+    val interopGradleVersion: String by settings
+    plugins {
+        id("com.projectronin.interop.gradle.jackson") version interopGradleVersion
+        id("com.projectronin.interop.gradle.mockk") version interopGradleVersion
+        id("com.projectronin.interop.gradle.publish") version interopGradleVersion
+    }
+
     repositories {
         maven {
             url = uri("https://maven.pkg.github.com/projectronin/package-repo")
@@ -9,6 +16,7 @@ pluginManagement {
                 password = System.getenv("PACKAGE_TOKEN")
             }
         }
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }
