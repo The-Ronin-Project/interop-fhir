@@ -36,7 +36,7 @@ data class OncologyPractitionerRole(
     override val active: Boolean? = null,
     override val period: Period? = null,
     override val practitioner: Reference,
-    override val organization: Reference,
+    override val organization: Reference? = null,
     override val code: List<CodeableConcept> = listOf(),
     override val specialty: List<CodeableConcept> = listOf(),
     override val location: List<Reference> = listOf(),

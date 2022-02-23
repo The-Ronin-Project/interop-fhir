@@ -6,6 +6,7 @@ pluginManagement {
         id("com.projectronin.interop.gradle.jackson") version interopGradleVersion
         id("com.projectronin.interop.gradle.mockk") version interopGradleVersion
         id("com.projectronin.interop.gradle.publish") version interopGradleVersion
+        id("com.projectronin.interop.gradle.spring") version interopGradleVersion
     }
 
     repositories {
