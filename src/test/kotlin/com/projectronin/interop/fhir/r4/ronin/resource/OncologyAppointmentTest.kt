@@ -86,7 +86,7 @@ class OncologyAppointmentTest {
             basedOn = listOf(Reference(display = "based on")),
             participant = listOf(
                 Participant(
-                    actor = listOf(Reference(display = "actor")),
+                    actor = Reference(display = "actor"),
                     status = ParticipationStatus.ACCEPTED
                 )
             ),
@@ -170,9 +170,9 @@ class OncologyAppointmentTest {
                 "display" : "based on"
               } ],
               "participant" : [ {
-                "actor" : [ {
+                "actor" : {
                   "display" : "actor"
-                } ],
+                },
                 "status" : "accepted"
               } ],
               "requestedPeriod" : [ {
@@ -205,7 +205,7 @@ class OncologyAppointmentTest {
             status = AppointmentStatus.CANCELLED,
             participant = listOf(
                 Participant(
-                    actor = listOf(Reference(display = "actor")),
+                    actor = Reference(display = "actor"),
                     status = ParticipationStatus.ACCEPTED
                 )
             )
@@ -235,9 +235,9 @@ class OncologyAppointmentTest {
               } ],
               "status" : "cancelled",
               "participant" : [ {
-                "actor" : [ {
+                "actor" : {
                   "display" : "actor"
-                } ],
+                },
                 "status" : "accepted"
               } ]
             }
@@ -270,9 +270,9 @@ class OncologyAppointmentTest {
               } ],
               "status" : "cancelled",
               "participant" : [ {
-                "actor" : [ {
+                "actor" :  {
                   "display" : "actor"
-                } ],
+                } ,
                 "status" : "accepted"
               } ]
             }
@@ -328,7 +328,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -358,7 +358,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -439,7 +439,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -471,7 +471,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.BOOKED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -504,7 +504,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.PROPOSED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -536,7 +536,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.PROPOSED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -565,7 +565,7 @@ class OncologyAppointmentTest {
                 status = AppointmentStatus.PROPOSED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )

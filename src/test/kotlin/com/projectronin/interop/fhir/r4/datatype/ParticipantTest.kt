@@ -28,7 +28,7 @@ class ParticipantTest {
                 )
             ),
             type = listOf(CodeableConcept(text = "abc")),
-            actor = listOf(Reference(display = "actor")),
+            actor = Reference(display = "actor"),
             required = ParticipantRequired.REQUIRED,
             status = ParticipationStatus.ACCEPTED,
             period = Period(
@@ -52,9 +52,9 @@ class ParticipantTest {
               "type" : [ {
                 "text" : "abc"
               } ],
-              "actor" : [ {
+              "actor" : {
                 "display" : "actor"
-              } ],
+              },
               "required" : "required",
               "status" : "accepted",
               "period" : {
@@ -100,7 +100,7 @@ class ParticipantTest {
         assertEquals(listOf<Extension>(), participant.extension)
         assertEquals(listOf<Extension>(), participant.modifierExtension)
         assertEquals(listOf<CodeableConcept>(), participant.type)
-        assertEquals(listOf<CodeableConcept>(), participant.actor)
+        assertNull(participant.actor)
         assertNull(participant.required)
         assertNull(participant.period)
     }

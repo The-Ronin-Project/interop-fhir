@@ -83,7 +83,7 @@ abstract class BaseAppointment {
         }
 
         require(participant.isNotEmpty()) { "At least one participant must be provided" }
-        require(participant.all { it.type.isNotEmpty() || it.actor.isNotEmpty() }) {
+        require(participant.all { it.type.isNotEmpty() || it.actor != null }) {
             "[app-1](https://www.hl7.org/fhir/R4/appointment.html#invs): Either the type or actor on the participant SHALL be specified"
         }
     }

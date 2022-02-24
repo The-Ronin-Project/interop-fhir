@@ -75,7 +75,7 @@ class AppointmentTest {
             basedOn = listOf(Reference(display = "based on")),
             participant = listOf(
                 Participant(
-                    actor = listOf(Reference(display = "actor")),
+                    actor = Reference(display = "actor"),
                     status = ParticipationStatus.ACCEPTED
                 )
             ),
@@ -148,9 +148,9 @@ class AppointmentTest {
                 "display" : "based on"
               } ],
               "participant" : [ {
-                "actor" : [ {
+                "actor" : {
                   "display" : "actor"
-                } ],
+                },
                 "status" : "accepted"
               } ],
               "requestedPeriod" : [ {
@@ -170,7 +170,7 @@ class AppointmentTest {
             status = AppointmentStatus.CANCELLED,
             participant = listOf(
                 Participant(
-                    actor = listOf(Reference(display = "actor")),
+                    actor = Reference(display = "actor"),
                     status = ParticipationStatus.ACCEPTED
                 )
             )
@@ -182,8 +182,36 @@ class AppointmentTest {
               "resourceType" : "Appointment",
               "status" : "cancelled",
               "participant" : [ {
-                "actor" : [ {
+                "actor" : {
                   "display" : "actor"
+                },
+                "status" : "accepted"
+              } ]
+            }
+        """.trimIndent()
+        assertEquals(expectedJson, json)
+    }
+
+    @Test
+    fun `serialized JSON without an actor but with a type`() {
+        val appointment = Appointment(
+            status = AppointmentStatus.CANCELLED,
+            participant = listOf(
+                Participant(
+                    type = listOf(CodeableConcept("123")),
+                    status = ParticipationStatus.ACCEPTED
+                )
+            )
+        )
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(appointment)
+
+        val expectedJson = """
+            {
+              "resourceType" : "Appointment",
+              "status" : "cancelled",
+              "participant" : [ {
+                "type" : [ {
+                  "id" : "123"
                 } ],
                 "status" : "accepted"
               } ]
@@ -199,9 +227,9 @@ class AppointmentTest {
               "resourceType" : "Appointment",
               "status" : "cancelled",
               "participant" : [ {
-                "actor" : [ {
+                "actor" :{
                   "display" : "actor"
-                } ],
+                },
                 "status" : "accepted"
               } ]
             }
@@ -246,7 +274,7 @@ class AppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -263,7 +291,7 @@ class AppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -304,7 +332,7 @@ class AppointmentTest {
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 ),
@@ -324,7 +352,7 @@ class AppointmentTest {
                 status = AppointmentStatus.BOOKED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
@@ -343,7 +371,7 @@ class AppointmentTest {
                 status = AppointmentStatus.PROPOSED,
                 participant = listOf(
                     Participant(
-                        actor = listOf(Reference(display = "actor")),
+                        actor = Reference(display = "actor"),
                         status = ParticipationStatus.ACCEPTED
                     )
                 ),

@@ -13,7 +13,7 @@ data class Participant(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val type: List<CodeableConcept> = listOf(),
-    val actor: List<Reference> = listOf(),
+    val actor: Reference? = null,
     val required: ParticipantRequired? = null,
     val status: ParticipationStatus,
     val period: Period? = null
