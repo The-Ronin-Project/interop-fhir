@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode
 /**
  * Represents a dynamic value. These tend to be shown as "value```[x]```" within FHIR documentation.
  */
-data class DynamicValue<T>(
+data class DynamicValue<out T>(
     val type: DynamicValueType,
     val value: T
 ) {

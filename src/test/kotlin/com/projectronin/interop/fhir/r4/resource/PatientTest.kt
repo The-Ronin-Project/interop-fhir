@@ -34,6 +34,8 @@ import org.junit.jupiter.api.assertThrows
 class PatientTest {
     @Test
     fun `can serialize and deserialize JSON`() {
+        val deceased = DynamicValue(type = DynamicValueType.BOOLEAN, value = false)
+        val multipleBirth = DynamicValue(type = DynamicValueType.INTEGER, value = 2)
         val patient = Patient(
             id = Id("12345"),
             meta = Meta(
@@ -64,10 +66,10 @@ class PatientTest {
             telecom = listOf(ContactPoint(value = "8675309")),
             gender = AdministrativeGender.FEMALE,
             birthDate = Date("1975-07-05"),
-            deceased = DynamicValue(type = DynamicValueType.BOOLEAN, value = false),
+            deceased = deceased,
             address = listOf(Address(country = "USA")),
             maritalStatus = CodeableConcept(text = "M"),
-            multipleBirth = DynamicValue(type = DynamicValueType.INTEGER, value = 2),
+            multipleBirth = multipleBirth,
             photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
             contact = listOf(Contact(name = HumanName(text = "Jane Doe"))),
             communication = listOf(Communication(language = CodeableConcept(text = "English"))),

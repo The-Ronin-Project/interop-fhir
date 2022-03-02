@@ -28,6 +28,8 @@ import org.junit.jupiter.api.assertThrows
 class ConditionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
+        val onset = DynamicValue(DynamicValueType.STRING, "22")
+        val abatement = DynamicValue(DynamicValueType.STRING, "29")
         val condition = Condition(
             id = Id("12345"),
             meta = Meta(
@@ -61,8 +63,8 @@ class ConditionTest {
             bodySite = listOf(CodeableConcept(text = "body site")),
             subject = Reference(reference = "subject"),
             encounter = Reference(reference = "encounter"),
-            onset = DynamicValue(DynamicValueType.STRING, "22"),
-            abatement = DynamicValue(DynamicValueType.STRING, "29"),
+            onset = onset,
+            abatement = abatement,
             recordedDate = DateTime("2003-06-29"),
             recorder = Reference(reference = "recorder"),
             asserter = Reference(reference = "asserter"),
