@@ -29,6 +29,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
     JsonSubTypes.Type(Appointment::class),
     JsonSubTypes.Type(Bundle::class),
     JsonSubTypes.Type(Condition::class),
+    JsonSubTypes.Type(Location::class),
     JsonSubTypes.Type(Patient::class),
     JsonSubTypes.Type(Practitioner::class),
     JsonSubTypes.Type(PractitionerRole::class)
