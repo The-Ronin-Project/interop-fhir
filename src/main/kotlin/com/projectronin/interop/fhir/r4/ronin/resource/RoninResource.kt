@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.ronin.resource
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.projectronin.interop.fhir.FHIRResource
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
@@ -32,7 +33,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
     JsonSubTypes.Type(OncologyPractitionerRole::class),
     JsonSubTypes.Type(RoninBundle::class)
 )
-interface RoninResource {
+interface RoninResource : FHIRResource {
     val resourceType: String
     val id: Id?
     val meta: Meta?
