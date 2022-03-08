@@ -34,8 +34,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
     JsonSubTypes.Type(RoninBundle::class)
 )
 interface RoninResource : FHIRResource {
-    val resourceType: String
-    val id: Id?
     val meta: Meta?
     val implicitRules: Uri?
     val language: Code?

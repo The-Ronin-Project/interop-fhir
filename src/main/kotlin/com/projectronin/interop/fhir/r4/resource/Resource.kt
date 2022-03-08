@@ -36,8 +36,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
     JsonSubTypes.Type(PractitionerRole::class)
 )
 interface Resource : FHIRResource {
-    val resourceType: String
-    val id: Id?
     val meta: Meta?
     val implicitRules: Uri?
     val language: Code?
