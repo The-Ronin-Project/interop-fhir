@@ -484,7 +484,7 @@ class OncologyAppointmentTest {
     }
 
     @Test
-    fun `fails if cancellationReason is sent and status is not cancelled or noshow`() {
+    fun `fails if cancelationReason is sent and status is not cancelled or noshow`() {
         val exception = assertThrows<IllegalArgumentException> {
             OncologyAppointment(
                 cancelationReason = CodeableConcept(text = "cancel reason"),
