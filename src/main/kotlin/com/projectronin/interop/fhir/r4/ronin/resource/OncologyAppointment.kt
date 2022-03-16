@@ -37,7 +37,7 @@ data class OncologyAppointment(
     override val modifierExtension: List<Extension> = listOf(),
     override val identifier: List<Identifier>,
     override val status: AppointmentStatus,
-    override val cancellationReason: CodeableConcept? = null,
+    override val cancelationReason: CodeableConcept? = null,
     override val serviceCategory: List<CodeableConcept> = listOf(),
     override val serviceType: List<CodeableConcept> = listOf(),
     override val specialty: List<CodeableConcept> = listOf(),

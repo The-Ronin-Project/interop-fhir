@@ -34,7 +34,7 @@ abstract class BaseAppointment {
     abstract val modifierExtension: List<Extension>
     abstract val identifier: List<Identifier>
     abstract val status: AppointmentStatus
-    abstract val cancellationReason: CodeableConcept?
+    abstract val cancelationReason: CodeableConcept?
     abstract val serviceCategory: List<CodeableConcept>
     abstract val serviceType: List<CodeableConcept>
     abstract val specialty: List<CodeableConcept>
@@ -68,7 +68,7 @@ abstract class BaseAppointment {
             ) { "[app-3](https://www.hl7.org/fhir/R4/appointment.html#invs): Only proposed or cancelled appointments can be missing start/end dates" }
         }
 
-        cancellationReason?.let {
+        cancelationReason?.let {
             require(listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW).contains(status)) {
                 "[app-4](https://www.hl7.org/fhir/R4/appointment.html#invs): Cancellation reason is only used for appointments that have been cancelled, or no-show"
             }

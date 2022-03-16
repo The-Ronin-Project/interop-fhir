@@ -66,7 +66,7 @@ class OncologyAppointmentTest {
                 )
             ),
             status = AppointmentStatus.CANCELLED,
-            cancellationReason = CodeableConcept(text = "cancel reason"),
+            cancelationReason = CodeableConcept(text = "cancel reason"),
             serviceCategory = listOf(CodeableConcept(text = "service category")),
             serviceType = listOf(CodeableConcept(text = "service type")),
             specialty = listOf(CodeableConcept(text = "specialty")),
@@ -131,7 +131,7 @@ class OncologyAppointmentTest {
                 "value" : "tenantId"
               } ],
               "status" : "cancelled",
-              "cancellationReason" : {
+              "cancelationReason" : {
                 "text" : "cancel reason"
               },
               "serviceCategory" : [ {
@@ -286,7 +286,7 @@ class OncologyAppointmentTest {
         assertNull(appointment.text)
         assertEquals(listOf<Resource>(), appointment.contained)
         assertEquals(listOf<Extension>(), appointment.modifierExtension)
-        assertNull(appointment.cancellationReason)
+        assertNull(appointment.cancelationReason)
         assertEquals(listOf<CodeableConcept>(), appointment.serviceCategory)
         assertEquals(listOf<CodeableConcept>(), appointment.serviceType)
         assertEquals(listOf<CodeableConcept>(), appointment.specialty)
@@ -487,7 +487,7 @@ class OncologyAppointmentTest {
     fun `fails if cancellationReason is sent and status is not cancelled or noshow`() {
         val exception = assertThrows<IllegalArgumentException> {
             OncologyAppointment(
-                cancellationReason = CodeableConcept(text = "cancel reason"),
+                cancelationReason = CodeableConcept(text = "cancel reason"),
                 extension = listOf(
                     Extension(
                         url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,

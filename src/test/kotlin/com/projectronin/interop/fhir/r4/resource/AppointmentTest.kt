@@ -55,7 +55,7 @@ class AppointmentTest {
             ),
             identifier = listOf(Identifier(value = "id")),
             status = AppointmentStatus.CANCELLED,
-            cancellationReason = CodeableConcept(text = "cancel reason"),
+            cancelationReason = CodeableConcept(text = "cancel reason"),
             serviceCategory = listOf(CodeableConcept(text = "service category")),
             serviceType = listOf(CodeableConcept(text = "service type")),
             specialty = listOf(CodeableConcept(text = "specialty")),
@@ -109,7 +109,7 @@ class AppointmentTest {
                 "value" : "id"
               } ],
               "status" : "cancelled",
-              "cancellationReason" : {
+              "cancelationReason" : {
                 "text" : "cancel reason"
               },
               "serviceCategory" : [ {
@@ -245,7 +245,7 @@ class AppointmentTest {
         assertEquals(listOf<Extension>(), appointment.extension)
         assertEquals(listOf<Extension>(), appointment.modifierExtension)
         assertEquals(listOf<Identifier>(), appointment.identifier)
-        assertNull(appointment.cancellationReason)
+        assertNull(appointment.cancelationReason)
         assertEquals(listOf<CodeableConcept>(), appointment.serviceCategory)
         assertEquals(listOf<CodeableConcept>(), appointment.serviceType)
         assertEquals(listOf<CodeableConcept>(), appointment.specialty)
@@ -375,7 +375,7 @@ class AppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 ),
-                cancellationReason = CodeableConcept(text = "cancel reason")
+                cancelationReason = CodeableConcept(text = "cancel reason")
             )
         }
         assertEquals(
