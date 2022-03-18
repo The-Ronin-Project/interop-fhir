@@ -1054,4 +1054,101 @@ class OncologyPatientTest {
             exception.message
         )
     }
+
+    @Test
+    fun `can deserialize from Aidbox-style JSON`() {
+        val json = """
+            {
+              "resourceType" : "Patient",
+              "identifier" : [ {
+                "type" : {
+                  "coding" : [ {
+                    "system" : "http://projectronin.com/id/tenantId",
+                    "code" : "TID",
+                    "display" : "Ronin-specified Tenant Identifier"
+                  } ],
+                  "text" : "Tenant ID"
+                },
+                "system" : "http://projectronin.com/id/tenantId",
+                "value" : "tenantId"
+              }, {
+                "type" : {
+                  "coding" : [ {
+                    "system" : "http://projectronin.com/id/mrn",
+                    "code" : "MR",
+                    "display" : "Medical Record Number"
+                  } ],
+                  "text" : "MRN"
+                },
+                "system" : "http://projectronin.com/id/mrn",
+                "value" : "MRN"
+              }, {
+                "type" : {
+                  "coding" : [ {
+                    "system" : "http://projectronin.com/id/fhir",
+                    "code" : "STU3",
+                    "display" : "FHIR STU3 ID"
+                  } ],
+                  "text" : "FHIR STU3"
+                },
+                "system" : "http://projectronin.com/id/fhir",
+                "value" : "fhirId"
+              } ],
+              "name" : [ {
+                "family" : "Doe"
+              } ],
+              "telecom" : [ {
+                "system" : "phone",
+                "value" : "8675309",
+                "use" : "mobile"
+              } ],
+              "gender" : "female",
+              "birthDate" : "1975-07-05",
+              "address" : [ {
+                "country" : "USA"
+              } ],
+              "maritalStatus" : {
+                "text" : "M"
+              },
+              "deceased" : {
+                "boolean" : true
+              },
+              "multipleBirth" : {
+                "integer" : 2
+              }
+            }
+        """.trimIndent()
+        val oncologyPatient = JacksonManager.objectMapper.readValue<OncologyPatient>(json)
+
+        val expectedPatient = OncologyPatient(
+            identifier = listOf(
+                Identifier(
+                    type = CodeableConcepts.RONIN_TENANT,
+                    system = Uri("http://projectronin.com/id/tenantId"),
+                    value = "tenantId"
+                ),
+                Identifier(type = CodeableConcepts.MRN, system = Uri("http://projectronin.com/id/mrn"), value = "MRN"),
+                Identifier(
+                    type = CodeableConcepts.FHIR_STU3_ID,
+                    system = Uri("http://projectronin.com/id/fhir"),
+                    value = "fhirId"
+                )
+            ),
+            name = listOf(HumanName(family = "Doe")),
+            telecom = listOf(
+                ContactPoint(
+                    system = ContactPointSystem.PHONE,
+                    value = "8675309",
+                    use = ContactPointUse.MOBILE
+                )
+            ),
+            gender = AdministrativeGender.FEMALE,
+            birthDate = Date("1975-07-05"),
+            address = listOf(Address(country = "USA")),
+            maritalStatus = CodeableConcept(text = "M"),
+            deceased = DynamicValue(DynamicValueType.BOOLEAN, true),
+            multipleBirth = DynamicValue(DynamicValueType.INTEGER, 2)
+        )
+        assertEquals(expectedPatient, oncologyPatient)
+    }
 }

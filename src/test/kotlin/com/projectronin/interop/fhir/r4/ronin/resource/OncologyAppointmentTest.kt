@@ -573,4 +573,65 @@ class OncologyAppointmentTest {
         }
         assertEquals("Partner department reference must be of type Reference", exception.message)
     }
+
+    @Test
+    fun `can deserialize from Aidbox-style JSON`() {
+        val json = """
+            {
+              "resourceType" : "Appointment",
+              "extension" : [ {
+                "url" : "http://projectronin.com/fhir/us/ronin/StructureDefinition/partnerDepartmentReference",
+                "value" : {
+                  "reference" : {
+                     "reference" : "Organization/123"
+                  }
+                }
+              } ],
+              "identifier" : [ {
+                "type" : {
+                  "coding" : [ {
+                    "system" : "http://projectronin.com/id/tenantId",
+                    "code" : "TID",
+                    "display" : "Ronin-specified Tenant Identifier"
+                  } ],
+                  "text" : "Tenant ID"
+                },
+                "system" : "http://projectronin.com/id/tenantId",
+                "value" : "tenantId"
+              } ],
+              "status" : "cancelled",
+              "participant" : [ {
+                "actor" :  {
+                  "reference" : "Practitioner/123"
+                } ,
+                "status" : "accepted"
+              } ]
+            }
+        """.trimIndent()
+        val appointment = JacksonManager.objectMapper.readValue<OncologyAppointment>(json)
+
+        val expectedAppointment = OncologyAppointment(
+            extension = listOf(
+                Extension(
+                    url = Uri("http://projectronin.com/fhir/us/ronin/StructureDefinition/partnerDepartmentReference"),
+                    value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "Organization/123"))
+                )
+            ),
+            identifier = listOf(
+                Identifier(
+                    type = CodeableConcepts.RONIN_TENANT,
+                    system = Uri("http://projectronin.com/id/tenantId"),
+                    value = "tenantId"
+                )
+            ),
+            status = AppointmentStatus.CANCELLED,
+            participant = listOf(
+                Participant(
+                    actor = Reference(reference = "Practitioner/123"),
+                    status = ParticipationStatus.ACCEPTED
+                )
+            )
+        )
+        assertEquals(expectedAppointment, appointment)
+    }
 }
