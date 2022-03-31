@@ -51,7 +51,7 @@ data class OncologyPatient(
     override val name: List<HumanName>,
     override val telecom: List<ContactPoint>,
     override val gender: AdministrativeGender,
-    override val birthDate: Date,
+    override val birthDate: Date?,
     override val deceased: DynamicValue<Any>? = null,
     override val address: List<Address>,
     override val maritalStatus: CodeableConcept,
@@ -90,14 +90,5 @@ data class OncologyPatient(
 
         // Name
         require(name.isNotEmpty()) { "At least one name must be provided" }
-
-        // Telecom
-        require(telecom.isNotEmpty()) { "At least one telecom must be provided" }
-        require(
-            telecom.all { (it.system != null) and (it.value != null) and (it.use != null) }
-        ) { "Telecoms must have a system, value and use" }
-
-        // Address
-        require(address.isNotEmpty()) { "At least one address must be provided" }
     }
 }
