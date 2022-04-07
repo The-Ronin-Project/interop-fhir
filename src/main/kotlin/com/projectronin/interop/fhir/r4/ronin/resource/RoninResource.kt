@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.projectronin.interop.fhir.FHIRResource
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
@@ -28,6 +27,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 )
 @JsonSubTypes(
     JsonSubTypes.Type(OncologyAppointment::class),
+    JsonSubTypes.Type(OncologyCondition::class),
     JsonSubTypes.Type(OncologyPatient::class),
     JsonSubTypes.Type(OncologyPractitioner::class),
     JsonSubTypes.Type(OncologyPractitionerRole::class),
