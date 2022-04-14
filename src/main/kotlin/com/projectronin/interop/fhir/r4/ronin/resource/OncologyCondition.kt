@@ -61,13 +61,13 @@ data class OncologyCondition(
     override val asserter: Reference? = null,
     override val stage: List<ConditionStage> = listOf(),
     override val evidence: List<ConditionEvidence> = listOf(),
-    override val note: List<Annotation> = listOf(),
-
+    override val note: List<Annotation> = listOf()
 ) : RoninDomainResource, BaseCondition() {
     companion object {
         val acceptedOnsets = listOf(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD)
         val acceptedAbatement = listOf(DynamicValueType.PERIOD)
     }
+
     init {
         validate()
 
@@ -84,19 +84,25 @@ data class OncologyCondition(
         requireTenantIdentifier(identifier)
 
         clinicalStatus?.let {
-            val clinicalStatusCode = clinicalStatus.coding[0]?.code?.let { code ->
+            val clinicalStatusCode = clinicalStatus.coding.getOrNull(0)?.code?.let { code ->
                 CodedEnum.byCode<ConditionClinicalStatusCodes>(code.value)
             }
             requireNotNull(clinicalStatusCode) { "Invalid Clinical Status Code" }
 
             // con-4
             abatement?.let {
-                require(listOf(ConditionClinicalStatusCodes.INACTIVE, ConditionClinicalStatusCodes.RESOLVED, ConditionClinicalStatusCodes.REMISSION).contains(clinicalStatusCode)) { "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission" }
+                require(
+                    listOf(
+                        ConditionClinicalStatusCodes.INACTIVE,
+                        ConditionClinicalStatusCodes.RESOLVED,
+                        ConditionClinicalStatusCodes.REMISSION
+                    ).contains(clinicalStatusCode)
+                ) { "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission" }
             }
         }
 
         verificationStatus?.let {
-            val verificationStatusCode = verificationStatus.coding[0]?.code?.let { code ->
+            val verificationStatusCode = verificationStatus.coding.getOrNull(0)?.code?.let { code ->
                 CodedEnum.byCode<ConditionVerificationStatus>(code.value)
             }
             requireNotNull(verificationStatusCode) { "Invalid Verification Status Code" }

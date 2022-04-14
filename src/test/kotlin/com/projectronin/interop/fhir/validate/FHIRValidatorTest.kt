@@ -305,9 +305,10 @@ class FHIRValidatorTest {
 
         assertEquals(false, result.hasFatal())
         assertEquals(false, result.hasError())
-        assertEquals(false, result.hasWarn())
-        // An info of all clear is expected
-        assertEquals(true, result.hasInfo())
-        assertEquals("All OK", result.getInfo()[0].details)
+        assertEquals(false, result.hasInfo())
+
+        // We expect get a warning.
+        assertEquals(true, result.hasWarn())
+        assertEquals("Invalid Resource id", result.getWarnings()[0].details)
     }
 }

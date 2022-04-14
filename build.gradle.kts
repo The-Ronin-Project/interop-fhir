@@ -6,12 +6,12 @@ plugins {
 }
 
 dependencies {
-    implementation("com.projectronin.interop:interop-common:${project.property("interopCommonVersion")}")
-    implementation("com.projectronin.interop:interop-common-jackson:${project.property("interopCommonVersion")}")
-    implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:5.4.11")
+    implementation(libs.interop.common)
+    implementation(libs.interop.commonJackson)
+    implementation(libs.fhir.validation)
 
     // Used for some tests utilizing classpath inspection to verify configuration
-    testImplementation("io.github.classgraph:classgraph:4.8.138")
+    testImplementation(libs.classgraph)
 }
 
 tasks.withType<Test> {

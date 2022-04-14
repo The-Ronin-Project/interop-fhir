@@ -4,6 +4,8 @@ import mu.KotlinLogging
 import org.hl7.fhir.r5.elementmodel.Manager
 import org.hl7.fhir.utilities.TimeTracker
 import org.hl7.fhir.utilities.VersionUtilities
+import org.hl7.fhir.utilities.validation.ValidationMessage.IssueSeverity
+import org.hl7.fhir.validation.BaseValidator
 import org.hl7.fhir.validation.ValidationEngine
 import org.hl7.fhir.validation.cli.services.StandAloneValidatorFetcher
 
@@ -22,7 +24,12 @@ class FHIRValidator(version: String, implementationGuide: String = "/package.tgz
         val timeTracker = TimeTracker()
 
         logger.info { "Loading FHIR Version $version with definitions $definitions" }
-        validator = ValidationEngine(definitions, version, timeTracker)
+        validator = ValidationEngine.ValidationEngineBuilder().withVersion(version).withTimeTracker(timeTracker)
+            .fromSource(definitions)
+
+        // We need to do this in order to support longer IDs to be accepted. Technically, this will make any misformed IDs warnings instead of errors, but our Id object should identify those.
+        validator.validationControl["Resource_RES_ID_Malformed"] =
+            BaseValidator(null, null).ValidationControl(true, IssueSeverity.WARNING)
 
         logger.info { "Loading implementation guide from $implementationGuide" }
         val igLoader = ClasspathIgLoader(validator.pcm, validator.context, validator.version, validator.isDebug)

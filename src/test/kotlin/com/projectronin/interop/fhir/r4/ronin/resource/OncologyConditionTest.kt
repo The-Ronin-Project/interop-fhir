@@ -293,6 +293,7 @@ class OncologyConditionTest {
         """.trimMargin()
         assertEquals(expectedJson, json)
     }
+
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
         val json = """
@@ -351,6 +352,7 @@ class OncologyConditionTest {
         assertEquals(listOf<ConditionEvidence>(), oncologyCondition.evidence)
         assertEquals(listOf<Annotation>(), oncologyCondition.note)
     }
+
     @Test
     fun `fails if no tenant identifier provided`() {
         val exception =
@@ -550,6 +552,46 @@ class OncologyConditionTest {
     }
 
     @Test
+    fun `clinicalStatus can be evaluated with no coding`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyCondition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    clinicalStatus = CodeableConcept(),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                )
+            }
+        assertEquals("Invalid Clinical Status Code", exception.message)
+    }
+
+    @Test
     fun `verificationStatus must be valid code if populated`() {
         val exception =
             assertThrows<IllegalArgumentException> {
@@ -570,6 +612,46 @@ class OncologyConditionTest {
                             )
                         )
                     ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                )
+            }
+        assertEquals("Invalid Verification Status Code", exception.message)
+    }
+
+    @Test
+    fun `verificationStatus can be evaluated with no coding`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyCondition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    verificationStatus = CodeableConcept(),
                     category = listOf(
                         CodeableConcept(
                             coding = listOf(
@@ -642,7 +724,10 @@ class OncologyConditionTest {
                     )
                 )
             }
-        assertEquals("Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item", exception.message)
+        assertEquals(
+            "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
+            exception.message
+        )
     }
 
     @Test
@@ -691,7 +776,10 @@ class OncologyConditionTest {
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
                 )
             }
-        assertEquals("If condition is abated, then clinicalStatus must be either inactive, resolved, or remission", exception.message)
+        assertEquals(
+            "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            exception.message
+        )
     }
 
     @Test
@@ -748,6 +836,9 @@ class OncologyConditionTest {
                     )
                 )
             }
-        assertEquals("Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error", exception.message)
+        assertEquals(
+            "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+            exception.message
+        )
     }
 }
