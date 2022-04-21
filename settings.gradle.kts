@@ -1,7 +1,7 @@
 rootProject.name = "interop-fhir"
 
 pluginManagement {
-    val interopGradleVersion = "1.0.0-SNAPSHOT"
+    val interopGradleVersion = "1.0.0"
     plugins {
         id("com.projectronin.interop.gradle.jackson") version interopGradleVersion
         id("com.projectronin.interop.gradle.mockk") version interopGradleVersion
