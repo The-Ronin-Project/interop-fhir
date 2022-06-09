@@ -517,13 +517,152 @@ class OncologyAppointmentTest {
     }
 
     @Test
-    fun `fails if partnerReference not sent`() {
+    fun `succeeds if partnerReference is missing`() {
+        val oncologyAppointment = OncologyAppointment(
+            id = Id("12345"),
+            meta = Meta(
+                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+            ),
+            implicitRules = Uri("implicit-rules"),
+            language = Code("en-US"),
+            text = Narrative(
+                status = NarrativeStatus.GENERATED,
+                div = "div"
+            ),
+            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            modifierExtension = listOf(
+                Extension(
+                    url = Uri("http://localhost/modifier-extension"),
+                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                )
+            ),
+            identifier = listOf(
+                Identifier(
+                    system = CodeSystem.RONIN_TENANT.uri,
+                    type = CodeableConcepts.RONIN_TENANT,
+                    value = "tenantId"
+                )
+            ),
+            status = AppointmentStatus.CANCELLED,
+            cancelationReason = CodeableConcept(text = "cancel reason"),
+            serviceCategory = listOf(CodeableConcept(text = "service category")),
+            serviceType = listOf(CodeableConcept(text = "service type")),
+            specialty = listOf(CodeableConcept(text = "specialty")),
+            appointmentType = CodeableConcept(text = "appointment type"),
+            reasonCode = listOf(CodeableConcept(text = "reason code")),
+            reasonReference = listOf(Reference(display = "reason reference")),
+            priority = 1,
+            description = "appointment test",
+            supportingInformation = listOf(Reference(display = "supporting info")),
+            start = Instant(value = "2017-01-01T00:00:00Z"),
+            end = Instant(value = "2017-01-01T01:00:00Z"),
+            minutesDuration = 15,
+            slot = listOf(Reference(display = "slot")),
+            created = DateTime(value = "2021-11-16"),
+            comment = "comment",
+            patientInstruction = "patient instruction",
+            basedOn = listOf(Reference(display = "based on")),
+            participant = listOf(
+                Participant(
+                    actor = Reference(display = "actor"),
+                    status = ParticipationStatus.ACCEPTED
+                )
+            ),
+            requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
+        )
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyAppointment)
+
+        val expectedJson = """
+            {
+              "resourceType" : "Appointment",
+              "id" : "12345",
+              "meta" : {
+                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+              },
+              "implicitRules" : "implicit-rules",
+              "language" : "en-US",
+              "text" : {
+                "status" : "generated",
+                "div" : "div"
+              },
+              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "modifierExtension" : [ {
+                "url" : "http://localhost/modifier-extension",
+                "valueString" : "Value"
+              } ],
+              "identifier" : [ {
+                "type" : {
+                  "coding" : [ {
+                    "system" : "http://projectronin.com/id/tenantId",
+                    "code" : "TID",
+                    "display" : "Ronin-specified Tenant Identifier"
+                  } ],
+                  "text" : "Tenant ID"
+                },
+                "system" : "http://projectronin.com/id/tenantId",
+                "value" : "tenantId"
+              } ],
+              "status" : "cancelled",
+              "cancelationReason" : {
+                "text" : "cancel reason"
+              },
+              "serviceCategory" : [ {
+                "text" : "service category"
+              } ],
+              "serviceType" : [ {
+                "text" : "service type"
+              } ],
+              "specialty" : [ {
+                "text" : "specialty"
+              } ],
+              "appointmentType" : {
+                "text" : "appointment type"
+              },
+              "reasonCode" : [ {
+                "text" : "reason code"
+              } ],
+              "reasonReference" : [ {
+                "display" : "reason reference"
+              } ],
+              "priority" : 1,
+              "description" : "appointment test",
+              "supportingInformation" : [ {
+                "display" : "supporting info"
+              } ],
+              "start" : "2017-01-01T00:00:00Z",
+              "end" : "2017-01-01T01:00:00Z",
+              "minutesDuration" : 15,
+              "slot" : [ {
+                "display" : "slot"
+              } ],
+              "created" : "2021-11-16",
+              "comment" : "comment",
+              "patientInstruction" : "patient instruction",
+              "basedOn" : [ {
+                "display" : "based on"
+              } ],
+              "participant" : [ {
+                "actor" : {
+                  "display" : "actor"
+                },
+                "status" : "accepted"
+              } ],
+              "requestedPeriod" : [ {
+                "start" : "2021-11-16"
+              } ]
+            }
+        """.trimIndent()
+        assertEquals(expectedJson, json)
+    }
+
+    @Test
+    fun `fails if partnerReference value is not a Reference`() {
         val exception = assertThrows<IllegalArgumentException> {
             OncologyAppointment(
                 extension = listOf(
                     Extension(
-                        url = Uri("http://not-partnerReference"),
-                        value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "reference"))
+                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
+                        value = DynamicValue(DynamicValueType.STRING, Reference(reference = "reference"))
                     )
                 ),
                 identifier = listOf(
@@ -542,17 +681,45 @@ class OncologyAppointmentTest {
                 )
             )
         }
-        assertEquals("Appointment must have a reference to a partner department", exception.message)
+        assertEquals("Partner department reference must be of type Reference", exception.message)
     }
 
     @Test
-    fun `fails if partnerReference value is not a Reference`() {
+    fun `fails if partnerReference value is missing`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            OncologyAppointment(
+                extension = listOf(
+                    Extension(
+                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri
+                    )
+                ),
+                identifier = listOf(
+                    Identifier(
+                        system = CodeSystem.RONIN_TENANT.uri,
+                        type = CodeableConcepts.RONIN_TENANT,
+                        value = "tenantId"
+                    )
+                ),
+                status = AppointmentStatus.PROPOSED,
+                participant = listOf(
+                    Participant(
+                        actor = Reference(display = "actor"),
+                        status = ParticipationStatus.ACCEPTED
+                    )
+                )
+            )
+        }
+        assertEquals("Partner department reference must be of type Reference", exception.message)
+    }
+
+    @Test
+    fun `fails if partnerReference value is null`() {
         val exception = assertThrows<IllegalArgumentException> {
             OncologyAppointment(
                 extension = listOf(
                     Extension(
                         url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
-                        value = DynamicValue(DynamicValueType.STRING, Reference(reference = "reference"))
+                        value = null
                     )
                 ),
                 identifier = listOf(

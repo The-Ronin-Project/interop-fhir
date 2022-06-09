@@ -63,12 +63,11 @@ data class OncologyAppointment(
 
         requireTenantIdentifier(identifier)
 
-        val partnerReference = extension.find { it.url == ExtensionMeanings.PARTNER_DEPARTMENT.uri }
-        requireNotNull(partnerReference) {
-            "Appointment must have a reference to a partner department"
-        }
-        require(partnerReference.value?.type == DynamicValueType.REFERENCE) {
-            "Partner department reference must be of type Reference"
+        val partnerDepartment = extension.find { it.url == ExtensionMeanings.PARTNER_DEPARTMENT.uri }
+        partnerDepartment?.let {
+            require(it.value?.type == DynamicValueType.REFERENCE) {
+                "Partner department reference must be of type Reference"
+            }
         }
     }
 }
