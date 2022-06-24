@@ -9,13 +9,18 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
- * A resource is an entity that:
+ * A FHIR resource is an entity that:
  * - has a known identity (a URL) by which it can be addressed
  * - identifies itself as one of the types of resource defined in this specification
  * - contains a set of structured data items as described by the definition of the resource type
  * - has an identified version that changes if the contents of the resource change
  *
- * See [FHIR Spec](https://www.hl7.org/fhir/resource.html)
+ * See the [FHIR Spec](https://www.hl7.org/fhir/resource.html)
+ *
+ * A Ronin FHIR resource is a resource that has differences from the standard FHIR specification.
+ * The [Ronin FHIR Profile](https://crispy-carnival-61996e6e.pages.github.io/toc.html)
+ * document lists the differences between each Ronin resource
+ * and the standard FHIR specification.
  */
 @JsonPropertyOrder("resourceType")
 @JsonTypeInfo(
@@ -28,6 +33,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 @JsonSubTypes(
     JsonSubTypes.Type(OncologyAppointment::class),
     JsonSubTypes.Type(OncologyCondition::class),
+    JsonSubTypes.Type(OncologyObservation::class),
     JsonSubTypes.Type(OncologyPatient::class),
     JsonSubTypes.Type(OncologyPractitioner::class),
     JsonSubTypes.Type(OncologyPractitionerRole::class),

@@ -75,5 +75,6 @@ abstract class BaseCondition {
         abatement?.let {
             require(acceptedAbatements.contains(it.type)) { "Bad dynamic value indicating condition abatement" }
         }
+        // Some constraints are suggested rather than required; see OncologyCondition validate() for Ronin validation.
     }
 }

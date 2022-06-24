@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.projectronin.interop.fhir.FHIRResource
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
@@ -31,6 +30,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
     JsonSubTypes.Type(Bundle::class),
     JsonSubTypes.Type(Condition::class),
     JsonSubTypes.Type(Location::class),
+    JsonSubTypes.Type(Observation::class),
     JsonSubTypes.Type(Patient::class),
     JsonSubTypes.Type(Practitioner::class),
     JsonSubTypes.Type(PractitionerRole::class)

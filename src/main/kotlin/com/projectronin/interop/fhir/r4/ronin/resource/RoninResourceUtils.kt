@@ -10,7 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Identifier
 fun requireTenantIdentifier(identifier: List<Identifier>) {
     val tenantIdentifier = identifier.find { it.system == CodeSystem.RONIN_TENANT.uri }
     requireNotNull(tenantIdentifier) { "Tenant identifier is required" }
-
+    // tenantIdentifier.use is constrained by the IdentifierUse enum type, so it needs no validation.
     require(tenantIdentifier.type == CodeableConcepts.RONIN_TENANT) { "Tenant identifier provided without proper CodeableConcept defined" }
     requireNotNull(tenantIdentifier.value) { "tenant value is required" }
 }
