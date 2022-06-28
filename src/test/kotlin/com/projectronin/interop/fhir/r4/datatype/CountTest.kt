@@ -14,25 +14,33 @@ import org.junit.jupiter.api.assertThrows
 class CountTest {
     @Test
     fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> { Count(value = 2.0) }
+        val exception = assertThrows<IllegalArgumentException> {
+            Count(value = 2.0, system = CodeSystem.UCUM.uri)
+        }
         assertEquals("There SHALL be a code with a value of \"1\" if there is a value", exception.message)
     }
 
     @Test
     fun `fails if value provided with invalid code`() {
-        val exception = assertThrows<IllegalArgumentException> { Count(value = 2.0, code = Code("code-value")) }
+        val exception = assertThrows<IllegalArgumentException> {
+            Count(value = 2.0, code = Code("code-value"), system = CodeSystem.UCUM.uri)
+        }
         assertEquals("There SHALL be a code with a value of \"1\" if there is a value", exception.message)
     }
 
     @Test
     fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> { Count(system = Uri("SNOMED")) }
+        val exception = assertThrows<IllegalArgumentException> {
+            Count(system = Uri("SNOMED"))
+        }
         assertEquals("If system is present, it SHALL be UCUM", exception.message)
     }
 
     @Test
     fun `fails if value is non-whole number`() {
-        val exception = assertThrows<IllegalArgumentException> { Count(code = Code("1"), value = 1.2) }
+        val exception = assertThrows<IllegalArgumentException> {
+            Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = 1.2)
+        }
         assertEquals("If present, the value SHALL be a whole number", exception.message)
     }
 
@@ -84,6 +92,7 @@ class CountTest {
                 )
             ),
             value = 17.0,
+            system = CodeSystem.UCUM.uri,
             code = Code("1")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(count)
@@ -96,6 +105,7 @@ class CountTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.0,
+            |  "system" : "http://unitsofmeasure.org",
             |  "code" : "1"
             |}""".trimMargin()
         assertEquals(expectedJson, json)

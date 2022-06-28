@@ -22,6 +22,7 @@ data class Count(
     override val code: Code? = null
 ) : BaseQuantity(id, extension, value, comparator, unit, system, code) {
     init {
+        validate()
         require((code != null && code.value == "1") || value == null) { "There SHALL be a code with a value of \"1\" if there is a value" }
         require(system == null || system == CodeSystem.UCUM.uri) { "If system is present, it SHALL be UCUM" }
         require(value == null || ceil(value) == floor(value)) { "If present, the value SHALL be a whole number" }

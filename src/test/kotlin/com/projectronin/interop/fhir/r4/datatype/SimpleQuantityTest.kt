@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class SimpleQuantityTest {
     @Test
@@ -56,7 +57,6 @@ class SimpleQuantityTest {
                 )
             ),
             value = 17.5,
-            code = Code("a")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(simpleQuantity)
 
@@ -67,8 +67,7 @@ class SimpleQuantityTest {
             |    "url" : "http://localhost/extension",
             |    "valueString" : "Value"
             |  } ],
-            |  "value" : 17.5,
-            |  "code" : "a"
+            |  "value" : 17.5
             |}""".trimMargin()
         assertEquals(expectedJson, json)
     }
@@ -88,5 +87,20 @@ class SimpleQuantityTest {
         assertNull(simpleQuantity.unit)
         assertNull(simpleQuantity.system)
         assertNull(simpleQuantity.code)
+    }
+
+    @Test
+    fun `fails if code is provided without system`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            SimpleQuantity(
+                value = 60.0,
+                unit = "mL/min/1.73m2",
+                code = Code("mL/min/{1.73_m2}"),
+            )
+        }
+        assertEquals(
+            "If a code for the unit is present, the system SHALL also be present",
+            exception.message
+        )
     }
 }

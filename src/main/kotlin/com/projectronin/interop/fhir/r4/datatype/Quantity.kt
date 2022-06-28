@@ -17,4 +17,8 @@ data class Quantity(
     override val unit: String? = null,
     override val system: Uri? = null,
     override val code: Code? = null
-) : BaseQuantity(id, extension, value, comparator, unit, system, code)
+) : BaseQuantity(id, extension, value, comparator, unit, system, code) {
+    init {
+        validate()
+    }
+}

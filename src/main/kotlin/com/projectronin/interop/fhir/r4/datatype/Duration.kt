@@ -20,6 +20,7 @@ data class Duration(
     override val code: Code? = null
 ) : BaseQuantity(id, extension, value, comparator, unit, system, code) {
     init {
+        validate()
         require(code != null || value == null) { "There SHALL be a code if there is a value" }
         require(system == null || system == CodeSystem.UCUM.uri) { "If system is present, it SHALL be UCUM" }
     }

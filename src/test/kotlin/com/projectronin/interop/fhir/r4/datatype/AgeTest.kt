@@ -15,7 +15,7 @@ class AgeTest {
     @Test
     fun `fails if value provided without code`() {
         val exception =
-            assertThrows<IllegalArgumentException> { Age(value = 2.0) }
+            assertThrows<IllegalArgumentException> { Age(value = 2.0, system = CodeSystem.UCUM.uri) }
         assertEquals("There SHALL be a code if there is a value", exception.message)
     }
 
@@ -30,7 +30,7 @@ class AgeTest {
     @Test
     fun `fails if value is zero`() {
         val exception = assertThrows<IllegalArgumentException> {
-            Age(code = Code("code"), value = 0.0)
+            Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = 0.0)
         }
         assertEquals("If value is present, it SHALL be positive", exception.message)
     }
@@ -38,7 +38,7 @@ class AgeTest {
     @Test
     fun `fails if value is negative`() {
         val exception = assertThrows<IllegalArgumentException> {
-            Age(code = Code("code"), value = -3.0)
+            Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = -3.0)
         }
         assertEquals("If value is present, it SHALL be positive", exception.message)
     }
@@ -91,6 +91,7 @@ class AgeTest {
                 )
             ),
             value = 17.0,
+            system = CodeSystem.UCUM.uri,
             code = Code("a")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(age)
@@ -103,6 +104,7 @@ class AgeTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.0,
+            |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
             |}""".trimMargin()
         assertEquals(expectedJson, json)

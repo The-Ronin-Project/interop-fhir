@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.core.JsonParser
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
@@ -51,8 +52,8 @@ class DynamicValueTypeTest {
             Address(text = "Address")
         ),
         DynamicValueType.AGE to TestData(
-            """{"value":18.0,"code":"d"}""",
-            Age(value = 18.0, code = Code("d"))
+            """{"value":18.0,"code":"d","system":"http://unitsofmeasure.org"}""",
+            Age(value = 18.0, code = Code("d"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.ANNOTATION to TestData(
             """{"text":"text"}""",
@@ -71,7 +72,10 @@ class DynamicValueTypeTest {
             """{"type":"author","name":"name"}""",
             Contributor(type = ContributorType.AUTHOR, name = "name")
         ),
-        DynamicValueType.COUNT to TestData("""{"value":24.0,"code":"1"}""", Count(value = 24.0, code = Code("1"))),
+        DynamicValueType.COUNT to TestData(
+            """{"value":24.0,"code":"1","system":"http://unitsofmeasure.org"}""",
+            Count(value = 24.0, code = Code("1"), system = CodeSystem.UCUM.uri)
+        ),
         DynamicValueType.DATA_REQUIREMENT to TestData("""{"type":"type"}""", DataRequirement(type = Code("type"))),
         DynamicValueType.DATE to TestData(""""2021-11-19"""", Date("2021-11-19")),
         DynamicValueType.DATE_TIME to TestData(
@@ -80,13 +84,13 @@ class DynamicValueTypeTest {
         ),
         DynamicValueType.DECIMAL to TestData("24.0", 24.0),
         DynamicValueType.DISTANCE to TestData(
-            """{"value":26.2,"code":"mi"}""",
-            Distance(value = 26.2, code = Code("mi"))
+            """{"value":26.2,"code":"mi","system":"http://unitsofmeasure.org"}""",
+            Distance(value = 26.2, code = Code("mi"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.DOSAGE to TestData("""{"text":"text"}""", Dosage(text = "text")),
         DynamicValueType.DURATION to TestData(
-            """{"value":"12","code":"h"}""",
-            Duration(value = 12.0, code = Code("h"))
+            """{"value":"12","code":"h","system":"http://unitsofmeasure.org"}""",
+            Duration(value = 12.0, code = Code("h"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.EXPRESSION to TestData(
             """{"language":"en-US","expression":"expression"}""",

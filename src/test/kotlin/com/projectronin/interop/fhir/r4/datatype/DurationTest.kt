@@ -72,6 +72,7 @@ class DurationTest {
                 )
             ),
             value = 17.5,
+            system = CodeSystem.UCUM.uri,
             code = Code("a")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(duration)
@@ -84,6 +85,7 @@ class DurationTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.5,
+            |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
             |}""".trimMargin()
         assertEquals(expectedJson, json)

@@ -13,7 +13,7 @@ abstract class BaseQuantity(
     open val system: Uri? = null,
     open val code: Code? = null
 ) : Element {
-    init {
+    protected fun validate() {
         require(code == null || system != null) { "If a code for the unit is present, the system SHALL also be present" }
     }
 }

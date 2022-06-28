@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
@@ -123,7 +124,10 @@ class TimingTest {
                         value = DynamicValue(DynamicValueType.STRING, "Value")
                     )
                 ),
-                bounds = DynamicValue(DynamicValueType.DURATION, Duration(value = 3.0, code = Code("a"))),
+                bounds = DynamicValue(
+                    DynamicValueType.DURATION,
+                    Duration(value = 3.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                ),
                 count = PositiveInt(5),
                 countMax = PositiveInt(10),
                 duration = 14.0,
@@ -158,6 +162,7 @@ class TimingTest {
             |    } ],
             |    "boundsDuration" : {
             |      "value" : 3.0,
+            |      "system" : "http://unitsofmeasure.org",
             |      "code" : "a"
             |    },
             |    "count" : 5,

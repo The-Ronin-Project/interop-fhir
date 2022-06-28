@@ -72,6 +72,7 @@ class DistanceTest {
                 )
             ),
             value = 17.5,
+            system = CodeSystem.UCUM.uri,
             code = Code("mm")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distance)
@@ -84,6 +85,7 @@ class DistanceTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.5,
+            |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mm"
             |}""".trimMargin()
         assertEquals(expectedJson, json)
