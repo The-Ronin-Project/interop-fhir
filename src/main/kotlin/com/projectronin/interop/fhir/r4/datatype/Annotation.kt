@@ -16,18 +16,20 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 @JsonSerialize(using = AnnotationSerializer::class)
 data class Annotation(
     override val id: String? = null,
-    override val extension: List<com.projectronin.interop.fhir.r4.datatype.Extension> = listOf(),
+    override val extension: List<Extension> = listOf(),
     val author: DynamicValue<Any>? = null,
     val time: DateTime? = null,
     val text: Markdown
-) : com.projectronin.interop.fhir.r4.datatype.Element {
+) : Element {
     companion object {
         val acceptedDynamicTypes = listOf(DynamicValueType.REFERENCE, DynamicValueType.STRING)
     }
 
     init {
         author?.let {
-            require(com.projectronin.interop.fhir.r4.datatype.Annotation.Companion.acceptedDynamicTypes.contains(author.type)) { "author can only be one of the following: ${com.projectronin.interop.fhir.r4.datatype.Annotation.Companion.acceptedDynamicTypes.joinToString { it.code }}" }
+            require(acceptedDynamicTypes.contains(author.type)) {
+                "author can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
+            }
         }
     }
 }

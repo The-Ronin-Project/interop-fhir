@@ -12,12 +12,28 @@ import org.junit.jupiter.api.assertThrows
 
 class IdentifierTest {
     @Test
-    fun `fails if assigner supplied type is not Organization`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Identifier(assigner = Reference(type = Uri("Patient")))
-            }
-        assertEquals("Assigner must belong to an Organization", exception.message)
+    fun `If present, the assigner reference is an Organzation`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Identifier(
+                id = "12345",
+                extension = listOf(
+                    Extension(
+                        url = Uri("http://localhost/extension"),
+                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                    )
+                ),
+                use = IdentifierUse.OFFICIAL,
+                type = CodeableConcept(text = "concept"),
+                system = Uri("identifier-system"),
+                value = "identifier value",
+                period = Period(start = DateTime("2021-11-01")),
+                assigner = Reference(
+                    reference = "Organization/123",
+                    type = Uri("Practitioner")
+                )
+            )
+        }
+        assertEquals("Identifier assigner reference must be to an Organization", exception.message)
     }
 
     @Test
@@ -35,7 +51,10 @@ class IdentifierTest {
             system = Uri("identifier-system"),
             value = "identifier value",
             period = Period(start = DateTime("2021-11-01")),
-            assigner = Reference(reference = "Organization")
+            assigner = Reference(
+                reference = "Organization/123",
+                type = Uri("Organization")
+            )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(identifier)
 
@@ -56,7 +75,8 @@ class IdentifierTest {
             |    "start" : "2021-11-01"
             |  },
             |  "assigner" : {
-            |    "reference" : "Organization"
+            |    "reference" : "Organization/123",
+            |    "type" : "Organization"
             |  }
             |}""".trimMargin()
         assertEquals(expectedJson, json)

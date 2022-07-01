@@ -312,20 +312,6 @@ class AppointmentTest {
     }
 
     @Test
-    fun `fails if participant doesn't have type or actor`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(Participant(status = ParticipationStatus.ACCEPTED))
-            )
-        }
-        assertEquals(
-            "[app-1](https://www.hl7.org/fhir/R4/appointment.html#invs): Either the type or actor on the participant SHALL be specified",
-            exception.message
-        )
-    }
-
-    @Test
     fun `fails if appointment has start without end`() {
         val exception = assertThrows<IllegalArgumentException> {
             Appointment(
@@ -340,7 +326,7 @@ class AppointmentTest {
             )
         }
         assertEquals(
-            "[app-2](https://www.hl7.org/fhir/R4/appointment.html#invs): Either start and end are specified, or neither",
+            "Either start and end are specified, or neither",
             exception.message
         )
     }
@@ -359,7 +345,7 @@ class AppointmentTest {
             )
         }
         assertEquals(
-            "[app-3](https://www.hl7.org/fhir/R4/appointment.html#invs): Only proposed or cancelled appointments can be missing start/end dates",
+            "Only proposed or cancelled appointments can be missing start/end dates",
             exception.message
         )
     }
@@ -379,7 +365,7 @@ class AppointmentTest {
             )
         }
         assertEquals(
-            "[app-4](https://www.hl7.org/fhir/R4/appointment.html#invs): Cancellation reason is only used for appointments that have been cancelled, or no-show",
+            "cancelationReason is only used for appointments that have been cancelled, or no-show",
             exception.message
         )
     }

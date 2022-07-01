@@ -71,32 +71,17 @@ abstract class BaseObservation {
     protected fun validate() {
         // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
 
-        effective?.let {
-            require(acceptedEffectives.contains(it.type)) { "Bad dynamic value indicating Observation effective time" }
-        }
-
-        value?.let {
-            require(dataAbsentReason == null) {
-                "[obs-6](http://hl7.org/fhir/R4/observation.html#invs): Observation.dataAbsentReason SHALL only be present if Observation.value[x] is not present"
+        effective?.let { data ->
+            require(acceptedEffectives.contains(data.type)) {
+                "Observation effective can only be one of the following data types: ${acceptedEffectives.joinToString { it.code }}"
             }
         }
-
-        for (bound in referenceRange) {
-            require((bound.low != null) || (bound.high != null) || (bound.text?.isNotEmpty() == true)) {
-                "[obs-3](http://hl7.org/fhir/R4/observation.html#invs): Observation.referenceRange must have at least a low or a high or text"
-            }
+        require(value == null || dataAbsentReason == null) {
+            "dataAbsentReason SHALL only be present if value[x] is not present"
         }
-
-        for (item in component) {
-            if (item.code.equals(code)) {
-                require(value == null) {
-                    "[obs-7](http://hl7.org/fhir/R4/observation.html#invs): If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present"
-                }
-            }
-            for (bound in item.referenceRange) {
-                require(bound.low != null || bound.high != null || bound.text?.isNotEmpty() == true) {
-                    "[obs-3](http://hl7.org/fhir/R4/observation.html#invs): Observation.component.referenceRange must have at least a low or a high or text"
-                }
+        if (value != null) {
+            require(component.all { child -> (child.code != code) }) {
+                "If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present"
             }
         }
     }

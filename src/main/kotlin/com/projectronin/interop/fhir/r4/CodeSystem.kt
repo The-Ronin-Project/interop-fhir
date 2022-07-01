@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
  */
 enum class CodeSystem(private val uriString: String) {
     UCUM("http://unitsofmeasure.org"),
+    CURRENCY("urn:iso:std:iso:4217"),
     RONIN_TENANT("http://projectronin.com/id/tenantId"),
     NPI("http://hl7.org/fhir/sid/us-npi"),
     MRN("http://projectronin.com/id/mrn"),

@@ -19,4 +19,10 @@ data class Contact(
     val gender: AdministrativeGender? = null,
     val organization: Reference? = null,
     val period: Period? = null
-) : BackboneElement
+) : BackboneElement {
+    init {
+        require(name != null || telecom.isNotEmpty() || address != null || organization != null) {
+            "contact SHALL at least contain a contact's details or a reference to an organization"
+        }
+    }
+}

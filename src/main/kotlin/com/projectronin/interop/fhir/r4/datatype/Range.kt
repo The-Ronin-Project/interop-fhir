@@ -11,4 +11,12 @@ data class Range(
     override val extension: List<Extension> = listOf(),
     val low: SimpleQuantity? = null,
     val high: SimpleQuantity? = null
-) : Element
+) : Element {
+    init {
+        require(
+            low == null || high == null || (low.value != null && high.value != null && low.value < high.value)
+        ) {
+            "If present, low SHALL have a lower value than high"
+        }
+    }
+}

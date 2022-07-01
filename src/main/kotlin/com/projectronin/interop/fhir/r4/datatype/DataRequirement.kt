@@ -36,11 +36,16 @@ data class DataRequirement(
 
     init {
         subject?.let {
-            require(acceptedDynamicTypes.contains(subject.type)) { "subject can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}" }
+            require(acceptedDynamicTypes.contains(subject.type)) {
+                "subject can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
+            }
         }
     }
 }
 
+/**
+ * See [FHIR Documentation](https://hl7.org/fhir/R4/metadatatypes-definitions.html#DataRequirement.codeFilter)
+ */
 data class CodeFilter(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
@@ -48,8 +53,17 @@ data class CodeFilter(
     val searchParam: String? = null,
     val valueSet: Canonical? = null,
     val code: List<Coding> = listOf()
-) : Element
+) : Element {
+    init {
+        require((path == null) xor (searchParam == null)) {
+            "codeFilter: Either a path or a searchParam must be provided, but not both"
+        }
+    }
+}
 
+/**
+ * See [FHIR Documentation](https://hl7.org/fhir/R4/metadatatypes-definitions.html#DataRequirement.dateFilter)
+ */
 @JsonDeserialize(using = DateFilterDeserializer::class)
 @JsonSerialize(using = DateFilterSerializer::class)
 data class DateFilter(
@@ -65,8 +79,13 @@ data class DateFilter(
     }
 
     init {
+        require((path == null) xor (searchParam == null)) {
+            "dateFilter: Either a path or a searchParam must be provided, but not both"
+        }
         value?.let {
-            require(acceptedDynamicTypes.contains(value.type)) { "value can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}" }
+            require(acceptedDynamicTypes.contains(value.type)) {
+                "value can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
+            }
         }
     }
 }

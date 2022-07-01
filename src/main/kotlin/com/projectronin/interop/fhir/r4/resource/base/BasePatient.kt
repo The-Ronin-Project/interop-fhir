@@ -61,18 +61,15 @@ abstract class BasePatient {
     }
 
     protected fun validate() {
-        deceased?.let {
-            require(acceptedDeceasedTypes.contains(it.type)) { "Bad dynamic value indicating if the patient is deceased" }
-        }
-
-        multipleBirth?.let {
-            require(acceptedMultipleBirthTypes.contains(it.type)) { "Bad dynamic value indicating whether the patient was part of a multiple birth" }
-        }
-
-        require(
-            contact.all {
-                (it.name != null) or (it.telecom.isNotEmpty()) or (it.address != null) or (it.organization != null)
+        deceased?.let { data ->
+            require(acceptedDeceasedTypes.contains(data.type)) {
+                "Patient deceased can only be one of the following data types: ${acceptedDeceasedTypes.joinToString { it.code }}"
             }
-        ) { "[pat-1](https://www.hl7.org/fhir/R4/patient.html#invs): contact SHALL at least contain a contact's details or a reference to an organization" }
+        }
+        multipleBirth?.let { data ->
+            require(acceptedMultipleBirthTypes.contains(data.type)) {
+                "Patient multipleBirth can only be one of the following data types: ${acceptedMultipleBirthTypes.joinToString { it.code }}"
+            }
+        }
     }
 }

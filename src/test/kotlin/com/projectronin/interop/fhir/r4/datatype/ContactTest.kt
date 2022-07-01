@@ -4,11 +4,14 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import org.hl7.cql.model.Relationship
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ContactTest {
     @Test
@@ -31,7 +34,7 @@ class ContactTest {
                 CodeableConcept(text = "N")
             ),
             name = HumanName(text = "Jane Doe"),
-            telecom = listOf(ContactPoint(value = "name@site.com")),
+            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL)),
             address = Address(text = "123 Sesame St"),
             gender = AdministrativeGender.MALE,
             organization = Reference(reference = "Patient/123"),
@@ -57,6 +60,7 @@ class ContactTest {
                 "text" : "Jane Doe"
               },
               "telecom" : [ {
+                "system" : "email",
                 "value" : "name@site.com"
               } ],
               "address" : {
@@ -79,10 +83,23 @@ class ContactTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val contact = Contact()
+        val contact = Contact(
+            name = HumanName(text = "Jane Doe"),
+            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL)),
+        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 
-        val expectedJson = "{ }"
+        val expectedJson = """
+            {
+              "name" : {
+                "text" : "Jane Doe"
+              },
+              "telecom" : [ {
+                "system" : "email",
+                "value" : "name@site.com"
+              } ]
+            }
+        """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedContact = JacksonManager.objectMapper.readValue<Contact>(json)
@@ -91,18 +108,40 @@ class ContactTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = "{ }"
+        val json = """
+            {
+              "name" : {
+                "text" : "Jane Doe"
+              },
+              "telecom" : [ {
+                "system" : "email",
+                "value" : "name@site.com"
+              } ]
+            }
+        """.trimIndent()
         val contact = JacksonManager.objectMapper.readValue<Contact>(json)
 
         assertNull(contact.id)
         assertEquals(listOf<Extension>(), contact.extension)
         assertEquals(listOf<Extension>(), contact.modifierExtension)
         assertEquals(listOf<Relationship>(), contact.relationship)
-        assertNull(contact.name)
-        assertEquals(listOf<ContactPoint>(), contact.telecom)
+        assertEquals("Jane Doe", contact.name?.text)
         assertNull(contact.address)
         assertNull(contact.gender)
         assertNull(contact.organization)
         assertNull(contact.period)
+    }
+
+    @Test
+    fun `cannot create a contact without details`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Patient(
+                contact = listOf(Contact())
+            )
+        }
+        assertEquals(
+            "contact SHALL at least contain a contact's details or a reference to an organization",
+            exception.message
+        )
     }
 }

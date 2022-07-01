@@ -11,31 +11,37 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class DistanceTest {
+class MoneyQuantityTest {
     @Test
     fun `fails if code provided without system`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                Distance(value = 2.0, code = Code("code"))
+                Distance(value = 2.0, code = Code("USD"))
             }
-        assertEquals("If a code for the unit is present, the system SHALL also be present", exception.message)
+        assertEquals(
+            "If a code for the unit is present, the system SHALL also be present",
+            exception.message
+        )
     }
 
     @Test
     fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> { Distance(value = 2.0) }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Distance(value = 2.0)
+            }
         assertEquals("There SHALL be a code if there is a value", exception.message)
     }
 
     @Test
-    fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> { Distance(system = Uri("SNOMED")) }
-        assertEquals("If system is present, it SHALL be UCUM", exception.message)
+    fun `fails if system is provided and not CURRENCY`() {
+        val exception = assertThrows<IllegalArgumentException> { MoneyQuantity(system = Uri("SNOMED")) }
+        assertEquals("If system is present, it SHALL be CURRENCY", exception.message)
     }
 
     @Test
     fun `can serialize and deserialize JSON`() {
-        val distance = Distance(
+        val moneyQuantity = MoneyQuantity(
             id = "12345",
             extension = listOf(
                 Extension(
@@ -45,11 +51,10 @@ class DistanceTest {
             ),
             value = 17.5,
             comparator = QuantityComparator.GREATER_OR_EQUAL_TO,
-            unit = "millimeters",
-            system = CodeSystem.UCUM.uri,
-            code = Code("mm")
+            system = CodeSystem.CURRENCY.uri,
+            code = Code("USD")
         )
-        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distance)
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moneyQuantity)
 
         val expectedJson = """
             |{
@@ -60,19 +65,18 @@ class DistanceTest {
             |  } ],
             |  "value" : 17.5,
             |  "comparator" : ">=",
-            |  "unit" : "millimeters",
-            |  "system" : "http://unitsofmeasure.org",
-            |  "code" : "mm"
+            |  "system" : "urn:iso:std:iso:4217",
+            |  "code" : "USD"
             |}""".trimMargin()
         assertEquals(expectedJson, json)
 
-        val deserializedDistance = objectMapper.readValue<Distance>(json)
-        assertEquals(distance, deserializedDistance)
+        val deserializedMoneyQuantity = objectMapper.readValue<MoneyQuantity>(json)
+        assertEquals(moneyQuantity, deserializedMoneyQuantity)
     }
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val distance = Distance(
+        val moneyQuantity = MoneyQuantity(
             id = "12345",
             extension = listOf(
                 Extension(
@@ -81,10 +85,10 @@ class DistanceTest {
                 )
             ),
             value = 17.5,
-            system = CodeSystem.UCUM.uri,
-            code = Code("mm")
+            system = CodeSystem.CURRENCY.uri,
+            code = Code("USD")
         )
-        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distance)
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moneyQuantity)
 
         val expectedJson = """
             |{
@@ -94,8 +98,8 @@ class DistanceTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.5,
-            |  "system" : "http://unitsofmeasure.org",
-            |  "code" : "mm"
+            |  "system" : "urn:iso:std:iso:4217",
+            |  "code" : "USD"
             |}""".trimMargin()
         assertEquals(expectedJson, json)
     }

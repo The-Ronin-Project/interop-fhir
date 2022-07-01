@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.r4.resource.base
 
+import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ConditionEvidence
@@ -16,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
+import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
+import com.projectronin.interop.fhir.r4.valueset.ConditionVerificationStatus
 
 /**
  * Base class representing a FHIR R4 Condition.
@@ -52,29 +55,79 @@ abstract class BaseCondition {
     abstract val note: List<Annotation>
 
     companion object {
-        val acceptedOnsets = listOf(
+        val acceptedOnsetTypes = listOf(
             DynamicValueType.DATE_TIME,
             DynamicValueType.AGE,
             DynamicValueType.PERIOD,
             DynamicValueType.RANGE,
             DynamicValueType.STRING
         )
-        val acceptedAbatements = listOf(
+        val acceptedAbatementTypes = listOf(
             DynamicValueType.DATE_TIME,
             DynamicValueType.AGE,
             DynamicValueType.PERIOD,
             DynamicValueType.RANGE,
             DynamicValueType.STRING
+        )
+        val acceptedClinicalStatusCodes = listOf(
+            ConditionClinicalStatusCodes.ACTIVE,
+            ConditionClinicalStatusCodes.RECURRENCE,
+            ConditionClinicalStatusCodes.RELAPSE,
+            ConditionClinicalStatusCodes.INACTIVE,
+            ConditionClinicalStatusCodes.REMISSION,
+            ConditionClinicalStatusCodes.RESOLVED
+        )
+        val acceptedAbatementClinicalCodes = listOf(
+            ConditionClinicalStatusCodes.INACTIVE,
+            ConditionClinicalStatusCodes.REMISSION,
+            ConditionClinicalStatusCodes.RESOLVED
+        )
+        val acceptedVerificationStatusCodes = listOf(
+            ConditionVerificationStatus.CONFIRMED,
+            ConditionVerificationStatus.DIFFERENTIAL,
+            ConditionVerificationStatus.ENTERED_IN_ERROR,
+            ConditionVerificationStatus.PROVISIONAL,
+            ConditionVerificationStatus.REFUTED,
+            ConditionVerificationStatus.UNCONFIRMED
         )
     }
 
     protected fun validate() {
-        onset?.let {
-            require(acceptedOnsets.contains(it.type)) { "Bad dynamic value indicating condition onset" }
+        onset?.let { data ->
+            require(acceptedOnsetTypes.contains(data.type)) {
+                "onset can only be one of the following data types: ${acceptedOnsetTypes.joinToString { it.code }}"
+            }
         }
-        abatement?.let {
-            require(acceptedAbatements.contains(it.type)) { "Bad dynamic value indicating condition abatement" }
+
+        val clinicalStatusCodes = clinicalStatus?.let { clinicalStatus ->
+            clinicalStatus.coding.mapNotNull { coding ->
+                coding.code?.let { code -> CodedEnum.byCode<ConditionClinicalStatusCodes>(code.value) }
+            }
+        } ?: emptyList()
+        require(clinicalStatus == null || clinicalStatusCodes.size == 1) {
+            "clinicalStatus can only be one of the following codes: ${acceptedClinicalStatusCodes.joinToString { it.code }}"
         }
-        // Some constraints are suggested rather than required; see OncologyCondition validate() for Ronin validation.
+
+        abatement?.let { data ->
+            require(acceptedAbatementTypes.contains(data.type)) {
+                "abatement can only be one of the following data types: ${acceptedOnsetTypes.joinToString { it.code }}"
+            }
+            require(acceptedAbatementClinicalCodes.contains(clinicalStatusCodes.firstOrNull())) {
+                "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission"
+            }
+        }
+
+        val verificationStatusCodes = verificationStatus?.let { status ->
+            status.coding.mapNotNull { coding ->
+                coding.code?.let { code -> CodedEnum.byCode<ConditionVerificationStatus>(code.value) }
+            }
+        } ?: emptyList()
+        require(verificationStatus == null || verificationStatusCodes.size == 1) {
+            "verificationStatus can only be one of the following codes: ${acceptedVerificationStatusCodes.joinToString { it.code }}"
+        }
+
+        require(clinicalStatus == null || (verificationStatusCodes.firstOrNull() != ConditionVerificationStatus.ENTERED_IN_ERROR)) {
+            "clinicalStatus SHALL NOT be present if verification Status is entered-in-error"
+        }
     }
 }

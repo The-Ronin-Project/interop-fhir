@@ -231,7 +231,7 @@ class ObservationTest {
     }
 
     @Test
-    fun `Validate Rule obs-3 - referenceRange must have at least a low or a high or text`() {
+    fun `referenceRange must have at least a low or a high or text`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -248,46 +248,82 @@ class ObservationTest {
             )
         }
         assertEquals(
-            "[obs-3](http://hl7.org/fhir/R4/observation.html#invs): Observation.referenceRange must have at least a low or a high or text",
+            "referenceRange must have at least a low or a high or text",
             ex.message
         )
+    }
 
+    @Test
+    fun `referenceRange succeeds with only a low`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+
+        val referenceRangeHasLow = listOf(ObservationReferenceRange(low = SimpleQuantity(value = 18.0)))
         val observationHasLow = Observation(
             status = ObservationStatus.ENTERED_IN_ERROR,
             code = CodeableConcept(text = "code"),
             subject = Reference(display = "Peter Chalmers"),
             value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-            referenceRange = listOf(ObservationReferenceRange(low = SimpleQuantity(value = 18.0)))
+            referenceRange = referenceRangeHasLow
         )
+
         assertNull(observationHasLow.id)
         assertEquals("Peter Chalmers", observationHasLow.subject?.display)
         assertEquals(18.0, observationHasLow.referenceRange.first().low?.value)
+    }
 
+    @Test
+    fun `referenceRange succeeds with only a high`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+
+        val referenceRangeHasHigh = listOf(ObservationReferenceRange(high = SimpleQuantity(value = 11.0)))
         val observationHasHigh = Observation(
             status = ObservationStatus.REGISTERED,
             code = CodeableConcept(text = "code"),
             subject = Reference(display = "Peter Chalmers"),
             value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-            referenceRange = listOf(ObservationReferenceRange(high = SimpleQuantity(value = 11.0)))
+            referenceRange = referenceRangeHasHigh
         )
+
         assertNull(observationHasHigh.id)
         assertEquals("Peter Chalmers", observationHasHigh.subject?.display)
         assertEquals(11.0, observationHasHigh.referenceRange.first().high?.value)
+    }
 
+    @Test
+    fun `referenceRange succeeds with only text`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+
+        val referenceRangeHasText = listOf(ObservationReferenceRange(text = "Range Boundary"))
         val observationHasText = Observation(
             status = ObservationStatus.PRELIMINARY,
             code = CodeableConcept(text = "code"),
             subject = Reference(display = "Peter Chalmers"),
             value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-            referenceRange = listOf(ObservationReferenceRange(text = "Range Boundary"))
+            referenceRange = referenceRangeHasText
         )
+
         assertNull(observationHasText.id)
         assertEquals("Peter Chalmers", observationHasText.subject?.display)
         assertEquals("Range Boundary", observationHasText.referenceRange.first().text)
     }
 
     @Test
-    fun `Validate Rule obs-3 - component referenceRange must have at least a low or a high or text`() {
+    fun `component referenceRange must have at least a low or a high or text`() {
         val testCodeableConcept1 = CodeableConcept(coding = listOf(Coding(code = Code("code1"))))
         val testCodeableConcept2 = CodeableConcept(coding = listOf(Coding(code = Code("code2"))))
         val quantity = Quantity(
@@ -296,31 +332,35 @@ class ObservationTest {
             system = Uri("http://unitsofmeasure.org"),
             code = Code("mL/min/{1.73_m2}")
         )
-        val referenceRangeBad = listOf(ObservationReferenceRange(age = Range(low = SimpleQuantity(value = 15.0))))
-        val componentBad = listOf(
-            ObservationComponent(
-                code = testCodeableConcept1,
-                value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-                referenceRange = referenceRangeBad
-            )
-        )
         val ex = assertThrows<IllegalArgumentException> {
             Observation(
                 status = ObservationStatus.FINAL,
                 code = testCodeableConcept2,
                 subject = Reference(reference = "subject"),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-                component = componentBad
+                component = listOf(
+                    ObservationComponent(
+                        code = testCodeableConcept1,
+                        value = DynamicValue(DynamicValueType.QUANTITY, quantity),
+                        referenceRange = listOf(
+                            ObservationReferenceRange(
+                                age = Range(
+                                    low = SimpleQuantity(value = 15.0)
+                                )
+                            )
+                        )
+                    )
+                )
             )
         }
         assertEquals(
-            "[obs-3](http://hl7.org/fhir/R4/observation.html#invs): Observation.component.referenceRange must have at least a low or a high or text",
+            "referenceRange must have at least a low or a high or text",
             ex.message
         )
     }
 
     @Test
-    fun `Validate referenceRange succeeds with only a low`() {
+    fun `component referenceRange succeeds with only a low`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -349,7 +389,7 @@ class ObservationTest {
     }
 
     @Test
-    fun `Validate referenceRange succeeds with only a high`() {
+    fun `component referenceRange succeeds with only a high`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -378,7 +418,7 @@ class ObservationTest {
     }
 
     @Test
-    fun `Validate referenceRange succeeds with only text`() {
+    fun `component referenceRange succeeds with only text`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -407,7 +447,7 @@ class ObservationTest {
     }
 
     @Test
-    fun `Validate Rule obs-6 - Observation dataAbsentReason SHALL only be present if value is not present`() {
+    fun `dataAbsentReason SHALL only be present if value is not present`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -424,23 +464,41 @@ class ObservationTest {
             )
         }
         assertEquals(
-            "[obs-6](http://hl7.org/fhir/R4/observation.html#invs): Observation.dataAbsentReason SHALL only be present if Observation.value[x] is not present",
+            "dataAbsentReason SHALL only be present if value[x] is not present",
             ex.message
         )
-
-        val observation = Observation(
-            status = ObservationStatus.CANCELLED,
-            code = CodeableConcept(text = "code"),
-            subject = Reference(display = "Peter Chalmers"),
-            dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
-        )
-        assertNull(observation.id)
-        assertEquals("Peter Chalmers", observation.subject?.display)
-        assertEquals("unable to reach vein", observation.dataAbsentReason?.text)
     }
 
     @Test
-    fun `Validate Rule obs-7 - If Observation code is the same as an Observation component code then the Observation value SHALL NOT be present`() {
+    fun `component dataAbsentReason SHALL only be present if value is not present`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+        val ex = assertThrows<IllegalArgumentException> {
+            Observation(
+                status = ObservationStatus.CANCELLED,
+                code = CodeableConcept(text = "code"),
+                subject = Reference(display = "Peter Chalmers"),
+                component = listOf(
+                    ObservationComponent(
+                        code = CodeableConcept(text = "different from parent code"),
+                        value = DynamicValue(DynamicValueType.QUANTITY, quantity),
+                        dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
+                    )
+                )
+            )
+        }
+        assertEquals(
+            "dataAbsentReason SHALL only be present if value[x] is not present",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `If Observation code is the same as an Observation component code then the Observation value SHALL NOT be present`() {
         val quantity = Quantity(
             value = 60.0,
             unit = "mL/min/1.73m2",
@@ -467,10 +525,25 @@ class ObservationTest {
             )
         }
         assertEquals(
-            "[obs-7](http://hl7.org/fhir/R4/observation.html#invs): If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present",
+            "If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present",
             ex.message
         )
+    }
 
+    @Test
+    fun `succeeds when there is a Observation value and no Observation code is the same as any Observation component code`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+        val testCodeableConcept1 = CodeableConcept(coding = listOf(Coding(code = Code("code1"))))
+        val testCodeableConcept2 = CodeableConcept(coding = listOf(Coding(code = Code("code2"))))
+        val component2 = ObservationComponent(
+            code = testCodeableConcept2,
+            value = DynamicValue(DynamicValueType.QUANTITY, quantity)
+        )
         val observation = Observation(
             status = ObservationStatus.FINAL,
             code = testCodeableConcept1,
@@ -502,6 +575,9 @@ class ObservationTest {
                 value = (DynamicValue(DynamicValueType.QUANTITY, quantity)),
             )
         }
-        assertEquals("Bad dynamic value indicating Observation effective time", ex.message)
+        assertEquals(
+            "Observation effective can only be one of the following data types: DateTime, Period, Timing, Instant",
+            ex.message
+        )
     }
 }

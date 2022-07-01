@@ -68,27 +68,38 @@ data class OncologyPatient(
 
         requireTenantIdentifier(identifier)
 
-        // MRN
         val mrnIdentifier = identifier.find { it.system == CodeSystem.MRN.uri }
-        requireNotNull(mrnIdentifier) { "mrn identifier is required" }
-
-        mrnIdentifier.type?.let {
-            require(it == CodeableConcepts.MRN) { "mrn identifier type defined without proper CodeableConcept" }
+        requireNotNull(mrnIdentifier) {
+            "mrn identifier is required"
         }
 
-        requireNotNull(mrnIdentifier.value) { "mrn value is required" }
+        mrnIdentifier.type?.let { type ->
+            require(type == CodeableConcepts.MRN) {
+                "mrn identifier type defined without proper CodeableConcept"
+            }
+        }
 
-        // fhir_stu3_id
+        requireNotNull(mrnIdentifier.value) {
+            "mrn value is required"
+        }
+
         val fhirStu3IdIdentifier = identifier.find { it.system == CodeSystem.FHIR_STU3_ID.uri }
-        requireNotNull(fhirStu3IdIdentifier) { "fhir_stu3_id identifier is required" }
-
-        fhirStu3IdIdentifier.type?.let {
-            require(it == CodeableConcepts.FHIR_STU3_ID) { "fhir_stu3_id identifier type defined without proper CodeableConcept" }
+        requireNotNull(fhirStu3IdIdentifier) {
+            "fhir_stu3_id identifier is required"
         }
 
-        requireNotNull(fhirStu3IdIdentifier.value) { "fhir_stu3_id value is required" }
+        fhirStu3IdIdentifier.type?.let { type ->
+            require(type == CodeableConcepts.FHIR_STU3_ID) {
+                "fhir_stu3_id identifier type defined without proper CodeableConcept"
+            }
+        }
 
-        // Name
-        require(name.isNotEmpty()) { "At least one name must be provided" }
+        requireNotNull(fhirStu3IdIdentifier.value) {
+            "fhir_stu3_id value is required"
+        }
+
+        require(name.isNotEmpty()) {
+            "At least one name must be provided"
+        }
     }
 }

@@ -8,7 +8,6 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.ronin.OncologyObservati
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -67,19 +66,9 @@ data class OncologyObservation(
     override val component: List<ObservationComponent> = listOf(),
     override val note: List<Annotation> = listOf(),
 ) : RoninDomainResource, BaseObservation() {
-    companion object {
-        val acceptedEffectives = listOf(
-            DynamicValueType.DATE_TIME
-        )
-    }
-
     init {
         validate()
 
         requireTenantIdentifier(identifier)
-
-        effective?.let {
-            require(acceptedEffectives.contains(it.type)) { "Invalid dynamic type for Observation effective time" }
-        }
     }
 }

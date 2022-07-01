@@ -14,4 +14,10 @@ data class Reference(
     val type: Uri? = null,
     val identifier: Identifier? = null,
     val display: String? = null
-) : Element
+) : Element {
+    init {
+        require(reference != null || identifier != null || display != null || extension.isNotEmpty()) {
+            "At least one of reference, identifier and display SHALL be present (unless an extension is provided)"
+        }
+    }
+}

@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
  * narrative that contains a summary of the resource and may be used to represent the content of the resource to a human.
  *
  * See [FHIR Documentation](http://hl7.org/fhir/R4/narrative.html)
+ * This class does not validate FHIR rules for Narrative.div. It assumes non-empty content with appropriate HTML format.
  */
 data class Narrative(
     override val id: String? = null,

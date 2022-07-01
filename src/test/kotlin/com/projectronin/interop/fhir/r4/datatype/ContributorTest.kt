@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.ContributorType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -21,7 +22,16 @@ class ContributorTest {
             ),
             type = ContributorType.AUTHOR,
             name = "Josh Smith",
-            contact = listOf(ContactDetail(telecom = listOf(ContactPoint(value = "josh@projectronin.com"))))
+            contact = listOf(
+                ContactDetail(
+                    telecom = listOf(
+                        ContactPoint(
+                            value = "josh@projectronin.com",
+                            system = ContactPointSystem.EMAIL
+                        )
+                    )
+                )
+            )
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contributor)
 
@@ -36,6 +46,7 @@ class ContributorTest {
             |  "name" : "Josh Smith",
             |  "contact" : [ {
             |    "telecom" : [ {
+            |      "system" : "email",
             |      "value" : "josh@projectronin.com"
             |    } ]
             |  } ]

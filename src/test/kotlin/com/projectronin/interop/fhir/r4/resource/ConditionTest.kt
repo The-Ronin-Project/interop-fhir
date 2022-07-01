@@ -2,8 +2,12 @@ package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.CodeSystem
+import com.projectronin.interop.fhir.r4.CodeableConcepts
+import com.projectronin.interop.fhir.r4.datatype.Age
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
+import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.ConditionEvidence
 import com.projectronin.interop.fhir.r4.datatype.ConditionStage
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -12,6 +16,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
+import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
@@ -19,8 +24,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
+import com.projectronin.interop.fhir.r4.valueset.ConditionVerificationStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -55,8 +63,16 @@ class ConditionTest {
                 )
             ),
             identifier = listOf(Identifier(value = "id")),
-            clinicalStatus = CodeableConcept(text = "clinical status"),
-            verificationStatus = CodeableConcept(text = "verification status"),
+            clinicalStatus = CodeableConcept(
+                coding = listOf(
+                    Coding(code = Code(value = ConditionClinicalStatusCodes.RESOLVED.code))
+                )
+            ),
+            verificationStatus = CodeableConcept(
+                coding = listOf(
+                    Coding(code = Code(value = ConditionVerificationStatus.CONFIRMED.code))
+                )
+            ),
             category = listOf(CodeableConcept(text = "category")),
             severity = CodeableConcept(text = "severity"),
             code = CodeableConcept(text = "code"),
@@ -100,10 +116,14 @@ class ConditionTest {
                 "value" : "id"
               } ],
               "clinicalStatus" : {
-                "text" : "clinical status"
+                "coding" : [ {
+                  "code" : "resolved"
+                } ]
               },
               "verificationStatus" : {
-                "text" : "verification status"
+                "coding" : [ {
+                  "code" : "confirmed"
+                } ]
               },
               "category" : [ {
                 "text" : "category"
@@ -155,7 +175,9 @@ class ConditionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val condition = Condition(subject = Reference(reference = "subject"))
+        val condition = Condition(
+            subject = Reference(reference = "subject"),
+        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
         val expectedJson = """
@@ -209,26 +231,436 @@ class ConditionTest {
     }
 
     @Test
+    fun `clinicalStatus must be valid code - bad clinicalStatus`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Condition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    clinicalStatus = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                                code = Code("potato"),
+                                display = "Potato"
+                            )
+                        )
+                    ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                )
+            }
+        assertEquals(
+            "clinicalStatus can only be one of the following codes: active, recurrence, relapse, inactive, remission, resolved",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `clinicalStatus must be valid code - succeeds for null clinicalStatus`() {
+        val condition = Condition(
+            identifier = listOf(
+                Identifier(
+                    system = CodeSystem.RONIN_TENANT.uri,
+                    type = CodeableConcepts.RONIN_TENANT,
+                    value = "tenantId"
+                )
+            ),
+            category = listOf(
+                CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            code = Code("encounter-diagnosis")
+                        )
+                    ),
+                    text = "Encounter Diagnosis"
+                )
+            ),
+            code = CodeableConcept(
+                coding = listOf(
+                    Coding(
+                        system = Uri("http://snomed.info/sct"),
+                        code = Code("254637007"),
+                        display = "Non-small cell lung cancer"
+                    )
+                )
+            ),
+            subject = Reference(
+                reference = "Patient/roninPatientExample01"
+            )
+        )
+        assertNotNull(condition)
+    }
+
+    @Test
+    fun `verificationStatus must be valid code if populated - bad verificationStatus`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Condition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    verificationStatus = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://terminology.hl7.org/CodeSystem/condition-ver-status"),
+                                code = Code("potato"),
+                                display = "Potato"
+                            )
+                        )
+                    ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                )
+            }
+        assertEquals(
+            "verificationStatus can only be one of the following codes: confirmed, differential, entered-in-error, provisional, refuted, unconfirmed",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `verificationStatus must be valid code - succeeds for null verificationStatus`() {
+        val condition = Condition(
+            identifier = listOf(
+                Identifier(
+                    system = CodeSystem.RONIN_TENANT.uri,
+                    type = CodeableConcepts.RONIN_TENANT,
+                    value = "tenantId"
+                )
+            ),
+            category = listOf(
+                CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            code = Code("encounter-diagnosis")
+                        )
+                    ),
+                    text = "Encounter Diagnosis"
+                )
+            ),
+            code = CodeableConcept(
+                coding = listOf(
+                    Coding(
+                        system = Uri("http://snomed.info/sct"),
+                        code = Code("254637007"),
+                        display = "Non-small cell lung cancer"
+                    )
+                )
+            ),
+            subject = Reference(
+                reference = "Patient/roninPatientExample01"
+            )
+        )
+        assertNotNull(condition)
+    }
+
+    @Test
+    fun `if condition is abated, clinicalStatus must be inactive, resolved, or remission - wrong clinicalStatus`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Condition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    clinicalStatus = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                                code = Code("active"),
+                                display = "Active"
+                            )
+                        )
+                    ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    ),
+                    abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
+                )
+            }
+        assertEquals(
+            "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `if condition is abated, clinicalStatus must be inactive, resolved, or remission - missing clinicalStatus`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Condition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    ),
+                    abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
+                )
+            }
+        assertEquals(
+            "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `clinicalStatus must be null if verificationStatus is entered-in-error`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Condition(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    clinicalStatus = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                                code = Code("active"),
+                                display = "Active"
+                            )
+                        )
+                    ),
+                    verificationStatus = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://terminology.hl7.org/CodeSystem/condition-ver-status"),
+                                code = Code("entered-in-error"),
+                                display = "Entered in error"
+                            )
+                        )
+                    ),
+                    category = listOf(
+                        CodeableConcept(
+                            coding = listOf(
+                                Coding(
+                                    code = Code("encounter-diagnosis")
+                                )
+                            ),
+                            text = "Encounter Diagnosis"
+                        )
+                    ),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                )
+            }
+        assertEquals(
+            "clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
+            exception.message
+        )
+    }
+
+    @Test
     fun `cannot create onset with unsupported dynamic value type`() {
-        // onset must be Date Time, Age, Period, Range or String
         val exception = assertThrows<IllegalArgumentException> {
             Condition(
                 subject = Reference(reference = "subject"),
-                onset = DynamicValue(type = DynamicValueType.BOOLEAN, value = false)
+                onset = DynamicValue(type = DynamicValueType.BOOLEAN, value = false),
+                clinicalStatus = CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                            code = Code("inactive"),
+                            display = "Inactive"
+                        )
+                    )
+                ),
+                abatement = DynamicValue(
+                    DynamicValueType.AGE,
+                    Age(value = 55.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                ),
             )
         }
-        assertEquals("Bad dynamic value indicating condition onset", exception.message)
+        assertEquals(
+            "onset can only be one of the following data types: DateTime, Age, Period, Range, String",
+            exception.message
+        )
     }
 
     @Test
     fun `cannot create abatement with unsupported dynamic value type`() {
-        // abatement must be Date Time, Age, Period, Range or String
         val exception = assertThrows<IllegalArgumentException> {
             Condition(
                 subject = Reference(reference = "subject"),
+                onset = DynamicValue(
+                    DynamicValueType.AGE,
+                    Age(value = 55.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                ),
+                clinicalStatus = CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                            code = Code("inactive"),
+                            display = "Inactive"
+                        )
+                    )
+                ),
                 abatement = DynamicValue(type = DynamicValueType.BOOLEAN, value = false)
             )
         }
-        assertEquals("Bad dynamic value indicating condition abatement", exception.message)
+        assertEquals(
+            "abatement can only be one of the following data types: DateTime, Age, Period, Range, String",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `clinicalStatus must contain at least one expected code when populated`() {
+        val condition =
+            Condition(
+                identifier = listOf(
+                    Identifier(
+                        system = CodeSystem.RONIN_TENANT.uri,
+                        type = CodeableConcepts.RONIN_TENANT,
+                        value = "tenantId"
+                    )
+                ),
+                clinicalStatus = CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+                            code = Code("active"),
+                            display = "Active"
+                        ),
+                        Coding(
+                            system = Uri("additionalcode"),
+                            code = Code("potato"),
+                            display = "Potato"
+                        )
+                    )
+                ),
+                category = listOf(
+                    CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                code = Code("encounter-diagnosis")
+                            )
+                        ),
+                        text = "Encounter Diagnosis"
+                    )
+                ),
+                code = CodeableConcept(
+                    coding = listOf(
+                        Coding(
+                            system = Uri("http://snomed.info/sct"),
+                            code = Code("254637007"),
+                            display = "Non-small cell lung cancer"
+                        )
+                    )
+                ),
+                subject = Reference(
+                    reference = "Patient/roninPatientExample01"
+                )
+            )
+        assertNotNull(condition)
     }
 }

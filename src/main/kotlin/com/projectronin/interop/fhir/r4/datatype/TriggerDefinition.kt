@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.TriggerDefinitionDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.TriggerDefinitionSerializer
-import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.valueset.TriggerType
 
 /**
  * The TriggerDefinition structure defines when a knowledge artifact is expected to be evaluated. The structure can
@@ -34,7 +34,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 data class TriggerDefinition(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
-    val type: Code,
+    val type: TriggerType,
     val name: String? = null,
     val timing: DynamicValue<Any>? = null,
     val data: List<DataRequirement> = listOf(),
@@ -50,8 +50,32 @@ data class TriggerDefinition(
     }
 
     init {
+        require(data.isEmpty() xor (timing == null)) {
+            "Either timing, or a data requirement, but not both"
+        }
+        require(condition == null || data.isNotEmpty()) {
+            "A condition only if there is a data requirement"
+        }
+        when (type) {
+            TriggerType.NAMED_EVENT -> require(!name.isNullOrEmpty()) {
+                "A named event requires a name"
+            }
+            TriggerType.PERIODIC -> require(timing != null) {
+                "A periodic event requires timing"
+            }
+            TriggerType.DATA_ACCESSED,
+            TriggerType.DATA_ADDED,
+            TriggerType.DATA_CHANGED,
+            TriggerType.DATA_ACCESS_ENDED,
+            TriggerType.DATA_MODIFIED,
+            TriggerType.DATA_REMOVED -> require(data.isNotEmpty()) {
+                "A data event requires data"
+            }
+        }
         timing?.let {
-            require(acceptedDynamicTypes.contains(timing.type)) { "timing can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}" }
+            require(acceptedDynamicTypes.contains(timing.type)) {
+                "timing can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
+            }
         }
     }
 }

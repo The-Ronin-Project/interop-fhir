@@ -22,7 +22,7 @@ data class Identifier(
 ) : Element {
     init {
         assigner?.type?.let {
-            require(it.value == "Organization") { "Assigner must belong to an Organization" }
+            require(it.value == "Organization") { "Identifier assigner reference must be to an Organization" }
         }
     }
 }

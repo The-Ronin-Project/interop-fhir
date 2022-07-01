@@ -3,7 +3,8 @@ package com.projectronin.interop.fhir.r4.datatype.primitive
 import com.fasterxml.jackson.annotation.JsonCreator
 
 /**
- * An instant in time in the format YYYY-MM-DDThh:mm:ss.sss+zz:zz (e.g. 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z). The time SHALL specified at least to the second and SHALL include a time zone.
+ * An instant in time in the format YYYY-MM-DDThh:mm:ss.sss+zz:zz (e.g. 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z).
+ * The time SHALL specified at least to the second and SHALL include a time zone.
  *
  * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#instant)
  */

@@ -17,4 +17,10 @@ data class ContactPoint(
     val use: ContactPointUse? = null,
     val rank: PositiveInt? = null,
     val period: Period? = null
-) : Element
+) : Element {
+    init {
+        require(system != null || value == null) {
+            "A system is required if a value is provided"
+        }
+    }
+}

@@ -24,6 +24,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -63,7 +64,7 @@ class PatientTest {
             identifier = listOf(Identifier(value = "id")),
             active = true,
             name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309")),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
             gender = AdministrativeGender.FEMALE,
             birthDate = Date("1975-07-05"),
             deceased = deceased,
@@ -75,7 +76,7 @@ class PatientTest {
             communication = listOf(Communication(language = CodeableConcept(text = "English"))),
             generalPractitioner = listOf(Reference(display = "GP")),
             managingOrganization = Reference(display = "organization"),
-            link = listOf(PatientLink(other = Reference(), type = LinkType.REPLACES))
+            link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patient)
 
@@ -109,6 +110,7 @@ class PatientTest {
                 "family" : "Doe"
               } ],
               "telecom" : [ {
+                "system" : "phone",
                 "value" : "8675309"
               } ],
               "gender" : "female",
@@ -142,7 +144,9 @@ class PatientTest {
                 "display" : "organization"
               },
               "link" : [ {
-                "other" : { },
+                "other" : {
+                  "display" : "other patient"
+                },
                 "type" : "replaces"
               } ]
             }
@@ -202,37 +206,28 @@ class PatientTest {
     }
 
     @Test
-    fun `cannot create dynamic values with bad types`() {
-        // deceased must be Boolean or Date Time
-        val deceasedException = assertThrows<IllegalArgumentException> {
+    fun `Patient deceased can only be one of the following data types`() {
+        val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false)
             )
         }
-        assertEquals("Bad dynamic value indicating if the patient is deceased", deceasedException.message)
+        assertEquals(
+            "Patient deceased can only be one of the following data types: Boolean, DateTime",
+            exception.message
+        )
+    }
 
-        // multipleBirth must be Boolean or Integer
-        val multipleBirthException = assertThrows<IllegalArgumentException> {
+    @Test
+    fun `Patient multipleBirth can only be one of the following data types`() {
+
+        val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
             )
         }
         assertEquals(
-            "Bad dynamic value indicating whether the patient was part of a multiple birth",
-            multipleBirthException.message
-        )
-    }
-
-    @Test
-    fun `cannot create a contact without details`() {
-        // Either the name, telecom, address, or organization must be present
-        val exception = assertThrows<IllegalArgumentException> {
-            Patient(
-                contact = listOf(Contact())
-            )
-        }
-        assertEquals(
-            "[pat-1](https://www.hl7.org/fhir/R4/patient.html#invs): contact SHALL at least contain a contact's details or a reference to an organization",
+            "Patient multipleBirth can only be one of the following data types: Boolean, Integer",
             exception.message
         )
     }

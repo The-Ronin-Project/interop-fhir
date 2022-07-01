@@ -102,7 +102,7 @@ class OncologyPatientTest {
             communication = listOf(Communication(language = CodeableConcept(text = "English"))),
             generalPractitioner = listOf(Reference(display = "GP")),
             managingOrganization = Reference(display = "organization"),
-            link = listOf(PatientLink(other = Reference(), type = LinkType.REPLACES))
+            link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyPatient)
 
@@ -202,7 +202,9 @@ class OncologyPatientTest {
                 "display" : "organization"
               },
               "link" : [ {
-                "other" : { },
+                "other" : {
+                  "display" : "other patient"
+                },
                 "type" : "replaces"
               } ]
             }
@@ -496,76 +498,6 @@ class OncologyPatientTest {
     }
 
     @Test
-    fun `cannot create dynamic values with bad types`() {
-        // deceased must be Boolean or Date Time
-        val deceasedException = assertThrows<java.lang.IllegalArgumentException> {
-            OncologyPatient(
-                deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false),
-                identifier = listOf(
-                    Identifier(
-                        system = CodeSystem.RONIN_TENANT.uri,
-                        type = CodeableConcepts.RONIN_TENANT,
-                        value = "tenantId"
-                    ),
-                    Identifier(
-                        system = CodeSystem.FHIR_STU3_ID.uri,
-                        type = CodeableConcepts.FHIR_STU3_ID,
-                        value = "fhirId"
-                    )
-                ),
-                name = listOf(HumanName(family = "Doe")),
-                telecom = listOf(
-                    ContactPoint(
-                        system = ContactPointSystem.PHONE,
-                        value = "8675309",
-                        use = ContactPointUse.MOBILE
-                    )
-                ),
-                gender = AdministrativeGender.FEMALE,
-                birthDate = Date("1975-07-05"),
-                address = listOf(Address(country = "USA")),
-                maritalStatus = CodeableConcept(text = "M")
-            )
-        }
-        assertEquals("Bad dynamic value indicating if the patient is deceased", deceasedException.message)
-
-        // multipleBirth must be Boolean or Integer
-        val multipleBirthException = assertThrows<java.lang.IllegalArgumentException> {
-            OncologyPatient(
-                multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2),
-                identifier = listOf(
-                    Identifier(
-                        system = CodeSystem.RONIN_TENANT.uri,
-                        type = CodeableConcepts.RONIN_TENANT,
-                        value = "tenantId"
-                    ),
-                    Identifier(
-                        system = CodeSystem.FHIR_STU3_ID.uri,
-                        type = CodeableConcepts.FHIR_STU3_ID,
-                        value = "fhirId"
-                    )
-                ),
-                name = listOf(HumanName(family = "Doe")),
-                telecom = listOf(
-                    ContactPoint(
-                        system = ContactPointSystem.PHONE,
-                        value = "8675309",
-                        use = ContactPointUse.MOBILE
-                    )
-                ),
-                gender = AdministrativeGender.FEMALE,
-                birthDate = Date("1975-07-05"),
-                address = listOf(Address(country = "USA")),
-                maritalStatus = CodeableConcept(text = "M")
-            )
-        }
-        assertEquals(
-            "Bad dynamic value indicating whether the patient was part of a multiple birth",
-            multipleBirthException.message
-        )
-    }
-
-    @Test
     fun `fails if no mrn identifier provided`() {
         val exception =
             assertThrows<IllegalArgumentException> {
@@ -827,49 +759,6 @@ class OncologyPatientTest {
     }
 
     @Test
-    fun `fails if contacts do not have details`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                OncologyPatient(
-                    identifier = listOf(
-                        Identifier(
-                            system = CodeSystem.RONIN_TENANT.uri,
-                            type = CodeableConcepts.RONIN_TENANT,
-                            value = "tenantId"
-                        ),
-                        Identifier(
-                            system = CodeSystem.MRN.uri,
-                            type = CodeableConcepts.MRN,
-                            value = "MRN"
-                        ),
-                        Identifier(
-                            system = CodeSystem.FHIR_STU3_ID.uri,
-                            type = CodeableConcepts.FHIR_STU3_ID,
-                            value = "fhirId"
-                        )
-                    ),
-                    name = listOf(HumanName(family = "Doe")),
-                    telecom = listOf(
-                        ContactPoint(
-                            system = ContactPointSystem.PHONE,
-                            value = "8675309",
-                            use = ContactPointUse.MOBILE
-                        )
-                    ),
-                    gender = AdministrativeGender.FEMALE,
-                    birthDate = Date("1975-07-05"),
-                    address = listOf(Address(country = "USA")),
-                    maritalStatus = CodeableConcept(text = "M"),
-                    contact = listOf(Contact()),
-                )
-            }
-        assertEquals(
-            "[pat-1](https://www.hl7.org/fhir/R4/patient.html#invs): contact SHALL at least contain a contact's details or a reference to an organization",
-            exception.message
-        )
-    }
-
-    @Test
     fun `can deserialize from Aidbox-style JSON`() {
         val json = """
             {
@@ -964,5 +853,48 @@ class OncologyPatientTest {
             multipleBirth = DynamicValue(DynamicValueType.INTEGER, 2)
         )
         assertEquals(expectedPatient, oncologyPatient)
+    }
+
+    @Test
+    fun `base validate() is inherited - Patient multipleBirth as an example`() {
+
+        val exception = assertThrows<IllegalArgumentException> {
+            OncologyPatient(
+                identifier = listOf(
+                    Identifier(
+                        system = CodeSystem.RONIN_TENANT.uri,
+                        type = CodeableConcepts.RONIN_TENANT,
+                        value = "tenantId"
+                    ),
+                    Identifier(
+                        system = CodeSystem.MRN.uri,
+                        type = CodeableConcepts.MRN,
+                        value = "MRN"
+                    ),
+                    Identifier(
+                        system = CodeSystem.FHIR_STU3_ID.uri,
+                        type = CodeableConcepts.FHIR_STU3_ID,
+                        value = "fhirId"
+                    )
+                ),
+                name = listOf(HumanName(family = "Doe")),
+                telecom = listOf(
+                    ContactPoint(
+                        system = ContactPointSystem.PHONE,
+                        value = "8675309",
+                        use = ContactPointUse.MOBILE
+                    )
+                ),
+                gender = AdministrativeGender.FEMALE,
+                birthDate = Date("1975-07-05"),
+                address = listOf(Address(country = "USA")),
+                maritalStatus = CodeableConcept(text = "M"),
+                multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
+            )
+        }
+        assertEquals(
+            "Patient multipleBirth can only be one of the following data types: Boolean, Integer",
+            exception.message
+        )
     }
 }

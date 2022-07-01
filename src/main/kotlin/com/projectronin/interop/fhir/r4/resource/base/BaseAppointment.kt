@@ -56,7 +56,9 @@ abstract class BaseAppointment {
     abstract val requestedPeriod: List<Period>
 
     protected fun validate() {
-        require(((start != null) == (end != null))) { "[app-2](https://www.hl7.org/fhir/R4/appointment.html#invs): Either start and end are specified, or neither" }
+        require(((start != null) == (end != null))) {
+            "Either start and end are specified, or neither"
+        }
 
         if ((start == null) || (end == null)) {
             require(
@@ -65,26 +67,31 @@ abstract class BaseAppointment {
                     AppointmentStatus.CANCELLED,
                     AppointmentStatus.WAITLIST
                 ).contains(status)
-            ) { "[app-3](https://www.hl7.org/fhir/R4/appointment.html#invs): Only proposed or cancelled appointments can be missing start/end dates" }
+            ) {
+                "Only proposed or cancelled appointments can be missing start/end dates"
+            }
         }
 
         cancelationReason?.let {
             require(listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW).contains(status)) {
-                "[app-4](https://www.hl7.org/fhir/R4/appointment.html#invs): Cancellation reason is only used for appointments that have been cancelled, or no-show"
+                "cancelationReason is only used for appointments that have been cancelled, or no-show"
             }
         }
 
         minutesDuration?.let {
-            require(it > 0) { "Appointment duration must be positive" }
+            require(it > 0) {
+                "Appointment duration must be positive"
+            }
         }
 
         priority?.let {
-            require(it >= 0) { "Priority cannot be negative" }
+            require(it >= 0) {
+                "Priority cannot be negative"
+            }
         }
 
-        require(participant.isNotEmpty()) { "At least one participant must be provided" }
-        require(participant.all { it.type.isNotEmpty() || it.actor != null }) {
-            "[app-1](https://www.hl7.org/fhir/R4/appointment.html#invs): Either the type or actor on the participant SHALL be specified"
+        require(participant.isNotEmpty()) {
+            "At least one participant must be provided"
         }
     }
 }

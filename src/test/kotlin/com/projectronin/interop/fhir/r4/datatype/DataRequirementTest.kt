@@ -17,7 +17,9 @@ class DataRequirementTest {
     @Test
     fun `fails for date filter with unsupported dynamic value type`() {
         val exception =
-            assertThrows<IllegalArgumentException> { DateFilter(value = DynamicValue(DynamicValueType.INTEGER, 1)) }
+            assertThrows<IllegalArgumentException> {
+                DateFilter(path = "path", value = DynamicValue(DynamicValueType.INTEGER, 1))
+            }
         assertEquals("value can only be one of the following: DateTime, Period, Duration", exception.message)
     }
 
@@ -31,6 +33,70 @@ class DataRequirementTest {
                 )
             }
         assertEquals("subject can only be one of the following: CodeableConcept, Reference", exception.message)
+    }
+
+    @Test
+    fun `fails for codeFilter having both path and searchParam provided`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                DataRequirement(
+                    type = Code("type"),
+                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
+                    codeFilter = listOf(CodeFilter(path = "path", searchParam = "search"))
+                )
+            }
+        assertEquals(
+            "codeFilter: Either a path or a searchParam must be provided, but not both",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for codeFilter having neither path nor searchParam provided`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                DataRequirement(
+                    type = Code("type"),
+                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
+                    codeFilter = listOf(CodeFilter(id = "filter"))
+                )
+            }
+        assertEquals(
+            "codeFilter: Either a path or a searchParam must be provided, but not both",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for dateFilter having both path and searchParam provided`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                DataRequirement(
+                    type = Code("type"),
+                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
+                    dateFilter = listOf(DateFilter(path = "path", searchParam = "search"))
+                )
+            }
+        assertEquals(
+            "dateFilter: Either a path or a searchParam must be provided, but not both",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for dateFilter having neither path nor searchParam provided`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                DataRequirement(
+                    type = Code("type"),
+                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
+                    dateFilter = listOf(DateFilter(id = "filter"))
+                )
+            }
+        assertEquals(
+            "dateFilter: Either a path or a searchParam must be provided, but not both",
+            exception.message
+        )
     }
 
     @Test
@@ -56,7 +122,6 @@ class DataRequirementTest {
                             value = DynamicValue(DynamicValueType.STRING, "Value")
                         )
                     ),
-                    path = "code-filter-path",
                     searchParam = "search param",
                     valueSet = Canonical("code-value-set"),
                     code = listOf(Coding(userSelected = false))
@@ -72,7 +137,6 @@ class DataRequirementTest {
                         )
                     ),
                     path = "date-filter-path",
-                    searchParam = "search param 2",
                     value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31"))
                 )
             ),
@@ -112,7 +176,6 @@ class DataRequirementTest {
             |      "url" : "http://localhost/extension",
             |      "valueString" : "Value"
             |    } ],
-            |    "path" : "code-filter-path",
             |    "searchParam" : "search param",
             |    "valueSet" : "code-value-set",
             |    "code" : [ {
@@ -126,7 +189,6 @@ class DataRequirementTest {
             |      "valueString" : "Value"
             |    } ],
             |    "path" : "date-filter-path",
-            |    "searchParam" : "search param 2",
             |    "valueDateTime" : "2021-10-31"
             |  } ],
             |  "limit" : 5,

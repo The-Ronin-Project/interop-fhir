@@ -56,14 +56,16 @@ class PatientLinkTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val link = PatientLink(
-            other = Reference(),
+            other = Reference(display = "any"),
             type = LinkType.REPLACES
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
 
         val expectedJson = """
             {
-              "other" : { },
+              "other" : {
+                "display" : "any"
+              },
               "type" : "replaces"
             }
         """.trimIndent()
@@ -77,7 +79,9 @@ class PatientLinkTest {
     fun `can deserialize from JSON with nullable and empty fields`() {
         val json = """
             {
-              "other" : { },
+              "other" : {
+                "display" : "any"
+              },
               "type" : "replaces"
             }
         """.trimIndent()

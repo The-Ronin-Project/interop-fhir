@@ -24,4 +24,10 @@ data class ObservationComponent(
     val dataAbsentReason: CodeableConcept? = null,
     val interpretation: List<CodeableConcept> = listOf(),
     val referenceRange: List<ObservationReferenceRange> = listOf(),
-) : BackboneElement
+) : BackboneElement {
+    init {
+        require(value == null || dataAbsentReason == null) {
+            "dataAbsentReason SHALL only be present if value[x] is not present"
+        }
+    }
+}

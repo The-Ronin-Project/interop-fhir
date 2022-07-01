@@ -17,4 +17,10 @@ data class Participant(
     val required: ParticipantRequired? = null,
     val status: ParticipationStatus,
     val period: Period? = null
-) : BackboneElement
+) : BackboneElement {
+    init {
+        require(type.isNotEmpty() || actor != null) {
+            "Either the type or actor on the participant SHALL be specified"
+        }
+    }
+}

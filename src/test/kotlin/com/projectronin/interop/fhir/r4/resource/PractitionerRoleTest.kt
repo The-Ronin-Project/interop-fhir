@@ -19,6 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -60,7 +61,7 @@ class PractitionerRoleTest {
             specialty = listOf(CodeableConcept(text = "specialty")),
             location = listOf(Reference(reference = "Location/9012")),
             healthcareService = listOf(Reference(reference = "HealthcareService/3456")),
-            telecom = listOf(ContactPoint(value = "8675309")),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
             availableTime = listOf(AvailableTime(allDay = false)),
             notAvailable = listOf(NotAvailable(description = "Not available now")),
             availabilityExceptions = "exceptions",
@@ -116,6 +117,7 @@ class PractitionerRoleTest {
             |    "reference" : "HealthcareService/3456"
             |  } ],
             |  "telecom" : [ {
+            |    "system" : "phone",
             |    "value" : "8675309"
             |  } ],
             |  "availableTime" : [ {

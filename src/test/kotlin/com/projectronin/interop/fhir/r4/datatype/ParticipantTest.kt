@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ParticipantTest {
     @Test
@@ -72,12 +73,16 @@ class ParticipantTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val participant = Participant(
+            actor = Reference(display = "actor"),
             status = ParticipationStatus.ACCEPTED
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
 
         val expectedJson = """
             {
+              "actor" : {
+                "display" : "actor"
+              },
               "status" : "accepted"
             }
         """.trimIndent()
@@ -91,7 +96,10 @@ class ParticipantTest {
     fun `can deserialize from JSON with nullable and empty fields`() {
         val json = """
             {
-              "status" : "accepted"
+             "type" : [ {
+                "text" : "abc"
+             } ],
+             "status" : "accepted"
             }
         """.trimIndent()
         val participant = JacksonManager.objectMapper.readValue<Participant>(json)
@@ -99,9 +107,18 @@ class ParticipantTest {
         assertNull(participant.id)
         assertEquals(listOf<Extension>(), participant.extension)
         assertEquals(listOf<Extension>(), participant.modifierExtension)
-        assertEquals(listOf<CodeableConcept>(), participant.type)
         assertNull(participant.actor)
         assertNull(participant.required)
         assertNull(participant.period)
+    }
+
+    @Test
+    fun `Either the type or actor is on the participant`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Participant(
+                status = ParticipationStatus.ACCEPTED
+            )
+        }
+        assertEquals("Either the type or actor on the participant SHALL be specified", exception.message)
     }
 }

@@ -58,46 +58,6 @@ class OncologyPractitionerRoleTest {
     }
 
     @Test
-    fun `fails if telecom missing system`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                OncologyPractitionerRole(
-                    identifier = listOf(
-                        Identifier(
-                            system = CodeSystem.RONIN_TENANT.uri,
-                            type = CodeableConcepts.RONIN_TENANT,
-                            value = "tenantId"
-                        )
-                    ),
-                    practitioner = Reference(reference = "Practitioner/1234"),
-                    organization = Reference(reference = "Organization/1234"),
-                    telecom = listOf(ContactPoint(value = "8675309"))
-                )
-            }
-        assertEquals("All telecoms must have a system and value", exception.message)
-    }
-
-    @Test
-    fun `fails if telecom missing value`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                OncologyPractitionerRole(
-                    identifier = listOf(
-                        Identifier(
-                            system = CodeSystem.RONIN_TENANT.uri,
-                            type = CodeableConcepts.RONIN_TENANT,
-                            value = "tenantId"
-                        )
-                    ),
-                    practitioner = Reference(reference = "Practitioner/1234"),
-                    organization = Reference(reference = "Organization/1234"),
-                    telecom = listOf(ContactPoint(system = ContactPointSystem.PHONE))
-                )
-            }
-        assertEquals("All telecoms must have a system and value", exception.message)
-    }
-
-    @Test
     fun `can serialize and deserialize JSON`() {
         val practitionerRole = OncologyPractitionerRole(
             id = Id("12345"),
@@ -318,5 +278,45 @@ class OncologyPractitionerRoleTest {
         assertEquals(listOf<NotAvailable>(), practitionerRole.notAvailable)
         assertNull(practitionerRole.availabilityExceptions)
         assertEquals(listOf<Reference>(), practitionerRole.endpoint)
+    }
+
+    @Test
+    fun `fails if telecom missing system`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyPractitionerRole(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    practitioner = Reference(reference = "Practitioner/1234"),
+                    organization = Reference(reference = "Organization/1234"),
+                    telecom = listOf(ContactPoint(value = "8675309"))
+                )
+            }
+        assertEquals("A system is required if a value is provided", exception.message)
+    }
+
+    @Test
+    fun `fails if telecom missing value`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyPractitionerRole(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    practitioner = Reference(reference = "Practitioner/1234"),
+                    organization = Reference(reference = "Organization/1234"),
+                    telecom = listOf(ContactPoint(system = ContactPointSystem.PHONE))
+                )
+            }
+        assertEquals("All PractitionerRole telecoms require a value and system", exception.message)
     }
 }

@@ -13,6 +13,13 @@ import org.junit.jupiter.api.assertThrows
 
 class AgeTest {
     @Test
+    fun `fails if code provided without system`() {
+        val exception =
+            assertThrows<IllegalArgumentException> { Age(value = 2.0, code = Code("code")) }
+        assertEquals("If a code for the unit is present, the system SHALL also be present", exception.message)
+    }
+
+    @Test
     fun `fails if value provided without code`() {
         val exception =
             assertThrows<IllegalArgumentException> { Age(value = 2.0, system = CodeSystem.UCUM.uri) }

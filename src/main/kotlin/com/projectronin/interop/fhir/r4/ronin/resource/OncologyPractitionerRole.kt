@@ -52,6 +52,8 @@ data class OncologyPractitionerRole(
 
         requireTenantIdentifier(identifier)
 
-        require(telecom.all { it.system != null && it.value != null }) { "All telecoms must have a system and value" }
+        require(telecom.all { it.system != null && it.value != null }) {
+            "All PractitionerRole telecoms require a value and system"
+        }
     }
 }

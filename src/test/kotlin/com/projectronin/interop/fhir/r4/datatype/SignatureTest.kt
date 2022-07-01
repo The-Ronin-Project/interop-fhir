@@ -22,7 +22,10 @@ class SignatureTest {
                     who = Reference(display = "Reference")
                 )
             }
-        assertEquals("At least one type is required", exception.message)
+        assertEquals(
+            "The Signature SHALL include a CommitmentTypeIndication for the Purpose(s) of Signature",
+            exception.message
+        )
     }
 
     @Test

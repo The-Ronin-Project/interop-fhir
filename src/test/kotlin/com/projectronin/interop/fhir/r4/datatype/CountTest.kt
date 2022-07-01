@@ -13,6 +13,15 @@ import org.junit.jupiter.api.assertThrows
 
 class CountTest {
     @Test
+    fun `fails if code provided without system`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Count(value = 2.0, code = Code("code"))
+            }
+        assertEquals("If a code for the unit is present, the system SHALL also be present", exception.message)
+    }
+
+    @Test
     fun `fails if value provided without code`() {
         val exception = assertThrows<IllegalArgumentException> {
             Count(value = 2.0, system = CodeSystem.UCUM.uri)

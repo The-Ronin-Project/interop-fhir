@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -56,7 +57,7 @@ class PractitionerTest {
             identifier = listOf(Identifier(value = "id")),
             active = true,
             name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309")),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
             address = listOf(Address(country = "USA")),
             gender = AdministrativeGender.FEMALE,
             birthDate = Date("1975-07-05"),
@@ -96,6 +97,7 @@ class PractitionerTest {
             |    "family" : "Doe"
             |  } ],
             |  "telecom" : [ {
+            |    "system" : "phone",
             |    "value" : "8675309"
             |  } ],
             |  "address" : [ {

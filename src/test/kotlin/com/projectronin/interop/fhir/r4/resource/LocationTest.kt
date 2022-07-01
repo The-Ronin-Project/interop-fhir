@@ -20,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.LocationMode
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
@@ -64,7 +65,7 @@ class LocationTest {
             alias = listOf("Guest Room"),
             description = "Sun Room",
             type = type,
-            telecom = listOf(ContactPoint(value = "8675309")),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
             address = Address(country = "USA"),
             physicalType = physicalType,
             position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
@@ -112,6 +113,7 @@ class LocationTest {
             |    "text" : "Diagnostic"
             |  } ],
             |  "telecom" : [ {
+            |    "system" : "phone",
             |    "value" : "8675309"
             |  } ],
             |  "address" : {

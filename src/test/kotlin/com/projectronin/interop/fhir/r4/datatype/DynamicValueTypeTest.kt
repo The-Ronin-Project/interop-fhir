@@ -24,6 +24,7 @@ import com.projectronin.interop.fhir.r4.valueset.IdentifierUse
 import com.projectronin.interop.fhir.r4.valueset.NameUse
 import com.projectronin.interop.fhir.r4.valueset.OperationParameterUse
 import com.projectronin.interop.fhir.r4.valueset.RelatedArtifactType
+import com.projectronin.interop.fhir.r4.valueset.TriggerType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -140,7 +141,13 @@ class DynamicValueTypeTest {
             """{"code":{"text":"code"}}""",
             Timing(code = CodeableConcept(text = "code"))
         ),
-        DynamicValueType.TRIGGER_DEFINITION to TestData("""{"type":"type"}""", TriggerDefinition(type = Code("type"))),
+        DynamicValueType.TRIGGER_DEFINITION to TestData(
+            """{"type":"periodic","timingDate":"2022-02-22"}""",
+            TriggerDefinition(
+                type = TriggerType.PERIODIC,
+                timing = DynamicValue(DynamicValueType.DATE, Date("2022-02-22")),
+            )
+        ),
         DynamicValueType.UNSIGNED_INT to TestData(""""48"""", UnsignedInt(48)),
         DynamicValueType.URI to TestData(""""uri"""", Uri("uri")),
         DynamicValueType.URL to TestData(""""http://url"""", Url("http://url")),

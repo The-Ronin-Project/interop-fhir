@@ -54,12 +54,14 @@ class ContactPointTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val contactPoint = ContactPoint(
-            value = "name@site.com"
+            value = "name@site.com",
+            system = ContactPointSystem.EMAIL
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
 
         val expectedJson = """
             |{
+            |  "system" : "email",
             |  "value" : "name@site.com"
             |}""".trimMargin()
         assertEquals(expectedJson, json)

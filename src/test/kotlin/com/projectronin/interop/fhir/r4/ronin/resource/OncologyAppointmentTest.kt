@@ -368,7 +368,7 @@ class OncologyAppointmentTest {
     }
 
     @Test
-    fun `fails if no participant`() {
+    fun `base validate() is inherited - fails if no participant as an example`() {
         val exception = assertThrows<IllegalArgumentException> {
             OncologyAppointment(
                 extension = listOf(
@@ -389,66 +389,6 @@ class OncologyAppointmentTest {
             )
         }
         assertEquals("At least one participant must be provided", exception.message)
-    }
-
-    @Test
-    fun `fails if participant doesn't have type or actor`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            OncologyAppointment(
-                extension = listOf(
-                    Extension(
-                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
-                        value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "reference"))
-                    )
-                ),
-                identifier = listOf(
-                    Identifier(
-                        system = CodeSystem.RONIN_TENANT.uri,
-                        type = CodeableConcepts.RONIN_TENANT,
-                        value = "tenantId"
-                    )
-                ),
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(Participant(status = ParticipationStatus.ACCEPTED))
-            )
-        }
-        assertEquals(
-            "[app-1](https://www.hl7.org/fhir/R4/appointment.html#invs): Either the type or actor on the participant SHALL be specified",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if appointment has start without end`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            OncologyAppointment(
-                start = Instant(value = "2017-01-01T00:00:00Z"),
-                extension = listOf(
-                    Extension(
-                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
-                        value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "reference"))
-                    )
-                ),
-                identifier = listOf(
-                    Identifier(
-                        system = CodeSystem.RONIN_TENANT.uri,
-                        type = CodeableConcepts.RONIN_TENANT,
-                        value = "tenantId"
-                    )
-                ),
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                )
-            )
-        }
-        assertEquals(
-            "[app-2](https://www.hl7.org/fhir/R4/appointment.html#invs): Either start and end are specified, or neither",
-            exception.message
-        )
     }
 
     @Test
@@ -478,7 +418,7 @@ class OncologyAppointmentTest {
             )
         }
         assertEquals(
-            "[app-3](https://www.hl7.org/fhir/R4/appointment.html#invs): Only proposed or cancelled appointments can be missing start/end dates",
+            "Only proposed or cancelled appointments can be missing start/end dates",
             exception.message
         )
     }
@@ -511,7 +451,7 @@ class OncologyAppointmentTest {
             )
         }
         assertEquals(
-            "[app-4](https://www.hl7.org/fhir/R4/appointment.html#invs): Cancellation reason is only used for appointments that have been cancelled, or no-show",
+            "cancelationReason is only used for appointments that have been cancelled, or no-show",
             exception.message
         )
     }
@@ -690,7 +630,8 @@ class OncologyAppointmentTest {
             OncologyAppointment(
                 extension = listOf(
                     Extension(
-                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri
+                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
+                        value = DynamicValue(DynamicValueType.STRING, "Value")
                     )
                 ),
                 identifier = listOf(
@@ -719,7 +660,7 @@ class OncologyAppointmentTest {
                 extension = listOf(
                     Extension(
                         url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
-                        value = null
+                        value = DynamicValue(DynamicValueType.STRING, "Value")
                     )
                 ),
                 identifier = listOf(
@@ -775,7 +716,7 @@ class OncologyAppointmentTest {
               } ]
             }
         """.trimIndent()
-        val appointment = JacksonManager.objectMapper.readValue<OncologyAppointment>(json)
+        val oncologyAppointment = JacksonManager.objectMapper.readValue<OncologyAppointment>(json)
 
         val expectedAppointment = OncologyAppointment(
             extension = listOf(
@@ -799,6 +740,35 @@ class OncologyAppointmentTest {
                 )
             )
         )
-        assertEquals(expectedAppointment, appointment)
+        assertEquals(expectedAppointment, oncologyAppointment)
+    }
+
+    @Test
+    fun `fails if no tenant identifier provided`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            OncologyAppointment(
+                extension = listOf(
+                    Extension(
+                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
+                        value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "reference"))
+                    )
+                ),
+                identifier = listOf(
+                    Identifier(
+                        system = CodeSystem.MRN.uri,
+                        type = CodeableConcepts.MRN,
+                        value = "MRN"
+                    ),
+                ),
+                status = AppointmentStatus.CANCELLED,
+                participant = listOf(
+                    Participant(
+                        actor = Reference(display = "actor"),
+                        status = ParticipationStatus.ACCEPTED
+                    )
+                ),
+            )
+        }
+        assertEquals("Tenant identifier is required", exception.message)
     }
 }

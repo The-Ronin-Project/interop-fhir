@@ -23,6 +23,8 @@ data class Signature(
     val data: Base64Binary? = null
 ) : Element {
     init {
-        require(type.isNotEmpty()) { "At least one type is required" }
+        require(type.isNotEmpty()) {
+            "The Signature SHALL include a CommitmentTypeIndication for the Purpose(s) of Signature"
+        }
     }
 }

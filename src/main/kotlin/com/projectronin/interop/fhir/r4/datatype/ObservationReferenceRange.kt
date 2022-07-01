@@ -16,4 +16,10 @@ data class ObservationReferenceRange(
     val appliesTo: List<CodeableConcept> = listOf(),
     val age: Range? = null,
     val text: String? = null,
-) : BackboneElement
+) : BackboneElement {
+    init {
+        require((low != null) || (high != null) || !text.isNullOrEmpty()) {
+            "referenceRange must have at least a low or a high or text"
+        }
+    }
+}

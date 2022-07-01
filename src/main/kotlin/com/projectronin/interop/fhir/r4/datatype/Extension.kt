@@ -18,4 +18,10 @@ data class Extension(
     override val extension: List<Extension> = listOf(),
     val url: Uri,
     val value: DynamicValue<Any>? = null
-) : Element
+) : Element {
+    init {
+        require((value == null) xor extension.isEmpty()) {
+            "Extension must have either extensions or value[x], not both"
+        }
+    }
+}
