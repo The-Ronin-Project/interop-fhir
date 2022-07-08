@@ -1,5 +1,7 @@
 package com.projectronin.interop.fhir.r4.datatype
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.projectronin.interop.fhir.jackson.inbound.NonEmptyStringListDeserializer
 import com.projectronin.interop.fhir.r4.valueset.AddressType
 import com.projectronin.interop.fhir.r4.valueset.AddressUse
 
@@ -16,6 +18,7 @@ data class Address(
     val use: AddressUse? = null,
     val type: AddressType? = null,
     val text: String? = null,
+    @JsonDeserialize(using = NonEmptyStringListDeserializer::class)
     val line: List<String> = listOf(),
     val city: String? = null,
     val district: String? = null,

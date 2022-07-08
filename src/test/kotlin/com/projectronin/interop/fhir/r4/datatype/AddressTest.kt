@@ -95,4 +95,28 @@ class AddressTest {
         assertNull(address.country)
         assertNull(address.period)
     }
+
+    @Test
+    fun `can deserialize from JSON with an empty line`() {
+        val json = """
+            |{
+            |  "line" : [ "925 Powder Springs St", "" ]
+            |}""".trimMargin()
+
+        val address = objectMapper.readValue<Address>(json)
+
+        assertEquals(listOf("925 Powder Springs St"), address.line)
+    }
+
+    @Test
+    fun `can deserialize from JSON with a blank line`() {
+        val json = """
+            |{
+            |  "line" : [ "925 Powder Springs St", "   " ]
+            |}""".trimMargin()
+
+        val address = objectMapper.readValue<Address>(json)
+
+        assertEquals(listOf("925 Powder Springs St"), address.line)
+    }
 }
