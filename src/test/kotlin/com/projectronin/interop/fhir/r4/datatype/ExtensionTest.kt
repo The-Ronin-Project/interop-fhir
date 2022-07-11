@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -77,6 +78,7 @@ class ExtensionTest {
     }
 
     @Test
+    @Disabled("See https://projectronin.atlassian.net/browse/INT-786")
     fun `Fails when both extensions and value are provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             Extension(
@@ -95,6 +97,7 @@ class ExtensionTest {
     }
 
     @Test
+    @Disabled("See https://projectronin.atlassian.net/browse/INT-786")
     fun `Fails when neither extensions nor value are provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             Extension(
@@ -235,7 +238,10 @@ class ExtensionTest {
         assertEquals(2, deserializedExtension.extension.get(0).extension.size)
         assertEquals(2, deserializedExtension.extension.get(1).extension.size)
         assertEquals(3, deserializedExtension.extension.get(0).extension.get(1).extension.get(0).extension.size)
-        assertEquals("http://hl7.org/fhir/StructureDefinition/patient-genderIdentity", deserializedExtension.extension.get(3).url.value)
+        assertEquals(
+            "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
+            deserializedExtension.extension.get(3).url.value
+        )
     }
 
     @Test
@@ -342,6 +348,9 @@ class ExtensionTest {
         assertEquals(2, deserializedExtension.extension.get(0).extension.size)
         assertEquals(2, deserializedExtension.extension.get(1).extension.size)
         assertEquals(3, deserializedExtension.extension.get(0).extension.get(1).extension.get(0).extension.size)
-        assertEquals("http://hl7.org/fhir/StructureDefinition/patient-genderIdentity", deserializedExtension.extension.get(3).url.value)
+        assertEquals(
+            "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
+            deserializedExtension.extension.get(3).url.value
+        )
     }
 }

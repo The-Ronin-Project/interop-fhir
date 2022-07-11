@@ -20,8 +20,10 @@ data class Extension(
     val value: DynamicValue<Any>? = null
 ) : Element {
     init {
-        require((value == null) xor extension.isEmpty()) {
-            "Extension must have either extensions or value[x], not both"
-        }
+        // This is a valid restriction per FHIR; however, Epic does not currently follow it, at least in their Sandbox.
+        // See https://projectronin.atlassian.net/browse/INT-786 for more information.
+        // require((value == null) xor extension.isEmpty()) {
+        //     "Extension must have either extensions or value[x], not both"
+        // }
     }
 }
