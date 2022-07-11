@@ -13,7 +13,8 @@ enum class CodeSystem(private val uriString: String) {
     MRN("http://projectronin.com/id/mrn"),
     FHIR_STU3_ID("http://projectronin.com/id/fhir"),
     SER("http://projectronin.com/id/ser"),
-    RONIN_ID("http://projectronin.com/fhir/us/ronin");
+    RONIN_ID("http://projectronin.com/fhir/us/ronin"),
+    OBSERVATION_CATEGORY("http://terminology.hl7.org/CodeSystem/observation-category");
 
     val uri = Uri(uriString)
 }
