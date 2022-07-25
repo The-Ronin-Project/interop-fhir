@@ -451,7 +451,7 @@ class ConditionTest {
                 )
             }
         assertEquals(
-            "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            "If condition is abated, then clinicalStatus must be one of the following: inactive, remission, resolved",
             exception.message
         )
     }
@@ -494,7 +494,7 @@ class ConditionTest {
                 )
             }
         assertEquals(
-            "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            "If condition is abated, then clinicalStatus must be one of the following: inactive, remission, resolved",
             exception.message
         )
     }

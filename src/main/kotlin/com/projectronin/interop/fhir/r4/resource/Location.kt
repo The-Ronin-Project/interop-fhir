@@ -15,7 +15,6 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.base.BaseLocation
 import com.projectronin.interop.fhir.r4.valueset.LocationMode
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
 
@@ -35,25 +34,23 @@ data class Location(
     override val contained: List<ContainedResource> = listOf(),
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
-    override val identifier: List<Identifier> = listOf(),
-    override val status: LocationStatus? = null,
-    override val operationalStatus: Coding? = null,
-    override val name: String? = null,
-    override val alias: List<String> = listOf(),
-    override val description: String? = null,
-    override val mode: LocationMode? = null,
-    override val type: List<CodeableConcept> = listOf(),
-    override val telecom: List<ContactPoint> = listOf(),
-    override val address: Address? = null,
-    override val physicalType: CodeableConcept? = null,
-    override val position: LocationPosition? = null,
-    override val managingOrganization: Reference? = null,
-    override val partOf: Reference? = null,
-    override val hoursOfOperation: List<LocationHoursOfOperation> = listOf(),
-    override val availabilityExceptions: String? = null,
-    override val endpoint: List<Reference> = listOf(),
-) : DomainResource, BaseLocation() {
-    init {
-        validate()
-    }
+    val identifier: List<Identifier> = listOf(),
+    val status: LocationStatus? = null,
+    val operationalStatus: Coding? = null,
+    val name: String? = null,
+    val alias: List<String> = listOf(),
+    val description: String? = null,
+    val mode: LocationMode? = null,
+    val type: List<CodeableConcept> = listOf(),
+    val telecom: List<ContactPoint> = listOf(),
+    val address: Address? = null,
+    val physicalType: CodeableConcept? = null,
+    val position: LocationPosition? = null,
+    val managingOrganization: Reference? = null,
+    val partOf: Reference? = null,
+    val hoursOfOperation: List<LocationHoursOfOperation> = listOf(),
+    val availabilityExceptions: String? = null,
+    val endpoint: List<Reference> = listOf(),
+) : DomainResource {
+    override val resourceType: String = "Location"
 }

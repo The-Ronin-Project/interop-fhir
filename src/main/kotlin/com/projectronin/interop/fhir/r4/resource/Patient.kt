@@ -12,6 +12,7 @@ import com.projectronin.interop.fhir.r4.datatype.Communication
 import com.projectronin.interop.fhir.r4.datatype.Contact
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -23,7 +24,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.base.BasePatient
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 
 /**
@@ -44,24 +44,40 @@ data class Patient(
     override val contained: List<ContainedResource> = listOf(),
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
-    override val identifier: List<Identifier> = listOf(),
-    override val active: Boolean? = null,
-    override val name: List<HumanName> = listOf(),
-    override val telecom: List<ContactPoint> = listOf(),
-    override val gender: AdministrativeGender? = null,
-    override val birthDate: Date? = null,
-    override val deceased: DynamicValue<Any>? = null,
-    override val address: List<Address> = listOf(),
-    override val maritalStatus: CodeableConcept? = null,
-    override val multipleBirth: DynamicValue<Any>? = null,
-    override val photo: List<Attachment> = listOf(),
-    override val contact: List<Contact> = listOf(),
-    override val communication: List<Communication> = listOf(),
-    override val generalPractitioner: List<Reference> = listOf(),
-    override val managingOrganization: Reference? = null,
-    override val link: List<PatientLink> = listOf()
-) : DomainResource, BasePatient() {
+    val identifier: List<Identifier> = listOf(),
+    val active: Boolean? = null,
+    val name: List<HumanName> = listOf(),
+    val telecom: List<ContactPoint> = listOf(),
+    val gender: AdministrativeGender? = null,
+    val birthDate: Date? = null,
+    val deceased: DynamicValue<Any>? = null,
+    val address: List<Address> = listOf(),
+    val maritalStatus: CodeableConcept? = null,
+    val multipleBirth: DynamicValue<Any>? = null,
+    val photo: List<Attachment> = listOf(),
+    val contact: List<Contact> = listOf(),
+    val communication: List<Communication> = listOf(),
+    val generalPractitioner: List<Reference> = listOf(),
+    val managingOrganization: Reference? = null,
+    val link: List<PatientLink> = listOf()
+) : DomainResource {
+    override val resourceType: String = "Patient"
+
+    companion object {
+        val acceptedDeceasedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.DATE_TIME)
+        val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
+    }
+
     init {
-        validate()
+        deceased?.let { data ->
+            require(acceptedDeceasedTypes.contains(data.type)) {
+                "Patient deceased can only be one of the following data types: ${acceptedDeceasedTypes.joinToString { it.code }}"
+            }
+        }
+        multipleBirth?.let { data ->
+            require(acceptedMultipleBirthTypes.contains(data.type)) {
+                "Patient multipleBirth can only be one of the following data types: ${acceptedMultipleBirthTypes.joinToString { it.code }}"
+            }
+        }
     }
 }

@@ -345,7 +345,7 @@ class AppointmentTest {
             )
         }
         assertEquals(
-            "Only proposed or cancelled appointments can be missing start/end dates",
+            "Start and end can only be missing for appointments with the following statuses: proposed, cancelled, waitlist",
             exception.message
         )
     }
@@ -365,7 +365,7 @@ class AppointmentTest {
             )
         }
         assertEquals(
-            "cancelationReason is only used for appointments that have been cancelled, or no-show",
+            "cancellationReason is only used for appointments that have the following statuses: cancelled, noshow",
             exception.message
         )
     }
