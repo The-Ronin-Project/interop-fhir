@@ -18,4 +18,4 @@ data class UnknownResource(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val otherData: Map<String, Any?>
-) : Resource
+) : Resource<UnknownResource>

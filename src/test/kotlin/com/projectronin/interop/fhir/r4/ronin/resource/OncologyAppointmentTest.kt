@@ -284,7 +284,7 @@ class OncologyAppointmentTest {
         assertNull(appointment.implicitRules)
         assertNull(appointment.language)
         assertNull(appointment.text)
-        assertEquals(listOf<Resource>(), appointment.contained)
+        assertEquals(listOf<Resource<Nothing>>(), appointment.contained)
         assertEquals(listOf<Extension>(), appointment.modifierExtension)
         assertNull(appointment.cancelationReason)
         assertEquals(listOf<CodeableConcept>(), appointment.serviceCategory)

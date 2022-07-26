@@ -60,7 +60,7 @@ data class Patient(
     val generalPractitioner: List<Reference> = listOf(),
     val managingOrganization: Reference? = null,
     val link: List<PatientLink> = listOf()
-) : DomainResource {
+) : DomainResource<Patient> {
     override val resourceType: String = "Patient"
 
     companion object {

@@ -42,6 +42,6 @@ data class Practitioner(
     val photo: List<Attachment> = listOf(),
     val qualification: List<Qualification> = listOf(),
     val communication: List<CodeableConcept> = listOf()
-) : DomainResource {
+) : DomainResource<Practitioner> {
     override val resourceType: String = "Practitioner"
 }

@@ -241,7 +241,7 @@ class AppointmentTest {
         assertNull(appointment.implicitRules)
         assertNull(appointment.language)
         assertNull(appointment.text)
-        assertEquals(listOf<Resource>(), appointment.contained)
+        assertEquals(listOf<Resource<Nothing>>(), appointment.contained)
         assertEquals(listOf<Extension>(), appointment.extension)
         assertEquals(listOf<Extension>(), appointment.modifierExtension)
         assertEquals(listOf<Identifier>(), appointment.identifier)

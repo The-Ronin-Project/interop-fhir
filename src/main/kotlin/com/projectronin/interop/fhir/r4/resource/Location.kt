@@ -51,6 +51,6 @@ data class Location(
     val hoursOfOperation: List<LocationHoursOfOperation> = listOf(),
     val availabilityExceptions: String? = null,
     val endpoint: List<Reference> = listOf(),
-) : DomainResource {
+) : DomainResource<Location> {
     override val resourceType: String = "Location"
 }

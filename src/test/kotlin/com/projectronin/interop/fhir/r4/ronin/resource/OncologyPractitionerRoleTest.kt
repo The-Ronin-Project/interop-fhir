@@ -254,7 +254,7 @@ class OncologyPractitionerRoleTest {
         assertNull(practitionerRole.implicitRules)
         assertNull(practitionerRole.language)
         assertNull(practitionerRole.text)
-        assertEquals(listOf<Resource>(), practitionerRole.contained)
+        assertEquals(listOf<Resource<Nothing>>(), practitionerRole.contained)
         assertEquals(listOf<Extension>(), practitionerRole.extension)
         assertEquals(listOf<Extension>(), practitionerRole.modifierExtension)
 

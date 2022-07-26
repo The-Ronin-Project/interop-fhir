@@ -208,7 +208,7 @@ class ConditionTest {
         assertNull(condition.implicitRules)
         assertNull(condition.language)
         assertNull(condition.text)
-        assertEquals(listOf<Resource>(), condition.contained)
+        assertEquals(listOf<Resource<Nothing>>(), condition.contained)
         assertEquals(listOf<Extension>(), condition.extension)
         assertEquals(listOf<Extension>(), condition.modifierExtension)
         assertEquals(listOf<Identifier>(), condition.identifier)

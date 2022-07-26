@@ -9,7 +9,8 @@ import com.projectronin.interop.fhir.r4.resource.DomainResource
 /**
  * Base serializer for helping serialize [DomainResource]s
  */
-abstract class BaseDomainResourceSerializer<T : DomainResource>(clazz: Class<T>) : BaseResourceSerializer<T>(clazz) {
+abstract class BaseDomainResourceSerializer<T : DomainResource<T>>(clazz: Class<T>) :
+    BaseResourceSerializer<T>(clazz) {
     /**
      * Writes the specific domain element attributes of [value] to the [gen]. Common element items such as id and extension do not need to be written.
      */

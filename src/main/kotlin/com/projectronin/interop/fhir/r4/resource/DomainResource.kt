@@ -11,7 +11,7 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
  *
  * See [FHIR Spec](https://www.hl7.org/fhir/domainresource.html)
  */
-interface DomainResource : Resource {
+interface DomainResource<T : DomainResource<T>> : Resource<T> {
     val text: Narrative?
     val contained: List<ContainedResource>
     val extension: List<Extension>

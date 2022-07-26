@@ -349,7 +349,7 @@ class OncologyObservationTest {
         assertNull(observation.implicitRules)
         assertNull(observation.language)
         assertNull(observation.text)
-        assertEquals(listOf<Resource>(), observation.contained)
+        assertEquals(listOf<Resource<Nothing>>(), observation.contained)
         assertEquals(listOf<Extension>(), observation.extension)
         assertEquals(listOf<Extension>(), observation.modifierExtension)
         assertEquals(listOf<Reference>(), observation.basedOn)
@@ -458,7 +458,6 @@ class OncologyObservationTest {
                 subject = Reference(display = "Peter Chalmers"),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
                 dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
-
             )
         }
         assertEquals(

@@ -184,7 +184,7 @@ class PatientTest {
         assertNull(patient.implicitRules)
         assertNull(patient.language)
         assertNull(patient.text)
-        assertEquals(listOf<Resource>(), patient.contained)
+        assertEquals(listOf<Resource<Nothing>>(), patient.contained)
         assertEquals(listOf<Extension>(), patient.extension)
         assertEquals(listOf<Extension>(), patient.modifierExtension)
         assertEquals(listOf<Identifier>(), patient.identifier)

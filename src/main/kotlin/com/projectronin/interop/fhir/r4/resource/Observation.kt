@@ -63,7 +63,7 @@ data class Observation(
     val derivedFrom: List<Reference> = listOf(),
     val component: List<ObservationComponent> = listOf(),
     val note: List<Annotation> = listOf(),
-) : DomainResource {
+) : DomainResource<Observation> {
     override val resourceType: String = "Observation"
 
     companion object {

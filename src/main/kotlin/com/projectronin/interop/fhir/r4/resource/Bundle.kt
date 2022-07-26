@@ -29,6 +29,6 @@ data class Bundle(
     val link: List<BundleLink> = listOf(),
     val entry: List<BundleEntry> = listOf(),
     val signature: Signature? = null
-) : Resource {
+) : Resource<Bundle> {
     override val resourceType: String = "Bundle"
 }

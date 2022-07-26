@@ -54,7 +54,7 @@ data class Appointment(
     val basedOn: List<Reference> = listOf(),
     val participant: List<Participant>,
     val requestedPeriod: List<Period> = listOf()
-) : DomainResource {
+) : DomainResource<Appointment> {
     override val resourceType: String = "Appointment"
 
     companion object {

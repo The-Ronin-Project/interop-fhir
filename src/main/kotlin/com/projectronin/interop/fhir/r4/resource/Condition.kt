@@ -58,7 +58,7 @@ data class Condition(
     val stage: List<ConditionStage> = listOf(),
     val evidence: List<ConditionEvidence> = listOf(),
     val note: List<Annotation> = listOf()
-) : DomainResource {
+) : DomainResource<Condition> {
     override val resourceType: String = "Condition"
 
     companion object {

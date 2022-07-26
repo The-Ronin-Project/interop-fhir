@@ -153,7 +153,7 @@ class PractitionerTest {
         assertNull(practitioner.implicitRules)
         assertNull(practitioner.language)
         assertNull(practitioner.text)
-        assertEquals(listOf<Resource>(), practitioner.contained)
+        assertEquals(listOf<Resource<Nothing>>(), practitioner.contained)
         assertEquals(listOf<Extension>(), practitioner.extension)
         assertEquals(listOf<Extension>(), practitioner.modifierExtension)
         assertEquals(listOf<Identifier>(), practitioner.identifier)

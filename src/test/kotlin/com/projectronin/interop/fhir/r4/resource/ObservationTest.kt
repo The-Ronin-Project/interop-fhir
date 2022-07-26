@@ -204,7 +204,7 @@ class ObservationTest {
         assertNull(observation.implicitRules)
         assertNull(observation.language)
         assertNull(observation.text)
-        assertEquals(listOf<Resource>(), observation.contained)
+        assertEquals(listOf<Resource<Nothing>>(), observation.contained)
         assertEquals(listOf<Extension>(), observation.extension)
         assertEquals(listOf<Extension>(), observation.modifierExtension)
         assertEquals(listOf<Identifier>(), observation.identifier)

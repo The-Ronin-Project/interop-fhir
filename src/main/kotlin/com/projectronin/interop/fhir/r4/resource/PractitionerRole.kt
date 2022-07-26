@@ -44,6 +44,6 @@ data class PractitionerRole(
     val notAvailable: List<NotAvailable> = listOf(),
     val availabilityExceptions: String? = null,
     val endpoint: List<Reference> = listOf()
-) : DomainResource {
+) : DomainResource<PractitionerRole> {
     override val resourceType: String = "PractitionerRole"
 }

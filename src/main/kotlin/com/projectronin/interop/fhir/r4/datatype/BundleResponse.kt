@@ -17,5 +17,5 @@ data class BundleResponse(
     val location: Uri? = null,
     val etag: String? = null,
     val lastModified: Instant? = null,
-    val outcome: Resource? = null
+    val outcome: Resource<*>? = null
 ) : BackboneElement

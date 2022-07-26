@@ -10,7 +10,7 @@ import com.projectronin.interop.fhir.r4.resource.Resource
 /**
  * Base serializer for helping serialize [Resource]s
  */
-abstract class BaseResourceSerializer<T : Resource>(clazz: Class<T>) : StdSerializer<T>(clazz) {
+abstract class BaseResourceSerializer<T : Resource<T>>(clazz: Class<T>) : StdSerializer<T>(clazz) {
     /**
      * Writes the specific element attributes of [value] to the [gen]. Common element items such as id and extension do not need to be written.
      */

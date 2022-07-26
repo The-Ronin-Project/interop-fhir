@@ -32,8 +32,26 @@ import org.junit.jupiter.api.Test
 class LocationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val type = listOf(CodeableConcept(text = "Diagnostic", coding = listOf(Coding(code = Code("DX"), system = Uri(value = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType")))))
-        val physicalType = CodeableConcept(text = "Room", coding = listOf(Coding(code = Code("ro"), system = Uri(value = "http://terminology.hl7.org/CodeSystem/location-physical-type"))))
+        val type = listOf(
+            CodeableConcept(
+                text = "Diagnostic",
+                coding = listOf(
+                    Coding(
+                        code = Code("DX"),
+                        system = Uri(value = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType")
+                    )
+                )
+            )
+        )
+        val physicalType = CodeableConcept(
+            text = "Room",
+            coding = listOf(
+                Coding(
+                    code = Code("ro"),
+                    system = Uri(value = "http://terminology.hl7.org/CodeSystem/location-physical-type")
+                )
+            )
+        )
         val location = Location(
             id = Id("12345"),
             meta = Meta(
@@ -69,7 +87,15 @@ class LocationTest {
             address = Address(country = "USA"),
             physicalType = physicalType,
             position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
-            hoursOfOperation = listOf(LocationHoursOfOperation(daysOfWeek = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY), allDay = true)),
+            hoursOfOperation = listOf(
+                LocationHoursOfOperation(
+                    daysOfWeek = listOf(
+                        DayOfWeek.SATURDAY,
+                        DayOfWeek.SUNDAY
+                    ),
+                    allDay = true
+                )
+            ),
             availabilityExceptions = "Call for details",
             endpoint = listOf(Reference(reference = "Endpoint/4321"))
         )
@@ -172,7 +198,7 @@ class LocationTest {
         assertNull(location.implicitRules)
         assertNull(location.language)
         assertNull(location.text)
-        assertEquals(listOf<Resource>(), location.contained)
+        assertEquals(listOf<Resource<Nothing>>(), location.contained)
         assertEquals(listOf<Extension>(), location.extension)
         assertEquals(listOf<Extension>(), location.modifierExtension)
         assertEquals(listOf<Identifier>(), location.identifier)
