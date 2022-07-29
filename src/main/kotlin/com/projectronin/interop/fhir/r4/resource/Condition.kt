@@ -57,6 +57,6 @@ data class Condition(
     override val note: List<Annotation> = listOf()
 ) : DomainResource, BaseCondition() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

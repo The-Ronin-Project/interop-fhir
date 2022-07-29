@@ -57,6 +57,6 @@ data class Appointment(
     override val requestedPeriod: List<Period> = listOf()
 ) : DomainResource, BaseAppointment() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

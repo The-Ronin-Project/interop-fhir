@@ -32,6 +32,6 @@ data class Bundle(
     override val signature: Signature? = null
 ) : Resource, BaseBundle<BundleEntry>() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

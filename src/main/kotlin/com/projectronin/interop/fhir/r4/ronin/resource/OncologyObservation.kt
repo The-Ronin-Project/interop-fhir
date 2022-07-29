@@ -22,6 +22,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BaseObservation
 import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology Observation.
@@ -66,9 +68,9 @@ data class OncologyObservation(
     override val component: List<ObservationComponent> = listOf(),
     override val note: List<Annotation> = listOf(),
 ) : RoninDomainResource, BaseObservation() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
     }
 }

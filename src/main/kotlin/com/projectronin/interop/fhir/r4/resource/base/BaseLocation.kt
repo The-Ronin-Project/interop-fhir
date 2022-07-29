@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.LocationMode
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Location.
@@ -52,5 +54,5 @@ abstract class BaseLocation {
     abstract val availabilityExceptions: String?
     abstract val endpoint: List<Reference>
 
-    protected fun validate() {}
+    open fun validate(): Validation = validation {}
 }

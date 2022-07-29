@@ -104,6 +104,7 @@ class OncologyPatientTest {
             managingOrganization = Reference(display = "organization"),
             link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES))
         )
+        oncologyPatient.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyPatient)
 
         val expectedJson = """
@@ -248,6 +249,7 @@ class OncologyPatientTest {
             address = listOf(Address(country = "USA")),
             maritalStatus = CodeableConcept(text = "M")
         )
+        oncologyPatient.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyPatient)
 
         val expectedJson = """
@@ -415,7 +417,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier is required", exception.message)
     }
@@ -454,7 +456,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier provided without proper CodeableConcept defined", exception.message)
     }
@@ -492,7 +494,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("tenant value is required", exception.message)
     }
@@ -526,7 +528,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("mrn identifier is required", exception.message)
     }
@@ -565,7 +567,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("mrn identifier type defined without proper CodeableConcept", exception.message)
     }
@@ -603,7 +605,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("mrn value is required", exception.message)
     }
@@ -637,7 +639,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("fhir_stu3_id identifier is required", exception.message)
     }
@@ -676,7 +678,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("fhir_stu3_id identifier type defined without proper CodeableConcept", exception.message)
     }
@@ -714,7 +716,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("fhir_stu3_id value is required", exception.message)
     }
@@ -753,7 +755,7 @@ class OncologyPatientTest {
                     birthDate = Date("1975-07-05"),
                     address = listOf(Address(country = "USA")),
                     maritalStatus = CodeableConcept(text = "M")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("At least one name must be provided", exception.message)
     }
@@ -857,7 +859,6 @@ class OncologyPatientTest {
 
     @Test
     fun `base validate() is inherited - Patient multipleBirth as an example`() {
-
         val exception = assertThrows<IllegalArgumentException> {
             OncologyPatient(
                 identifier = listOf(
@@ -890,10 +891,42 @@ class OncologyPatientTest {
                 address = listOf(Address(country = "USA")),
                 maritalStatus = CodeableConcept(text = "M"),
                 multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Patient multipleBirth can only be one of the following data types: Boolean, Integer",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyPatient(
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.RONIN_TENANT,
+                            value = "tenantId"
+                        )
+                    ),
+                    name = listOf(HumanName(family = "Doe")),
+                    telecom = listOf(
+                        ContactPoint(
+                            system = ContactPointSystem.PHONE,
+                            value = "8675309",
+                            use = ContactPointUse.MOBILE
+                        )
+                    ),
+                    gender = AdministrativeGender.FEMALE,
+                    birthDate = Date("1975-07-05"),
+                    address = listOf(Address(country = "USA")),
+                    maritalStatus = CodeableConcept(text = "M")
+                ).validate().alertIfErrors()
+            }
+        assertEquals(
+            "Encountered multiple validation errors:\nmrn identifier is required\nfhir_stu3_id identifier is required",
             exception.message
         )
     }

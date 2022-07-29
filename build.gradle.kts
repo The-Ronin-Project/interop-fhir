@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     // Version must be defined before publish in order to set the proper version
     id("com.projectronin.interop.gradle.version")
@@ -17,6 +19,12 @@ dependencies {
 
     // Used for some tests utilizing classpath inspection to verify configuration
     testImplementation(libs.classgraph)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+    }
 }
 
 tasks.withType<Test> {

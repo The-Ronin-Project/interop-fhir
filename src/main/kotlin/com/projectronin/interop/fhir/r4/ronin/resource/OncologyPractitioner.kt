@@ -20,6 +20,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BasePractitioner
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology Practitioner.
@@ -47,16 +49,16 @@ data class OncologyPractitioner(
     override val qualification: List<Qualification> = listOf(),
     override val communication: List<CodeableConcept> = listOf()
 ) : RoninDomainResource, BasePractitioner() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
 
         identifier.find { it.system == CodeSystem.SER.uri }?.let {
-            require(it.type == CodeableConcepts.SER) { "SER provided without proper CodeableConcept defined" }
+            check(it.type == CodeableConcepts.SER) { "SER provided without proper CodeableConcept defined" }
         }
 
-        require(name.isNotEmpty()) { "At least one name must be provided" }
-        require(name.all { it.family != null }) { "All names must have a family name provided" }
+        check(name.isNotEmpty()) { "At least one name must be provided" }
+        check(name.all { it.family != null }) { "All names must have a family name provided" }
     }
 }

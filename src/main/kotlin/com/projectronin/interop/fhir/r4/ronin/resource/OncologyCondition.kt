@@ -21,6 +21,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BaseCondition
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology Condition.
@@ -58,11 +60,11 @@ data class OncologyCondition(
     override val evidence: List<ConditionEvidence> = listOf(),
     override val note: List<Annotation> = listOf()
 ) : RoninDomainResource, BaseCondition() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
 
-        require(category.isNotEmpty()) { "At least one category must be provided" }
+        check(category.isNotEmpty()) { "At least one category must be provided" }
     }
 }

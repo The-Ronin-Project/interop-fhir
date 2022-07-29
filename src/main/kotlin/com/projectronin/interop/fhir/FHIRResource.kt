@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
+import com.projectronin.interop.fhir.validate.Validation
 
 /**
  * This base interface for a FHIR resource supports use of the Ronin FHIR profile
@@ -12,4 +13,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 interface FHIRResource {
     val resourceType: String
     val id: Id?
+
+    /**
+     * Validates this resource.
+     */
+    fun validate(): Validation
 }

@@ -32,6 +32,6 @@ data class RoninBundle(
     override val signature: Signature? = null
 ) : RoninResource, BaseBundle<RoninBundleEntry>() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

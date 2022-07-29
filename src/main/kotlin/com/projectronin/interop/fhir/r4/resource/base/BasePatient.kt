@@ -21,6 +21,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Patient.
@@ -60,14 +62,14 @@ abstract class BasePatient {
         val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
     }
 
-    protected fun validate() {
+    open fun validate(): Validation = validation {
         deceased?.let { data ->
-            require(acceptedDeceasedTypes.contains(data.type)) {
+            check(acceptedDeceasedTypes.contains(data.type)) {
                 "Patient deceased can only be one of the following data types: ${acceptedDeceasedTypes.joinToString { it.code }}"
             }
         }
         multipleBirth?.let { data ->
-            require(acceptedMultipleBirthTypes.contains(data.type)) {
+            check(acceptedMultipleBirthTypes.contains(data.type)) {
                 "Patient multipleBirth can only be one of the following data types: ${acceptedMultipleBirthTypes.joinToString { it.code }}"
             }
         }

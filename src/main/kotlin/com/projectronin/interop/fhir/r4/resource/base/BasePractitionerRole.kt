@@ -15,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 PractitionerRole.
@@ -48,5 +50,5 @@ abstract class BasePractitionerRole {
     abstract val availabilityExceptions: String?
     abstract val endpoint: List<Reference>
 
-    protected fun validate() {}
+    open fun validate(): Validation = validation {}
 }

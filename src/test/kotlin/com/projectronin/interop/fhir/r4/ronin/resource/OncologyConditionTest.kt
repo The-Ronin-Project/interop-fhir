@@ -131,6 +131,7 @@ class OncologyConditionTest {
                 )
             )
         )
+        oncologyCondition.validate().alertIfErrors()
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyCondition)
         val expectedJson = """
@@ -257,6 +258,7 @@ class OncologyConditionTest {
                 reference = "Patient/roninPatientExample01"
             )
         )
+        oncologyCondition.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyCondition)
         val expectedJson = """
             |{
@@ -387,7 +389,7 @@ class OncologyConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier is required", exception.message)
     }
@@ -417,7 +419,7 @@ class OncologyConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("At least one category must be provided", exception.message)
     }
@@ -465,7 +467,7 @@ class OncologyConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "verificationStatus can only be one of the following codes: confirmed, differential, entered-in-error, provisional, refuted, unconfirmed",
@@ -517,10 +519,37 @@ class OncologyConditionTest {
                         reference = "Patient/roninPatientExample01"
                     ),
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyCondition(
+                    identifier = listOf(),
+                    category = listOf(),
+                    code = CodeableConcept(
+                        coding = listOf(
+                            Coding(
+                                system = Uri("http://snomed.info/sct"),
+                                code = Code("254637007"),
+                                display = "Non-small cell lung cancer"
+                            )
+                        )
+                    ),
+                    subject = Reference(
+                        reference = "Patient/roninPatientExample01"
+                    )
+                ).validate().alertIfErrors()
+            }
+        assertEquals(
+            "Encountered multiple validation errors:\nTenant identifier is required\nAt least one category must be provided",
             exception.message
         )
     }

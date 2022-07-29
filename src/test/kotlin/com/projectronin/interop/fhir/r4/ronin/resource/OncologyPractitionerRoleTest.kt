@@ -39,7 +39,7 @@ class OncologyPractitionerRoleTest {
                     identifier = listOf(),
                     practitioner = Reference(reference = "Practitioner/1234"),
                     organization = Reference(reference = "Organization/1234")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier is required", exception.message)
     }
@@ -49,10 +49,16 @@ class OncologyPractitionerRoleTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 OncologyPractitionerRole(
-                    identifier = listOf(Identifier(system = CodeSystem.RONIN_TENANT.uri, type = CodeableConcepts.SER)),
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.SER,
+                            value = "test"
+                        )
+                    ),
                     practitioner = Reference(reference = "Practitioner/1234"),
                     organization = Reference(reference = "Organization/1234")
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier provided without proper CodeableConcept defined", exception.message)
     }
@@ -104,6 +110,7 @@ class OncologyPractitionerRoleTest {
             availabilityExceptions = "exceptions",
             endpoint = listOf(Reference(reference = "Endpoint/1357"))
         )
+        practitionerRole.validate().alertIfErrors()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
         val expectedJson = """
@@ -196,6 +203,7 @@ class OncologyPractitionerRoleTest {
             practitioner = Reference(reference = "Practitioner/1234"),
             organization = Reference(reference = "Organization/1234")
         )
+        practitionerRole.validate().alertIfErrors()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
         val expectedJson = """
@@ -295,7 +303,7 @@ class OncologyPractitionerRoleTest {
                     practitioner = Reference(reference = "Practitioner/1234"),
                     organization = Reference(reference = "Organization/1234"),
                     telecom = listOf(ContactPoint(value = "8675309"))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("A system is required if a value is provided", exception.message)
     }
@@ -315,8 +323,25 @@ class OncologyPractitionerRoleTest {
                     practitioner = Reference(reference = "Practitioner/1234"),
                     organization = Reference(reference = "Organization/1234"),
                     telecom = listOf(ContactPoint(system = ContactPointSystem.PHONE))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("All PractitionerRole telecoms require a value and system", exception.message)
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyPractitionerRole(
+                    identifier = listOf(),
+                    practitioner = Reference(reference = "Practitioner/1234"),
+                    organization = Reference(reference = "Organization/1234"),
+                    telecom = listOf(ContactPoint(system = ContactPointSystem.PHONE))
+                ).validate().alertIfErrors()
+            }
+        assertEquals(
+            "Encountered multiple validation errors:\nTenant identifier is required\nAll PractitionerRole telecoms require a value and system",
+            exception.message
+        )
     }
 }

@@ -65,6 +65,6 @@ data class Observation(
     override val note: List<Annotation> = listOf(),
 ) : DomainResource, BaseObservation() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

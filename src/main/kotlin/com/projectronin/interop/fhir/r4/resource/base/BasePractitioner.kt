@@ -16,6 +16,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Practitioner.
@@ -44,5 +46,5 @@ abstract class BasePractitioner {
     abstract val qualification: List<Qualification>
     abstract val communication: List<CodeableConcept>
 
-    protected fun validate() {}
+    open fun validate(): Validation = validation {}
 }

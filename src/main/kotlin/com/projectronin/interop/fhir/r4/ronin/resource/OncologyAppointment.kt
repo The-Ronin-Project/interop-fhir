@@ -19,6 +19,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BaseAppointment
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology Appointment.
@@ -58,14 +60,14 @@ data class OncologyAppointment(
     override val participant: List<Participant>,
     override val requestedPeriod: List<Period> = listOf()
 ) : RoninDomainResource, BaseAppointment() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
 
         val partnerDepartment = extension.find { it.url == ExtensionMeanings.PARTNER_DEPARTMENT.uri }
         partnerDepartment?.let {
-            require(it.value?.type == DynamicValueType.REFERENCE) {
+            check(it.value?.type == DynamicValueType.REFERENCE) {
                 "Partner department reference must be of type Reference"
             }
         }

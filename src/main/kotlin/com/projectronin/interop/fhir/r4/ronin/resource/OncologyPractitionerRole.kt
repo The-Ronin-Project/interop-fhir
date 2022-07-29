@@ -16,6 +16,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BasePractitionerRole
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology PractitionerRole.
@@ -47,12 +49,12 @@ data class OncologyPractitionerRole(
     override val availabilityExceptions: String? = null,
     override val endpoint: List<Reference> = listOf()
 ) : RoninDomainResource, BasePractitionerRole() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
 
-        require(telecom.all { it.system != null && it.value != null }) {
+        check(telecom.all { it.system != null && it.value != null }) {
             "All PractitionerRole telecoms require a value and system"
         }
     }

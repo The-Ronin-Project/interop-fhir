@@ -11,6 +11,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.BundleType
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Bundle.
@@ -34,5 +36,5 @@ abstract class BaseBundle<E> {
     abstract val entry: List<E>
     abstract val signature: Signature?
 
-    protected fun validate() {}
+    open fun validate(): Validation = validation {}
 }

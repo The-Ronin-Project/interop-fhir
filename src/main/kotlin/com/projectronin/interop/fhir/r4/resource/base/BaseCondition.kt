@@ -19,6 +19,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
 import com.projectronin.interop.fhir.r4.valueset.ConditionVerificationStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Condition.
@@ -92,9 +94,9 @@ abstract class BaseCondition {
         )
     }
 
-    protected fun validate() {
+    open fun validate(): Validation = validation {
         onset?.let { data ->
-            require(acceptedOnsetTypes.contains(data.type)) {
+            check(acceptedOnsetTypes.contains(data.type)) {
                 "onset can only be one of the following data types: ${acceptedOnsetTypes.joinToString { it.code }}"
             }
         }
@@ -104,15 +106,15 @@ abstract class BaseCondition {
                 coding.code?.let { code -> CodedEnum.byCode<ConditionClinicalStatusCodes>(code.value) }
             }
         } ?: emptyList()
-        require(clinicalStatus == null || clinicalStatusCodes.size == 1) {
+        check(clinicalStatus == null || clinicalStatusCodes.size == 1) {
             "clinicalStatus can only be one of the following codes: ${acceptedClinicalStatusCodes.joinToString { it.code }}"
         }
 
         abatement?.let { data ->
-            require(acceptedAbatementTypes.contains(data.type)) {
+            check(acceptedAbatementTypes.contains(data.type)) {
                 "abatement can only be one of the following data types: ${acceptedOnsetTypes.joinToString { it.code }}"
             }
-            require(acceptedAbatementClinicalCodes.contains(clinicalStatusCodes.firstOrNull())) {
+            check(acceptedAbatementClinicalCodes.contains(clinicalStatusCodes.firstOrNull())) {
                 "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission"
             }
         }
@@ -122,11 +124,11 @@ abstract class BaseCondition {
                 coding.code?.let { code -> CodedEnum.byCode<ConditionVerificationStatus>(code.value) }
             }
         } ?: emptyList()
-        require(verificationStatus == null || verificationStatusCodes.size == 1) {
+        check(verificationStatus == null || verificationStatusCodes.size == 1) {
             "verificationStatus can only be one of the following codes: ${acceptedVerificationStatusCodes.joinToString { it.code }}"
         }
 
-        require(clinicalStatus == null || (verificationStatusCodes.firstOrNull() != ConditionVerificationStatus.ENTERED_IN_ERROR)) {
+        check(clinicalStatus == null || (verificationStatusCodes.firstOrNull() != ConditionVerificationStatus.ENTERED_IN_ERROR)) {
             "clinicalStatus SHALL NOT be present if verification Status is entered-in-error"
         }
     }

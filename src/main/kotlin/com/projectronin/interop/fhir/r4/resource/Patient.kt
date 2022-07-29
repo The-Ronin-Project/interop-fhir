@@ -62,6 +62,6 @@ data class Patient(
     override val link: List<PatientLink> = listOf()
 ) : DomainResource, BasePatient() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

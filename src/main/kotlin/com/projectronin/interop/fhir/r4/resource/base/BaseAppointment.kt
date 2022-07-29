@@ -15,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Appointment.
@@ -55,13 +57,13 @@ abstract class BaseAppointment {
     abstract val participant: List<Participant>
     abstract val requestedPeriod: List<Period>
 
-    protected fun validate() {
-        require(((start != null) == (end != null))) {
+    open fun validate(): Validation = validation {
+        check(((start != null) == (end != null))) {
             "Either start and end are specified, or neither"
         }
 
         if ((start == null) || (end == null)) {
-            require(
+            check(
                 listOf(
                     AppointmentStatus.PROPOSED,
                     AppointmentStatus.CANCELLED,
@@ -73,24 +75,24 @@ abstract class BaseAppointment {
         }
 
         cancelationReason?.let {
-            require(listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW).contains(status)) {
+            check(listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW).contains(status)) {
                 "cancelationReason is only used for appointments that have been cancelled, or no-show"
             }
         }
 
         minutesDuration?.let {
-            require(it > 0) {
+            check(it > 0) {
                 "Appointment duration must be positive"
             }
         }
 
         priority?.let {
-            require(it >= 0) {
+            check(it >= 0) {
                 "Priority cannot be negative"
             }
         }
 
-        require(participant.isNotEmpty()) {
+        check(participant.isNotEmpty()) {
             "At least one participant must be provided"
         }
     }

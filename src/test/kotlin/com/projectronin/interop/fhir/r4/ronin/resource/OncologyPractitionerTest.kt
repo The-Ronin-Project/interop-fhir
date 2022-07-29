@@ -40,7 +40,7 @@ class OncologyPractitionerTest {
                 OncologyPractitioner(
                     identifier = listOf(),
                     name = listOf(HumanName(family = "Smith"))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier is required", exception.message)
     }
@@ -50,9 +50,15 @@ class OncologyPractitionerTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 OncologyPractitioner(
-                    identifier = listOf(Identifier(system = CodeSystem.RONIN_TENANT.uri, type = CodeableConcepts.SER)),
+                    identifier = listOf(
+                        Identifier(
+                            system = CodeSystem.RONIN_TENANT.uri,
+                            type = CodeableConcepts.SER,
+                            value = "test"
+                        )
+                    ),
                     name = listOf(HumanName(family = "Smith"))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("Tenant identifier provided without proper CodeableConcept defined", exception.message)
     }
@@ -71,7 +77,7 @@ class OncologyPractitionerTest {
                         Identifier(system = CodeSystem.SER.uri, type = CodeableConcepts.RONIN_TENANT)
                     ),
                     name = listOf(HumanName(family = "Smith"))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("SER provided without proper CodeableConcept defined", exception.message)
     }
@@ -89,7 +95,7 @@ class OncologyPractitionerTest {
                         )
                     ),
                     name = listOf()
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("At least one name must be provided", exception.message)
     }
@@ -107,7 +113,7 @@ class OncologyPractitionerTest {
                         )
                     ),
                     name = listOf(HumanName())
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals("All names must have a family name provided", exception.message)
     }
@@ -155,6 +161,7 @@ class OncologyPractitionerTest {
             qualification = listOf(Qualification(code = CodeableConcept(text = "code"))),
             communication = listOf(CodeableConcept(text = "communication"))
         )
+        practitioner.validate().alertIfErrors()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)
 
         val expectedJson = """
@@ -235,6 +242,7 @@ class OncologyPractitionerTest {
             ),
             name = listOf(HumanName(family = "Doe"))
         )
+        practitioner.validate().alertIfErrors()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)
 
         val expectedJson = """
@@ -307,5 +315,20 @@ class OncologyPractitionerTest {
         assertEquals(listOf<Attachment>(), practitioner.photo)
         assertEquals(listOf<Qualification>(), practitioner.qualification)
         assertEquals(listOf<CodeableConcept>(), practitioner.communication)
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                OncologyPractitioner(
+                    identifier = listOf(),
+                    name = listOf()
+                ).validate().alertIfErrors()
+            }
+        assertEquals(
+            "Encountered multiple validation errors:\nTenant identifier is required\nAt least one name must be provided",
+            exception.message
+        )
     }
 }

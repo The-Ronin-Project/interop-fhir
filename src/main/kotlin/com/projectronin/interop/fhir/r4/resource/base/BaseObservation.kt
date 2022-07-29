@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Base class representing a FHIR R4 Observation.
@@ -68,19 +70,19 @@ abstract class BaseObservation {
         )
     }
 
-    protected fun validate() {
+    open fun validate(): Validation = validation {
         // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
 
         effective?.let { data ->
-            require(acceptedEffectives.contains(data.type)) {
+            check(acceptedEffectives.contains(data.type)) {
                 "Observation effective can only be one of the following data types: ${acceptedEffectives.joinToString { it.code }}"
             }
         }
-        require(value == null || dataAbsentReason == null) {
+        check(value == null || dataAbsentReason == null) {
             "dataAbsentReason SHALL only be present if value[x] is not present"
         }
         if (value != null) {
-            require(component.all { child -> (child.code != code) }) {
+            check(component.all { child -> (child.code != code) }) {
                 "If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present"
             }
         }

@@ -47,6 +47,6 @@ data class PractitionerRole(
     override val endpoint: List<Reference> = listOf()
 ) : DomainResource, BasePractitionerRole() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

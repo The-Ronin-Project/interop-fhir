@@ -141,6 +141,7 @@ class OncologyObservationTest {
                 reference = "Patient/example"
             )
         )
+        oncologyObservation.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyObservation)
 
         val expectedJson = """
@@ -279,6 +280,7 @@ class OncologyObservationTest {
                 reference = "Patient/example"
             )
         )
+        oncologyObservation.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyObservation)
         val expectedJson = """
             |{
@@ -398,7 +400,7 @@ class OncologyObservationTest {
                 subject = Reference(
                     reference = "Patient/example"
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Tenant identifier is required", exception.message)
     }
@@ -428,7 +430,7 @@ class OncologyObservationTest {
                     reference = "Patient/example"
                 ),
                 effective = DynamicValue(DynamicValueType.STRING, "bad")
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Observation effective can only be one of the following data types: DateTime, Period, Timing, Instant",
@@ -457,9 +459,8 @@ class OncologyObservationTest {
                 code = CodeableConcept(text = "code"),
                 subject = Reference(display = "Peter Chalmers"),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-                dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
-
-            )
+                dataAbsentReason = CodeableConcept(text = "unable to reach vein")
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "dataAbsentReason SHALL only be present if value[x] is not present",
@@ -494,10 +495,34 @@ class OncologyObservationTest {
                         dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "dataAbsentReason SHALL only be present if value[x] is not present",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val quantity = Quantity(
+            value = 60.0,
+            unit = "mL/min/1.73m2",
+            system = Uri("http://unitsofmeasure.org"),
+            code = Code("mL/min/{1.73_m2}")
+        )
+        val ex = assertThrows<IllegalArgumentException> {
+            OncologyObservation(
+                identifier = listOf(),
+                status = ObservationStatus.CANCELLED,
+                code = CodeableConcept(text = "code"),
+                subject = Reference(display = "Peter Chalmers"),
+                value = DynamicValue(DynamicValueType.QUANTITY, quantity),
+                dataAbsentReason = CodeableConcept(text = "unable to reach vein")
+            ).validate().alertIfErrors()
+        }
+        assertEquals(
+            "Encountered multiple validation errors:\ndataAbsentReason SHALL only be present if value[x] is not present\nTenant identifier is required",
             ex.message
         )
     }

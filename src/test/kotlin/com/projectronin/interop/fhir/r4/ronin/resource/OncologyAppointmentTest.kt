@@ -92,6 +92,7 @@ class OncologyAppointmentTest {
             ),
             requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
         )
+        oncologyAppointment.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyAppointment)
 
         val expectedJson = """
@@ -210,6 +211,7 @@ class OncologyAppointmentTest {
                 )
             )
         )
+        oncologyAppointment.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyAppointment)
 
         val expectedJson = """
@@ -332,7 +334,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Appointment duration must be positive", exception.message)
     }
@@ -362,7 +364,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Priority cannot be negative", exception.message)
     }
@@ -386,7 +388,7 @@ class OncologyAppointmentTest {
                 ),
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf()
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("At least one participant must be provided", exception.message)
     }
@@ -415,7 +417,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Only proposed or cancelled appointments can be missing start/end dates",
@@ -448,7 +450,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "cancelationReason is only used for appointments that have been cancelled, or no-show",
@@ -510,6 +512,7 @@ class OncologyAppointmentTest {
             ),
             requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
         )
+        oncologyAppointment.validate().alertIfErrors()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(oncologyAppointment)
 
         val expectedJson = """
@@ -619,7 +622,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Partner department reference must be of type Reference", exception.message)
     }
@@ -648,7 +651,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Partner department reference must be of type Reference", exception.message)
     }
@@ -677,7 +680,7 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Partner department reference must be of type Reference", exception.message)
     }
@@ -767,8 +770,40 @@ class OncologyAppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 ),
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Tenant identifier is required", exception.message)
+    }
+
+    @Test
+    fun `fails for multiple issues`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            OncologyAppointment(
+                extension = listOf(
+                    Extension(
+                        url = ExtensionMeanings.PARTNER_DEPARTMENT.uri,
+                        value = DynamicValue(DynamicValueType.STRING, Reference(reference = "reference"))
+                    )
+                ),
+                identifier = listOf(
+                    Identifier(
+                        system = CodeSystem.MRN.uri,
+                        type = CodeableConcepts.MRN,
+                        value = "MRN"
+                    ),
+                ),
+                status = AppointmentStatus.CANCELLED,
+                participant = listOf(
+                    Participant(
+                        actor = Reference(display = "actor"),
+                        status = ParticipationStatus.ACCEPTED
+                    )
+                ),
+            ).validate().alertIfErrors()
+        }
+        assertEquals(
+            "Encountered multiple validation errors:\nTenant identifier is required\nPartner department reference must be of type Reference",
+            exception.message
+        )
     }
 }

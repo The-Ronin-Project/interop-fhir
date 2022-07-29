@@ -28,6 +28,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.base.BasePatient
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Project Ronin definition of an Oncology Patient.
@@ -63,42 +65,46 @@ data class OncologyPatient(
     override val managingOrganization: Reference? = null,
     override val link: List<PatientLink> = listOf()
 ) : RoninDomainResource, BasePatient() {
-    init {
-        validate()
+    override fun validate(): Validation = validation {
+        merge(super.validate())
 
-        requireTenantIdentifier(identifier)
+        requireTenantIdentifier(this, identifier)
 
         val mrnIdentifier = identifier.find { it.system == CodeSystem.MRN.uri }
-        requireNotNull(mrnIdentifier) {
+        notNull(mrnIdentifier) {
             "mrn identifier is required"
         }
 
-        mrnIdentifier.type?.let { type ->
-            require(type == CodeableConcepts.MRN) {
-                "mrn identifier type defined without proper CodeableConcept"
+        ifNotNull(mrnIdentifier) {
+            mrnIdentifier.type?.let { type ->
+                check(type == CodeableConcepts.MRN) {
+                    "mrn identifier type defined without proper CodeableConcept"
+                }
             }
-        }
 
-        requireNotNull(mrnIdentifier.value) {
-            "mrn value is required"
+            notNull(mrnIdentifier.value) {
+                "mrn value is required"
+            }
         }
 
         val fhirStu3IdIdentifier = identifier.find { it.system == CodeSystem.FHIR_STU3_ID.uri }
-        requireNotNull(fhirStu3IdIdentifier) {
+        notNull(fhirStu3IdIdentifier) {
             "fhir_stu3_id identifier is required"
         }
 
-        fhirStu3IdIdentifier.type?.let { type ->
-            require(type == CodeableConcepts.FHIR_STU3_ID) {
-                "fhir_stu3_id identifier type defined without proper CodeableConcept"
+        ifNotNull(fhirStu3IdIdentifier) {
+            fhirStu3IdIdentifier.type?.let { type ->
+                check(type == CodeableConcepts.FHIR_STU3_ID) {
+                    "fhir_stu3_id identifier type defined without proper CodeableConcept"
+                }
+            }
+
+            notNull(fhirStu3IdIdentifier.value) {
+                "fhir_stu3_id value is required"
             }
         }
 
-        requireNotNull(fhirStu3IdIdentifier.value) {
-            "fhir_stu3_id value is required"
-        }
-
-        require(name.isNotEmpty()) {
+        check(name.isNotEmpty()) {
             "At least one name must be provided"
         }
     }

@@ -45,6 +45,6 @@ data class Practitioner(
     override val communication: List<CodeableConcept> = listOf()
 ) : DomainResource, BasePractitioner() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }

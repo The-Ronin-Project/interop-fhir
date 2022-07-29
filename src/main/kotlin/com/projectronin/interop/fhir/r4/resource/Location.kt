@@ -54,6 +54,6 @@ data class Location(
     override val endpoint: List<Reference> = listOf(),
 ) : DomainResource, BaseLocation() {
     init {
-        validate()
+        validate().alertIfErrors()
     }
 }
