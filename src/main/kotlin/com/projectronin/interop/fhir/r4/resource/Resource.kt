@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.Validation
 
 /**
  * A resource is an entity that:
@@ -41,4 +42,6 @@ interface Resource<T : Resource<T>> {
     val meta: Meta?
     val implicitRules: Uri?
     val language: Code?
+
+    fun validate(): Validation
 }

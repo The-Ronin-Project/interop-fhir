@@ -25,6 +25,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Demographics and other administrative information about an individual or animal receiving care or other
@@ -68,14 +70,14 @@ data class Patient(
         val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
     }
 
-    init {
+    override fun validate(): Validation = validation {
         deceased?.let { data ->
-            require(acceptedDeceasedTypes.contains(data.type)) {
+            check(acceptedDeceasedTypes.contains(data.type)) {
                 "Patient deceased can only be one of the following data types: ${acceptedDeceasedTypes.joinToString { it.code }}"
             }
         }
         multipleBirth?.let { data ->
-            require(acceptedMultipleBirthTypes.contains(data.type)) {
+            check(acceptedMultipleBirthTypes.contains(data.type)) {
                 "Patient multipleBirth can only be one of the following data types: ${acceptedMultipleBirthTypes.joinToString { it.code }}"
             }
         }

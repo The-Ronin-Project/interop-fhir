@@ -20,3 +20,9 @@ dependencies {
     // Used for some tests utilizing classpath inspection to verify configuration
     testImplementation(libs.classgraph)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+    }
+}

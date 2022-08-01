@@ -210,7 +210,7 @@ class PatientTest {
         val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Patient deceased can only be one of the following data types: Boolean, DateTime",
@@ -224,7 +224,7 @@ class PatientTest {
         val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Patient multipleBirth can only be one of the following data types: Boolean, Integer",

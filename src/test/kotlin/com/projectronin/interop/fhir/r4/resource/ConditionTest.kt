@@ -273,7 +273,7 @@ class ConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "clinicalStatus can only be one of the following codes: active, recurrence, relapse, inactive, remission, resolved",
@@ -360,7 +360,7 @@ class ConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "verificationStatus can only be one of the following codes: confirmed, differential, entered-in-error, provisional, refuted, unconfirmed",
@@ -448,7 +448,7 @@ class ConditionTest {
                         reference = "Patient/roninPatientExample01"
                     ),
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "If condition is abated, then clinicalStatus must be one of the following: inactive, remission, resolved",
@@ -491,7 +491,7 @@ class ConditionTest {
                         reference = "Patient/roninPatientExample01"
                     ),
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "If condition is abated, then clinicalStatus must be one of the following: inactive, remission, resolved",
@@ -551,7 +551,7 @@ class ConditionTest {
                     subject = Reference(
                         reference = "Patient/roninPatientExample01"
                     )
-                )
+                ).validate().alertIfErrors()
             }
         assertEquals(
             "clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
@@ -578,7 +578,7 @@ class ConditionTest {
                     DynamicValueType.AGE,
                     Age(value = 55.0, code = Code("a"), system = CodeSystem.UCUM.uri)
                 ),
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "onset can only be one of the following data types: DateTime, Age, Period, Range, String",
@@ -605,7 +605,7 @@ class ConditionTest {
                     )
                 ),
                 abatement = DynamicValue(type = DynamicValueType.BOOLEAN, value = false)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "abatement can only be one of the following data types: DateTime, Age, Period, Range, String",

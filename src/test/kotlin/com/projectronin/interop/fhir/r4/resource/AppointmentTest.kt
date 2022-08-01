@@ -278,7 +278,7 @@ class AppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Appointment duration must be positive", exception.message)
     }
@@ -295,7 +295,7 @@ class AppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("Priority cannot be negative", exception.message)
     }
@@ -306,7 +306,7 @@ class AppointmentTest {
             Appointment(
                 status = AppointmentStatus.CANCELLED,
                 participant = listOf()
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals("At least one participant must be provided", exception.message)
     }
@@ -323,7 +323,7 @@ class AppointmentTest {
                     )
                 ),
                 start = Instant(value = "2017-01-01T00:00:00Z")
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Either start and end are specified, or neither",
@@ -342,7 +342,7 @@ class AppointmentTest {
                         status = ParticipationStatus.ACCEPTED
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Start and end can only be missing for appointments with the following statuses: proposed, cancelled, waitlist",
@@ -362,7 +362,7 @@ class AppointmentTest {
                     )
                 ),
                 cancelationReason = CodeableConcept(text = "cancel reason")
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "cancellationReason is only used for appointments that have the following statuses: cancelled, noshow",

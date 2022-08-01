@@ -14,6 +14,8 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period of time.
@@ -46,4 +48,6 @@ data class PractitionerRole(
     val endpoint: List<Reference> = listOf()
 ) : DomainResource<PractitionerRole> {
     override val resourceType: String = "PractitionerRole"
+
+    override fun validate(): Validation = validation {}
 }

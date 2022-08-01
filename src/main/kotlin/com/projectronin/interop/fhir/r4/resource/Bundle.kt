@@ -11,6 +11,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.BundleType
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * A container for a collection of resources.
@@ -31,4 +33,6 @@ data class Bundle(
     val signature: Signature? = null
 ) : Resource<Bundle> {
     override val resourceType: String = "Bundle"
+
+    override fun validate(): Validation = validation {}
 }

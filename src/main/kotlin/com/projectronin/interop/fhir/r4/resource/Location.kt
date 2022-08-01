@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.LocationMode
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Details and position information for a physical place where services are provided and
@@ -53,4 +55,6 @@ data class Location(
     val endpoint: List<Reference> = listOf(),
 ) : DomainResource<Location> {
     override val resourceType: String = "Location"
+
+    override fun validate(): Validation = validation {}
 }

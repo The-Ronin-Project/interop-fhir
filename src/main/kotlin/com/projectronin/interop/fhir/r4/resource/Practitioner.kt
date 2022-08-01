@@ -16,6 +16,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
@@ -44,4 +46,6 @@ data class Practitioner(
     val communication: List<CodeableConcept> = listOf()
 ) : DomainResource<Practitioner> {
     override val resourceType: String = "Practitioner"
+
+    override fun validate(): Validation = validation {}
 }

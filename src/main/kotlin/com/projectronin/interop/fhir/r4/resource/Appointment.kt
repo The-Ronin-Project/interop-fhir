@@ -15,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
+import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.validation
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific
@@ -63,40 +65,36 @@ data class Appointment(
         val requiredCancelledReasons = listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW)
     }
 
-    init {
-        require(((start != null) == (end != null))) {
+    override fun validate(): Validation = validation {
+        check(((start != null) == (end != null))) {
             "Either start and end are specified, or neither"
         }
 
         if ((start == null) || (end == null)) {
-            require(
-                acceptedNullTimes.contains(status)
-            ) {
-                "Start and end can only be missing for appointments with the following statuses: " +
-                    acceptedNullTimes.joinToString { it.code }
+            check(acceptedNullTimes.contains(status)) {
+                "Start and end can only be missing for appointments with the following statuses: ${acceptedNullTimes.joinToString { it.code }}"
             }
         }
 
         cancelationReason?.let {
-            require(requiredCancelledReasons.contains(status)) {
-                "cancellationReason is only used for appointments that have the following statuses: " +
-                    requiredCancelledReasons.joinToString { it.code }
+            check(requiredCancelledReasons.contains(status)) {
+                "cancellationReason is only used for appointments that have the following statuses: ${requiredCancelledReasons.joinToString { it.code }}"
             }
         }
 
         minutesDuration?.let {
-            require(it > 0) {
+            check(it > 0) {
                 "Appointment duration must be positive"
             }
         }
 
         priority?.let {
-            require(it >= 0) {
+            check(it >= 0) {
                 "Priority cannot be negative"
             }
         }
 
-        require(participant.isNotEmpty()) {
+        check(participant.isNotEmpty()) {
             "At least one participant must be provided"
         }
     }

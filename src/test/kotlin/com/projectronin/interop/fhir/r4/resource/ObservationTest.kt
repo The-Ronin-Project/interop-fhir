@@ -245,7 +245,7 @@ class ObservationTest {
                 subject = Reference(reference = "subject"),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
                 referenceRange = listOf(ObservationReferenceRange(age = Range(low = SimpleQuantity(value = 15.0))))
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "referenceRange must have at least a low or a high or text",
@@ -351,7 +351,7 @@ class ObservationTest {
                         )
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "referenceRange must have at least a low or a high or text",
@@ -461,7 +461,7 @@ class ObservationTest {
                 subject = Reference(display = "Peter Chalmers"),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
                 dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "dataAbsentReason SHALL only be present if value[x] is not present",
@@ -489,7 +489,7 @@ class ObservationTest {
                         dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
                     )
                 )
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "dataAbsentReason SHALL only be present if value[x] is not present",
@@ -522,7 +522,7 @@ class ObservationTest {
                 subject = Reference(display = "Peter Chalmers"),
                 value = (DynamicValue(DynamicValueType.QUANTITY, quantity)),
                 component = listOf(component1, component2)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present",
@@ -573,7 +573,7 @@ class ObservationTest {
                 subject = Reference(reference = "subject"),
                 effective = DynamicValue(type = DynamicValueType.BOOLEAN, value = false),
                 value = (DynamicValue(DynamicValueType.QUANTITY, quantity)),
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
             "Observation effective can only be one of the following data types: DateTime, Period, Timing, Instant",
