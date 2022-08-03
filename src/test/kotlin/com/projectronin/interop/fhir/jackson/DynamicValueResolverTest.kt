@@ -59,7 +59,7 @@ class DynamicValueResolverTest {
     @Test
     fun `nested value with unknown type`() {
         val node = mockk<JsonNode> {
-            every { fieldNames() } returns listOf("wednesday").iterator()
+            every { fieldNames() } returns iteratorFor("wednesday")
         }
         val exception = assertThrows<JsonParseException> {
             resolver.resolveDynamicValue(node, "")
@@ -70,7 +70,7 @@ class DynamicValueResolverTest {
     @Test
     fun `nested value with known type`() {
         val node = mockk<JsonNode> {
-            every { fieldNames() } returns listOf("boolean").iterator()
+            every { fieldNames() } returns iteratorFor("boolean")
             // get is an inherited method in Kotlin, so need to indicate we're trying to the mockk.
             every { this@mockk.get("boolean") } returns mockk {
                 every { asBoolean() } returns true
@@ -78,5 +78,12 @@ class DynamicValueResolverTest {
         }
         val dynamicValue = resolver.resolveDynamicValue(node, "")
         assertEquals(DynamicValue(DynamicValueType.BOOLEAN, true), dynamicValue)
+    }
+
+    // Uplift to mockk 1.12.5 did not like our use of listOf("item").iterator(). This is a workaround that it has no issues with. Unsure if this is a Java version issue or something deeper in mockk.
+    private fun iteratorFor(vararg value: String): Iterator<String> {
+        val list = mutableListOf<String>()
+        value.forEach { list.add(it) }
+        return list.iterator()
     }
 }
