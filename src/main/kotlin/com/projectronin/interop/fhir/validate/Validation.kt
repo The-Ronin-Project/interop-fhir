@@ -8,6 +8,7 @@ import kotlin.contracts.contract
  */
 class Validation {
     private val exceptions = mutableListOf<Exception>()
+    private val issues = mutableListOf<ValidationIssue>()
 
     /**
      * Checks that the [value] is true. If not, the [lazyMessage] is used to produce an error.
@@ -17,6 +18,14 @@ class Validation {
             require(value, lazyMessage)
         } catch (e: Exception) {
             exceptions.add(e)
+        }
+    }
+
+    fun checkTrue(value: Boolean, issueToLog: ValidationIssue) {
+        try {
+            require(value)
+        } catch (e: Exception) {
+            issues.add(issueToLog)
         }
     }
 
@@ -36,6 +45,19 @@ class Validation {
         }
     }
 
+    @OptIn(ExperimentalContracts::class)
+    fun checkNotNull(value: Any?, issueToLog: ValidationIssue) {
+        // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
+        contract {
+            returns() implies (value != null)
+        }
+        try {
+            requireNotNull(value)
+        } catch (e: Exception) {
+            issues.add(issueToLog)
+        }
+    }
+
     /**
      * If the [value] is not null, then the [block] can be run to continue specific validation in a null-safe manner.
      */
@@ -49,11 +71,17 @@ class Validation {
      * Retrieves the current List of exceptions.
      */
     fun errors(): List<Exception> = exceptions
+    fun issues(): List<ValidationIssue> = issues
 
     /**
      * Throws an [IllegalArgumentException] if any errors were captured during validation.
      */
     fun alertIfErrors() {
+        val errors = issues.filter { it.severity == ValidationIssueSeverity.ERROR }
+        if (errors.isNotEmpty()) throw IllegalArgumentException(
+            errors.joinToString(separator = "\n", prefix = "Encountered validation error(s):\n")
+        )
+
         when (exceptions.size) {
             0 -> return
             1 -> throw exceptions[0]
@@ -69,6 +97,7 @@ class Validation {
      */
     fun merge(other: Validation) {
         exceptions.addAll(other.errors())
+        issues.addAll(other.issues)
     }
 }
 
