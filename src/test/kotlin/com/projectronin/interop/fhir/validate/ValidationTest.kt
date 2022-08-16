@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.validate
 
+import com.projectronin.interop.fhir.r4.validate.R4Error
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -214,5 +215,13 @@ class ValidationTest {
             }
         }
         assertEquals("My message when false", exception.message)
+    }
+
+    @Test
+    fun `secondary constructor test`() {
+        var issue = ValidationIssue(R4Error.R4_PAT_001)
+        assertEquals(issue.code, "R4_PAT_001")
+        issue = ValidationIssue(R4Error.R4_PAT_001, "new location")
+        assertEquals(issue.location, "new location")
     }
 }

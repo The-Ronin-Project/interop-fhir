@@ -213,7 +213,8 @@ class PatientTest {
             ).validate().alertIfErrors()
         }
         assertEquals(
-            "Patient deceased can only be one of the following data types: Boolean, DateTime",
+            "Encountered validation error(s):\n" +
+                "ERROR R4_PAT_002: Patient deceased can only be one of the following data types: Boolean, DateTime @ Patient.deceased",
             exception.message
         )
     }
@@ -227,7 +228,8 @@ class PatientTest {
             ).validate().alertIfErrors()
         }
         assertEquals(
-            "Patient multipleBirth can only be one of the following data types: Boolean, Integer",
+            "Encountered validation error(s):\n" +
+                "ERROR R4_PAT_001: Patient multipleBirth can only be one of the following data types: Boolean, Integer @ Patient.multipleBirth",
             exception.message
         )
     }

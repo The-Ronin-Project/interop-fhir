@@ -22,9 +22,7 @@ class Validation {
     }
 
     fun checkTrue(value: Boolean, issueToLog: ValidationIssue) {
-        try {
-            require(value)
-        } catch (e: Exception) {
+        if (!value) {
             issues.add(issueToLog)
         }
     }
@@ -51,9 +49,7 @@ class Validation {
         contract {
             returns() implies (value != null)
         }
-        try {
-            requireNotNull(value)
-        } catch (e: Exception) {
+        if (value == null) {
             issues.add(issueToLog)
         }
     }

@@ -24,8 +24,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.validate.R4Error
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.ValidationIssue
 import com.projectronin.interop.fhir.validate.validation
 
 /**
@@ -72,14 +74,10 @@ data class Patient(
 
     override fun validate(): Validation = validation {
         deceased?.let { data ->
-            check(acceptedDeceasedTypes.contains(data.type)) {
-                "Patient deceased can only be one of the following data types: ${acceptedDeceasedTypes.joinToString { it.code }}"
-            }
+            checkTrue(acceptedDeceasedTypes.contains(data.type), ValidationIssue(R4Error.R4_PAT_002))
         }
         multipleBirth?.let { data ->
-            check(acceptedMultipleBirthTypes.contains(data.type)) {
-                "Patient multipleBirth can only be one of the following data types: ${acceptedMultipleBirthTypes.joinToString { it.code }}"
-            }
+            checkTrue(acceptedMultipleBirthTypes.contains(data.type), ValidationIssue(R4Error.R4_PAT_001))
         }
     }
 }
