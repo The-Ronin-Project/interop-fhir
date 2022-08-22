@@ -1,7 +1,7 @@
 [libraries]
 classgraph = "io.github.classgraph:classgraph:4.8.149"
 fhir-validation = "ca.uhn.hapi.fhir:org.hl7.fhir.validation:5.6.54"
-interop-common = "com.projectronin.interop:interop-common:2.1.1"
-interop-commonJackson = "com.projectronin.interop:interop-common-jackson:2.1.1"
+interop-common = "com.projectronin.interop:interop-common:3.0.0"
+interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.0.0"
 jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
 mockk = "io.mockk:mockk:1.12.5"
