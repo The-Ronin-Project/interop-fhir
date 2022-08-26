@@ -1,4 +1,4 @@
-package com.projectronin.interop.fhir.r4.ronin.resource
+package com.projectronin.interop.fhir.stu3.resource
 
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Narrative
@@ -12,7 +12,7 @@ import com.projectronin.interop.fhir.r4.resource.ContainedResource
  *
  * See [FHIR Spec](https://www.hl7.org/fhir/domainresource.html)
  */
-interface RoninDomainResource : RoninResource {
+interface STU3DomainResource<T : STU3DomainResource<T>> : STU3Resource<T> {
     val text: Narrative?
     val contained: List<ContainedResource>
     val extension: List<Extension>

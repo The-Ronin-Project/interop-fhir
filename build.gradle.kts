@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     // Version must be defined before publish in order to set the proper version
     id("com.projectronin.interop.gradle.version")
@@ -21,7 +19,7 @@ dependencies {
     testImplementation(libs.classgraph)
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
     }
@@ -30,10 +28,4 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     minHeapSize = "2048m"
     maxHeapSize = "4096m"
-}
-
-// For now, we will need to manually invoke the updateFHIRImplGuide gradle task.
-val updateFHIRImplGuide = task<Exec>("updateFHIRImplGuide") {
-    workingDir = projectDir
-    commandLine("./update_FHIR_impl_guide.sh")
 }

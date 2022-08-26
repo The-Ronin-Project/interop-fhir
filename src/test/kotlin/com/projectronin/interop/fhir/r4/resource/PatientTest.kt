@@ -184,7 +184,7 @@ class PatientTest {
         assertNull(patient.implicitRules)
         assertNull(patient.language)
         assertNull(patient.text)
-        assertEquals(listOf<Resource>(), patient.contained)
+        assertEquals(listOf<Resource<Nothing>>(), patient.contained)
         assertEquals(listOf<Extension>(), patient.extension)
         assertEquals(listOf<Extension>(), patient.modifierExtension)
         assertEquals(listOf<Identifier>(), patient.identifier)
@@ -210,10 +210,11 @@ class PatientTest {
         val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
-            "Patient deceased can only be one of the following data types: Boolean, DateTime",
+            "Encountered validation error(s):\n" +
+                "ERROR R4_PAT_002: Patient deceased can only be one of the following data types: Boolean, DateTime @ Patient.deceased",
             exception.message
         )
     }
@@ -224,10 +225,11 @@ class PatientTest {
         val exception = assertThrows<IllegalArgumentException> {
             Patient(
                 multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
-            )
+            ).validate().alertIfErrors()
         }
         assertEquals(
-            "Patient multipleBirth can only be one of the following data types: Boolean, Integer",
+            "Encountered validation error(s):\n" +
+                "ERROR R4_PAT_001: Patient multipleBirth can only be one of the following data types: Boolean, Integer @ Patient.multipleBirth",
             exception.message
         )
     }

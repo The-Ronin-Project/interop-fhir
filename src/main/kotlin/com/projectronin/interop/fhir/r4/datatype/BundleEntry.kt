@@ -14,7 +14,7 @@ data class BundleEntry(
     override val modifierExtension: List<Extension> = listOf(),
     val link: List<BundleLink> = listOf(),
     val fullUrl: Uri? = null,
-    val resource: Resource? = null,
+    val resource: Resource<*>? = null,
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
     val response: BundleResponse? = null

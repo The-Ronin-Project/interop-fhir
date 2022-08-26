@@ -7,7 +7,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
-import org.hl7.cql.model.Relationship
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -124,7 +123,7 @@ class ContactTest {
         assertNull(contact.id)
         assertEquals(listOf<Extension>(), contact.extension)
         assertEquals(listOf<Extension>(), contact.modifierExtension)
-        assertEquals(listOf<Relationship>(), contact.relationship)
+        assertEquals(listOf<CodeableConcept>(), contact.relationship)
         assertEquals("Jane Doe", contact.name?.text)
         assertNull(contact.address)
         assertNull(contact.gender)

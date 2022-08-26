@@ -1,21 +1,48 @@
 package com.projectronin.interop.fhir.validate
 
+import com.projectronin.interop.fhir.r4.validate.R4Error
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class ValidationTest {
+
+    private val validationError = ValidationIssue(
+        code = "INT-001",
+        description = "There was a really bad issue thing that happened.",
+        location = "resource.identifier.system",
+        severity = ValidationIssueSeverity.ERROR
+    )
+
+    private val validationWarning = ValidationIssue(
+        code = "INT-002",
+        description = "There was an issue thing that happened.",
+        location = "resource.status",
+        severity = ValidationIssueSeverity.WARNING
+    )
+
     @Test
-    fun `check with true value does not create an error`() {
+    fun `OLD-check with true value does not create an error`() {
         val validation = Validation()
         validation.check(true) { "My message when true" }
-
         val errors = validation.errors()
         assertEquals(listOf<Exception>(), errors)
     }
 
     @Test
-    fun `check with false value creates an error`() {
+    fun `check with true value does not create an error`() {
+        val validation = Validation()
+        validation.check(true) { "My message when true" }
+        validation.checkTrue(true, validationError)
+
+        val errors = validation.errors()
+        val issues = validation.issues()
+        assertEquals(listOf<Exception>(), errors)
+        assertEquals(listOf<ValidationIssue>(), issues)
+    }
+
+    @Test
+    fun `OLD-check with false value creates an error`() {
         val validation = Validation()
         validation.check(false) { "My message when false" }
 
@@ -25,7 +52,17 @@ class ValidationTest {
     }
 
     @Test
-    fun `notNull with null value creates an error`() {
+    fun `check with false value creates an error`() {
+        val validation = Validation()
+        validation.checkTrue(false, validationError)
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(validationError.toString(), issues[0].toString())
+    }
+
+    @Test
+    fun `OLD-notNull with null value creates an error`() {
         val validation = Validation()
         validation.notNull(null) { "It was null" }
 
@@ -35,12 +72,31 @@ class ValidationTest {
     }
 
     @Test
-    fun `notNull with non-null value does not create an error`() {
+    fun `OLD-notNull with non-null value does not create an error`() {
         val validation = Validation()
         validation.notNull("NotNull") { "It was not null" }
 
         val errors = validation.errors()
         assertEquals(listOf<Exception>(), errors)
+    }
+
+    @Test
+    fun `notNull with null value creates an error`() {
+        val validation = Validation()
+        validation.checkNotNull(null, validationWarning)
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(validationWarning.toString(), issues[0].toString())
+    }
+
+    @Test
+    fun `notNull with non-null value does not create an error`() {
+        val validation = Validation()
+        validation.checkNotNull("NotNull", validationWarning)
+
+        val issues = validation.issues()
+        assertEquals(listOf<ValidationIssue>(), issues)
     }
 
     @Test
@@ -70,14 +126,17 @@ class ValidationTest {
     fun `merge combines 2 validations`() {
         val validation1 = Validation()
         validation1.notNull(null) { "Null" }
+        validation1.checkNotNull(null, validationWarning)
 
         val validation2 = Validation()
         validation2.notNull(null) { "Also null" }
+        validation2.checkNotNull(null, validationWarning)
 
         validation1.merge(validation2)
 
         val errors = validation1.errors()
         assertEquals(2, errors.size)
+        assertEquals(2, validation1.issues().size)
         assertEquals("Null", errors[0].message)
         assertEquals("Also null", errors[1].message)
     }
@@ -116,6 +175,21 @@ class ValidationTest {
     }
 
     @Test
+    fun `alertIfErrors works with issues`() {
+        val validation = Validation()
+        validation.checkTrue(false, validationWarning)
+        validation.checkTrue(false, validationError)
+        val exception = assertThrows<IllegalArgumentException> {
+            validation.alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INT-001: There was a really bad issue thing that happened. @ resource.identifier.system",
+            exception.message
+        )
+    }
+
+    @Test
     fun `validation function creates an instance`() {
         val validation = validation {
             check(false) { "My message when false" }
@@ -141,5 +215,13 @@ class ValidationTest {
             }
         }
         assertEquals("My message when false", exception.message)
+    }
+
+    @Test
+    fun `secondary constructor test`() {
+        var issue = ValidationIssue(R4Error.R4_PAT_001)
+        assertEquals(issue.code, "R4_PAT_001")
+        issue = ValidationIssue(R4Error.R4_PAT_001, "new location")
+        assertEquals(issue.location, "new location")
     }
 }
