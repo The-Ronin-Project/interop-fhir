@@ -1,6 +1,6 @@
 [libraries]
 classgraph = "io.github.classgraph:classgraph:4.8.149"
-fhir-validation = "ca.uhn.hapi.fhir:org.hl7.fhir.validation:5.6.54"
+fhir-validation = "ca.uhn.hapi.fhir:org.hl7.fhir.validation:5.6.56"
 interop-common = "com.projectronin.interop:interop-common:3.0.0"
 interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.0.0"
 jackson-core = "com.fasterxml.jackson.core:jackson-core:2.13.3"
