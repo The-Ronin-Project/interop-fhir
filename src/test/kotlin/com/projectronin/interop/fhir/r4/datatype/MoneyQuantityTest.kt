@@ -6,39 +6,12 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class MoneyQuantityTest {
-    @Test
-    fun `fails if code provided without system`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Distance(value = 2.0, code = Code("USD"))
-            }
-        assertEquals(
-            "If a code for the unit is present, the system SHALL also be present",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if value provided without code`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Distance(value = 2.0)
-            }
-        assertEquals("There SHALL be a code if there is a value", exception.message)
-    }
-
-    @Test
-    fun `fails if system is provided and not CURRENCY`() {
-        val exception = assertThrows<IllegalArgumentException> { MoneyQuantity(system = Uri("SNOMED")) }
-        assertEquals("If system is present, it SHALL be CURRENCY", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val moneyQuantity = MoneyQuantity(
@@ -50,7 +23,7 @@ class MoneyQuantityTest {
                 )
             ),
             value = 17.5,
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO,
+            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
             system = CodeSystem.CURRENCY.uri,
             code = Code("USD")
         )
@@ -115,7 +88,7 @@ class MoneyQuantityTest {
         assertNull(distance.id)
         assertEquals(listOf<Extension>(), distance.extension)
         assertNull(distance.value)
-        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO, distance.comparator)
+        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO.asCode(), distance.comparator)
         assertNull(distance.unit)
         assertNull(distance.system)
         assertNull(distance.code)

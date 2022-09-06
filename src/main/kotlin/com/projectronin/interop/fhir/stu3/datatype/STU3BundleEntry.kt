@@ -26,4 +26,4 @@ data class STU3BundleEntry(
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
     val response: BundleResponse? = null
-) : BackboneElement
+) : BackboneElement<STU3BundleEntry>

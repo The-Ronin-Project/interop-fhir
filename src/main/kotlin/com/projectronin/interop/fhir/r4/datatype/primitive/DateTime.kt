@@ -8,14 +8,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
  * 2017-01-01T00:00:00.000Z. If hours and minutes are specified, a time zone SHALL be populated. Seconds must be provided
  * due to schema type constraints but may be zero-filled and may be ignored at receiver discretion. Dates SHALL be valid
  * dates. The time "24:00" is not allowed. Leap Seconds are allowed.
- *
- * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#dateTime)
  */
-data class DateTime @JsonCreator constructor(override val value: String) : Primitive<String> {
-    private val validRegex =
-        Regex("""([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]+)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?""")
-
-    init {
-        require(validRegex.matches(value)) { "Supplied value is not valid for a DateTime" }
-    }
-}
+data class DateTime @JsonCreator constructor(override val value: String) : Primitive<String, DateTime>

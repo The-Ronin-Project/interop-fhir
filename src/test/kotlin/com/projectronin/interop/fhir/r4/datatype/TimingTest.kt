@@ -12,99 +12,12 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.EventTiming
 import com.projectronin.interop.fhir.r4.valueset.UnitOfTime
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class TimingTest {
-    @Test
-    fun `fails for repeat with unsupported bounds dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(bounds = DynamicValue(DynamicValueType.INTEGER, 1)) }
-        assertEquals("bounds can only be one of the following: Duration, Range, Period", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with duration and no durating units`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(duration = 2.0) }
-        assertEquals("if there's a duration, there needs to be duration units", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with period and no period units`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(period = 2.0) }
-        assertEquals("if there's a period, there needs to be period units", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with negative duration`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(duration = -2.0, durationUnit = UnitOfTime.HOUR) }
-        assertEquals("duration SHALL be a non-negative value", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with negative period`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(period = -2.0, periodUnit = UnitOfTime.DAY) }
-        assertEquals("period SHALL be a non-negative value", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with period max but no period`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(periodMax = 14.0) }
-        assertEquals("If there's a periodMax, there must be a period", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with duration max but no duration`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(durationMax = 21.0) }
-        assertEquals("If there's a durationMax, there must be a duration", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with count max but no count`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(countMax = PositiveInt(100)) }
-        assertEquals("If there's a countMax, there must be a count", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with offset and no when`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { TimingRepeat(offset = UnsignedInt(12)) }
-        assertEquals("If there's an offset, there must be a when (and not C, CM, CD, CV)", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with offset and an unsupported when`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                TimingRepeat(
-                    offset = UnsignedInt(12),
-                    `when` = listOf(EventTiming.MEAL)
-                )
-            }
-        assertEquals("If there's an offset, there must be a when (and not C, CM, CD, CV)", exception.message)
-    }
-
-    @Test
-    fun `fails for repeat with time of day and when`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                TimingRepeat(
-                    timeOfDay = listOf(Time("08:00:00")),
-                    `when` = listOf(EventTiming.UPON_WAKING)
-                )
-            }
-        assertEquals("If there's a timeOfDay, there cannot be a when, or vice versa", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val timing = Timing(
@@ -132,14 +45,14 @@ class TimingTest {
                 countMax = PositiveInt(10),
                 duration = 14.0,
                 durationMax = 30.0,
-                durationUnit = UnitOfTime.DAY,
+                durationUnit = UnitOfTime.DAY.asCode(),
                 frequency = PositiveInt(2),
                 frequencyMax = PositiveInt(10),
                 period = 6.0,
                 periodMax = 8.0,
-                periodUnit = UnitOfTime.HOUR,
-                dayOfWeek = listOf(DayOfWeek.MONDAY),
-                `when` = listOf(EventTiming.UPON_WAKING),
+                periodUnit = UnitOfTime.HOUR.asCode(),
+                dayOfWeek = listOf(DayOfWeek.MONDAY.asCode()),
+                `when` = listOf(EventTiming.UPON_WAKING.asCode()),
                 offset = UnsignedInt(12)
             ),
             code = CodeableConcept(text = "code-concept")

@@ -9,25 +9,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class SignatureTest {
-    @Test
-    fun `fails if no types provided`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Signature(
-                    type = listOf(),
-                    `when` = Instant("2017-01-01T00:00:00Z"),
-                    who = Reference(display = "Reference")
-                )
-            }
-        assertEquals(
-            "The Signature SHALL include a CommitmentTypeIndication for the Purpose(s) of Signature",
-            exception.message
-        )
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val signature = Signature(

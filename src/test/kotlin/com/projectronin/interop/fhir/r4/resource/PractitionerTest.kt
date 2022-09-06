@@ -23,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -38,7 +39,7 @@ class PractitionerTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             text = Narrative(
-                status = NarrativeStatus.GENERATED,
+                status = NarrativeStatus.GENERATED.asCode(),
                 div = "div"
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -57,9 +58,9 @@ class PractitionerTest {
             identifier = listOf(Identifier(value = "id")),
             active = true,
             name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
             address = listOf(Address(country = "USA")),
-            gender = AdministrativeGender.FEMALE,
+            gender = AdministrativeGender.FEMALE.asCode(),
             birthDate = Date("1975-07-05"),
             photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
             qualification = listOf(Qualification(code = CodeableConcept(text = "code"))),

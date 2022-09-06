@@ -15,7 +15,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
-import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.resource.Appointment as R4Appointment
 
 /**
@@ -38,7 +37,7 @@ data class STU3Appointment(
     val reason: List<CodeableConcept> = listOf(),
     val indication: List<Reference> = listOf(),
     val incomingReferral: List<Reference> = listOf(),
-    val status: AppointmentStatus,
+    val status: Code?,
     val serviceCategory: CodeableConcept? = null,
     val serviceType: List<CodeableConcept> = listOf(),
     val specialty: List<CodeableConcept> = listOf(),

@@ -8,15 +8,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ExpressionTest {
-    @Test
-    fun `fails if no expression or reference`() {
-        val exception = assertThrows<IllegalArgumentException> { Expression(language = Code("en-US")) }
-        assertEquals("An expression or a reference must be provided", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val expression = Expression(

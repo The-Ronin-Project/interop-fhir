@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.ContactPointUse
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -22,9 +23,9 @@ class ContactPointTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            system = ContactPointSystem.EMAIL,
+            system = ContactPointSystem.EMAIL.asCode(),
             value = "name@site.com",
-            use = ContactPointUse.HOME,
+            use = ContactPointUse.HOME.asCode(),
             rank = PositiveInt(1),
             period = Period(start = DateTime("2021-11-18"))
         )
@@ -55,7 +56,7 @@ class ContactPointTest {
     fun `serialized JSON ignores null and empty fields`() {
         val contactPoint = ContactPoint(
             value = "name@site.com",
-            system = ContactPointSystem.EMAIL
+            system = ContactPointSystem.EMAIL.asCode()
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
 

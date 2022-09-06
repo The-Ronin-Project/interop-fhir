@@ -6,10 +6,10 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class QuantityTest {
     @Test
@@ -23,7 +23,7 @@ class QuantityTest {
                 )
             ),
             value = 17.5,
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO,
+            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
             unit = "years",
             system = CodeSystem.UCUM.uri,
             code = Code("a")
@@ -90,24 +90,9 @@ class QuantityTest {
         assertNull(quantity.id)
         assertEquals(listOf<Extension>(), quantity.extension)
         assertNull(quantity.value)
-        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO, quantity.comparator)
+        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO.asCode(), quantity.comparator)
         assertNull(quantity.unit)
         assertNull(quantity.system)
         assertNull(quantity.code)
-    }
-
-    @Test
-    fun `fails if code is provided without system`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Quantity(
-                value = 60.0,
-                unit = "mL/min/1.73m2",
-                code = Code("mL/min/{1.73_m2}"),
-            )
-        }
-        assertEquals(
-            "If a code for the unit is present, the system SHALL also be present",
-            exception.message
-        )
     }
 }

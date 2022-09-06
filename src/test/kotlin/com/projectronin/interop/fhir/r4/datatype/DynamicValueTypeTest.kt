@@ -25,6 +25,7 @@ import com.projectronin.interop.fhir.r4.valueset.NameUse
 import com.projectronin.interop.fhir.r4.valueset.OperationParameterUse
 import com.projectronin.interop.fhir.r4.valueset.RelatedArtifactType
 import com.projectronin.interop.fhir.r4.valueset.TriggerType
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -68,10 +69,13 @@ class DynamicValueTypeTest {
         DynamicValueType.CODEABLE_CONCEPT to TestData("""{"text":"text"}""", CodeableConcept(text = "text")),
         DynamicValueType.CODING to TestData("""{"userSelected":false}""", Coding(userSelected = false)),
         DynamicValueType.CONTACT_DETAIL to TestData("""{"name":"name"}""", ContactDetail(name = "name")),
-        DynamicValueType.CONTACT_POINT to TestData("""{"use":"home"}""", ContactPoint(use = ContactPointUse.HOME)),
+        DynamicValueType.CONTACT_POINT to TestData(
+            """{"use":"home"}""",
+            ContactPoint(use = ContactPointUse.HOME.asCode())
+        ),
         DynamicValueType.CONTRIBUTOR to TestData(
             """{"type":"author","name":"name"}""",
-            Contributor(type = ContributorType.AUTHOR, name = "name")
+            Contributor(type = ContributorType.AUTHOR.asCode(), name = "name")
         ),
         DynamicValueType.COUNT to TestData(
             """{"value":24.0,"code":"1","system":"http://unitsofmeasure.org"}""",
@@ -97,9 +101,12 @@ class DynamicValueTypeTest {
             """{"language":"en-US","expression":"expression"}""",
             Expression(language = Code("en-US"), expression = "expression")
         ),
-        DynamicValueType.HUMAN_NAME to TestData("""{"use":"official"}""", HumanName(use = NameUse.OFFICIAL)),
+        DynamicValueType.HUMAN_NAME to TestData("""{"use":"official"}""", HumanName(use = NameUse.OFFICIAL.asCode())),
         DynamicValueType.ID to TestData(""""12345"""", Id("12345")),
-        DynamicValueType.IDENTIFIER to TestData("""{"use":"official"}""", Identifier(use = IdentifierUse.OFFICIAL)),
+        DynamicValueType.IDENTIFIER to TestData(
+            """{"use":"official"}""",
+            Identifier(use = IdentifierUse.OFFICIAL.asCode())
+        ),
         DynamicValueType.INSTANT to TestData(""""2017-01-01T00:00:00Z"""", Instant("2017-01-01T00:00:00Z")),
         DynamicValueType.INTEGER to TestData("3", 3),
         DynamicValueType.MARKDOWN to TestData(""""markdown"""", Markdown("markdown")),
@@ -108,7 +115,7 @@ class DynamicValueTypeTest {
         DynamicValueType.OID to TestData(""""urn:oid:1.2.3.4.5"""", Oid("urn:oid:1.2.3.4.5")),
         DynamicValueType.PARAMETER_DEFINITION to TestData(
             """{"use":"in","type":"type"}""",
-            ParameterDefinition(use = OperationParameterUse.INPUT, type = Code("type"))
+            ParameterDefinition(use = OperationParameterUse.INPUT.asCode(), type = Code("type"))
         ),
         DynamicValueType.PERIOD to TestData("""{"start":"2020"}""", Period(start = DateTime("2020"))),
         DynamicValueType.POSITIVE_INT to TestData("""24""", PositiveInt(24)),
@@ -121,7 +128,7 @@ class DynamicValueTypeTest {
         DynamicValueType.REFERENCE to TestData("""{"display":"display"}""", Reference(display = "display")),
         DynamicValueType.RELATED_ARTIFACT to TestData(
             """{"type":"citation"}""",
-            RelatedArtifact(type = RelatedArtifactType.CITATION)
+            RelatedArtifact(type = RelatedArtifactType.CITATION.asCode())
         ),
         DynamicValueType.SAMPLED_DATA to TestData(
             """{"origin":{"value":1.0},"period":2.0,"dimensions":3}""",
@@ -144,7 +151,7 @@ class DynamicValueTypeTest {
         DynamicValueType.TRIGGER_DEFINITION to TestData(
             """{"type":"periodic","timingDate":"2022-02-22"}""",
             TriggerDefinition(
-                type = TriggerType.PERIODIC,
+                type = TriggerType.PERIODIC.asCode(),
                 timing = DynamicValue(DynamicValueType.DATE, Date("2022-02-22")),
             )
         ),

@@ -12,7 +12,6 @@ import com.projectronin.interop.fhir.r4.datatype.Communication
 import com.projectronin.interop.fhir.r4.datatype.Contact
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -24,17 +23,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.validate.R4Error
-import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
-import com.projectronin.interop.fhir.validate.Validation
-import com.projectronin.interop.fhir.validate.ValidationIssue
-import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Demographics and other administrative information about an individual or animal receiving care or other
  * health-related services.
- *
- * See [FHIR Spec](https://www.hl7.org/fhir/R4/patient.html)
  */
 @JsonDeserialize(using = PatientDeserializer::class)
 @JsonSerialize(using = PatientSerializer::class)
@@ -52,7 +44,7 @@ data class Patient(
     val active: Boolean? = null,
     val name: List<HumanName> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
-    val gender: AdministrativeGender? = null,
+    val gender: Code? = null,
     val birthDate: Date? = null,
     val deceased: DynamicValue<Any>? = null,
     val address: List<Address> = listOf(),
@@ -66,18 +58,4 @@ data class Patient(
     val link: List<PatientLink> = listOf()
 ) : DomainResource<Patient> {
     override val resourceType: String = "Patient"
-
-    companion object {
-        val acceptedDeceasedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.DATE_TIME)
-        val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
-    }
-
-    override fun validate(): Validation = validation {
-        deceased?.let { data ->
-            checkTrue(acceptedDeceasedTypes.contains(data.type), ValidationIssue(R4Error.R4_PAT_002))
-        }
-        multipleBirth?.let { data ->
-            checkTrue(acceptedMultipleBirthTypes.contains(data.type), ValidationIssue(R4Error.R4_PAT_001))
-        }
-    }
 }

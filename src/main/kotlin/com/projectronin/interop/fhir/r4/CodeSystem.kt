@@ -5,16 +5,14 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 /**
  * Enumeration of common code systems used in FHIR.
  */
-enum class CodeSystem(private val uriString: String) {
+enum class CodeSystem(uriString: String) {
     UCUM("http://unitsofmeasure.org"),
     CURRENCY("urn:iso:std:iso:4217"),
-    RONIN_TENANT("http://projectronin.com/id/tenantId"),
     NPI("http://hl7.org/fhir/sid/us-npi"),
-    MRN("http://projectronin.com/id/mrn"),
-    FHIR_STU3_ID("http://projectronin.com/id/fhir"),
-    SER("http://projectronin.com/id/ser"),
-    RONIN_ID("http://projectronin.com/fhir/us/ronin"),
-    OBSERVATION_CATEGORY("http://terminology.hl7.org/CodeSystem/observation-category");
+    OBSERVATION_CATEGORY("http://terminology.hl7.org/CodeSystem/observation-category"),
+    HL7_IDENTIFIER_TYPE("http://terminology.hl7.org/CodeSystem/v2-0203"),
+    CONDITION_CATEGORY("http://terminology.hl7.org/CodeSystem/condition-category"),
+    LOINC("http://loinc.org");
 
     val uri = Uri(uriString)
 }

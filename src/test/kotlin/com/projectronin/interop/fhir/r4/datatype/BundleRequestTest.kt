@@ -5,6 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.HttpVerb
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -26,7 +27,7 @@ class BundleRequestTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            method = HttpVerb.GET,
+            method = HttpVerb.GET.asCode(),
             url = Uri("http://www.example.com/get"),
             ifNoneMatch = "if none match",
             ifModifiedSince = Instant("2017-01-01T00:00:00Z"),
@@ -61,7 +62,7 @@ class BundleRequestTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val bundleRequest = BundleRequest(method = HttpVerb.POST, url = Uri("http://www.example.com/post"))
+        val bundleRequest = BundleRequest(method = HttpVerb.POST.asCode(), url = Uri("http://www.example.com/post"))
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleRequest)
 
@@ -85,7 +86,7 @@ class BundleRequestTest {
         assertNull(bundleRequest.id)
         assertEquals(listOf<Extension>(), bundleRequest.extension)
         assertEquals(listOf<Extension>(), bundleRequest.modifierExtension)
-        assertEquals(HttpVerb.PUT, bundleRequest.method)
+        assertEquals(HttpVerb.PUT.asCode(), bundleRequest.method)
         assertEquals(Uri("http://www.example.com/put"), bundleRequest.url)
         assertNull(bundleRequest.ifNoneMatch)
         assertNull(bundleRequest.ifModifiedSince)

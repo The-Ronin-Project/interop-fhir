@@ -8,7 +8,6 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.ObservationSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -20,9 +19,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
-import com.projectronin.interop.fhir.validate.Validation
-import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Measurements and simple assertions.
@@ -44,9 +40,9 @@ data class Observation(
     val identifier: List<Identifier> = listOf(),
     val basedOn: List<Reference> = listOf(),
     val partOf: List<Reference> = listOf(),
-    val status: ObservationStatus,
+    val status: Code?,
     val category: List<CodeableConcept> = listOf(),
-    val code: CodeableConcept,
+    val code: CodeableConcept?,
     val subject: Reference? = null,
     val focus: List<Reference> = listOf(),
     val encounter: Reference? = null,
@@ -67,30 +63,4 @@ data class Observation(
     val note: List<Annotation> = listOf(),
 ) : DomainResource<Observation> {
     override val resourceType: String = "Observation"
-
-    companion object {
-        val acceptedEffectives = listOf(
-            DynamicValueType.DATE_TIME,
-            DynamicValueType.PERIOD,
-            DynamicValueType.TIMING,
-            DynamicValueType.INSTANT
-        )
-    }
-
-    override fun validate(): Validation = validation {
-        // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
-        effective?.let { data ->
-            check(acceptedEffectives.contains(data.type)) {
-                "Observation effective can only be one of the following data types: ${acceptedEffectives.joinToString { it.code }}"
-            }
-        }
-        check(value == null || dataAbsentReason == null) {
-            "dataAbsentReason SHALL only be present if value[x] is not present"
-        }
-        if (value != null) {
-            check(component.all { child -> (child.code != code) }) {
-                "If Observation.code is the same as an Observation.component.code then the Observation.value SHALL NOT be present"
-            }
-        }
-    }
 }

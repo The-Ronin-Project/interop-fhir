@@ -8,13 +8,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
  * vertical bar (|). Note that the type canonical is not used for the actual canonical URLs that are the target of these
  * references, but for the URIs that refer to them, and may have the version suffix in them. Like other URIs, elements
  * of type canonical may also have #fragment references
- *
- * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#canonical)
  */
-data class Canonical @JsonCreator constructor(override val value: String) : Primitive<String> {
-    private val validRegex = Regex("""\S*""")
-
-    init {
-        require(validRegex.matches(value)) { "Supplied value is not valid for a Canonical" }
-    }
-}
+data class Canonical @JsonCreator constructor(override val value: String) : Primitive<String, Canonical>

@@ -8,8 +8,6 @@ import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.validate.Validation
-import com.projectronin.interop.fhir.validate.validation
 
 @JsonDeserialize(using = UnknownResourceDeserializer::class)
 @JsonSerialize(using = UnknownResourceSerializer::class)
@@ -20,6 +18,4 @@ data class UnknownResource(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val otherData: Map<String, Any?>
-) : Resource<UnknownResource> {
-    override fun validate(): Validation = validation {}
-}
+) : Resource<UnknownResource>

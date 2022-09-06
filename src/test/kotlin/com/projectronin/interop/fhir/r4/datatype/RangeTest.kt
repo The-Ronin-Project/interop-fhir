@@ -6,7 +6,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class RangeTest {
     @Test
@@ -72,16 +71,5 @@ class RangeTest {
         assertEquals(listOf<Extension>(), range.extension)
         assertNull(range.low)
         assertEquals(SimpleQuantity(value = 10.3), range.high)
-    }
-
-    @Test
-    fun `If present, low SHALL have a lower value than high`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Range(low = SimpleQuantity(value = 1.0), high = SimpleQuantity(value = 0.5))
-        }
-        assertEquals(
-            "If present, low SHALL have a lower value than high",
-            exception.message
-        )
     }
 }

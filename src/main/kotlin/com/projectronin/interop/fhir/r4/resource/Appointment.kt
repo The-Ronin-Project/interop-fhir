@@ -14,9 +14,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
-import com.projectronin.interop.fhir.validate.Validation
-import com.projectronin.interop.fhir.validate.validation
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific
@@ -35,7 +32,7 @@ data class Appointment(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
-    val status: AppointmentStatus,
+    val status: Code?,
     val cancelationReason: CodeableConcept? = null,
     val serviceCategory: List<CodeableConcept> = listOf(),
     val serviceType: List<CodeableConcept> = listOf(),
@@ -58,44 +55,4 @@ data class Appointment(
     val requestedPeriod: List<Period> = listOf()
 ) : DomainResource<Appointment> {
     override val resourceType: String = "Appointment"
-
-    companion object {
-        val acceptedNullTimes =
-            listOf(AppointmentStatus.PROPOSED, AppointmentStatus.CANCELLED, AppointmentStatus.WAITLIST)
-        val requiredCancelledReasons = listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW)
-    }
-
-    override fun validate(): Validation = validation {
-        check(((start != null) == (end != null))) {
-            "Either start and end are specified, or neither"
-        }
-
-        if ((start == null) || (end == null)) {
-            check(acceptedNullTimes.contains(status)) {
-                "Start and end can only be missing for appointments with the following statuses: ${acceptedNullTimes.joinToString { it.code }}"
-            }
-        }
-
-        cancelationReason?.let {
-            check(requiredCancelledReasons.contains(status)) {
-                "cancellationReason is only used for appointments that have the following statuses: ${requiredCancelledReasons.joinToString { it.code }}"
-            }
-        }
-
-        minutesDuration?.let {
-            check(it > 0) {
-                "Appointment duration must be positive"
-            }
-        }
-
-        priority?.let {
-            check(it >= 0) {
-                "Priority cannot be negative"
-            }
-        }
-
-        check(participant.isNotEmpty()) {
-            "At least one participant must be provided"
-        }
-    }
 }

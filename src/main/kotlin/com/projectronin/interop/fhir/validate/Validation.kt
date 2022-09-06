@@ -1,5 +1,7 @@
 package com.projectronin.interop.fhir.validate
 
+import com.projectronin.interop.common.enums.CodedEnum
+import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -11,8 +13,57 @@ class Validation {
     private val issues = mutableListOf<ValidationIssue>()
 
     /**
+     * Checks that the [value] is true. If not, the [error] is logged, using an optional [lazyDescription].
+     */
+    fun checkTrue(
+        value: Boolean,
+        error: FHIRError,
+        parentContext: LocationContext?,
+        lazyDescription: (() -> String)? = null
+    ) {
+        if (!value) {
+            issues.add(error.toValidationIssue(lazyDescription?.invoke(), parentContext))
+        }
+    }
+
+    /**
+     * Checks that the [value] is not null. If not, the [error] is logged, using an optional [lazyDescription].
+     */
+    @OptIn(ExperimentalContracts::class)
+    fun checkNotNull(
+        value: Any?,
+        error: FHIRError,
+        parentContext: LocationContext?,
+        lazyDescription: (() -> String)? = null
+    ) {
+        // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
+        contract {
+            returns() implies (value != null)
+        }
+        if (value == null) {
+            issues.add(error.toValidationIssue(lazyDescription?.invoke(), parentContext))
+        }
+    }
+
+    /**
+     * Checks that the [code] is a valid code for enum [T], returning the enum if valid.
+     * If not, null is returned, and the [error] is logged using an optional [lazyDescription].
+     */
+    inline fun <reified T> checkCodedEnum(
+        code: Code,
+        error: InvalidValueSetError,
+        parentContext: LocationContext?,
+        noinline lazyDescription: (() -> String)? = null
+    ): T where T : Enum<T>, T : CodedEnum<T> {
+        val codified = runCatching { CodedEnum.byCode<T>(code.value) }.getOrNull()
+        checkNotNull(codified, error, parentContext, lazyDescription)
+        return codified
+    }
+
+    /**
      * Checks that the [value] is true. If not, the [lazyMessage] is used to produce an error.
      */
+    @Deprecated(message = "use checkTrue")
     fun check(value: Boolean, lazyMessage: () -> Any) {
         try {
             require(value, lazyMessage)
@@ -31,6 +82,7 @@ class Validation {
      * Validates that the [value] is not null. If null, the [lazyMessage] is used to produce an error.
      */
     @OptIn(ExperimentalContracts::class)
+    @Deprecated(message = "use checkNotNull")
     fun notNull(value: Any?, lazyMessage: () -> Any) {
         // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
         contract {

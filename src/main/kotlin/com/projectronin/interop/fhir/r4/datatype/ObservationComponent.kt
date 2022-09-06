@@ -6,28 +6,17 @@ import com.projectronin.interop.fhir.jackson.inbound.r4.ObservationComponentDese
 import com.projectronin.interop.fhir.jackson.outbound.r4.ObservationComponentSerializer
 
 /**
- * An Observation.component provides component results as
- * type of component observation (code / type) and actual component result.
- * Note: code is required.
- *
- * See [FHIR Documentation](http://hl7.org/fhir/R4/observation.html)
+ * An Observation.component provides component results as type of component observation (code / type) and actual component result.
  */
-
 @JsonDeserialize(using = ObservationComponentDeserializer::class)
 @JsonSerialize(using = ObservationComponentSerializer::class)
 data class ObservationComponent(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
-    val code: CodeableConcept,
-    val value: DynamicValue<Any>?,
+    val code: CodeableConcept?,
+    val value: DynamicValue<Any>? = null,
     val dataAbsentReason: CodeableConcept? = null,
     val interpretation: List<CodeableConcept> = listOf(),
     val referenceRange: List<ObservationReferenceRange> = listOf(),
-) : BackboneElement {
-    init {
-        require(value == null || dataAbsentReason == null) {
-            "dataAbsentReason SHALL only be present if value[x] is not present"
-        }
-    }
-}
+) : BackboneElement<ObservationComponent>

@@ -6,10 +6,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ParticipantTest {
     @Test
@@ -30,8 +30,8 @@ class ParticipantTest {
             ),
             type = listOf(CodeableConcept(text = "abc")),
             actor = Reference(display = "actor"),
-            required = ParticipantRequired.REQUIRED,
-            status = ParticipationStatus.ACCEPTED,
+            required = ParticipantRequired.REQUIRED.asCode(),
+            status = ParticipationStatus.ACCEPTED.asCode(),
             period = Period(
                 start = DateTime("1998-08"),
                 end = DateTime("2002-05")
@@ -74,7 +74,7 @@ class ParticipantTest {
     fun `serialized JSON ignores null and empty fields`() {
         val participant = Participant(
             actor = Reference(display = "actor"),
-            status = ParticipationStatus.ACCEPTED
+            status = ParticipationStatus.ACCEPTED.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
 
@@ -110,15 +110,5 @@ class ParticipantTest {
         assertNull(participant.actor)
         assertNull(participant.required)
         assertNull(participant.period)
-    }
-
-    @Test
-    fun `Either the type or actor is on the participant`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Participant(
-                status = ParticipationStatus.ACCEPTED
-            )
-        }
-        assertEquals("Either the type or actor on the participant SHALL be specified", exception.message)
     }
 }

@@ -4,33 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class Base64BinaryTest {
-    @Test
-    fun `accepts valid value`() {
-        val base64Binary = Base64Binary("abcdefgh")
-        assertEquals("abcdefgh", base64Binary.value)
-    }
-
-    @Test
-    fun `accepts leading spaces`() {
-        val base64Binary = Base64Binary("  abcd")
-        assertEquals("  abcd", base64Binary.value)
-    }
-
-    @Test
-    fun `accepts trailing spaces`() {
-        val base64Binary = Base64Binary("abcd  ")
-        assertEquals("abcd  ", base64Binary.value)
-    }
-
-    @Test
-    fun `fails on value with wrong number of values`() {
-        val exception = assertThrows<IllegalArgumentException> { Base64Binary("abc") }
-        assertEquals("Supplied value is not valid for a Base64Binary", exception.message)
-    }
-
     @Test
     fun `can serialize`() {
         val base64Binary = Base64Binary("abcdefgh")

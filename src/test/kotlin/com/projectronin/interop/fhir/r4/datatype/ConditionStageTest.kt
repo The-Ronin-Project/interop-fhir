@@ -6,16 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ConditionStageTest {
-    @Test
-    fun `fails if value provided without summary or assessment`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { ConditionStage(id = "id") }
-        assertEquals("Stage SHALL have summary or assessment", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val conditionStage = ConditionStage(

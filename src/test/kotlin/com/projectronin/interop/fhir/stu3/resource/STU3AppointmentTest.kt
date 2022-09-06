@@ -22,6 +22,7 @@ import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -35,7 +36,7 @@ class STU3AppointmentTest {
         implicitRules = Uri("implicit-rules"),
         language = Code("en-US"),
         text = Narrative(
-            status = NarrativeStatus.GENERATED,
+            status = NarrativeStatus.GENERATED.asCode(),
             div = "div"
         ),
         contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -52,7 +53,7 @@ class STU3AppointmentTest {
             )
         ),
         identifier = listOf(Identifier(value = "id")),
-        status = AppointmentStatus.CANCELLED,
+        status = AppointmentStatus.CANCELLED.asCode(),
         serviceCategory = CodeableConcept(text = "service category"),
         serviceType = listOf(CodeableConcept(text = "service type")),
         specialty = listOf(CodeableConcept(text = "specialty")),
@@ -72,7 +73,7 @@ class STU3AppointmentTest {
         participant = listOf(
             Participant(
                 actor = Reference(display = "actor"),
-                status = ParticipationStatus.ACCEPTED
+                status = ParticipationStatus.ACCEPTED.asCode()
             )
         ),
         requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
@@ -162,11 +163,11 @@ class STU3AppointmentTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val appointment = STU3Appointment(
-            status = AppointmentStatus.CANCELLED,
+            status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
                     actor = Reference(display = "actor"),
-                    status = ParticipationStatus.ACCEPTED
+                    status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )
         )
@@ -190,11 +191,11 @@ class STU3AppointmentTest {
     @Test
     fun `serialized JSON without an actor but with a type`() {
         val appointment = STU3Appointment(
-            status = AppointmentStatus.CANCELLED,
+            status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
                     type = listOf(CodeableConcept("123")),
-                    status = ParticipationStatus.ACCEPTED
+                    status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )
         )

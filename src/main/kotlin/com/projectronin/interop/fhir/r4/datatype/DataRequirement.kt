@@ -9,19 +9,16 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.DateFilterSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
-import com.projectronin.interop.fhir.r4.valueset.SortDirection
 
 /**
  * The DataRequirement structure defines a general data requirement for a knowledge asset such as a decision support rule or quality measure.
- *
- * See [FHIR Documentation](http://hl7.org/fhir/R4/metadatatypes.html#DataRequirement)
  */
 @JsonDeserialize(using = DataRequirementDeserializer::class)
 @JsonSerialize(using = DataRequirementSerializer::class)
 data class DataRequirement(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
-    val type: Code,
+    val type: Code?,
     val profile: List<Canonical> = listOf(),
     val subject: DynamicValue<Any>? = null,
     val mustSupport: List<String> = listOf(),
@@ -29,23 +26,8 @@ data class DataRequirement(
     val dateFilter: List<DateFilter> = listOf(),
     val limit: PositiveInt? = null,
     val sort: List<Sort> = listOf()
-) : Element {
-    companion object {
-        val acceptedDynamicTypes = listOf(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
-    }
+) : Element<DataRequirement>
 
-    init {
-        subject?.let {
-            require(acceptedDynamicTypes.contains(subject.type)) {
-                "subject can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
-            }
-        }
-    }
-}
-
-/**
- * See [FHIR Documentation](https://hl7.org/fhir/R4/metadatatypes-definitions.html#DataRequirement.codeFilter)
- */
 data class CodeFilter(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
@@ -53,17 +35,8 @@ data class CodeFilter(
     val searchParam: String? = null,
     val valueSet: Canonical? = null,
     val code: List<Coding> = listOf()
-) : Element {
-    init {
-        require((path == null) xor (searchParam == null)) {
-            "codeFilter: Either a path or a searchParam must be provided, but not both"
-        }
-    }
-}
+) : Element<CodeFilter>
 
-/**
- * See [FHIR Documentation](https://hl7.org/fhir/R4/metadatatypes-definitions.html#DataRequirement.dateFilter)
- */
 @JsonDeserialize(using = DateFilterDeserializer::class)
 @JsonSerialize(using = DateFilterSerializer::class)
 data class DateFilter(
@@ -72,27 +45,11 @@ data class DateFilter(
     val path: String? = null,
     val searchParam: String? = null,
     val value: DynamicValue<Any>? = null
-) : Element {
-    companion object {
-        val acceptedDynamicTypes =
-            listOf(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD, DynamicValueType.DURATION)
-    }
-
-    init {
-        require((path == null) xor (searchParam == null)) {
-            "dateFilter: Either a path or a searchParam must be provided, but not both"
-        }
-        value?.let {
-            require(acceptedDynamicTypes.contains(value.type)) {
-                "value can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
-            }
-        }
-    }
-}
+) : Element<DateFilter>
 
 data class Sort(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
-    val path: String,
-    val direction: SortDirection
-) : Element
+    val path: String?,
+    val direction: Code?
+) : Element<Sort>

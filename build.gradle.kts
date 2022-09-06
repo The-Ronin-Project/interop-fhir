@@ -10,7 +10,9 @@ plugins {
 dependencies {
     implementation(libs.interop.common)
     implementation(libs.interop.commonJackson)
-    implementation(libs.fhir.validation)
+
+    implementation(libs.jackson.core)
+    implementation(libs.jackson.databind)
 
     testImplementation(libs.jackson.module.kotlin)
     testImplementation(libs.mockk)
@@ -25,7 +27,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-tasks.withType<Test> {
-    minHeapSize = "2048m"
-    maxHeapSize = "4096m"
+tasks {
+    test {
+        testLogging {
+            events("passed", "skipped", "failed")
+            showStackTraces = true
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+    }
 }

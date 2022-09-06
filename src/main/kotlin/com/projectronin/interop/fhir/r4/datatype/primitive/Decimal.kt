@@ -7,4 +7,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
  *
  * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#decimal)
  */
-data class Decimal @JsonCreator constructor(override val value: Double) : Primitive<Double>
+data class Decimal @JsonCreator constructor(override val value: Double) : Primitive<Double, Decimal>

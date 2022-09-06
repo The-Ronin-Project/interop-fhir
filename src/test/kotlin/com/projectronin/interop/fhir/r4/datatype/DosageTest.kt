@@ -7,30 +7,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class DosageTest {
-    @Test
-    fun `fails for unsupported dose dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { DoseAndRate(dose = DynamicValue(DynamicValueType.INTEGER, 1)) }
-        assertEquals("dose can only be one of the following: Range, Quantity", exception.message)
-    }
-
-    @Test
-    fun `fails for unsupported rate dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { DoseAndRate(rate = DynamicValue(DynamicValueType.INTEGER, 1)) }
-        assertEquals("rate can only be one of the following: Ratio, Range, Quantity", exception.message)
-    }
-
-    @Test
-    fun `fails for unsupported as needed dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { Dosage(asNeeded = DynamicValue(DynamicValueType.INTEGER, 1)) }
-        assertEquals("asNeeded can only be one of the following: Boolean, CodeableConcept", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val dosage = Dosage(

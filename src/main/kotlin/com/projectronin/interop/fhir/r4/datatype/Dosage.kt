@@ -10,8 +10,6 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.DoseAndRateSerializer
 /**
  * The Dosage structure defines general dosage instruction information typically represented in medication requests,
  * medication dispenses and medication statements.
- *
- * See [FHIR Documentation](http://hl7.org/fhir/R4/dosage.html#Dosage)
  */
 @JsonDeserialize(using = DosageDeserializer::class)
 @JsonSerialize(using = DosageSerializer::class)
@@ -32,17 +30,7 @@ data class Dosage(
     val maxDosePerPeriod: Ratio? = null,
     val maxDosePerAdministration: SimpleQuantity? = null,
     val maxDosePerLifetime: SimpleQuantity? = null
-) : BackboneElement {
-    companion object {
-        val acceptedDynamicTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.CODEABLE_CONCEPT)
-    }
-
-    init {
-        asNeeded?.let {
-            require(acceptedDynamicTypes.contains(asNeeded.type)) { "asNeeded can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}" }
-        }
-    }
-}
+) : BackboneElement<Dosage>
 
 @JsonDeserialize(using = DoseAndRateDeserializer::class)
 @JsonSerialize(using = DoseAndRateSerializer::class)
@@ -52,18 +40,4 @@ data class DoseAndRate(
     val type: CodeableConcept? = null,
     val dose: DynamicValue<Any>? = null,
     val rate: DynamicValue<Any>? = null
-) : Element {
-    companion object {
-        val acceptedDoseTypes = listOf(DynamicValueType.RANGE, DynamicValueType.QUANTITY)
-        val acceptedRateTypes = listOf(DynamicValueType.RATIO, DynamicValueType.RANGE, DynamicValueType.QUANTITY)
-    }
-
-    init {
-        dose?.let {
-            require(acceptedDoseTypes.contains(dose.type)) { "dose can only be one of the following: ${acceptedDoseTypes.joinToString { it.code }}" }
-        }
-        rate?.let {
-            require(acceptedRateTypes.contains(rate.type)) { "rate can only be one of the following: ${acceptedRateTypes.joinToString { it.code }}" }
-        }
-    }
-}
+) : Element<DoseAndRate>

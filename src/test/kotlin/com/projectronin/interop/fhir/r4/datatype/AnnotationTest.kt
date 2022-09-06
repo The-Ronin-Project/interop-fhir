@@ -8,21 +8,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class AnnotationTest {
-    @Test
-    fun `fails for unsupported author dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Annotation(
-                    author = DynamicValue(DynamicValueType.INTEGER, 1),
-                    text = Markdown("text")
-                )
-            }
-        assertEquals("author can only be one of the following: Reference, String", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val annotation = Annotation(

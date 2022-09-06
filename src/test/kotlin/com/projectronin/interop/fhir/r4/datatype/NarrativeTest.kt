@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -19,7 +20,7 @@ class NarrativeTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            status = NarrativeStatus.GENERATED,
+            status = NarrativeStatus.GENERATED.asCode(),
             div = "narrative text"
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
@@ -42,7 +43,7 @@ class NarrativeTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val narrative = Narrative(status = NarrativeStatus.GENERATED, div = "narrative text")
+        val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = "narrative text")
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
 
         val expectedJson = """
@@ -64,7 +65,7 @@ class NarrativeTest {
 
         assertNull(narrative.id)
         assertEquals(listOf<Extension>(), narrative.extension)
-        assertEquals(NarrativeStatus.GENERATED, narrative.status)
+        assertEquals(NarrativeStatus.GENERATED.asCode(), narrative.status)
         assertEquals("narrative text", narrative.div)
     }
 }

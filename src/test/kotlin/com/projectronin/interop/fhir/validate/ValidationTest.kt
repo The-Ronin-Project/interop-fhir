@@ -1,23 +1,34 @@
 package com.projectronin.interop.fhir.validate
 
-import com.projectronin.interop.fhir.r4.validate.R4Error
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class ValidationTest {
+    private val error = FHIRError(
+        code = "INT-001",
+        severity = ValidationIssueSeverity.ERROR,
+        description = "There was a really bad issue thing that happened.",
+        location = LocationContext("Resource", "identifier.system")
+    )
+    private val warning = FHIRError(
+        code = "INT-002",
+        severity = ValidationIssueSeverity.WARNING,
+        description = "There was an issue thing that happened.",
+        location = LocationContext("Resource", "status")
+    )
 
     private val validationError = ValidationIssue(
         code = "INT-001",
         description = "There was a really bad issue thing that happened.",
-        location = "resource.identifier.system",
+        location = LocationContext("Resource", "identifier.system"),
         severity = ValidationIssueSeverity.ERROR
     )
 
     private val validationWarning = ValidationIssue(
         code = "INT-002",
         description = "There was an issue thing that happened.",
-        location = "resource.status",
+        location = LocationContext("Resource", "status"),
         severity = ValidationIssueSeverity.WARNING
     )
 
@@ -33,7 +44,7 @@ class ValidationTest {
     fun `check with true value does not create an error`() {
         val validation = Validation()
         validation.check(true) { "My message when true" }
-        validation.checkTrue(true, validationError)
+        validation.checkTrue(true, error, null)
 
         val errors = validation.errors()
         val issues = validation.issues()
@@ -54,7 +65,7 @@ class ValidationTest {
     @Test
     fun `check with false value creates an error`() {
         val validation = Validation()
-        validation.checkTrue(false, validationError)
+        validation.checkTrue(false, error, null)
 
         val issues = validation.issues()
         assertEquals(1, issues.size)
@@ -83,7 +94,7 @@ class ValidationTest {
     @Test
     fun `notNull with null value creates an error`() {
         val validation = Validation()
-        validation.checkNotNull(null, validationWarning)
+        validation.checkNotNull(null, warning, null)
 
         val issues = validation.issues()
         assertEquals(1, issues.size)
@@ -93,7 +104,7 @@ class ValidationTest {
     @Test
     fun `notNull with non-null value does not create an error`() {
         val validation = Validation()
-        validation.checkNotNull("NotNull", validationWarning)
+        validation.checkNotNull("NotNull", warning, null)
 
         val issues = validation.issues()
         assertEquals(listOf<ValidationIssue>(), issues)
@@ -126,11 +137,11 @@ class ValidationTest {
     fun `merge combines 2 validations`() {
         val validation1 = Validation()
         validation1.notNull(null) { "Null" }
-        validation1.checkNotNull(null, validationWarning)
+        validation1.checkNotNull(null, warning, null)
 
         val validation2 = Validation()
         validation2.notNull(null) { "Also null" }
-        validation2.checkNotNull(null, validationWarning)
+        validation2.checkNotNull(null, warning, null)
 
         validation1.merge(validation2)
 
@@ -177,14 +188,14 @@ class ValidationTest {
     @Test
     fun `alertIfErrors works with issues`() {
         val validation = Validation()
-        validation.checkTrue(false, validationWarning)
-        validation.checkTrue(false, validationError)
+        validation.checkTrue(false, warning, null)
+        validation.checkTrue(false, error, null)
         val exception = assertThrows<IllegalArgumentException> {
             validation.alertIfErrors()
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INT-001: There was a really bad issue thing that happened. @ resource.identifier.system",
+                "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
             exception.message
         )
     }
@@ -215,13 +226,5 @@ class ValidationTest {
             }
         }
         assertEquals("My message when false", exception.message)
-    }
-
-    @Test
-    fun `secondary constructor test`() {
-        var issue = ValidationIssue(R4Error.R4_PAT_001)
-        assertEquals(issue.code, "R4_PAT_001")
-        issue = ValidationIssue(R4Error.R4_PAT_001, "new location")
-        assertEquals(issue.location, "new location")
     }
 }

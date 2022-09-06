@@ -8,97 +8,12 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.SortDirection
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class DataRequirementTest {
-    @Test
-    fun `fails for date filter with unsupported dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DateFilter(path = "path", value = DynamicValue(DynamicValueType.INTEGER, 1))
-            }
-        assertEquals("value can only be one of the following: DateTime, Period, Duration", exception.message)
-    }
-
-    @Test
-    fun `fails for unsupported subject dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DataRequirement(
-                    type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1)
-                )
-            }
-        assertEquals("subject can only be one of the following: CodeableConcept, Reference", exception.message)
-    }
-
-    @Test
-    fun `fails for codeFilter having both path and searchParam provided`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DataRequirement(
-                    type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
-                    codeFilter = listOf(CodeFilter(path = "path", searchParam = "search"))
-                )
-            }
-        assertEquals(
-            "codeFilter: Either a path or a searchParam must be provided, but not both",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails for codeFilter having neither path nor searchParam provided`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DataRequirement(
-                    type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
-                    codeFilter = listOf(CodeFilter(id = "filter"))
-                )
-            }
-        assertEquals(
-            "codeFilter: Either a path or a searchParam must be provided, but not both",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails for dateFilter having both path and searchParam provided`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DataRequirement(
-                    type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
-                    dateFilter = listOf(DateFilter(path = "path", searchParam = "search"))
-                )
-            }
-        assertEquals(
-            "dateFilter: Either a path or a searchParam must be provided, but not both",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails for dateFilter having neither path nor searchParam provided`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                DataRequirement(
-                    type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1),
-                    dateFilter = listOf(DateFilter(id = "filter"))
-                )
-            }
-        assertEquals(
-            "dateFilter: Either a path or a searchParam must be provided, but not both",
-            exception.message
-        )
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val dataRequirement = DataRequirement(
@@ -151,7 +66,7 @@ class DataRequirementTest {
                         )
                     ),
                     path = "sort-path",
-                    direction = SortDirection.ASCENDING
+                    direction = SortDirection.ASCENDING.asCode()
                 )
             )
         )

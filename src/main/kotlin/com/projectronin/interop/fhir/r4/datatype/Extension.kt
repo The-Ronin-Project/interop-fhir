@@ -8,22 +8,12 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
  * Every element in a resource or data type includes an optional "extension" child element that may be present any number of times.
- *
- * See [FHIR Documentation](https://hl7.org/fhir/R4/extensibility.html#Extension)
  */
 @JsonDeserialize(using = ExtensionDeserializer::class)
 @JsonSerialize(using = ExtensionSerializer::class)
 data class Extension(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
-    val url: Uri,
+    val url: Uri?,
     val value: DynamicValue<Any>? = null
-) : Element {
-    init {
-        // This is a valid restriction per FHIR; however, Epic does not currently follow it, at least in their Sandbox.
-        // See https://projectronin.atlassian.net/browse/INT-786 for more information.
-        // require((value == null) xor extension.isEmpty()) {
-        //     "Extension must have either extensions or value[x], not both"
-        // }
-    }
-}
+) : Element<Extension>

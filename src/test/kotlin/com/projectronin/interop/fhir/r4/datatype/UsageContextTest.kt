@@ -6,24 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class UsageContextTest {
-    @Test
-    fun `fails for unsupported author dynamic value type`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                UsageContext(
-                    code = Coding(display = "code"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
-                )
-            }
-        assertEquals(
-            "value can only be one of the following: CodeableConcept, Quantity, Range, Reference",
-            exception.message
-        )
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val usageContext = UsageContext(

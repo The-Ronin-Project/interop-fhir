@@ -11,15 +11,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Url
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class AttachmentTest {
-    @Test
-    fun `fails if data provided without content type`() {
-        val exception = assertThrows<IllegalArgumentException> { Attachment(data = Base64Binary("abcd")) }
-        assertEquals("If the Attachment has data, it SHALL have a contentType", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val attachment = Attachment(

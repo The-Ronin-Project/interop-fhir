@@ -21,10 +21,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class AppointmentTest {
     @Test
@@ -37,7 +37,7 @@ class AppointmentTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             text = Narrative(
-                status = NarrativeStatus.GENERATED,
+                status = NarrativeStatus.GENERATED.asCode(),
                 div = "div"
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -54,7 +54,7 @@ class AppointmentTest {
                 )
             ),
             identifier = listOf(Identifier(value = "id")),
-            status = AppointmentStatus.CANCELLED,
+            status = AppointmentStatus.CANCELLED.asCode(),
             cancelationReason = CodeableConcept(text = "cancel reason"),
             serviceCategory = listOf(CodeableConcept(text = "service category")),
             serviceType = listOf(CodeableConcept(text = "service type")),
@@ -76,7 +76,7 @@ class AppointmentTest {
             participant = listOf(
                 Participant(
                     actor = Reference(display = "actor"),
-                    status = ParticipationStatus.ACCEPTED
+                    status = ParticipationStatus.ACCEPTED.asCode()
                 )
             ),
             requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
@@ -167,11 +167,11 @@ class AppointmentTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val appointment = Appointment(
-            status = AppointmentStatus.CANCELLED,
+            status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
                     actor = Reference(display = "actor"),
-                    status = ParticipationStatus.ACCEPTED
+                    status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )
         )
@@ -195,11 +195,11 @@ class AppointmentTest {
     @Test
     fun `serialized JSON without an actor but with a type`() {
         val appointment = Appointment(
-            status = AppointmentStatus.CANCELLED,
+            status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
                     type = listOf(CodeableConcept("123")),
-                    status = ParticipationStatus.ACCEPTED
+                    status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )
         )
@@ -264,109 +264,5 @@ class AppointmentTest {
         assertNull(appointment.patientInstruction)
         assertEquals(listOf<Reference>(), appointment.basedOn)
         assertEquals(listOf<Period>(), appointment.requestedPeriod)
-    }
-
-    @Test
-    fun `fails if minutesDuration is not positive`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                minutesDuration = 0,
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                )
-            ).validate().alertIfErrors()
-        }
-        assertEquals("Appointment duration must be positive", exception.message)
-    }
-
-    @Test
-    fun `fails if priority is negative`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                priority = -1,
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                )
-            ).validate().alertIfErrors()
-        }
-        assertEquals("Priority cannot be negative", exception.message)
-    }
-
-    @Test
-    fun `fails if no participant`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf()
-            ).validate().alertIfErrors()
-        }
-        assertEquals("At least one participant must be provided", exception.message)
-    }
-
-    @Test
-    fun `fails if appointment has start without end`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                status = AppointmentStatus.CANCELLED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                ),
-                start = Instant(value = "2017-01-01T00:00:00Z")
-            ).validate().alertIfErrors()
-        }
-        assertEquals(
-            "Either start and end are specified, or neither",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if no start or end and status is not cancelled or proposed`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                status = AppointmentStatus.BOOKED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                )
-            ).validate().alertIfErrors()
-        }
-        assertEquals(
-            "Start and end can only be missing for appointments with the following statuses: proposed, cancelled, waitlist",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if cancelationReason is sent and status is not cancelled or noshow`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Appointment(
-                status = AppointmentStatus.PROPOSED,
-                participant = listOf(
-                    Participant(
-                        actor = Reference(display = "actor"),
-                        status = ParticipationStatus.ACCEPTED
-                    )
-                ),
-                cancelationReason = CodeableConcept(text = "cancel reason")
-            ).validate().alertIfErrors()
-        }
-        assertEquals(
-            "cancellationReason is only used for appointments that have the following statuses: cancelled, noshow",
-            exception.message
-        )
     }
 }

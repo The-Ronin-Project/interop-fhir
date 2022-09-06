@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -20,7 +21,7 @@ class ContactDetailTest {
                 )
             ),
             name = "Jane Doe",
-            telecom = listOf(ContactPoint(value = "jane@doe.com", system = ContactPointSystem.EMAIL))
+            telecom = listOf(ContactPoint(value = "jane@doe.com", system = ContactPointSystem.EMAIL.asCode()))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactDetail)
 

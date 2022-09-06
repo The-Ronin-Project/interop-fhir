@@ -10,7 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Element
 /**
  * Base serializer for helping serialize [Element]s
  */
-abstract class BaseElementSerializer<T : Element>(clazz: Class<T>) : StdSerializer<T>(clazz) {
+abstract class BaseElementSerializer<T : Element<T>>(clazz: Class<T>) : StdSerializer<T>(clazz) {
     /**
      * Writes the specific element attributes of [value] to the [gen]. Common element items such as id and extension do not need to written.
      */

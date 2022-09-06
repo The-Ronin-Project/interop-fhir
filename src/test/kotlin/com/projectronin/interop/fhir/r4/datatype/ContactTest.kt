@@ -4,13 +4,12 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ContactTest {
     @Test
@@ -33,9 +32,9 @@ class ContactTest {
                 CodeableConcept(text = "N")
             ),
             name = HumanName(text = "Jane Doe"),
-            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL)),
+            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL.asCode())),
             address = Address(text = "123 Sesame St"),
-            gender = AdministrativeGender.MALE,
+            gender = AdministrativeGender.MALE.asCode(),
             organization = Reference(reference = "Patient/123"),
             period = Period(start = DateTime("1998-08"))
         )
@@ -84,7 +83,7 @@ class ContactTest {
     fun `serialized JSON ignores null and empty fields`() {
         val contact = Contact(
             name = HumanName(text = "Jane Doe"),
-            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL)),
+            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL.asCode())),
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 
@@ -129,18 +128,5 @@ class ContactTest {
         assertNull(contact.gender)
         assertNull(contact.organization)
         assertNull(contact.period)
-    }
-
-    @Test
-    fun `cannot create a contact without details`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Patient(
-                contact = listOf(Contact())
-            )
-        }
-        assertEquals(
-            "contact SHALL at least contain a contact's details or a reference to an organization",
-            exception.message
-        )
     }
 }

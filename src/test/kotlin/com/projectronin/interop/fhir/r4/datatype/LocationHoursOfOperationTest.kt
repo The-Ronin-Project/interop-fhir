@@ -5,6 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -20,7 +21,7 @@ class LocationHoursOfOperationTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            daysOfWeek = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY),
+            daysOfWeek = listOf(DayOfWeek.SATURDAY.asCode(), DayOfWeek.SUNDAY.asCode()),
             allDay = true,
             openingTime = Time("06:30:00"),
             closingTime = Time("18:00:00")

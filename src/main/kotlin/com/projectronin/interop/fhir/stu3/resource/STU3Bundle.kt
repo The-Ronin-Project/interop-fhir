@@ -11,7 +11,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.valueset.BundleType
 import com.projectronin.interop.fhir.stu3.datatype.STU3BundleEntry
 import com.projectronin.interop.fhir.r4.resource.Bundle as R4Bundle
 
@@ -27,7 +26,7 @@ data class STU3Bundle(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val identifier: Identifier? = null,
-    val type: BundleType,
+    val type: Code?,
     val timestamp: Instant? = null,
     val total: UnsignedInt? = null,
     val link: List<BundleLink> = listOf(),

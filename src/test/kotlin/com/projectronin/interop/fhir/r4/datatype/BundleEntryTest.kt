@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.valueset.HttpVerb
 import com.projectronin.interop.fhir.r4.valueset.SearchEntryMode
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -30,8 +31,8 @@ class BundleEntryTest {
             ),
             link = listOf(BundleLink(relation = "next", url = Uri("http://www.example.com/next"))),
             resource = Patient(id = Id("1234")),
-            search = BundleSearch(mode = SearchEntryMode.INCLUDE),
-            request = BundleRequest(method = HttpVerb.GET, url = Uri("http://www.example.com/get")),
+            search = BundleSearch(mode = SearchEntryMode.INCLUDE.asCode()),
+            request = BundleRequest(method = HttpVerb.GET.asCode(), url = Uri("http://www.example.com/get")),
             response = BundleResponse(status = "Ok")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleEntry)
@@ -74,7 +75,7 @@ class BundleEntryTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val bundleEntry = BundleEntry(search = BundleSearch(mode = SearchEntryMode.INCLUDE))
+        val bundleEntry = BundleEntry(search = BundleSearch(mode = SearchEntryMode.INCLUDE.asCode()))
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleEntry)
 

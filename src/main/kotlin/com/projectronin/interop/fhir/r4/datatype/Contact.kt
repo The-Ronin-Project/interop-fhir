@@ -1,12 +1,10 @@
 package com.projectronin.interop.fhir.r4.datatype
 
-import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 
 /**
  * Contact covers all kinds of contact parties: family members, business contacts, guardians, caregivers. Not applicable
  * to register pedigree and family ties beyond use of having contact.
- *
- * See [FHIR Spec](https://www.hl7.org/fhir/patient-definitions.html#Patient.contact)
  */
 data class Contact(
     override val id: String? = null,
@@ -16,13 +14,7 @@ data class Contact(
     val name: HumanName? = null,
     val telecom: List<ContactPoint> = listOf(),
     val address: Address? = null,
-    val gender: AdministrativeGender? = null,
+    val gender: Code? = null,
     val organization: Reference? = null,
     val period: Period? = null
-) : BackboneElement {
-    init {
-        require(name != null || telecom.isNotEmpty() || address != null || organization != null) {
-            "contact SHALL at least contain a contact's details or a reference to an organization"
-        }
-    }
-}
+) : BackboneElement<Contact>

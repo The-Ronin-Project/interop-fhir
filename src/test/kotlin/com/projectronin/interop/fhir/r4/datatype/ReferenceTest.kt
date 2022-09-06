@@ -6,7 +6,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ReferenceTest {
     @Test
@@ -73,16 +72,5 @@ class ReferenceTest {
         assertNull(reference.type)
         assertNull(reference.identifier)
         assertNull(reference.display)
-    }
-
-    @Test
-    fun `At least one of reference, identifier and display SHALL be present (unless an extension)`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Reference()
-        }
-        assertEquals(
-            "At least one of reference, identifier and display SHALL be present (unless an extension is provided)",
-            exception.message
-        )
     }
 }

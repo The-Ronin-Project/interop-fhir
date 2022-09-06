@@ -6,29 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class RatioTest {
-    @Test
-    fun `fails if non-null numerator and null denominator`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { Ratio(numerator = Quantity(value = 3.0)) }
-        assertEquals("denominator required when numerator present", exception.message)
-    }
-
-    @Test
-    fun `fails if null numerator and non-null denominator`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { Ratio(denominator = Quantity(value = 3.0)) }
-        assertEquals("numerator required when denominator present", exception.message)
-    }
-
-    @Test
-    fun `fails if no numerator or denominator and no extension`() {
-        val exception = assertThrows<IllegalArgumentException> { Ratio() }
-        assertEquals("extension required if no numerator and denominator", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val ratio = Ratio(

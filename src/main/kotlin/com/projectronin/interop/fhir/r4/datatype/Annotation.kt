@@ -9,8 +9,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 
 /**
  * A text note which also contains information about who made the statement and when.
- *
- * See [FHIR Documentation](http://hl7.org/fhir/R4/datatypes.html#Annotation)
  */
 @JsonDeserialize(using = AnnotationDeserializer::class)
 @JsonSerialize(using = AnnotationSerializer::class)
@@ -19,17 +17,5 @@ data class Annotation(
     override val extension: List<Extension> = listOf(),
     val author: DynamicValue<Any>? = null,
     val time: DateTime? = null,
-    val text: Markdown
-) : Element {
-    companion object {
-        val acceptedDynamicTypes = listOf(DynamicValueType.REFERENCE, DynamicValueType.STRING)
-    }
-
-    init {
-        author?.let {
-            require(acceptedDynamicTypes.contains(author.type)) {
-                "author can only be one of the following: ${acceptedDynamicTypes.joinToString { it.code }}"
-            }
-        }
-    }
-}
+    val text: Markdown?
+) : Element<Annotation>

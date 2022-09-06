@@ -15,16 +15,10 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.valueset.LocationMode
-import com.projectronin.interop.fhir.r4.valueset.LocationStatus
-import com.projectronin.interop.fhir.validate.Validation
-import com.projectronin.interop.fhir.validate.validation
 
 /**
  * Details and position information for a physical place where services are provided and
  * resources and participants may be stored, found, contained, or accommodated.
- *
- * See [FHIR Spec](https://hl7.org/fhir/R4/location.html)
  */
 @JsonTypeName("Location")
 data class Location(
@@ -37,12 +31,12 @@ data class Location(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
-    val status: LocationStatus? = null,
+    val status: Code? = null,
     val operationalStatus: Coding? = null,
     val name: String? = null,
     val alias: List<String> = listOf(),
     val description: String? = null,
-    val mode: LocationMode? = null,
+    val mode: Code? = null,
     val type: List<CodeableConcept> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val address: Address? = null,
@@ -55,6 +49,4 @@ data class Location(
     val endpoint: List<Reference> = listOf(),
 ) : DomainResource<Location> {
     override val resourceType: String = "Location"
-
-    override fun validate(): Validation = validation {}
 }

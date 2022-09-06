@@ -5,37 +5,12 @@ import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.IdentifierUse
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class IdentifierTest {
-    @Test
-    fun `If present, the assigner reference is an Organzation`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Identifier(
-                id = "12345",
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
-                    )
-                ),
-                use = IdentifierUse.OFFICIAL,
-                type = CodeableConcept(text = "concept"),
-                system = Uri("identifier-system"),
-                value = "identifier value",
-                period = Period(start = DateTime("2021-11-01")),
-                assigner = Reference(
-                    reference = "Organization/123",
-                    type = Uri("Practitioner")
-                )
-            )
-        }
-        assertEquals("Identifier assigner reference must be to an Organization", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val identifier = Identifier(
@@ -46,7 +21,7 @@ class IdentifierTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            use = IdentifierUse.OFFICIAL,
+            use = IdentifierUse.OFFICIAL.asCode(),
             type = CodeableConcept(text = "concept"),
             system = Uri("identifier-system"),
             value = "identifier value",
@@ -87,7 +62,7 @@ class IdentifierTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val identifier = Identifier(use = IdentifierUse.OFFICIAL)
+        val identifier = Identifier(use = IdentifierUse.OFFICIAL.asCode())
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(identifier)
 
         val expectedJson = """

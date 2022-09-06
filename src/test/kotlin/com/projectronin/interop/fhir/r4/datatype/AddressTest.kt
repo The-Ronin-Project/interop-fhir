@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AddressType
 import com.projectronin.interop.fhir.r4.valueset.AddressUse
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -21,8 +22,8 @@ class AddressTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            use = AddressUse.HOME,
-            type = AddressType.POSTAL,
+            use = AddressUse.HOME.asCode(),
+            type = AddressType.POSTAL.asCode(),
             text = "925 Powder Springs St, Smyrna, GA 30080",
             line = listOf("925 Powder Springs St"),
             city = "Smyrna",
@@ -63,7 +64,7 @@ class AddressTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val address = Address(type = AddressType.POSTAL)
+        val address = Address(type = AddressType.POSTAL.asCode())
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(address)
 
@@ -84,7 +85,7 @@ class AddressTest {
 
         assertNull(address.id)
         assertEquals(listOf<Extension>(), address.extension)
-        assertEquals(AddressUse.HOME, address.use)
+        assertEquals(AddressUse.HOME.asCode(), address.use)
         assertNull(address.type)
         assertNull(address.text)
         assertEquals(listOf<String>(), address.line)

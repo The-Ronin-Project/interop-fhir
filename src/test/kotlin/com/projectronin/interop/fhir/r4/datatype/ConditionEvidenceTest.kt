@@ -6,16 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ConditionEvidenceTest {
-    @Test
-    fun `fails if value provided without code or detail`() {
-        val exception =
-            assertThrows<IllegalArgumentException> { ConditionEvidence(id = "id") }
-        assertEquals("evidence SHALL have code or details", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val conditionEvidence = ConditionEvidence(

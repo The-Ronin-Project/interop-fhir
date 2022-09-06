@@ -25,6 +25,7 @@ import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.LocationMode
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -60,7 +61,7 @@ class LocationTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             text = Narrative(
-                status = NarrativeStatus.GENERATED,
+                status = NarrativeStatus.GENERATED.asCode(),
                 div = "div"
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -77,21 +78,21 @@ class LocationTest {
                 )
             ),
             identifier = listOf(Identifier(value = "id")),
-            mode = LocationMode.INSTANCE,
-            status = LocationStatus.ACTIVE,
+            mode = LocationMode.INSTANCE.asCode(),
+            status = LocationStatus.ACTIVE.asCode(),
             name = "My Office",
             alias = listOf("Guest Room"),
             description = "Sun Room",
             type = type,
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
             address = Address(country = "USA"),
             physicalType = physicalType,
             position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
             hoursOfOperation = listOf(
                 LocationHoursOfOperation(
                     daysOfWeek = listOf(
-                        DayOfWeek.SATURDAY,
-                        DayOfWeek.SUNDAY
+                        DayOfWeek.SATURDAY.asCode(),
+                        DayOfWeek.SUNDAY.asCode()
                     ),
                     allDay = true
                 )
@@ -173,7 +174,7 @@ class LocationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val location = Location(status = LocationStatus.ACTIVE)
+        val location = Location(status = LocationStatus.ACTIVE.asCode())
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(location)
 
         val expectedJson = """
@@ -202,7 +203,7 @@ class LocationTest {
         assertEquals(listOf<Extension>(), location.extension)
         assertEquals(listOf<Extension>(), location.modifierExtension)
         assertEquals(listOf<Identifier>(), location.identifier)
-        assertEquals(LocationMode.INSTANCE, location.mode)
+        assertEquals(LocationMode.INSTANCE.asCode(), location.mode)
         assertNull(location.status)
         assertNull(location.name)
         assertEquals(listOf<String>(), location.alias)

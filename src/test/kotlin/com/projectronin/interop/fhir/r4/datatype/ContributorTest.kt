@@ -5,6 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.ContributorType
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -20,14 +21,14 @@ class ContributorTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            type = ContributorType.AUTHOR,
+            type = ContributorType.AUTHOR.asCode(),
             name = "Josh Smith",
             contact = listOf(
                 ContactDetail(
                     telecom = listOf(
                         ContactPoint(
                             value = "josh@projectronin.com",
-                            system = ContactPointSystem.EMAIL
+                            system = ContactPointSystem.EMAIL.asCode()
                         )
                     )
                 )
@@ -60,7 +61,7 @@ class ContributorTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val contributor = Contributor(
-            type = ContributorType.AUTHOR,
+            type = ContributorType.AUTHOR.asCode(),
             name = "Josh Smith"
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contributor)
@@ -84,7 +85,7 @@ class ContributorTest {
 
         assertNull(contributor.id)
         assertEquals(listOf<Extension>(), contributor.extension)
-        assertEquals(ContributorType.AUTHOR, contributor.type)
+        assertEquals(ContributorType.AUTHOR.asCode(), contributor.type)
         assertEquals("Josh Smith", contributor.name)
         assertEquals(listOf<ContactDetail>(), contributor.contact)
     }

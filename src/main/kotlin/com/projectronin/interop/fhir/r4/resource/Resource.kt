@@ -7,7 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.Validatable
 
 /**
  * A resource is an entity that:
@@ -36,12 +36,10 @@ import com.projectronin.interop.fhir.validate.Validation
     JsonSubTypes.Type(Practitioner::class),
     JsonSubTypes.Type(PractitionerRole::class)
 )
-interface Resource<T : Resource<T>> {
+interface Resource<T : Resource<T>> : Validatable<T> {
     val resourceType: String
     val id: Id?
     val meta: Meta?
     val implicitRules: Uri?
     val language: Code?
-
-    fun validate(): Validation
 }

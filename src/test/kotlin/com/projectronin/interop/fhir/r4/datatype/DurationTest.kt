@@ -6,33 +6,12 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class DurationTest {
-    @Test
-    fun `fails if code provided without system`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Duration(value = 2.0, code = Code("code"))
-            }
-        assertEquals("If a code for the unit is present, the system SHALL also be present", exception.message)
-    }
-
-    @Test
-    fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> { Duration(value = 2.0) }
-        assertEquals("There SHALL be a code if there is a value", exception.message)
-    }
-
-    @Test
-    fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> { Duration(system = Uri("SNOMED")) }
-        assertEquals("If system is present, it SHALL be UCUM", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val duration = Duration(
@@ -44,7 +23,7 @@ class DurationTest {
                 )
             ),
             value = 17.5,
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO,
+            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
             unit = "years",
             system = CodeSystem.UCUM.uri,
             code = Code("a")
@@ -111,7 +90,7 @@ class DurationTest {
         assertNull(duration.id)
         assertEquals(listOf<Extension>(), duration.extension)
         assertNull(duration.value)
-        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO, duration.comparator)
+        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO.asCode(), duration.comparator)
         assertNull(duration.unit)
         assertNull(duration.system)
         assertNull(duration.code)

@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
 import com.projectronin.interop.fhir.r4.valueset.RelatedArtifactType
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -22,7 +23,7 @@ class RelatedArtifactTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            type = RelatedArtifactType.DOCUMENTATION,
+            type = RelatedArtifactType.DOCUMENTATION.asCode(),
             label = "artifact label",
             display = "Artifact",
             citation = Markdown("citation-markdown"),
@@ -57,7 +58,7 @@ class RelatedArtifactTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val relatedArtifact = RelatedArtifact(type = RelatedArtifactType.DOCUMENTATION)
+        val relatedArtifact = RelatedArtifact(type = RelatedArtifactType.DOCUMENTATION.asCode())
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(relatedArtifact)
 
         val expectedJson = """
@@ -77,7 +78,7 @@ class RelatedArtifactTest {
 
         assertNull(relatedArtifact.id)
         assertEquals(listOf<Extension>(), relatedArtifact.extension)
-        assertEquals(RelatedArtifactType.DOCUMENTATION, relatedArtifact.type)
+        assertEquals(RelatedArtifactType.DOCUMENTATION.asCode(), relatedArtifact.type)
         assertNull(relatedArtifact.label)
         assertNull(relatedArtifact.display)
         assertNull(relatedArtifact.citation)

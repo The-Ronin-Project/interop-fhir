@@ -6,7 +6,7 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-participationstatus.html)
  */
-enum class ParticipationStatus(@JsonValue override val code: String) : CodedEnum<AppointmentStatus> {
+enum class ParticipationStatus(@JsonValue override val code: String) : CodedEnum<ParticipationStatus> {
     ACCEPTED("accepted"),
     DECLINED("declined"),
     TENTATIVE("tentative"),

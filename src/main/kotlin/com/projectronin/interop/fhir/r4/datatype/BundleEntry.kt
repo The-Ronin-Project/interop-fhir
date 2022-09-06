@@ -5,8 +5,6 @@ import com.projectronin.interop.fhir.r4.resource.Resource
 
 /**
  * Entry in the bundle - will have a resource or information
- *
- * See [FHIR Spec](http://www.hl7.org/fhir/bundle-definitions.html#Bundle.entry)
  */
 data class BundleEntry(
     override val id: String? = null,
@@ -18,4 +16,4 @@ data class BundleEntry(
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
     val response: BundleResponse? = null
-) : BackboneElement
+) : BackboneElement<BundleEntry>

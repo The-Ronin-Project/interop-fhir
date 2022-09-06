@@ -7,8 +7,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
  *
  * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#unsignedInt)
  */
-data class UnsignedInt @JsonCreator constructor(override val value: Int) : Primitive<Int> {
-    init {
-        require(value >= 0) { "Supplied value is not valid for an UnsignedInt" }
-    }
-}
+data class UnsignedInt @JsonCreator constructor(override val value: Int) : Primitive<Int, UnsignedInt>

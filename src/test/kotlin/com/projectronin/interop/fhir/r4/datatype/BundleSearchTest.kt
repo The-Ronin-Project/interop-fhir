@@ -5,6 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.SearchEntryMode
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -26,7 +27,7 @@ class BundleSearchTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            mode = SearchEntryMode.INCLUDE,
+            mode = SearchEntryMode.INCLUDE.asCode(),
             score = Decimal(1.4)
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleSearch)
@@ -53,7 +54,7 @@ class BundleSearchTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val bundleSearch = BundleSearch(mode = SearchEntryMode.OUTCOME)
+        val bundleSearch = BundleSearch(mode = SearchEntryMode.OUTCOME.asCode())
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleSearch)
 

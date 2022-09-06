@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.UnknownResource
+import com.projectronin.interop.fhir.validate.Validatable
 import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
 
 /**
@@ -30,7 +31,7 @@ import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
 @JsonSubTypes(
     JsonSubTypes.Type(STU3Appointment::class),
 )
-interface STU3Resource<T : STU3Resource<T>> {
+interface STU3Resource<T : STU3Resource<T>> : Validatable<T> {
     val resourceType: String
     val id: Id?
     val meta: Meta?

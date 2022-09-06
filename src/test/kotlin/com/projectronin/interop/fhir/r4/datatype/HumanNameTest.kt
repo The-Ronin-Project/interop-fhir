@@ -5,7 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.NameUse
-import org.junit.jupiter.api.Assertions
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -21,7 +21,7 @@ class HumanNameTest {
                     value = DynamicValue(DynamicValueType.STRING, "Value")
                 )
             ),
-            use = NameUse.OFFICIAL,
+            use = NameUse.OFFICIAL.asCode(),
             text = "Jane Doe",
             family = "Doe",
             given = listOf("Jane"),
@@ -76,9 +76,9 @@ class HumanNameTest {
             |}""".trimMargin()
         val humanName = objectMapper.readValue<HumanName>(json)
 
-        Assertions.assertNull(humanName.id)
+        assertNull(humanName.id)
         assertEquals(listOf<Extension>(), humanName.extension)
-        assertEquals(NameUse.NICKNAME, humanName.use)
+        assertEquals(NameUse.NICKNAME.asCode(), humanName.use)
         assertNull(humanName.text)
         assertNull(humanName.family)
         assertEquals(listOf<String>(), humanName.given)

@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.OperationParameterUse
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -22,7 +23,7 @@ class ParameterDefinitionTest {
                 )
             ),
             name = Code("parameter name"),
-            use = OperationParameterUse.INPUT,
+            use = OperationParameterUse.INPUT.asCode(),
             min = 1,
             max = "3",
             documentation = "parameter documentation",
@@ -54,7 +55,8 @@ class ParameterDefinitionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val parameterDefinition = ParameterDefinition(use = OperationParameterUse.OUTPUT, type = Code("integer"))
+        val parameterDefinition =
+            ParameterDefinition(use = OperationParameterUse.OUTPUT.asCode(), type = Code("integer"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parameterDefinition)
 
         val expectedJson = """
@@ -77,7 +79,7 @@ class ParameterDefinitionTest {
         assertNull(parameterDefinition.id)
         assertEquals(listOf<Extension>(), parameterDefinition.extension)
         assertNull(parameterDefinition.name)
-        assertEquals(OperationParameterUse.OUTPUT, parameterDefinition.use)
+        assertEquals(OperationParameterUse.OUTPUT.asCode(), parameterDefinition.use)
         assertNull(parameterDefinition.min)
         assertNull(parameterDefinition.max)
         assertNull(parameterDefinition.documentation)

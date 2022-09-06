@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -36,7 +37,7 @@ class PractitionerRoleTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             text = Narrative(
-                status = NarrativeStatus.GENERATED,
+                status = NarrativeStatus.GENERATED.asCode(),
                 div = "div"
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -61,7 +62,7 @@ class PractitionerRoleTest {
             specialty = listOf(CodeableConcept(text = "specialty")),
             location = listOf(Reference(reference = "Location/9012")),
             healthcareService = listOf(Reference(reference = "HealthcareService/3456")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
             availableTime = listOf(AvailableTime(allDay = false)),
             notAvailable = listOf(NotAvailable(description = "Not available now")),
             availabilityExceptions = "exceptions",

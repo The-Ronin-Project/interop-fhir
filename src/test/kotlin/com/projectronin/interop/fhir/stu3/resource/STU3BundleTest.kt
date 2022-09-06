@@ -19,15 +19,16 @@ import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.BundleType
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.stu3.datatype.STU3BundleEntry
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class STU3BundleTest {
     private val miniAppt = STU3Appointment(
-        status = AppointmentStatus.BOOKED,
+        status = AppointmentStatus.BOOKED.asCode(),
         participant = listOf(
             Participant(
-                status = ParticipationStatus.ACCEPTED,
+                status = ParticipationStatus.ACCEPTED.asCode(),
                 actor = Reference(reference = "reference")
             )
         )
@@ -39,7 +40,7 @@ class STU3BundleTest {
         implicitRules = Uri("implicit-rules"),
         language = Code("en-US"),
         identifier = Identifier(value = "identifier"),
-        type = BundleType.SEARCHSET,
+        type = BundleType.SEARCHSET.asCode(),
         timestamp = Instant("2017-01-01T00:00:00Z"),
         total = UnsignedInt(1),
         link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),

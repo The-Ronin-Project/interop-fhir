@@ -7,4 +7,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
  *
  * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#markdown)
  */
-data class Markdown @JsonCreator constructor(override val value: String) : Primitive<String>
+data class Markdown @JsonCreator constructor(override val value: String) : Primitive<String, Markdown>

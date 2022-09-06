@@ -6,53 +6,12 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class CountTest {
-    @Test
-    fun `fails if code provided without system`() {
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                Count(value = 2.0, code = Code("code"))
-            }
-        assertEquals("If a code for the unit is present, the system SHALL also be present", exception.message)
-    }
-
-    @Test
-    fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Count(value = 2.0, system = CodeSystem.UCUM.uri)
-        }
-        assertEquals("There SHALL be a code with a value of \"1\" if there is a value", exception.message)
-    }
-
-    @Test
-    fun `fails if value provided with invalid code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Count(value = 2.0, code = Code("code-value"), system = CodeSystem.UCUM.uri)
-        }
-        assertEquals("There SHALL be a code with a value of \"1\" if there is a value", exception.message)
-    }
-
-    @Test
-    fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Count(system = Uri("SNOMED"))
-        }
-        assertEquals("If system is present, it SHALL be UCUM", exception.message)
-    }
-
-    @Test
-    fun `fails if value is non-whole number`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = 1.2)
-        }
-        assertEquals("If present, the value SHALL be a whole number", exception.message)
-    }
-
     @Test
     fun `can serialize and deserialize JSON`() {
         val count = Count(
@@ -64,7 +23,7 @@ class CountTest {
                 )
             ),
             value = 17.0,
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO,
+            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
             unit = "1",
             system = CodeSystem.UCUM.uri,
             code = Code("1")
@@ -131,7 +90,7 @@ class CountTest {
         Assertions.assertNull(count.id)
         assertEquals(listOf<Extension>(), count.extension)
         Assertions.assertNull(count.value)
-        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO, count.comparator)
+        assertEquals(QuantityComparator.GREATER_OR_EQUAL_TO.asCode(), count.comparator)
         Assertions.assertNull(count.unit)
         Assertions.assertNull(count.system)
         Assertions.assertNull(count.code)

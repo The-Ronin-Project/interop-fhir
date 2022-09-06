@@ -6,9 +6,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class ExtensionTest {
     @Test
@@ -78,37 +76,6 @@ class ExtensionTest {
     }
 
     @Test
-    @Disabled("See https://projectronin.atlassian.net/browse/INT-786")
-    fun `Fails when both extensions and value are provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Extension(
-                id = "12345",
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
-                    )
-                ),
-                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
-                value = DynamicValue(DynamicValueType.CODE, Code("I"))
-            )
-        }
-        assertEquals("Extension must have either extensions or value[x], not both", exception.message)
-    }
-
-    @Test
-    @Disabled("See https://projectronin.atlassian.net/browse/INT-786")
-    fun `Fails when neither extensions nor value are provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Extension(
-                id = "12345",
-                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
-            )
-        }
-        assertEquals("Extension must have either extensions or value[x], not both", exception.message)
-    }
-
-    @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
         val json = """
             |{
@@ -121,17 +88,6 @@ class ExtensionTest {
         assertEquals(listOf<Extension>(), extension.extension)
         assertEquals(Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"), extension.url)
         assertEquals(DynamicValue(DynamicValueType.CODE, Code("I")), extension.value)
-    }
-
-    @Test
-    fun `cannot deserialize when url is not provided`() {
-        assertThrows<java.lang.NullPointerException> {
-            val json = """
-            |{
-            |  "valueCode" : "I"
-            |}""".trimMargin()
-            objectMapper.readValue<Extension>(json)
-        }
     }
 
     @Test
@@ -240,117 +196,7 @@ class ExtensionTest {
         assertEquals(3, deserializedExtension.extension.get(0).extension.get(1).extension.get(0).extension.size)
         assertEquals(
             "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
-            deserializedExtension.extension.get(3).url.value
-        )
-    }
-
-    @Test
-    fun `cannot deserialize complex extension set if any child is missing a url`() {
-        val json = """
-            {
-              "url": "complex",
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                  "extension": [
-                    {
-                      "url": "ombCategory",
-                      "valueCoding": {
-                        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-                        "code": "UNK",
-                        "display": "Unknown"
-                      }
-                    },
-                    {
-                      "url": "citizenship",
-                      "extension": [
-                        {
-                          "url": "http://hl7.org/fhir/StructureDefinition/patient-citizenship",
-                          "extension": [
-                            {
-                              "url": "code",
-                              "valueCodeableConcept": {
-                                "coding": [
-                                  {
-                                    "system": "urn:iso:std:iso:3166",
-                                    "code": "DE"
-                                  }
-                                ]
-                              }
-                            },
-                            {
-                              "url": "period",
-                              "valuePeriod": {
-                                "start": "2009-03-14"
-                              }
-                            },
-                            {
-                              "url": "http://acme.org/fhir/StructureDefinition/passport-number",
-                              "valueString": "12345ABC"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
-                  "extension": [
-                    {
-                      "url": "ombCategory",
-                      "valueCoding": {
-                        "system": "urn:oid:2.16.840.1.113883.6.238",
-                        "code": "2186-5",
-                        "display": "Not Hispanic or Latino"
-                      }
-                    },
-                    {
-                      "url": "text",
-                      "valueString": "Not Hispanic or Latino"
-                    }
-                  ]
-                },
-                {
-                  "url": "http://open.epic.com/FHIR/StructureDefinition/extension/legal-sex",
-                  "valueCodeableConcept": {
-                    "coding": [
-                      {
-                        "system": "urn:oid:1.2.840.114350.1.13.0.1.7.10.698084.130.657370.19999000",
-                        "code": "female",
-                        "display": "female"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
-                  "valueCodeableConcept": {
-                    "coding": [
-                      {
-                        "system": "http://hl7.org/fhir/gender-identity",
-                        "code": "transgender-female",
-                        "display": "transgender-female"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
-                  "valueCode": "F"
-                }
-              ]
-            }
-        """.trimIndent()
-
-        val deserializedExtension = objectMapper.readValue<Extension>(json)
-        assertEquals(5, deserializedExtension.extension.size)
-        assertEquals(2, deserializedExtension.extension.get(0).extension.size)
-        assertEquals(2, deserializedExtension.extension.get(1).extension.size)
-        assertEquals(3, deserializedExtension.extension.get(0).extension.get(1).extension.get(0).extension.size)
-        assertEquals(
-            "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
-            deserializedExtension.extension.get(3).url.value
+            deserializedExtension.extension.get(3).url!!.value
         )
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.LinkType
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -26,7 +27,7 @@ class PatientLinkTest {
                 )
             ),
             other = Reference(display = "reference"),
-            type = LinkType.REPLACES
+            type = LinkType.REPLACES.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
 
@@ -57,7 +58,7 @@ class PatientLinkTest {
     fun `serialized JSON ignores null and empty fields`() {
         val link = PatientLink(
             other = Reference(display = "any"),
-            type = LinkType.REPLACES
+            type = LinkType.REPLACES.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
 

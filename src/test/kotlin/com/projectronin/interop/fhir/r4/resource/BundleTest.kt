@@ -17,6 +17,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.BundleType
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -30,7 +31,7 @@ class BundleTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             identifier = Identifier(value = "identifier"),
-            type = BundleType.SEARCHSET,
+            type = BundleType.SEARCHSET.asCode(),
             timestamp = Instant("2017-01-01T00:00:00Z"),
             total = UnsignedInt(1),
             link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),
@@ -103,7 +104,7 @@ class BundleTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             identifier = Identifier(value = "identifier"),
-            type = BundleType.SEARCHSET,
+            type = BundleType.SEARCHSET.asCode(),
             timestamp = Instant("2017-01-01T00:00:00Z"),
             total = UnsignedInt(1),
             link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),

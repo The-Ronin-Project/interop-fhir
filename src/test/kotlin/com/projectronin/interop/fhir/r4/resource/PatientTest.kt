@@ -27,10 +27,10 @@ import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class PatientTest {
     @Test
@@ -45,7 +45,7 @@ class PatientTest {
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             text = Narrative(
-                status = NarrativeStatus.GENERATED,
+                status = NarrativeStatus.GENERATED.asCode(),
                 div = "div"
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
@@ -64,8 +64,8 @@ class PatientTest {
             identifier = listOf(Identifier(value = "id")),
             active = true,
             name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE)),
-            gender = AdministrativeGender.FEMALE,
+            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
+            gender = AdministrativeGender.FEMALE.asCode(),
             birthDate = Date("1975-07-05"),
             deceased = deceased,
             address = listOf(Address(country = "USA")),
@@ -76,7 +76,7 @@ class PatientTest {
             communication = listOf(Communication(language = CodeableConcept(text = "English"))),
             generalPractitioner = listOf(Reference(display = "GP")),
             managingOrganization = Reference(display = "organization"),
-            link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES))
+            link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES.asCode()))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patient)
 
@@ -203,34 +203,5 @@ class PatientTest {
         assertEquals(listOf<Reference>(), patient.generalPractitioner)
         assertNull(patient.managingOrganization)
         assertEquals(listOf<PatientLink>(), patient.link)
-    }
-
-    @Test
-    fun `Patient deceased can only be one of the following data types`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Patient(
-                deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false)
-            ).validate().alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR R4_PAT_002: Patient deceased can only be one of the following data types: Boolean, DateTime @ Patient.deceased",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `Patient multipleBirth can only be one of the following data types`() {
-
-        val exception = assertThrows<IllegalArgumentException> {
-            Patient(
-                multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
-            ).validate().alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR R4_PAT_001: Patient multipleBirth can only be one of the following data types: Boolean, Integer @ Patient.multipleBirth",
-            exception.message
-        )
     }
 }
