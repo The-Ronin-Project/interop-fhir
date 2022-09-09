@@ -29,6 +29,7 @@ import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
+import com.projectronin.interop.fhir.r4.datatype.Ingredient
 import com.projectronin.interop.fhir.r4.datatype.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.datatype.LocationPosition
 import com.projectronin.interop.fhir.r4.datatype.MoneyQuantity
@@ -102,6 +103,7 @@ fun <T : Element<T>> validateDatatype(element: Element<T>, parentContext: Locati
         is Extension -> element.validate(R4ExtensionValidator, parentContext)
         is HumanName -> element.validate(R4HumanNameValidator, parentContext)
         is Identifier -> element.validate(R4IdentifierValidator, parentContext)
+        is Ingredient -> element.validate(R4IngredientValidator, parentContext)
         is LocationHoursOfOperation -> element.validate(R4LocationHoursOfOperationValidator, parentContext)
         is LocationPosition -> element.validate(R4LocationPositionValidator, parentContext)
         is MoneyQuantity -> element.validate(R4MoneyQuantityValidator, parentContext)

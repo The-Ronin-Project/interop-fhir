@@ -30,6 +30,7 @@ import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
+import com.projectronin.interop.fhir.r4.datatype.Ingredient
 import com.projectronin.interop.fhir.r4.datatype.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.datatype.LocationPosition
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -361,6 +362,15 @@ class R4DatatypesTest {
         every { identifier.validate(R4IdentifierValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(identifier, locationContext)
+        assertEquals(1, validation.errors().size)
+    }
+
+    @Test
+    fun `can validate Ingredient`() {
+        val ingredient = mockk<Ingredient>()
+        every { ingredient.validate(R4IngredientValidator, locationContext) } returns failedValidation
+
+        val validation = validateDatatype(ingredient, locationContext)
         assertEquals(1, validation.errors().size)
     }
 
