@@ -1,17 +1,17 @@
-package com.projectronin.interop.fhir.jackson.outbound.r4
+package com.projectronin.interop.fhir.jackson.outbound.stu3
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.projectronin.interop.common.jackson.writeListField
 import com.projectronin.interop.common.jackson.writeNullableField
 import com.projectronin.interop.fhir.jackson.writeDynamicValueField
-import com.projectronin.interop.fhir.r4.datatype.Dosage
+import com.projectronin.interop.fhir.stu3.datatype.STU3Dosage
 
 /**
- * Jackson serializer for [Dosage]s
+ * Jackson serializer for [STU3Dosage]s
  */
-class DosageSerializer : BaseBackboneElementSerializer<Dosage>(Dosage::class.java) {
-    override fun serializeSpecificBackBoneElement(value: Dosage, gen: JsonGenerator, provider: SerializerProvider) {
+class DosageSerializer : BaseElementSerializer<STU3Dosage>(STU3Dosage::class.java) {
+    override fun serializeSpecificElement(value: STU3Dosage, gen: JsonGenerator, provider: SerializerProvider) {
         gen.writeNullableField("sequence", value.sequence)
         gen.writeNullableField("text", value.text)
         gen.writeListField("additionalInstruction", value.additionalInstruction)
@@ -21,7 +21,8 @@ class DosageSerializer : BaseBackboneElementSerializer<Dosage>(Dosage::class.jav
         gen.writeNullableField("site", value.site)
         gen.writeNullableField("route", value.route)
         gen.writeNullableField("method", value.method)
-        gen.writeListField("doseAndRate", value.doseAndRate)
+        gen.writeDynamicValueField("dose", value.dose)
+        gen.writeDynamicValueField("rate", value.rate)
         gen.writeNullableField("maxDosePerPeriod", value.maxDosePerPeriod)
         gen.writeNullableField("maxDosePerAdministration", value.maxDosePerAdministration)
         gen.writeNullableField("maxDosePerLifetime", value.maxDosePerLifetime)

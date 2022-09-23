@@ -27,13 +27,12 @@ object R4MedicationStatementValidator : R4ElementContainingValidator<MedicationS
     override fun validateElement(element: MedicationStatement, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.status, requiredStatusError, parentContext)
-
             ifNotNull(element.status) {
                 checkCodedEnum<MedicationStatementStatus>(element.status, invalidStatusError, parentContext)
             }
 
             checkNotNull(element.medication, requiredMedicationError, parentContext)
-            element.medication?.let {
+            ifNotNull(element.medication) {
                 checkTrue(acceptedMedications.contains(element.medication.type), invalidMedicationError, parentContext)
             }
 

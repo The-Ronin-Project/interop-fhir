@@ -7,7 +7,6 @@ import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.UnknownResource
 import com.projectronin.interop.fhir.validate.Validatable
 import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
 
@@ -25,11 +24,13 @@ import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.EXISTING_PROPERTY,
     property = "resourceType",
-    defaultImpl = UnknownResource::class,
+    defaultImpl = STU3UnknownResource::class,
     visible = true
 )
 @JsonSubTypes(
     JsonSubTypes.Type(STU3Appointment::class),
+    JsonSubTypes.Type(STU3Bundle::class),
+    JsonSubTypes.Type(STU3MedicationStatement::class),
 )
 interface STU3Resource<T : STU3Resource<T>> : Validatable<T> {
     val resourceType: String

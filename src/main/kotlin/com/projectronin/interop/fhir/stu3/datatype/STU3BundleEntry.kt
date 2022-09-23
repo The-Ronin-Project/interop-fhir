@@ -1,7 +1,6 @@
 package com.projectronin.interop.fhir.stu3.datatype
 
-import com.fasterxml.jackson.annotation.JsonTypeName
-import com.projectronin.interop.fhir.r4.datatype.BackboneElement
+import com.projectronin.interop.fhir.r4.datatype.BundleEntry
 import com.projectronin.interop.fhir.r4.datatype.BundleLink
 import com.projectronin.interop.fhir.r4.datatype.BundleRequest
 import com.projectronin.interop.fhir.r4.datatype.BundleResponse
@@ -15,7 +14,6 @@ import com.projectronin.interop.fhir.stu3.resource.STU3Resource
  *
  * See [FHIR Spec](http://www.hl7.org/fhir/bundle-definitions.html#Bundle.entry)
  */
-@JsonTypeName("BundleEntry")
 data class STU3BundleEntry(
     override val id: String? = null,
     override val extension: List<Extension> = listOf(),
@@ -26,4 +24,18 @@ data class STU3BundleEntry(
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
     val response: BundleResponse? = null
-) : BackboneElement<STU3BundleEntry>
+) : STU3BackboneElement<STU3BundleEntry> {
+    override fun transformToR4(): BundleEntry {
+        return BundleEntry(
+            id,
+            extension,
+            modifierExtension,
+            link,
+            fullUrl,
+            resource?.transformToR4(),
+            search,
+            request,
+            response
+        )
+    }
+}

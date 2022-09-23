@@ -13,7 +13,8 @@ enum class CodeSystem(uriString: String) {
     HL7_IDENTIFIER_TYPE("http://terminology.hl7.org/CodeSystem/v2-0203"),
     CONDITION_CATEGORY("http://terminology.hl7.org/CodeSystem/condition-category"),
     LOINC("http://loinc.org"),
-    CONDITION_CLINICAL("http://hl7.org/fhir/ValueSet/condition-clinical");
+    CONDITION_CLINICAL("http://terminology.hl7.org/CodeSystem/condition-clinical"),
+    SNOMED_CT("http://snomed.info/sct");
 
     val uri = Uri(uriString)
 }
