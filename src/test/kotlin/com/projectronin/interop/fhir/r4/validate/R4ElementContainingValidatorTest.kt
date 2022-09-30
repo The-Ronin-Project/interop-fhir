@@ -4,10 +4,12 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.r4.validate.datatype.validateDatatype
 import com.projectronin.interop.fhir.r4.validate.datatype.validateDynamicValue
 import com.projectronin.interop.fhir.validate.LocationContext
+import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validatable
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.validation
@@ -24,7 +26,7 @@ import org.junit.jupiter.api.Test
  */
 class R4ElementContainingValidatorTest {
     private val failedValidation = validation {
-        notNull(null) { "test exception" }
+        checkNotNull(null, RequiredFieldError(Patient::name), null)
     }
     private val parentContext = LocationContext("Sample", "field")
     private val nameLocationContext = LocationContext("Sample", "field.name")
@@ -46,7 +48,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<NoValidatableTypesValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -55,7 +57,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<PrimitiveValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -67,7 +69,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<PrimitiveValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -76,7 +78,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<ElementValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -88,7 +90,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<ElementValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -97,7 +99,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<DynamicValueValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -109,7 +111,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<DynamicValueValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -118,7 +120,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<PrimitiveCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -132,7 +134,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<PrimitiveCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(2, validation.errors().size)
+        assertEquals(2, validation.issues().size)
     }
 
     @Test
@@ -141,7 +143,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<ElementCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -155,7 +157,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<ElementCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(2, validation.errors().size)
+        assertEquals(2, validation.issues().size)
     }
 
     @Test
@@ -164,7 +166,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<DynamicValueCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -178,7 +180,7 @@ class R4ElementContainingValidatorTest {
 
         val instance = object : NoElementValidationValidator<DynamicValueCollectionValidatable>() {}
         val validation = instance.validate(element, parentContext)
-        assertEquals(2, validation.errors().size)
+        assertEquals(2, validation.issues().size)
     }
 
     data class NoValidatableTypesValidatable(val name: String) : Validatable<NoValidatableTypesValidatable>

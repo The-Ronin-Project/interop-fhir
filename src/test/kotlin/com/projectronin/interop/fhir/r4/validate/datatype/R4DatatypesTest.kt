@@ -58,9 +58,11 @@ import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
+import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.ProfileValidator
+import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.validation
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -75,7 +77,7 @@ import org.junit.jupiter.api.Test
 
 class R4DatatypesTest {
     private val failedValidation = validation {
-        notNull(null) { "test exception" }
+        checkNotNull(null, RequiredFieldError(Patient::name), null)
     }
     private val locationContext = LocationContext("Sample", "field")
 
@@ -94,7 +96,7 @@ class R4DatatypesTest {
         val dynamicValue = DynamicValue(DynamicValueType.UNSIGNED_INT, unsignedInt)
 
         val validation = validateDynamicValue(dynamicValue, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
 
         unmockkStatic("com.projectronin.interop.fhir.r4.validate.datatype.primitive.R4PrimitivesKt")
     }
@@ -109,7 +111,7 @@ class R4DatatypesTest {
         val dynamicValue = DynamicValue(DynamicValueType.ADDRESS, address)
 
         val validation = validateDynamicValue(dynamicValue, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
 
         unmockkStatic("com.projectronin.interop.fhir.r4.validate.datatype.R4DatatypesKt")
     }
@@ -119,7 +121,7 @@ class R4DatatypesTest {
         val dynamicValue = DynamicValue(DynamicValueType.BOOLEAN, true)
 
         val validation = validateDynamicValue(dynamicValue, locationContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 
     @Test
@@ -128,7 +130,7 @@ class R4DatatypesTest {
         every { address.validate(R4AddressValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(address, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -137,7 +139,7 @@ class R4DatatypesTest {
         every { age.validate(R4AgeValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(age, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -146,7 +148,7 @@ class R4DatatypesTest {
         every { annotation.validate(R4AnnotationValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(annotation, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -155,7 +157,7 @@ class R4DatatypesTest {
         every { attachment.validate(R4AttachmentValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(attachment, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -164,7 +166,7 @@ class R4DatatypesTest {
         every { availableTime.validate(R4AvailableTimeValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(availableTime, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -173,7 +175,7 @@ class R4DatatypesTest {
         every { bundleLink.validate(R4BundleLinkValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(bundleLink, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -182,7 +184,7 @@ class R4DatatypesTest {
         every { bundleRequest.validate(R4BundleRequestValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(bundleRequest, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -191,7 +193,7 @@ class R4DatatypesTest {
         every { bundleResponse.validate(R4BundleResponseValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(bundleResponse, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -200,7 +202,7 @@ class R4DatatypesTest {
         every { bundleSearch.validate(R4BundleSearchValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(bundleSearch, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -209,7 +211,7 @@ class R4DatatypesTest {
         every { codeFilter.validate(R4CodeFilterValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(codeFilter, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -218,7 +220,7 @@ class R4DatatypesTest {
         every { communication.validate(R4CommunicationValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(communication, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -227,7 +229,7 @@ class R4DatatypesTest {
         every { conditionEvidence.validate(R4ConditionEvidenceValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(conditionEvidence, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -236,7 +238,7 @@ class R4DatatypesTest {
         every { conditionStage.validate(R4ConditionStageValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(conditionStage, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -245,7 +247,7 @@ class R4DatatypesTest {
         every { contact.validate(R4ContactValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(contact, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -254,7 +256,7 @@ class R4DatatypesTest {
         every { contactPoint.validate(R4ContactPointValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(contactPoint, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -263,7 +265,7 @@ class R4DatatypesTest {
         every { contributor.validate(R4ContributorValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(contributor, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -272,7 +274,7 @@ class R4DatatypesTest {
         every { count.validate(R4CountValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(count, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -281,7 +283,7 @@ class R4DatatypesTest {
         every { dataRequirement.validate(R4DataRequirementValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(dataRequirement, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -290,7 +292,7 @@ class R4DatatypesTest {
         every { dateFilter.validate(R4DateFilterValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(dateFilter, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -299,7 +301,7 @@ class R4DatatypesTest {
         every { distance.validate(R4DistanceValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(distance, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -308,7 +310,7 @@ class R4DatatypesTest {
         every { dosage.validate(R4DosageValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(dosage, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -317,7 +319,7 @@ class R4DatatypesTest {
         every { doseAndRate.validate(R4DoseAndRateValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(doseAndRate, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -326,7 +328,7 @@ class R4DatatypesTest {
         every { duration.validate(R4DurationValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(duration, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -335,7 +337,7 @@ class R4DatatypesTest {
         every { expression.validate(R4ExpressionValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(expression, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -344,7 +346,7 @@ class R4DatatypesTest {
         every { extension.validate(R4ExtensionValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(extension, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -353,7 +355,7 @@ class R4DatatypesTest {
         every { humanName.validate(R4HumanNameValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(humanName, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -362,7 +364,7 @@ class R4DatatypesTest {
         every { identifier.validate(R4IdentifierValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(identifier, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -371,7 +373,7 @@ class R4DatatypesTest {
         every { ingredient.validate(R4IngredientValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(ingredient, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -385,7 +387,7 @@ class R4DatatypesTest {
         } returns failedValidation
 
         val validation = validateDatatype(locationHoursOfOperation, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -394,7 +396,7 @@ class R4DatatypesTest {
         every { locationPosition.validate(R4LocationPositionValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(locationPosition, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -403,7 +405,7 @@ class R4DatatypesTest {
         every { moneyQuantity.validate(R4MoneyQuantityValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(moneyQuantity, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -412,7 +414,7 @@ class R4DatatypesTest {
         every { narrative.validate(R4NarrativeValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(narrative, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -421,7 +423,7 @@ class R4DatatypesTest {
         every { notAvailable.validate(R4NotAvailableValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(notAvailable, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -435,7 +437,7 @@ class R4DatatypesTest {
         } returns failedValidation
 
         val validation = validateDatatype(observationComponent, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -449,7 +451,7 @@ class R4DatatypesTest {
         } returns failedValidation
 
         val validation = validateDatatype(observationReferenceRange, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -458,7 +460,7 @@ class R4DatatypesTest {
         every { parameterDefinition.validate(R4ParameterDefinitionValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(parameterDefinition, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -467,7 +469,7 @@ class R4DatatypesTest {
         every { participant.validate(R4ParticipantValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(participant, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -476,7 +478,7 @@ class R4DatatypesTest {
         every { patientLink.validate(R4PatientLinkValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(patientLink, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -485,7 +487,7 @@ class R4DatatypesTest {
         every { period.validate(R4PeriodValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(period, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -494,7 +496,7 @@ class R4DatatypesTest {
         every { qualification.validate(R4QualificationValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(qualification, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -503,7 +505,7 @@ class R4DatatypesTest {
         every { quantity.validate(R4QuantityValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(quantity, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -512,7 +514,7 @@ class R4DatatypesTest {
         every { range.validate(R4RangeValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(range, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -521,7 +523,7 @@ class R4DatatypesTest {
         every { ratio.validate(R4RatioValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(ratio, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -530,7 +532,7 @@ class R4DatatypesTest {
         every { reference.validate(R4ReferenceValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(reference, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -539,7 +541,7 @@ class R4DatatypesTest {
         every { relatedArtifact.validate(R4RelatedArtifactValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(relatedArtifact, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -548,7 +550,7 @@ class R4DatatypesTest {
         every { sampledData.validate(R4SampledDataValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(sampledData, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -557,7 +559,7 @@ class R4DatatypesTest {
         every { signature.validate(R4SignatureValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(signature, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -566,7 +568,7 @@ class R4DatatypesTest {
         every { simpleQuantity.validate(R4SimpleQuantityValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(simpleQuantity, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -575,7 +577,7 @@ class R4DatatypesTest {
         every { sort.validate(R4SortValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(sort, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -584,7 +586,7 @@ class R4DatatypesTest {
         every { timingRepeat.validate(R4TimingRepeatValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(timingRepeat, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -593,7 +595,7 @@ class R4DatatypesTest {
         every { triggerDefinition.validate(R4TriggerDefinitionValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(triggerDefinition, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -602,7 +604,7 @@ class R4DatatypesTest {
         every { usageContext.validate(R4UsageContextValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(usageContext, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 
     @Test
@@ -612,7 +614,7 @@ class R4DatatypesTest {
         every { meta.validate(capture(validatorSlot), locationContext) } returns failedValidation
 
         val validation = validateDatatype(meta, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
         assertTrue(validatorSlot.captured is GenericElementValidator)
     }
 
@@ -632,6 +634,6 @@ class R4DatatypesTest {
 
         val validator = GenericElementValidator<MadeUpElement>()
         val validation = validator.validate(madeUpElement, locationContext)
-        assertEquals(1, validation.errors().size)
+        assertEquals(1, validation.issues().size)
     }
 }

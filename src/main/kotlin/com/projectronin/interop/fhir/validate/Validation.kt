@@ -9,7 +9,6 @@ import kotlin.contracts.contract
  * Validation can be utilized to capture multiple failure conditions and report them in a single instance.
  */
 class Validation {
-    private val exceptions = mutableListOf<Exception>()
     private val issues = mutableListOf<ValidationIssue>()
 
     /**
@@ -60,41 +59,6 @@ class Validation {
         return codified
     }
 
-    /**
-     * Checks that the [value] is true. If not, the [lazyMessage] is used to produce an error.
-     */
-    @Deprecated(message = "use checkTrue")
-    fun check(value: Boolean, lazyMessage: () -> Any) {
-        try {
-            require(value, lazyMessage)
-        } catch (e: Exception) {
-            exceptions.add(e)
-        }
-    }
-
-    fun checkTrue(value: Boolean, issueToLog: ValidationIssue) {
-        if (!value) {
-            issues.add(issueToLog)
-        }
-    }
-
-    /**
-     * Validates that the [value] is not null. If null, the [lazyMessage] is used to produce an error.
-     */
-    @OptIn(ExperimentalContracts::class)
-    @Deprecated(message = "use checkNotNull")
-    fun notNull(value: Any?, lazyMessage: () -> Any) {
-        // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
-        contract {
-            returns() implies (value != null)
-        }
-        try {
-            requireNotNull(value, lazyMessage)
-        } catch (e: Exception) {
-            exceptions.add(e)
-        }
-    }
-
     @OptIn(ExperimentalContracts::class)
     fun checkNotNull(value: Any?, issueToLog: ValidationIssue) {
         // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
@@ -116,9 +80,18 @@ class Validation {
     }
 
     /**
-     * Retrieves the current List of exceptions.
+     * True if at least one issue was identified with an Error severity.
      */
-    fun errors(): List<Exception> = exceptions
+    fun hasErrors(): Boolean = issues.any { it.severity == ValidationIssueSeverity.ERROR }
+
+    /**
+     * True if any issues were identified, regardless of severity.
+     */
+    fun hasIssues(): Boolean = issues.isNotEmpty()
+
+    /**
+     * List of all issues encountered
+     */
     fun issues(): List<ValidationIssue> = issues
 
     /**
@@ -126,17 +99,10 @@ class Validation {
      */
     fun alertIfErrors() {
         val errors = issues.filter { it.severity == ValidationIssueSeverity.ERROR }
-        if (errors.isNotEmpty()) throw IllegalArgumentException(
-            errors.joinToString(separator = "\n", prefix = "Encountered validation error(s):\n")
-        )
-
-        when (exceptions.size) {
-            0 -> return
-            1 -> throw exceptions[0]
-            else -> {
-                val joinedMessage = exceptions.joinToString(separator = "\n") { it.message ?: it.toString() }
-                throw IllegalArgumentException("Encountered multiple validation errors:\n$joinedMessage")
-            }
+        if (errors.isNotEmpty()) {
+            throw IllegalArgumentException(
+                errors.joinToString(separator = "\n", prefix = "Encountered validation error(s):\n")
+            )
         }
     }
 
@@ -144,7 +110,6 @@ class Validation {
      * Merges the [other] Validation with this instance.
      */
     fun merge(other: Validation) {
-        exceptions.addAll(other.errors())
         issues.addAll(other.issues)
     }
 }

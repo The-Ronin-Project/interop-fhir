@@ -13,7 +13,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uuid
+import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.validate.LocationContext
+import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import io.mockk.every
 import io.mockk.mockk
@@ -21,9 +23,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class R4PrimitivesTest {
-    private val expectedExceptions = listOf(RuntimeException("test exception"))
+    private val expectedIssues = listOf(RequiredFieldError(Patient::name).toValidationIssue())
     private val mockedValidation = mockk<Validation> {
-        every { errors() } returns expectedExceptions
+        every { issues() } returns expectedIssues
     }
     private val locationContext = LocationContext("Sample", "field")
 
@@ -33,7 +35,7 @@ class R4PrimitivesTest {
         every { base64Binary.validate(R4Base64BinaryValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(base64Binary, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -42,7 +44,7 @@ class R4PrimitivesTest {
         every { code.validate(R4CodeValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(code, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -51,7 +53,7 @@ class R4PrimitivesTest {
         every { date.validate(R4DateValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(date, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -60,7 +62,7 @@ class R4PrimitivesTest {
         every { dateTime.validate(R4DateTimeValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(dateTime, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -69,7 +71,7 @@ class R4PrimitivesTest {
         every { id.validate(R4IdValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(id, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -78,7 +80,7 @@ class R4PrimitivesTest {
         every { instant.validate(R4InstantValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(instant, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -87,7 +89,7 @@ class R4PrimitivesTest {
         every { oid.validate(R4OidValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(oid, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -96,7 +98,7 @@ class R4PrimitivesTest {
         every { positiveInt.validate(R4PositiveIntValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(positiveInt, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -105,7 +107,7 @@ class R4PrimitivesTest {
         every { time.validate(R4TimeValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(time, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -114,7 +116,7 @@ class R4PrimitivesTest {
         every { unsignedInt.validate(R4UnsignedIntValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(unsignedInt, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -123,7 +125,7 @@ class R4PrimitivesTest {
         every { uri.validate(R4UriValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(uri, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -132,7 +134,7 @@ class R4PrimitivesTest {
         every { uuid.validate(R4UuidValidator, locationContext) } returns mockedValidation
 
         val validation = validatePrimitive(uuid, locationContext)
-        assertEquals(expectedExceptions, validation.errors())
+        assertEquals(expectedIssues, validation.issues())
     }
 
     @Test
@@ -140,6 +142,6 @@ class R4PrimitivesTest {
         val canonical = mockk<Canonical>()
 
         val validation = validatePrimitive(canonical, locationContext)
-        assertEquals(0, validation.errors().size)
+        assertEquals(0, validation.issues().size)
     }
 }
