@@ -34,7 +34,7 @@ class PractitionerTest {
         val practitioner = Practitioner(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninPractitionerRole")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -73,7 +73,7 @@ class PractitionerTest {
             |  "resourceType" : "Practitioner",
             |  "id" : "12345",
             |  "meta" : {
-            |    "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+            |    "profile" : [ "RoninPractitionerRole" ]
             |  },
             |  "implicitRules" : "implicit-rules",
             |  "language" : "en-US",

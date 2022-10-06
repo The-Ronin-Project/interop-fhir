@@ -36,7 +36,7 @@ class STU3BundleTest {
 
     private val goodBundle = STU3Bundle(
         id = Id("1234"),
-        meta = Meta(profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner"))),
+        meta = Meta(profile = listOf(Canonical("STU3profile"))),
         implicitRules = Uri("implicit-rules"),
         language = Code("en-US"),
         identifier = Identifier(value = "identifier"),
@@ -62,7 +62,7 @@ class STU3BundleTest {
               "resourceType" : "Bundle",
               "id" : "1234",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "STU3profile" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

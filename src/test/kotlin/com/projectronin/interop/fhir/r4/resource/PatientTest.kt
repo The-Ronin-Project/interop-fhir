@@ -40,7 +40,7 @@ class PatientTest {
         val patient = Patient(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninPatient")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -85,7 +85,7 @@ class PatientTest {
               "resourceType" : "Patient",
               "id" : "12345",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninPatient" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

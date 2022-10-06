@@ -32,7 +32,7 @@ class AppointmentTest {
         val appointment = Appointment(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninAppointment")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -88,7 +88,7 @@ class AppointmentTest {
               "resourceType" : "Appointment",
               "id" : "12345",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninAppointment" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

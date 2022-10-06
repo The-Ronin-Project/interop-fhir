@@ -27,7 +27,7 @@ class BundleTest {
         val patient = Patient(id = Id("5678"), name = listOf(HumanName(family = "Doe", given = listOf("John"))))
         val bundle = Bundle(
             id = Id("1234"),
-            meta = Meta(profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner"))),
+            meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             identifier = Identifier(value = "identifier"),
@@ -50,7 +50,7 @@ class BundleTest {
               "resourceType" : "Bundle",
               "id" : "1234",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninPractitioner" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",
@@ -100,7 +100,7 @@ class BundleTest {
         )
         val bundle = Bundle(
             id = Id("1234"),
-            meta = Meta(profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner"))),
+            meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
             identifier = Identifier(value = "identifier"),
@@ -123,7 +123,7 @@ class BundleTest {
               "resourceType" : "Bundle",
               "id" : "1234",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninPractitioner" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

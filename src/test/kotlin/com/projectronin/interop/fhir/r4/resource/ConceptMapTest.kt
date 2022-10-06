@@ -138,7 +138,7 @@ class ConceptMapTest {
         val conceptMap = ConceptMap(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninConceptMap/guid")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -192,7 +192,7 @@ class ConceptMapTest {
               "resourceType" : "ConceptMap",
               "id" : "12345",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninConceptMap/guid" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

@@ -32,7 +32,7 @@ class MedicationStatementTest {
         val medicationStatement = MedicationStatement(
             id = Id("123"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninMedicationStatement")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -77,7 +77,7 @@ class MedicationStatementTest {
               "resourceType" : "MedicationStatement",
               "id" : "123",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninMedicationStatement" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

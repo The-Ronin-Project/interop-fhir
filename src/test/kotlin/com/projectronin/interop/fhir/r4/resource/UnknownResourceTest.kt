@@ -18,7 +18,7 @@ class UnknownResourceTest {
             resourceType = "Banana",
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")),
+                profile = listOf(Canonical("RoninUnknown")),
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -37,7 +37,7 @@ class UnknownResourceTest {
               "resourceType" : "Banana",
               "id" : "12345",
               "meta" : {
-                "profile" : [ "http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner" ]
+                "profile" : [ "RoninUnknown" ]
               },
               "implicitRules" : "implicit-rules",
               "language" : "en-US",

@@ -23,8 +23,7 @@ import org.junit.jupiter.api.Test
 class BundleUtilTest {
     @Test
     fun `merge retains original metadata`() {
-        val profileCanonical1 =
-            Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner")
+        val profileCanonical1 = Canonical("RoninPractitioner")
         val link1 = BundleLink(relation = "next", url = Uri("http://example.com"))
         val signature1 = Signature(
             type = listOf(Coding(display = "type")),
@@ -45,8 +44,7 @@ class BundleUtilTest {
             signature = signature1
         )
 
-        val profileCanonical2 =
-            Canonical("http://projectronin.com/fhir/us/ronin/StructureDefinition/oncology-practitioner2")
+        val profileCanonical2 = Canonical("RoninPractitionerRole")
         val link2 = BundleLink(relation = "next", url = Uri("http://example.com/2"))
         val signature2 = Signature(
             type = listOf(Coding(display = "type2")),
