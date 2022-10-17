@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.r4.datatype
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
@@ -16,5 +17,7 @@ data class Identifier(
     val system: Uri? = null,
     val value: String? = null,
     val period: Period? = null,
-    val assigner: Reference? = null
+    val assigner: Reference? = null,
+    @JsonProperty(value = "_value")
+    val valueData: PrimitiveData? = null
 ) : Element<Identifier>
