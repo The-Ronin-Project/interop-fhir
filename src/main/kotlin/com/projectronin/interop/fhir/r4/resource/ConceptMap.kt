@@ -36,7 +36,7 @@ data class ConceptMap(
     val identifier: Identifier? = null,
     val version: String? = null,
     val name: String? = null,
-    val status: Code?,
+    val status: Code? = null,
     val experimental: Boolean? = null,
     val date: DateTime? = null,
     val publisher: String? = null,

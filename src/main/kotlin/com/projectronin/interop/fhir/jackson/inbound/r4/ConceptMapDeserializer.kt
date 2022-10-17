@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import com.projectronin.interop.common.jackson.getAs
 import com.projectronin.interop.common.jackson.getAsList
 import com.projectronin.interop.common.jackson.getAsOrNull
 import com.projectronin.interop.fhir.jackson.getDynamicValueOrNull
@@ -27,7 +26,7 @@ class ConceptMapDeserializer : StdDeserializer<ConceptMap>(ConceptMap::class.jav
             identifier = node.getAsOrNull("identifier", p),
             version = node.getAsOrNull("version", p),
             name = node.getAsOrNull("name", p),
-            status = node.getAs("status", p),
+            status = node.getAsOrNull("status", p),
             experimental = node.getAsOrNull("experimental", p),
             date = node.getAsOrNull("date", p),
             publisher = node.getAsOrNull("publisher", p),
