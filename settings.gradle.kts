@@ -2,10 +2,10 @@ rootProject.name = "interop-fhir"
 
 pluginManagement {
     plugins {
-        id("com.projectronin.interop.gradle.junit") version "2.1.3"
-        id("com.projectronin.interop.gradle.publish") version "2.1.3"
-        id("com.projectronin.interop.gradle.spring") version "2.1.3"
-        id("com.projectronin.interop.gradle.version") version "2.1.3"
+        id("com.projectronin.interop.gradle.junit") version "2.1.4"
+        id("com.projectronin.interop.gradle.publish") version "2.1.4"
+        id("com.projectronin.interop.gradle.spring") version "2.1.4"
+        id("com.projectronin.interop.gradle.version") version "2.1.4"
     }
 
     repositories {
