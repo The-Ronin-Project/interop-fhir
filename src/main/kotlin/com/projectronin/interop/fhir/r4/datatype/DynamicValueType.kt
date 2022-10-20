@@ -24,14 +24,14 @@ import kotlin.reflect.KClass
 /**
  * Enumeration of the available types of [DynamicValue]s.
  */
-enum class DynamicValueType(override val code: String, private val kClass: KClass<*>? = null) :
+enum class DynamicValueType(override val code: String, val associatedKClass: KClass<*>) :
     CodedEnum<DynamicValueType>, DynamicValueReader {
     ADDRESS("Address", Address::class),
     AGE("Age", Age::class),
     ANNOTATION("Annotation", Annotation::class),
     ATTACHMENT("Attachment", Attachment::class),
     BASE_64_BINARY("Base64Binary", Base64Binary::class),
-    BOOLEAN("Boolean") {
+    BOOLEAN("Boolean", Boolean::class) {
         override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asBoolean()
     },
     CANONICAL("Canonical", Canonical::class),
@@ -45,7 +45,7 @@ enum class DynamicValueType(override val code: String, private val kClass: KClas
     DATA_REQUIREMENT("DataRequirement", DataRequirement::class),
     DATE("Date", Date::class),
     DATE_TIME("DateTime", DateTime::class),
-    DECIMAL("Decimal") {
+    DECIMAL("Decimal", Double::class) {
         override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asDouble()
     },
     DISTANCE("Distance", Distance::class),
@@ -56,7 +56,7 @@ enum class DynamicValueType(override val code: String, private val kClass: KClas
     ID("Id", Id::class),
     IDENTIFIER("Identifier", Identifier::class),
     INSTANT("Instant", Instant::class),
-    INTEGER("Integer") {
+    INTEGER("Integer", Int::class) {
         override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asInt()
     },
     MARKDOWN("Markdown", Markdown::class),
@@ -73,7 +73,7 @@ enum class DynamicValueType(override val code: String, private val kClass: KClas
     RELATED_ARTIFACT("RelatedArtifact", RelatedArtifact::class),
     SAMPLED_DATA("SampledData", SampledData::class),
     SIGNATURE("Signature", Signature::class),
-    STRING("String") {
+    STRING("String", String::class) {
         override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asText()
     },
     TIME("Time", Time::class),
@@ -86,7 +86,7 @@ enum class DynamicValueType(override val code: String, private val kClass: KClas
     UUID("Uuid", Uuid::class);
 
     override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any {
-        kClass ?: throw IllegalStateException("No class provided for enum")
-        return jsonNode.readValueAs(jsonParser, kClass.java)
+        associatedKClass ?: throw IllegalStateException("No class provided for enum")
+        return jsonNode.readValueAs(jsonParser, associatedKClass.java)
     }
 }
