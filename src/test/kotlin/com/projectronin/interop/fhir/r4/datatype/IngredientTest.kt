@@ -66,7 +66,8 @@ class IngredientTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val ingredient = Ingredient(item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test")))
+        val ingredient =
+            Ingredient(item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test")))
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
         val expectedJson = """

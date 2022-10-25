@@ -19,7 +19,6 @@ object R4IngredientValidator : R4ElementContainingValidator<Ingredient>() {
     override fun validateElement(element: Ingredient, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.item, requiredItemError, parentContext)
-
             ifNotNull(element.item) {
                 checkTrue(acceptedItem.contains(element.item.type), invalidItemError, parentContext)
             }

@@ -1,5 +1,8 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
+import com.projectronin.interop.fhir.r4.CodeSystem
+import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
+import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.resource.Medication
 import org.junit.jupiter.api.Assertions
@@ -8,13 +11,13 @@ import org.junit.jupiter.api.assertThrows
 
 internal class R4MedicationValidatorTest {
     @Test
-    fun `passes validation`() {
+    fun `validate - succeeds with empty object`() {
         val medication = Medication()
         R4MedicationValidator.validate(medication).alertIfErrors()
     }
 
     @Test
-    fun `fails on bad medication status`() {
+    fun `validate - fails on bad medication status`() {
         val exception = assertThrows<IllegalArgumentException> {
             R4MedicationValidator.validate(
                 Medication(
@@ -28,5 +31,44 @@ internal class R4MedicationValidatorTest {
                 "ERROR INV_VALUE_SET: status is outside of required value set @ Medication.status",
             exception.message
         )
+    }
+
+    @Test
+    fun `validate - succeeds with empty ingredient list`() {
+        R4MedicationValidator.validate(
+            Medication(
+                code = CodeableConcept(
+                    text = "b",
+                    coding = listOf(
+                        Coding(
+                            system = CodeSystem.RXNORM.uri,
+                            code = Code("b"),
+                            version = "1.0.0",
+                            display = "b"
+                        )
+                    )
+                ),
+                ingredient = listOf()
+            )
+        ).alertIfErrors()
+    }
+
+    @Test
+    fun `validate - succeeds with no ingredient list`() {
+        R4MedicationValidator.validate(
+            Medication(
+                code = CodeableConcept(
+                    text = "b",
+                    coding = listOf(
+                        Coding(
+                            system = CodeSystem.RXNORM.uri,
+                            code = Code("b"),
+                            version = "1.0.0",
+                            display = "b"
+                        )
+                    )
+                )
+            )
+        ).alertIfErrors()
     }
 }

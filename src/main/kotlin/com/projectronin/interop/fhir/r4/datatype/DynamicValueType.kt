@@ -86,7 +86,6 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     UUID("Uuid", Uuid::class);
 
     override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any {
-        associatedKClass ?: throw IllegalStateException("No class provided for enum")
         return jsonNode.readValueAs(jsonParser, associatedKClass.java)
     }
 }
