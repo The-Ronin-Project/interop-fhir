@@ -3,8 +3,8 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.PatientDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.PatientSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -59,3 +59,6 @@ data class Patient(
 ) : DomainResource<Patient> {
     override val resourceType: String = "Patient"
 }
+
+class PatientDeserializer : BaseFHIRDeserializer<Patient>(Patient::class.java)
+class PatientSerializer : BaseFHIRSerializer<Patient>(Patient::class.java)

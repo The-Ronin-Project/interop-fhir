@@ -223,9 +223,6 @@ class ConceptMapTest {
                 "name" : "Big Dawg"
               } ],
               "description" : "text",
-              "contact" : [ {
-                "name" : "Big Dawg"
-              } ],
               "useContext" : [ {
                 "code" : { },
                 "valueReference" : {

@@ -2,8 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.UsageContextDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.UsageContextSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 
 /**
  * The UsageContext structure defines the context of use for a module.
@@ -16,3 +16,6 @@ data class UsageContext(
     val code: Coding?,
     val value: DynamicValue<Any>?
 ) : Element<UsageContext>
+
+class UsageContextDeserializer : BaseFHIRDeserializer<UsageContext>(UsageContext::class.java)
+class UsageContextSerializer : BaseFHIRSerializer<UsageContext>(UsageContext::class.java)

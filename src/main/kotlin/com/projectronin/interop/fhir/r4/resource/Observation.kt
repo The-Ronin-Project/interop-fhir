@@ -3,8 +3,8 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.ObservationDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.ObservationSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -49,6 +49,7 @@ data class Observation(
     val effective: DynamicValue<Any>? = null,
     val issued: Instant? = null,
     val performer: List<Reference> = listOf(),
+    val note: List<Annotation> = listOf(),
     val value: DynamicValue<Any>? = null,
     val dataAbsentReason: CodeableConcept? = null,
     val interpretation: List<CodeableConcept> = listOf(),
@@ -60,7 +61,9 @@ data class Observation(
     val hasMember: List<Reference> = listOf(),
     val derivedFrom: List<Reference> = listOf(),
     val component: List<ObservationComponent> = listOf(),
-    val note: List<Annotation> = listOf(),
 ) : DomainResource<Observation> {
     override val resourceType: String = "Observation"
 }
+
+class ObservationDeserializer : BaseFHIRDeserializer<Observation>(Observation::class.java)
+class ObservationSerializer : BaseFHIRSerializer<Observation>(Observation::class.java)

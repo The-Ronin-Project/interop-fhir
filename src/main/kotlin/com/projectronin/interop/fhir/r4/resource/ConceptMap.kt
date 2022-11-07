@@ -3,8 +3,8 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.ConceptMapDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.ConceptMapSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ConceptMapGroup
 import com.projectronin.interop.fhir.r4.datatype.ContactDetail
@@ -53,3 +53,6 @@ data class ConceptMap(
 
     override val resourceType: String = "ConceptMap"
 }
+
+class ConceptMapDeserializer : BaseFHIRDeserializer<ConceptMap>(ConceptMap::class.java)
+class ConceptMapSerializer : BaseFHIRSerializer<ConceptMap>(ConceptMap::class.java)

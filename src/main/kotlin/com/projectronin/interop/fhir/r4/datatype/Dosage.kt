@@ -2,10 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.DosageDeserializer
-import com.projectronin.interop.fhir.jackson.inbound.r4.DoseAndRateDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.DosageSerializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.DoseAndRateSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 
 /**
  * The Dosage structure defines general dosage instruction information typically represented in medication requests,
@@ -32,6 +30,9 @@ data class Dosage(
     val maxDosePerLifetime: SimpleQuantity? = null
 ) : BackboneElement<Dosage>
 
+class DosageDeserializer : BaseFHIRDeserializer<Dosage>(Dosage::class.java)
+class DosageSerializer : BaseFHIRSerializer<Dosage>(Dosage::class.java)
+
 @JsonDeserialize(using = DoseAndRateDeserializer::class)
 @JsonSerialize(using = DoseAndRateSerializer::class)
 data class DoseAndRate(
@@ -41,3 +42,6 @@ data class DoseAndRate(
     val dose: DynamicValue<Any>? = null,
     val rate: DynamicValue<Any>? = null
 ) : Element<DoseAndRate>
+
+class DoseAndRateDeserializer : BaseFHIRDeserializer<DoseAndRate>(DoseAndRate::class.java)
+class DoseAndRateSerializer : BaseFHIRSerializer<DoseAndRate>(DoseAndRate::class.java)

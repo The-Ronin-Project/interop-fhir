@@ -20,11 +20,11 @@ object R4PeriodValidator : R4ElementContainingValidator<Period>() {
 
     override fun validateElement(element: Period, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.start?.let { start ->
-                element.end?.let { end ->
+            element.start?.value?.let { start ->
+                element.end?.value?.let { end ->
                     // Due to the formatting restrictions on DateTime, we are safe to do direct comparisons like this.
                     // We include equal to account for less than precise times, such as "2018-2018"
-                    checkTrue((start.value <= end.value), startBeforeEndError, parentContext)
+                    checkTrue((start <= end), startBeforeEndError, parentContext)
                 }
             }
         }

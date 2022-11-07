@@ -17,7 +17,7 @@ object R4AvailableTimeValidator : R4ElementContainingValidator<AvailableTime>() 
     override fun validateElement(element: AvailableTime, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkTrue(
-                element.daysOfWeek.none { runCatching { CodedEnum.byCode<DayOfWeek>(it.value) }.getOrNull() == null },
+                element.daysOfWeek.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null },
                 invalidDayOfWeekError,
                 parentContext
             )

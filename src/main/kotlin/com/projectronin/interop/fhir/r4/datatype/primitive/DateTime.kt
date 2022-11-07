@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.datatype.primitive
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.projectronin.interop.fhir.r4.datatype.Extension
 
 /**
  * A date, date-time or partial date (e.g. just year or year + month) as used in human communication. The format is
@@ -9,4 +10,11 @@ import com.fasterxml.jackson.annotation.JsonCreator
  * due to schema type constraints but may be zero-filled and may be ignored at receiver discretion. Dates SHALL be valid
  * dates. The time "24:00" is not allowed. Leap Seconds are allowed.
  */
-data class DateTime @JsonCreator constructor(override val value: String) : Primitive<String, DateTime>
+data class DateTime(
+    override val value: String?,
+    override val id: String? = null,
+    override val extension: List<Extension> = listOf()
+) : Primitive<String, DateTime> {
+    @JsonCreator
+    constructor(value: String) : this(value, null, emptyList())
+}

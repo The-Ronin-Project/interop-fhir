@@ -14,6 +14,6 @@ object R4PositiveIntValidator : ProfileValidator<PositiveInt> {
     private val error = InvalidPrimitiveError(PositiveInt::class)
 
     override fun validate(element: PositiveInt, parentContext: LocationContext?): Validation = validation {
-        checkTrue(element.value > 0, error, parentContext)
+        element.value?.let { checkTrue(it > 0, error, parentContext) }
     }
 }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.projectronin.interop.common.jackson.getAsOrNull
 import com.projectronin.interop.common.jackson.getAsTextOrNull
 import com.projectronin.interop.fhir.r4.resource.UnknownResource
@@ -13,7 +12,7 @@ import com.projectronin.interop.fhir.r4.resource.UnknownResource
 /**
  * Jackson deserializer for [UnknownResource]s
  */
-class UnknownResourceDeserializer : StdDeserializer<UnknownResource>(UnknownResource::class.java) {
+class UnknownResourceDeserializer : BaseFHIRDeserializer<UnknownResource>(UnknownResource::class.java) {
     private val discreteValues = setOf("resourceType", "id", "meta", "implicitRules", "language")
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): UnknownResource {

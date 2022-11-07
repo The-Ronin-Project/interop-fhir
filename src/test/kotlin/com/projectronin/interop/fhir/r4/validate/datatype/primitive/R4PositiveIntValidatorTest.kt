@@ -48,4 +48,11 @@ class R4PositiveIntValidatorTest {
             exception.message
         )
     }
+
+    @Test
+    fun `handles null`() {
+        // doesn't try to validate if value is null
+        val positiveInt = PositiveInt(null)
+        R4PositiveIntValidator.validate(positiveInt).alertIfErrors()
+    }
 }

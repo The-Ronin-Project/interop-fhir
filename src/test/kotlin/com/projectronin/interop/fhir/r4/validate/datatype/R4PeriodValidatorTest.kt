@@ -1,7 +1,11 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
+import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
+import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -27,6 +31,22 @@ class R4PeriodValidatorTest {
     fun `succeeds if start and end match`() {
         val period = Period(
             start = DateTime("2018"),
+            end = DateTime("2018")
+        )
+        R4PeriodValidator.validate(period).alertIfErrors()
+    }
+    @Test
+    fun `handles start null values`() {
+        val period = Period(
+            start = DateTime(
+                value = null,
+                extension = listOf(
+                    Extension(
+                        url = Uri("http://localhost/extension"),
+                        value = DynamicValue(DynamicValueType.STRING, "012020")
+                    )
+                )
+            ),
             end = DateTime("2018")
         )
         R4PeriodValidator.validate(period).alertIfErrors()

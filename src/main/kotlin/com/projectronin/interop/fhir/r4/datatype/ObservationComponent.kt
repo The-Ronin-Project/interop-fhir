@@ -2,8 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.ObservationComponentDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.ObservationComponentSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 
 /**
  * An Observation.component provides component results as type of component observation (code / type) and actual component result.
@@ -20,3 +20,6 @@ data class ObservationComponent(
     val interpretation: List<CodeableConcept> = listOf(),
     val referenceRange: List<ObservationReferenceRange> = listOf(),
 ) : BackboneElement<ObservationComponent>
+
+class ObservationComponentDeserializer : BaseFHIRDeserializer<ObservationComponent>(ObservationComponent::class.java)
+class ObservationComponentSerializer : BaseFHIRSerializer<ObservationComponent>(ObservationComponent::class.java)

@@ -16,6 +16,6 @@ abstract class BaseRegexPrimitiveValidator<PT : Primitive<String, PT>>(
 ) :
     ProfileValidator<PT> {
     override fun validate(element: PT, parentContext: LocationContext?): Validation = validation {
-        checkTrue(regex.matches(element.value), fhirError, parentContext)
+        element.value?.let { checkTrue(regex.matches(it), fhirError, parentContext) }
     }
 }

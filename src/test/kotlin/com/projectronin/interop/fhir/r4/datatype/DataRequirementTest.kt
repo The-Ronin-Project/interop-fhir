@@ -156,4 +156,85 @@ class DataRequirementTest {
         assertNull(dataRequirement.id)
         assertEquals(listOf<Sort>(), dataRequirement.sort)
     }
+
+    @Test
+    fun `can serialize and deserialize with list of primitive extensions`() {
+        val extension = Extension(
+            url = Uri("http://localhost/extension"),
+            value = DynamicValue(DynamicValueType.STRING, "Value")
+        )
+        val canonical1 = Canonical("data-profile1")
+        val canonical2 = Canonical("data-profile2", "12345", listOf(extension))
+        val canonical3 = Canonical("data-profile3", null, listOf(extension))
+        val canonical4 = Canonical("data-profile4", "67890", listOf())
+        val dataRequirement = DataRequirement(
+            type = Code("type"),
+            profile = listOf(canonical1, canonical2, canonical3, canonical4)
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
+
+        val expectedJson = """
+            |{
+            |  "type" : "type",
+            |  "profile" : [ "data-profile1", "data-profile2", "data-profile3", "data-profile4" ],
+            |  "_profile" : [ null, {
+            |    "id" : "12345",
+            |    "extension" : [ {
+            |      "url" : "http://localhost/extension",
+            |      "valueString" : "Value"
+            |    } ]
+            |  }, {
+            |    "extension" : [ {
+            |      "url" : "http://localhost/extension",
+            |      "valueString" : "Value"
+            |    } ]
+            |  }, {
+            |    "id" : "67890"
+            |  } ]
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+
+        val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
+        assertEquals(dataRequirement, deserializedDataRequirement)
+    }
+    @Test
+    fun `can serialize and deserialize with list of primitive extensions with null values`() {
+        val extension = Extension(
+            url = Uri("http://localhost/extension"),
+            value = DynamicValue(DynamicValueType.STRING, "Value")
+        )
+        val canonical1 = Canonical("data-profile1")
+        val canonical2 = Canonical(null, "12345", listOf(extension))
+        val canonical3 = Canonical("data-profile3", null, listOf(extension))
+        val canonical4 = Canonical("data-profile4", "67890", listOf())
+        val dataRequirement = DataRequirement(
+            type = Code("type"),
+            profile = listOf(canonical1, canonical2, canonical3, canonical4)
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
+
+        val expectedJson = """
+            |{
+            |  "type" : "type",
+            |  "profile" : [ "data-profile1", null, "data-profile3", "data-profile4" ],
+            |  "_profile" : [ null, {
+            |    "id" : "12345",
+            |    "extension" : [ {
+            |      "url" : "http://localhost/extension",
+            |      "valueString" : "Value"
+            |    } ]
+            |  }, {
+            |    "extension" : [ {
+            |      "url" : "http://localhost/extension",
+            |      "valueString" : "Value"
+            |    } ]
+            |  }, {
+            |    "id" : "67890"
+            |  } ]
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+
+        val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
+        assertEquals(dataRequirement, deserializedDataRequirement)
+    }
 }

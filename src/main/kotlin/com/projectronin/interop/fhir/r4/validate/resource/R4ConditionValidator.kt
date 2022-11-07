@@ -67,7 +67,13 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
 
             val clinicalStatusCodes = element.clinicalStatus?.let { clinicalStatus ->
                 clinicalStatus.coding.mapNotNull { coding ->
-                    coding.code?.let { code -> runCatching { CodedEnum.byCode<ConditionClinicalStatusCodes>(code.value) }.getOrNull() }
+                    coding.code?.let { code ->
+                        runCatching {
+                            code.value?.let {
+                                CodedEnum.byCode<ConditionClinicalStatusCodes>(it)
+                            }
+                        }.getOrNull()
+                    }
                 }
             } ?: emptyList()
 
@@ -88,7 +94,13 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
 
             val verificationStatusCodes = element.verificationStatus?.let { status ->
                 status.coding.mapNotNull { coding ->
-                    coding.code?.let { code -> runCatching { CodedEnum.byCode<ConditionVerificationStatus>(code.value) }.getOrNull() }
+                    coding.code?.let { code ->
+                        runCatching {
+                            code.value?.let {
+                                CodedEnum.byCode<ConditionVerificationStatus>(it)
+                            }
+                        }.getOrNull()
+                    }
                 }
             } ?: emptyList()
 

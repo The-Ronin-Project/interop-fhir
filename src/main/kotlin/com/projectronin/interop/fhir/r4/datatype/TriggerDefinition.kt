@@ -2,8 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.TriggerDefinitionDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.TriggerDefinitionSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 
 /**
@@ -38,3 +38,6 @@ data class TriggerDefinition(
     val data: List<DataRequirement> = listOf(),
     val condition: Expression? = null
 ) : Element<TriggerDefinition>
+
+class TriggerDefinitionDeserializer : BaseFHIRDeserializer<TriggerDefinition>(TriggerDefinition::class.java)
+class TriggerDefinitionSerializer : BaseFHIRSerializer<TriggerDefinition>(TriggerDefinition::class.java)

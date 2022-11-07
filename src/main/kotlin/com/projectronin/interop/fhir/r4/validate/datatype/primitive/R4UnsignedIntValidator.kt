@@ -14,6 +14,6 @@ object R4UnsignedIntValidator : ProfileValidator<UnsignedInt> {
     private val error = InvalidPrimitiveError(UnsignedInt::class)
 
     override fun validate(element: UnsignedInt, parentContext: LocationContext?): Validation = validation {
-        checkTrue(element.value >= 0, error, parentContext)
+        element.value?.let { checkTrue(it >= 0, error, parentContext) }
     }
 }

@@ -3,8 +3,8 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.ConditionDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.ConditionSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ConditionEvidence
@@ -55,3 +55,6 @@ data class Condition(
 ) : DomainResource<Condition> {
     override val resourceType: String = "Condition"
 }
+
+class ConditionDeserializer : BaseFHIRDeserializer<Condition>(Condition::class.java)
+class ConditionSerializer : BaseFHIRSerializer<Condition>(Condition::class.java)

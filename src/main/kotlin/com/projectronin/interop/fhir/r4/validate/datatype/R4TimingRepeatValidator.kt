@@ -94,12 +94,12 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
             }
 
             checkTrue(
-                element.dayOfWeek.none { runCatching { CodedEnum.byCode<DayOfWeek>(it.value) }.getOrNull() == null },
+                element.dayOfWeek.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null },
                 invalidDayOfWeekError,
                 parentContext
             )
             checkTrue(
-                element.`when`.none { runCatching { CodedEnum.byCode<EventTiming>(it.value) }.getOrNull() == null },
+                element.`when`.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<EventTiming>(it1) } }.getOrNull() == null },
                 invalidWhenError,
                 parentContext
             )

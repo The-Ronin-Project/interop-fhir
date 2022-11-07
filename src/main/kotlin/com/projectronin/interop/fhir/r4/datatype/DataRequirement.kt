@@ -2,10 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.DataRequirementDeserializer
-import com.projectronin.interop.fhir.jackson.inbound.r4.DateFilterDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.DataRequirementSerializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.DateFilterSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
@@ -37,6 +35,9 @@ data class CodeFilter(
     val code: List<Coding> = listOf()
 ) : Element<CodeFilter>
 
+class DataRequirementDeserializer : BaseFHIRDeserializer<DataRequirement>(DataRequirement::class.java)
+class DataRequirementSerializer : BaseFHIRSerializer<DataRequirement>(DataRequirement::class.java)
+
 @JsonDeserialize(using = DateFilterDeserializer::class)
 @JsonSerialize(using = DateFilterSerializer::class)
 data class DateFilter(
@@ -53,3 +54,6 @@ data class Sort(
     val path: String?,
     val direction: Code?
 ) : Element<Sort>
+
+class DateFilterDeserializer : BaseFHIRDeserializer<DateFilter>(DateFilter::class.java)
+class DateFilterSerializer : BaseFHIRSerializer<DateFilter>(DateFilter::class.java)

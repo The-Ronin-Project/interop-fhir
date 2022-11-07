@@ -2,8 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.r4.TimingRepeatDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.r4.TimingRepeatSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
@@ -49,3 +49,6 @@ data class TimingRepeat(
     val `when`: List<Code> = listOf(),
     val offset: UnsignedInt? = null
 ) : Element<TimingRepeat>
+
+class TimingRepeatDeserializer : BaseFHIRDeserializer<TimingRepeat>(TimingRepeat::class.java)
+class TimingRepeatSerializer : BaseFHIRSerializer<TimingRepeat>(TimingRepeat::class.java)

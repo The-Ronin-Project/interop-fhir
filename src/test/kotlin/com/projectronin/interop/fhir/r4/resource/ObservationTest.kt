@@ -128,10 +128,10 @@ class ObservationTest {
               "performer" : [ {
                 "reference" : "performer"
               } ],
-              "valueDateTime" : "2019-04-01",
               "note" : [ {
                 "text" : "note"
               } ],
+              "valueDateTime" : "2019-04-01",
               "bodySite" : {
                 "text" : "body site"
               },
