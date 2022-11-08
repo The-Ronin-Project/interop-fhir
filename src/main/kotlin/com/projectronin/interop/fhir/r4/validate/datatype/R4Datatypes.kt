@@ -54,8 +54,10 @@ import com.projectronin.interop.fhir.r4.datatype.Sort
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
+import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
 import com.projectronin.interop.fhir.r4.datatype.primitive.Primitive
 import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.datatype.medication.R4SubstitutionValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
@@ -125,6 +127,7 @@ fun <T : Element<T>> validateDatatype(element: Element<T>, parentContext: Locati
         is Signature -> element.validate(R4SignatureValidator, parentContext)
         is SimpleQuantity -> element.validate(R4SimpleQuantityValidator, parentContext)
         is Sort -> element.validate(R4SortValidator, parentContext)
+        is Substitution -> element.validate(R4SubstitutionValidator, parentContext)
         is TimingRepeat -> element.validate(R4TimingRepeatValidator, parentContext)
         is TriggerDefinition -> element.validate(R4TriggerDefinitionValidator, parentContext)
         is UsageContext -> element.validate(R4UsageContextValidator, parentContext)

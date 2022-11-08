@@ -56,9 +56,11 @@ import com.projectronin.interop.fhir.r4.datatype.Sort
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
+import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.resource.Patient
+import com.projectronin.interop.fhir.r4.validate.datatype.medication.R4SubstitutionValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.ProfileValidator
@@ -577,6 +579,15 @@ class R4DatatypesTest {
         every { sort.validate(R4SortValidator, locationContext) } returns failedValidation
 
         val validation = validateDatatype(sort, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate Substitution`() {
+        val substitution = mockk<Substitution>()
+        every { substitution.validate(R4SubstitutionValidator, locationContext) } returns failedValidation
+
+        val validation = validateDatatype(substitution, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
