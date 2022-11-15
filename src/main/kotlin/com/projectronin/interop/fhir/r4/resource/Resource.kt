@@ -37,6 +37,7 @@ import com.projectronin.interop.fhir.validate.Validatable
     JsonSubTypes.Type(MedicationRequest::class),
     JsonSubTypes.Type(MedicationStatement::class),
     JsonSubTypes.Type(Observation::class),
+    JsonSubTypes.Type(Organization::class),
     JsonSubTypes.Type(Patient::class),
     JsonSubTypes.Type(Practitioner::class),
     JsonSubTypes.Type(PractitionerRole::class)
