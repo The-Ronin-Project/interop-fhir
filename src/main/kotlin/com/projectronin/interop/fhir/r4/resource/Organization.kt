@@ -36,7 +36,7 @@ data class Organization(
     val active: Boolean? = null,
     val type: List<CodeableConcept> = listOf(),
     val name: String? = null,
-    val alias: String? = null,
+    val alias: List<String> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val address: List<Address> = listOf(),
     val partOf: Reference? = null,

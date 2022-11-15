@@ -67,7 +67,7 @@ class OrganizationTest {
                 )
             ),
             name = "Ronin Fake Hospital Name",
-            alias = "Fake Other Org Name",
+            alias = listOf("Fake Other Org Name"),
             telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
             address = listOf(Address(country = "USA")),
             partOf = Reference(reference = "Organization/super"),
@@ -130,7 +130,7 @@ class OrganizationTest {
               } ]
             } ],
             "name" : "Ronin Fake Hospital Name",
-            "alias" : "Fake Other Org Name",
+            "alias" : [ "Fake Other Org Name" ],
             "telecom" : [ {
               "system" : "phone",
               "value" : "8675309"
@@ -207,7 +207,7 @@ class OrganizationTest {
         assertEquals(listOf<Identifier>(), organization.identifier)
         assertEquals(listOf<CodeableConcept>(), organization.type)
         assertEquals("Ronin Fake Hospital Name", organization.name)
-        assertNull(organization.alias)
+        assertEquals(listOf<String>(), organization.alias)
         assertEquals(
             listOf(
                 ContactPoint(
