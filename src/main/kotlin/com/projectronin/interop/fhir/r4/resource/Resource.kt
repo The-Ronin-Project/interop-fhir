@@ -29,6 +29,7 @@ import com.projectronin.interop.fhir.validate.Validatable
 @JsonSubTypes(
     JsonSubTypes.Type(Appointment::class),
     JsonSubTypes.Type(Bundle::class),
+    JsonSubTypes.Type(CarePlan::class),
     JsonSubTypes.Type(ConceptMap::class),
     JsonSubTypes.Type(Condition::class),
     JsonSubTypes.Type(Encounter::class),
