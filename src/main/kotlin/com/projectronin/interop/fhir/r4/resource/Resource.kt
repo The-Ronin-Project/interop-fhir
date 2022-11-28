@@ -41,7 +41,8 @@ import com.projectronin.interop.fhir.validate.Validatable
     JsonSubTypes.Type(Organization::class),
     JsonSubTypes.Type(Patient::class),
     JsonSubTypes.Type(Practitioner::class),
-    JsonSubTypes.Type(PractitionerRole::class)
+    JsonSubTypes.Type(PractitionerRole::class),
+    JsonSubTypes.Type(CareTeam::class)
 )
 interface Resource<T : Resource<T>> : Validatable<T> {
     val resourceType: String
