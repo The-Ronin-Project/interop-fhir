@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 
 /**
@@ -14,46 +15,56 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 @JsonDeserialize(using = DataRequirementDeserializer::class)
 @JsonSerialize(using = DataRequirementSerializer::class)
 data class DataRequirement(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val type: Code?,
     val profile: List<Canonical> = listOf(),
     val subject: DynamicValue<Any>? = null,
-    val mustSupport: List<String> = listOf(),
+    val mustSupport: List<FHIRString> = listOf(),
     val codeFilter: List<CodeFilter> = listOf(),
     val dateFilter: List<DateFilter> = listOf(),
     val limit: PositiveInt? = null,
     val sort: List<Sort> = listOf()
 ) : Element<DataRequirement>
 
+class DataRequirementDeserializer : BaseFHIRDeserializer<DataRequirement>(DataRequirement::class.java)
+class DataRequirementSerializer : BaseFHIRSerializer<DataRequirement>(DataRequirement::class.java)
+
+@JsonDeserialize(using = CodeFilterDeserializer::class)
+@JsonSerialize(using = CodeFilterSerializer::class)
 data class CodeFilter(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
-    val path: String? = null,
-    val searchParam: String? = null,
+    val path: FHIRString? = null,
+    val searchParam: FHIRString? = null,
     val valueSet: Canonical? = null,
     val code: List<Coding> = listOf()
 ) : Element<CodeFilter>
 
-class DataRequirementDeserializer : BaseFHIRDeserializer<DataRequirement>(DataRequirement::class.java)
-class DataRequirementSerializer : BaseFHIRSerializer<DataRequirement>(DataRequirement::class.java)
+class CodeFilterDeserializer : BaseFHIRDeserializer<CodeFilter>(CodeFilter::class.java)
+class CodeFilterSerializer : BaseFHIRSerializer<CodeFilter>(CodeFilter::class.java)
 
 @JsonDeserialize(using = DateFilterDeserializer::class)
 @JsonSerialize(using = DateFilterSerializer::class)
 data class DateFilter(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
-    val path: String? = null,
-    val searchParam: String? = null,
+    val path: FHIRString? = null,
+    val searchParam: FHIRString? = null,
     val value: DynamicValue<Any>? = null
 ) : Element<DateFilter>
 
+class DateFilterDeserializer : BaseFHIRDeserializer<DateFilter>(DateFilter::class.java)
+class DateFilterSerializer : BaseFHIRSerializer<DateFilter>(DateFilter::class.java)
+
+@JsonDeserialize(using = SortDeserializer::class)
+@JsonSerialize(using = SortSerializer::class)
 data class Sort(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
-    val path: String?,
+    val path: FHIRString?,
     val direction: Code?
 ) : Element<Sort>
 
-class DateFilterDeserializer : BaseFHIRDeserializer<DateFilter>(DateFilter::class.java)
-class DateFilterSerializer : BaseFHIRSerializer<DateFilter>(DateFilter::class.java)
+class SortDeserializer : BaseFHIRDeserializer<Sort>(Sort::class.java)
+class SortSerializer : BaseFHIRSerializer<Sort>(Sort::class.java)

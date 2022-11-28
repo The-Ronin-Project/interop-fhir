@@ -19,6 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
@@ -46,7 +47,7 @@ data class MedicationRequest(
     val intent: Code?,
     val category: List<CodeableConcept> = listOf(),
     val priority: Code? = null,
-    val doNotPerform: Boolean? = null,
+    val doNotPerform: FHIRBoolean? = null,
     val reported: DynamicValue<Any>? = null,
     val medication: DynamicValue<Any>?,
     val subject: Reference?,

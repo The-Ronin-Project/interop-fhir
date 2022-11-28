@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Communication
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,7 +25,7 @@ class R4CommunicationValidatorTest {
 
     @Test
     fun `validates successfully`() {
-        val communication = Communication(language = CodeableConcept(text = "English"))
+        val communication = Communication(language = CodeableConcept(text = FHIRString("English")))
         R4CommunicationValidator.validate(communication).alertIfErrors()
     }
 }

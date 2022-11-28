@@ -6,6 +6,8 @@ import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -19,8 +21,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
  * specification are provided, the list of events should be understood as an interpretation of the information in the
  * repeat structure.
  */
+@JsonSerialize(using = TimingSerializer::class)
+@JsonDeserialize(using = TimingDeserializer::class)
 data class Timing(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val event: List<DateTime> = listOf(),
@@ -28,21 +32,24 @@ data class Timing(
     val code: CodeableConcept? = null
 ) : BackboneElement<Timing>
 
+class TimingSerializer : BaseFHIRSerializer<Timing>(Timing::class.java)
+class TimingDeserializer : BaseFHIRDeserializer<Timing>(Timing::class.java)
+
 @JsonDeserialize(using = TimingRepeatDeserializer::class)
 @JsonSerialize(using = TimingRepeatSerializer::class)
 data class TimingRepeat(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val bounds: DynamicValue<Any>? = null,
     val count: PositiveInt? = null,
     val countMax: PositiveInt? = null,
-    val duration: Double? = null,
-    val durationMax: Double? = null,
+    val duration: Decimal? = null,
+    val durationMax: Decimal? = null,
     val durationUnit: Code? = null,
     val frequency: PositiveInt? = null,
     val frequencyMax: PositiveInt? = null,
-    val period: Double? = null,
-    val periodMax: Double? = null,
+    val period: Decimal? = null,
+    val periodMax: Decimal? = null,
     val periodUnit: Code? = null,
     val dayOfWeek: List<Code> = listOf(),
     val timeOfDay: List<Time> = listOf(),

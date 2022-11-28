@@ -12,11 +12,11 @@ class PrimitiveDataTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val primitiveData = PrimitiveData(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             )
         )
@@ -42,7 +42,7 @@ class PrimitiveDataTest {
             extension = listOf(
                 Extension(
                     url = Uri("http://hl7.org/fhir/StructureDefinition/rendered-value"),
-                    value = DynamicValue(DynamicValueType.STRING, "xxx-xx-1234")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("xxx-xx-1234"))
                 )
             )
         )
@@ -66,7 +66,7 @@ class PrimitiveDataTest {
             |}""".trimMargin()
         val primitiveData = objectMapper.readValue<PrimitiveData>(json)
 
-        assertEquals("12345", primitiveData.id)
+        assertEquals(FHIRString("12345"), primitiveData.id)
         assertEquals(listOf<Extension>(), primitiveData.extension)
     }
 }

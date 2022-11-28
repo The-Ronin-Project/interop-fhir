@@ -5,6 +5,7 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
@@ -16,11 +17,11 @@ class AttachmentTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val attachment = Attachment(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             contentType = Code("application/json"),
@@ -29,7 +30,7 @@ class AttachmentTest {
             url = Url("http://localhost/data"),
             size = UnsignedInt(300),
             hash = Base64Binary("1234"),
-            title = "Title",
+            title = FHIRString("Title"),
             creation = DateTime("2021-11-17T17:39:00Z")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(attachment)
@@ -59,7 +60,7 @@ class AttachmentTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val attachment = Attachment(
-            title = "Empty"
+            title = FHIRString("Empty")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(attachment)
 

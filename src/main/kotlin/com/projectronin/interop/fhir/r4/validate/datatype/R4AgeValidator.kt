@@ -38,7 +38,7 @@ object R4AgeValidator : BaseR4QuantityValidator<Age>() {
                 invalidSystemError,
                 parentContext
             )
-            checkTrue((quantity.value == null || quantity.value > 0), positiveValueError, parentContext)
+            checkTrue((quantity.value?.value == null || quantity.value.value > 0), positiveValueError, parentContext)
         }
     }
 }

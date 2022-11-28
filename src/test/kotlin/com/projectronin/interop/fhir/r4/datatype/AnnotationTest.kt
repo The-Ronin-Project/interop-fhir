@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,14 +15,14 @@ class AnnotationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val annotation = Annotation(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            author = DynamicValue(DynamicValueType.STRING, "Author"),
+            author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
             time = DateTime("2021-11-17"),
             text = Markdown("Markdown text")
         )
@@ -72,21 +73,22 @@ class AnnotationTest {
         assertNull(annotation.time)
         assertEquals(Markdown("Markdown text"), annotation.text)
     }
+
     @Test
     fun `can serialize and deserialize JSON with markdown extensions`() {
         val annotation = Annotation(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            author = DynamicValue(DynamicValueType.STRING, "Author"),
+            author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
             time = DateTime("2021-11-17"),
             text = Markdown(
                 value = "Markdown text",
-                id = "67890",
+                id = FHIRString("67890"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),

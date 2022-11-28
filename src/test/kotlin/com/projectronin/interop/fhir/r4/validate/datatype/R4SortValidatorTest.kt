@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Sort
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.SortDirection
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,7 +30,7 @@ class R4SortValidatorTest {
     fun `fails for no direction provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val sort = Sort(
-                path = "path",
+                path = FHIRString("path"),
                 direction = null
             )
             R4SortValidator.validate(sort).alertIfErrors()
@@ -45,7 +46,7 @@ class R4SortValidatorTest {
     fun `fails for direction is outside of required value set`() {
         val exception = assertThrows<IllegalArgumentException> {
             val sort = Sort(
-                path = "path",
+                path = FHIRString("path"),
                 direction = Code("unsupported-direction")
             )
             R4SortValidator.validate(sort).alertIfErrors()
@@ -60,7 +61,7 @@ class R4SortValidatorTest {
     @Test
     fun `validates successfully`() {
         val sort = Sort(
-            path = "path",
+            path = FHIRString("path"),
             direction = SortDirection.ASCENDING.asCode()
         )
         R4SortValidator.validate(sort).alertIfErrors()

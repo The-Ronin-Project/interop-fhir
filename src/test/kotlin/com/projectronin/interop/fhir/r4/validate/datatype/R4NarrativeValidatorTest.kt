@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4NarrativeValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val narrative = Narrative(
                 status = null,
-                div = "narrative text"
+                div = FHIRString("narrative text")
             )
             R4NarrativeValidator.validate(narrative).alertIfErrors()
         }
@@ -30,7 +31,7 @@ class R4NarrativeValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val narrative = Narrative(
                 status = Code("unsupported-status"),
-                div = "narrative text"
+                div = FHIRString("narrative text")
             )
             R4NarrativeValidator.validate(narrative).alertIfErrors()
         }
@@ -59,7 +60,7 @@ class R4NarrativeValidatorTest {
 
     @Test
     fun `validates successfully`() {
-        val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = "narrative text")
+        val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = FHIRString("narrative text"))
         R4NarrativeValidator.validate(narrative).alertIfErrors()
     }
 }

@@ -21,6 +21,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
@@ -35,8 +38,8 @@ import org.junit.jupiter.api.Test
 class PatientTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val deceased = DynamicValue(type = DynamicValueType.BOOLEAN, value = false)
-        val multipleBirth = DynamicValue(type = DynamicValueType.INTEGER, value = 2)
+        val deceased = DynamicValue(type = DynamicValueType.BOOLEAN, value = FHIRBoolean.FALSE)
+        val multipleBirth = DynamicValue(type = DynamicValueType.INTEGER, value = FHIRInteger(2))
         val patient = Patient(
             id = Id("12345"),
             meta = Meta(
@@ -46,37 +49,42 @@ class PatientTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            active = true,
-            name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            active = FHIRBoolean.TRUE,
+            name = listOf(HumanName(family = FHIRString("Doe"))),
+            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
             gender = AdministrativeGender.FEMALE.asCode(),
             birthDate = Date("1975-07-05"),
             deceased = deceased,
-            address = listOf(Address(country = "USA")),
-            maritalStatus = CodeableConcept(text = "M"),
+            address = listOf(Address(country = FHIRString("USA"))),
+            maritalStatus = CodeableConcept(text = FHIRString("M")),
             multipleBirth = multipleBirth,
             photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
-            contact = listOf(Contact(name = HumanName(text = "Jane Doe"))),
-            communication = listOf(Communication(language = CodeableConcept(text = "English"))),
-            generalPractitioner = listOf(Reference(display = "GP")),
-            managingOrganization = Reference(display = "organization"),
-            link = listOf(PatientLink(other = Reference(display = "other patient"), type = LinkType.REPLACES.asCode()))
+            contact = listOf(Contact(name = HumanName(text = FHIRString("Jane Doe")))),
+            communication = listOf(Communication(language = CodeableConcept(text = FHIRString("English")))),
+            generalPractitioner = listOf(Reference(display = FHIRString("GP"))),
+            managingOrganization = Reference(display = FHIRString("organization")),
+            link = listOf(
+                PatientLink(
+                    other = Reference(display = FHIRString("other patient")),
+                    type = LinkType.REPLACES.asCode()
+                )
+            )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patient)
 

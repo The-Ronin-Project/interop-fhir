@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.TriggerType
 import com.projectronin.interop.fhir.util.asCode
@@ -14,17 +15,17 @@ class TriggerDefinitionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val triggerDefinition = TriggerDefinition(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             type = TriggerType.DATA_MODIFIED.asCode(),
-            name = "trigger name",
+            name = FHIRString("trigger name"),
             data = listOf(DataRequirement(type = Code("data-type-code"))),
-            condition = Expression(language = Code("en-US"), expression = "Expression")
+            condition = Expression(language = Code("en-US"), expression = FHIRString("Expression"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(triggerDefinition)
 
@@ -55,7 +56,7 @@ class TriggerDefinitionTest {
     fun `serialized JSON ignores null and empty fields`() {
         val triggerDefinition = TriggerDefinition(
             type = TriggerType.NAMED_EVENT.asCode(),
-            name = "any",
+            name = FHIRString("any"),
             data = listOf(DataRequirement(type = Code("data-type-code"))),
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(triggerDefinition)

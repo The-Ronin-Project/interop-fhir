@@ -15,6 +15,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -27,7 +28,10 @@ import org.junit.jupiter.api.Test
 class MedicationStatementTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val medication = DynamicValue(type = DynamicValueType.CODEABLE_CONCEPT, value = CodeableConcept(text = "Medication Category"))
+        val medication = DynamicValue(
+            type = DynamicValueType.CODEABLE_CONCEPT,
+            value = CodeableConcept(text = FHIRString("Medication Category"))
+        )
         val effective = DynamicValue(type = DynamicValueType.DATE_TIME, value = DateTime("2022"))
         val medicationStatement = MedicationStatement(
             id = Id("123"),
@@ -38,38 +42,38 @@ class MedicationStatementTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            basedOn = listOf(Reference(display = "basedOn Reference")),
-            partOf = listOf(Reference(display = "partOf Reference")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            basedOn = listOf(Reference(display = FHIRString("basedOn Reference"))),
+            partOf = listOf(Reference(display = FHIRString("partOf Reference"))),
             status = MedicationStatementStatus.ACTIVE.asCode(),
-            statusReason = listOf(CodeableConcept(text = "statusReason category")),
-            category = CodeableConcept(text = "category category"),
+            statusReason = listOf(CodeableConcept(text = FHIRString("statusReason category"))),
+            category = CodeableConcept(text = FHIRString("category category")),
             medication = medication,
-            subject = Reference(display = "subject Reference"),
-            context = Reference(display = "context Reference"),
+            subject = Reference(display = FHIRString("subject Reference")),
+            context = Reference(display = FHIRString("context Reference")),
             effective = effective,
             dateAsserted = DateTime("2021"),
-            informationSource = Reference(display = "informationSource Reference"),
-            derivedFrom = listOf(Reference(display = "derivedFrom Reference")),
-            reasonCode = listOf(CodeableConcept(text = "reasonCode category")),
-            reasonReference = listOf(Reference(display = "reasonReference Reference")),
+            informationSource = Reference(display = FHIRString("informationSource Reference")),
+            derivedFrom = listOf(Reference(display = FHIRString("derivedFrom Reference"))),
+            reasonCode = listOf(CodeableConcept(text = FHIRString("reasonCode category"))),
+            reasonReference = listOf(Reference(display = FHIRString("reasonReference Reference"))),
             note = listOf(Annotation(text = Markdown("note"))),
-            dosage = listOf(Dosage(text = "Dosage"))
+            dosage = listOf(Dosage(text = FHIRString("Dosage")))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationStatement)
         val expectedJson = """
@@ -149,12 +153,15 @@ class MedicationStatementTest {
 
     @Test
     fun `serialization ignores nulls`() {
-        val medication = DynamicValue(type = DynamicValueType.CODEABLE_CONCEPT, value = CodeableConcept(text = "Medication Category"))
+        val medication = DynamicValue(
+            type = DynamicValueType.CODEABLE_CONCEPT,
+            value = CodeableConcept(text = FHIRString("Medication Category"))
+        )
         val effective = DynamicValue(type = DynamicValueType.DATE_TIME, value = DateTime("2022"))
         val medicationStatement = MedicationStatement(
             status = MedicationStatementStatus.COMPLETED.asCode(),
             medication = medication,
-            subject = Reference(display = "reference"),
+            subject = Reference(display = FHIRString("reference")),
             effective = effective
         )
 

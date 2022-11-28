@@ -1,21 +1,28 @@
 package com.projectronin.interop.fhir.r4.datatype
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
  * A Reference to another resource.
  */
+@JsonSerialize(using = ReferenceSerializer::class)
+@JsonDeserialize(using = ReferenceDeserializer::class)
 data class Reference(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
-    val reference: String? = null,
+    val reference: FHIRString? = null,
     val type: Uri? = null,
     val identifier: Identifier? = null,
-    val display: String? = null
+    val display: FHIRString? = null
 ) : Element<Reference> {
 
     fun isForType(type: String): Boolean {
-        return this.type?.value == type || (reference?.contains("$type/") ?: false)
+        return this.type?.value == type || (reference?.value?.contains("$type/") ?: false)
     }
 
     fun decomposedType(): String? {
@@ -25,11 +32,11 @@ data class Reference(
 
     fun decomposedId(): String? {
         val matchResult = getMatchResult()
-        return this.id ?: matchResult?.destructured?.component5()
+        return this.id?.value ?: matchResult?.destructured?.component5()
     }
 
     private fun getMatchResult(): MatchResult? {
-        return this.reference?.let { FHIR_RESOURCE_REGEX.matchEntire(it) }
+        return this.reference?.value?.let { FHIR_RESOURCE_REGEX.matchEntire(it) }
     }
 
     companion object {
@@ -38,3 +45,6 @@ data class Reference(
         )
     }
 }
+
+class ReferenceSerializer : BaseFHIRSerializer<Reference>(Reference::class.java)
+class ReferenceDeserializer : BaseFHIRDeserializer<Reference>(Reference::class.java)

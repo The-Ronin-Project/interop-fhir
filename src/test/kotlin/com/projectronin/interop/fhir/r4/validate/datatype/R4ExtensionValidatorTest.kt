@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -30,11 +31,11 @@ class R4ExtensionValidatorTest {
     fun `fails when both extensions and value are provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val extension = Extension(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                     )
                 ),
                 url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
@@ -53,7 +54,7 @@ class R4ExtensionValidatorTest {
     fun `fails when neither extensions nor value are provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val extension = Extension(
-                id = "12345",
+                id = FHIRString("12345"),
                 url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
             )
             R4ExtensionValidator.validate(extension).alertIfErrors()

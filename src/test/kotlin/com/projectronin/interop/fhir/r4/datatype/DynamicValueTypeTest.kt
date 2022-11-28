@@ -8,6 +8,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
@@ -51,35 +55,39 @@ class DynamicValueTypeTest {
     private val testDataByType = mapOf(
         DynamicValueType.ADDRESS to TestData(
             """{"text":"Address"}""",
-            Address(text = "Address")
+            Address(text = FHIRString("Address"))
         ),
         DynamicValueType.AGE to TestData(
             """{"value":18.0,"code":"d","system":"http://unitsofmeasure.org"}""",
-            Age(value = 18.0, code = Code("d"), system = CodeSystem.UCUM.uri)
+            Age(value = Decimal(18.0), code = Code("d"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.ANNOTATION to TestData(
             """{"text":"text"}""",
             Annotation(text = Markdown("text"))
         ),
-        DynamicValueType.ATTACHMENT to TestData("""{"title":"Title"}""", Attachment(title = "Title")),
+        DynamicValueType.ATTACHMENT to TestData("""{"title":"Title"}""", Attachment(title = FHIRString("Title"))),
         DynamicValueType.BASE_64_BINARY to TestData(""""abcd"""", Base64Binary("abcd")),
-        DynamicValueType.BOOLEAN to TestData("true", true),
+        DynamicValueType.BOOLEAN to TestData("true", FHIRBoolean(true)),
         DynamicValueType.CANONICAL to TestData(""""canonical"""", Canonical("canonical")),
         DynamicValueType.CODE to TestData(""""code"""", Code("code")),
-        DynamicValueType.CODEABLE_CONCEPT to TestData("""{"text":"text"}""", CodeableConcept(text = "text")),
-        DynamicValueType.CODING to TestData("""{"userSelected":false}""", Coding(userSelected = false)),
-        DynamicValueType.CONTACT_DETAIL to TestData("""{"name":"name"}""", ContactDetail(name = "name")),
+        DynamicValueType.CODEABLE_CONCEPT to TestData(
+            """{"text":"text"}""",
+            CodeableConcept(text = FHIRString("text"))
+
+        ),
+        DynamicValueType.CODING to TestData("""{"userSelected":false}""", Coding(userSelected = FHIRBoolean.FALSE)),
+        DynamicValueType.CONTACT_DETAIL to TestData("""{"name":"name"}""", ContactDetail(name = FHIRString("name"))),
         DynamicValueType.CONTACT_POINT to TestData(
             """{"use":"home"}""",
             ContactPoint(use = ContactPointUse.HOME.asCode())
         ),
         DynamicValueType.CONTRIBUTOR to TestData(
             """{"type":"author","name":"name"}""",
-            Contributor(type = ContributorType.AUTHOR.asCode(), name = "name")
+            Contributor(type = ContributorType.AUTHOR.asCode(), name = FHIRString("name"))
         ),
         DynamicValueType.COUNT to TestData(
             """{"value":24.0,"code":"1","system":"http://unitsofmeasure.org"}""",
-            Count(value = 24.0, code = Code("1"), system = CodeSystem.UCUM.uri)
+            Count(value = Decimal(24.0), code = Code("1"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.DATA_REQUIREMENT to TestData("""{"type":"type"}""", DataRequirement(type = Code("type"))),
         DynamicValueType.DATE to TestData(""""2021-11-19"""", Date("2021-11-19")),
@@ -87,19 +95,19 @@ class DynamicValueTypeTest {
             """"2015-02-07T13:28:17-05:00"""",
             DateTime("2015-02-07T13:28:17-05:00")
         ),
-        DynamicValueType.DECIMAL to TestData("24.0", 24.0),
+        DynamicValueType.DECIMAL to TestData("24.0", Decimal(24.0)),
         DynamicValueType.DISTANCE to TestData(
             """{"value":26.2,"code":"mi","system":"http://unitsofmeasure.org"}""",
-            Distance(value = 26.2, code = Code("mi"), system = CodeSystem.UCUM.uri)
+            Distance(value = Decimal(26.2), code = Code("mi"), system = CodeSystem.UCUM.uri)
         ),
-        DynamicValueType.DOSAGE to TestData("""{"text":"text"}""", Dosage(text = "text")),
+        DynamicValueType.DOSAGE to TestData("""{"text":"text"}""", Dosage(text = FHIRString("text"))),
         DynamicValueType.DURATION to TestData(
-            """{"value":"12","code":"h","system":"http://unitsofmeasure.org"}""",
-            Duration(value = 12.0, code = Code("h"), system = CodeSystem.UCUM.uri)
+            """{"value":12.0,"code":"h","system":"http://unitsofmeasure.org"}""",
+            Duration(value = Decimal(12.0), code = Code("h"), system = CodeSystem.UCUM.uri)
         ),
         DynamicValueType.EXPRESSION to TestData(
             """{"language":"en-US","expression":"expression"}""",
-            Expression(language = Code("en-US"), expression = "expression")
+            Expression(language = Code("en-US"), expression = FHIRString("expression"))
         ),
         DynamicValueType.HUMAN_NAME to TestData("""{"use":"official"}""", HumanName(use = NameUse.OFFICIAL.asCode())),
         DynamicValueType.ID to TestData(""""12345"""", Id("12345")),
@@ -108,10 +116,10 @@ class DynamicValueTypeTest {
             Identifier(use = IdentifierUse.OFFICIAL.asCode())
         ),
         DynamicValueType.INSTANT to TestData(""""2017-01-01T00:00:00Z"""", Instant("2017-01-01T00:00:00Z")),
-        DynamicValueType.INTEGER to TestData("3", 3),
+        DynamicValueType.INTEGER to TestData("3", FHIRInteger(3)),
         DynamicValueType.MARKDOWN to TestData(""""markdown"""", Markdown("markdown")),
         DynamicValueType.META to TestData("""{"versionId":"12"}""", Meta(versionId = Id("12"))),
-        DynamicValueType.MONEY to TestData("""{"value":1.25}""", Money(value = 1.25)),
+        DynamicValueType.MONEY to TestData("""{"value":1.25}""", Money(value = Decimal(1.25))),
         DynamicValueType.OID to TestData(""""urn:oid:1.2.3.4.5"""", Oid("urn:oid:1.2.3.4.5")),
         DynamicValueType.PARAMETER_DEFINITION to TestData(
             """{"use":"in","type":"type"}""",
@@ -119,34 +127,41 @@ class DynamicValueTypeTest {
         ),
         DynamicValueType.PERIOD to TestData("""{"start":"2020"}""", Period(start = DateTime("2020"))),
         DynamicValueType.POSITIVE_INT to TestData("""24""", PositiveInt(24)),
-        DynamicValueType.QUANTITY to TestData("""{"value":18.0}""", Quantity(value = 18.0)),
-        DynamicValueType.RANGE to TestData("""{"low":{"value":0.0}}""", Range(low = SimpleQuantity(value = 0.0))),
+        DynamicValueType.QUANTITY to TestData("""{"value":18.0}""", Quantity(value = Decimal(18.0))),
+        DynamicValueType.RANGE to TestData(
+            """{"low":{"value":0.0}}""",
+            Range(low = SimpleQuantity(value = Decimal(0.0)))
+        ),
         DynamicValueType.RATIO to TestData(
             """{"numerator":{"value":1.0},"denominator":{"value":2.0}}""",
-            Ratio(numerator = Quantity(value = 1.0), denominator = Quantity(value = 2.0))
+            Ratio(numerator = Quantity(value = Decimal(1.0)), denominator = Quantity(value = Decimal(2.0)))
         ),
-        DynamicValueType.REFERENCE to TestData("""{"display":"display"}""", Reference(display = "display")),
+        DynamicValueType.REFERENCE to TestData("""{"display":"display"}""", Reference(display = FHIRString("display"))),
         DynamicValueType.RELATED_ARTIFACT to TestData(
             """{"type":"citation"}""",
             RelatedArtifact(type = RelatedArtifactType.CITATION.asCode())
         ),
         DynamicValueType.SAMPLED_DATA to TestData(
             """{"origin":{"value":1.0},"period":2.0,"dimensions":3}""",
-            SampledData(origin = SimpleQuantity(value = 1.0), period = 2.0, dimensions = PositiveInt(3))
+            SampledData(
+                origin = SimpleQuantity(value = Decimal(1.0)),
+                period = Decimal(2.0),
+                dimensions = PositiveInt(3)
+            )
         ),
         DynamicValueType.SIGNATURE to TestData(
             """{"type":[{"userSelected":false}],"when":"2017-01-01T00:00:00Z","who":{"display":"who"}}""",
             Signature(
-                type = listOf(Coding(userSelected = false)),
+                type = listOf(Coding(userSelected = FHIRBoolean.FALSE)),
                 `when` = Instant("2017-01-01T00:00:00Z"),
-                who = Reference(display = "who")
+                who = Reference(display = FHIRString("who"))
             )
         ),
-        DynamicValueType.STRING to TestData(""""string"""", "string"),
+        DynamicValueType.STRING to TestData(""""string"""", FHIRString("string")),
         DynamicValueType.TIME to TestData(""""08:30:15"""", Time("08:30:15")),
         DynamicValueType.TIMING to TestData(
             """{"code":{"text":"code"}}""",
-            Timing(code = CodeableConcept(text = "code"))
+            Timing(code = CodeableConcept(text = FHIRString("code")))
         ),
         DynamicValueType.TRIGGER_DEFINITION to TestData(
             """{"type":"periodic","timingDate":"2022-02-22"}""",
@@ -161,8 +176,8 @@ class DynamicValueTypeTest {
         DynamicValueType.USAGE_CONTEXT to TestData(
             """{"code":{"userSelected":true},"valueQuantity":{"value":1.0}}""",
             UsageContext(
-                code = Coding(userSelected = true),
-                value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = 1.0))
+                code = Coding(userSelected = FHIRBoolean.TRUE),
+                value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
             )
         ),
         DynamicValueType.UUID to TestData(

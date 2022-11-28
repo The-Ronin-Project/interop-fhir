@@ -2,13 +2,14 @@ package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.projectronin.interop.fhir.r4.BaseElementTest
 import io.github.classgraph.ClassGraph
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.jvm.jvmName
 
-class ResourceTest {
+class ResourceTest : BaseElementTest() {
     @Test
     fun `all subtypes are defined`() {
         // This test is not really running anything (Resource is an interface, after all), but it is verifying a critical
@@ -37,5 +38,16 @@ class ResourceTest {
                 }"
             }
         }
+    }
+
+    @Test
+    fun `all resources have serializers, deserializers and only FHIR properties`() {
+        val allElements =
+            ClassGraph().acceptPackages("com.projectronin.interop.fhir").enableClassInfo().scan().use {
+                it.getClassesImplementing(Resource::class.java).filter { c -> c.isFinal }
+                    .map { c -> c.loadClass().kotlin }
+                    .filterNot { c -> c == UnknownResource::class }
+            }
+        verifyElements(allElements, "resourceType")
     }
 }

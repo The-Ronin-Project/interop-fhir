@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
@@ -12,7 +13,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 @JsonDeserialize(using = ExtensionDeserializer::class)
 @JsonSerialize(using = ExtensionSerializer::class)
 data class Extension(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val url: Uri? = null,
     val value: DynamicValue<Any>? = null

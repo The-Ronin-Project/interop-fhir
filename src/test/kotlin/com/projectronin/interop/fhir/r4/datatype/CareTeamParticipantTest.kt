@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,17 +14,17 @@ class CareTeamParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val careTeamParticipant = CareTeamParticipant(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             role = listOf(
@@ -31,18 +33,18 @@ class CareTeamParticipantTest {
                         Coding(
                             system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
                             code = Code("PPRT"),
-                            display = "Primary performer"
+                            display = FHIRString("Primary performer")
                         )
                     )
                 )
             ),
             member = Reference(
-                reference = "Practitioner/f001",
-                display = "Dr. Van Nostrand"
+                reference = FHIRString("Practitioner/f001"),
+                display = FHIRString("Dr. Van Nostrand")
             ),
             onBehalfOf = Reference(
-                reference = "Organization/orgid",
-                display = "Juilliard, Hoffermanndale Clinic"
+                reference = FHIRString("Organization/orgid"),
+                display = FHIRString("Juilliard, Hoffermanndale Clinic")
             ),
             period = Period(
                 start = DateTime(value = "2021-11-17T08:00:00Z"),
@@ -117,6 +119,6 @@ class CareTeamParticipantTest {
         """.trimIndent()
         val careTeamParticipant = JacksonManager.objectMapper.readValue<CareTeamParticipant>(json)
 
-        assertEquals("12345", careTeamParticipant.id)
+        assertEquals(FHIRString("12345"), careTeamParticipant.id)
     }
 }

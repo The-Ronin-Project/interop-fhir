@@ -6,6 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -116,7 +118,7 @@ class R4TimingRepeatValidatorTest {
     fun `fails for unsupported bounds dynamic value type`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val timingRepeat = TimingRepeat(bounds = DynamicValue(DynamicValueType.INTEGER, 1))
+                val timingRepeat = TimingRepeat(bounds = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)))
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
         assertEquals(
@@ -130,7 +132,7 @@ class R4TimingRepeatValidatorTest {
     fun `fails for duration and no durating units`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val timingRepeat = TimingRepeat(duration = 2.0)
+                val timingRepeat = TimingRepeat(duration = Decimal(2.0))
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
         assertEquals(
@@ -144,7 +146,7 @@ class R4TimingRepeatValidatorTest {
     fun `fails for period and no period units`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val timingRepeat = TimingRepeat(period = 2.0)
+                val timingRepeat = TimingRepeat(period = Decimal(2.0))
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
         assertEquals(
@@ -159,8 +161,8 @@ class R4TimingRepeatValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val timingRepeat = TimingRepeat(
-                    duration = -2.0,
-                    durationUnit = com.projectronin.interop.fhir.r4.valueset.UnitOfTime.HOUR.asCode()
+                    duration = Decimal(-2.0),
+                    durationUnit = UnitOfTime.HOUR.asCode()
                 )
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
@@ -176,8 +178,8 @@ class R4TimingRepeatValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val timingRepeat = TimingRepeat(
-                    period = -2.0,
-                    periodUnit = com.projectronin.interop.fhir.r4.valueset.UnitOfTime.DAY.asCode()
+                    period = Decimal(-2.0),
+                    periodUnit = UnitOfTime.DAY.asCode()
                 )
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
@@ -192,7 +194,7 @@ class R4TimingRepeatValidatorTest {
     fun `fails for period max but no period`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val timingRepeat = TimingRepeat(periodMax = 14.0)
+                val timingRepeat = TimingRepeat(periodMax = Decimal(14.0))
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
         assertEquals(
@@ -206,7 +208,7 @@ class R4TimingRepeatValidatorTest {
     fun `fails for duration max but no duration`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val timingRepeat = TimingRepeat(durationMax = 21.0)
+                val timingRepeat = TimingRepeat(durationMax = Decimal(21.0))
                 R4TimingRepeatValidator.validate(timingRepeat).alertIfErrors()
             }
         assertEquals(
@@ -283,17 +285,17 @@ class R4TimingRepeatValidatorTest {
         val timingRepeat = TimingRepeat(
             bounds = DynamicValue(
                 DynamicValueType.DURATION,
-                Duration(value = 3.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                Duration(value = Decimal(3.0), code = Code("a"), system = CodeSystem.UCUM.uri)
             ),
             count = PositiveInt(5),
             countMax = PositiveInt(10),
-            duration = 14.0,
-            durationMax = 30.0,
+            duration = Decimal(14.0),
+            durationMax = Decimal(30.0),
             durationUnit = UnitOfTime.DAY.asCode(),
             frequency = PositiveInt(2),
             frequencyMax = PositiveInt(10),
-            period = 6.0,
-            periodMax = 8.0,
+            period = Decimal(6.0),
+            periodMax = Decimal(8.0),
             periodUnit = UnitOfTime.HOUR.asCode(),
             dayOfWeek = listOf(DayOfWeek.MONDAY.asCode()),
             `when` = listOf(EventTiming.UPON_WAKING.asCode()),

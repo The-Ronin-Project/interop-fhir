@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.CarePlan
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,7 +14,7 @@ class R4CarePlanValidatorTest {
         val carePlan = CarePlan(
             status = Code("active"),
             intent = Code("plan"),
-            subject = Reference(reference = "XYZ123")
+            subject = Reference(reference = FHIRString("XYZ123"))
         )
         R4CarePlanValidator.validate(carePlan).alertIfErrors()
     }
@@ -24,7 +25,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("active"),
                 intent = null,
-                subject = Reference(reference = "XYZ123")
+                subject = Reference(reference = FHIRString("XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -41,7 +42,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = null,
                 intent = Code("plan"),
-                subject = Reference(reference = "XYZ123")
+                subject = Reference(reference = FHIRString("XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -75,7 +76,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("active"),
                 intent = Code("potato"),
-                subject = Reference(reference = "XYZ123")
+                subject = Reference(reference = FHIRString("XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -92,7 +93,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("potato"),
                 intent = Code("plan"),
-                subject = Reference(reference = "XYZ123")
+                subject = Reference(reference = FHIRString("XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }

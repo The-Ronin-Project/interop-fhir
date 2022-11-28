@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.r4.datatype
 
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.validate.Validatable
 
 /**
@@ -8,6 +9,6 @@ import com.projectronin.interop.fhir.validate.Validatable
  * See [FHIR Spec](https://hl7.org/fhir/R4/element.html)
  */
 interface Element<T : Element<T>> : Validatable<T> {
-    val id: String?
+    val id: FHIRString?
     val extension: List<Extension>
 }

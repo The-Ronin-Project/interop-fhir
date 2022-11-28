@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.NameUse
 import com.projectronin.interop.fhir.util.asCode
@@ -14,19 +15,19 @@ class HumanNameTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val humanName = HumanName(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             use = NameUse.OFFICIAL.asCode(),
-            text = "Jane Doe",
-            family = "Doe",
-            given = listOf("Jane"),
-            prefix = listOf("Dr"),
-            suffix = listOf("M.D."),
+            text = FHIRString("Jane Doe"),
+            family = FHIRString("Doe"),
+            given = listOf(FHIRString("Jane")),
+            prefix = listOf(FHIRString("Dr")),
+            suffix = listOf(FHIRString("M.D.")),
             period = Period(start = DateTime("1994-02-29"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(humanName)
@@ -57,7 +58,7 @@ class HumanNameTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val humanName = HumanName(
-            text = "Name"
+            text = FHIRString("Name")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(humanName)
 

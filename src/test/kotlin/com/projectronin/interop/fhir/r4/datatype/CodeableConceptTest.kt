@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,15 +12,15 @@ class CodeableConceptTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val codeableConcept = CodeableConcept(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             coding = listOf(Coding(system = Uri("coding-system"))),
-            text = "concept"
+            text = FHIRString("concept")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(codeableConcept)
 
@@ -44,7 +45,7 @@ class CodeableConceptTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val codeableConcept = CodeableConcept(
-            text = "concept"
+            text = FHIRString("concept")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(codeableConcept)
 
@@ -63,7 +64,7 @@ class CodeableConceptTest {
             |}""".trimMargin()
         val codeableConcept = objectMapper.readValue<CodeableConcept>(json)
 
-        assertEquals("12345", codeableConcept.id)
+        assertEquals(FHIRString("12345"), codeableConcept.id)
         assertEquals(listOf<Extension>(), codeableConcept.extension)
         assertEquals(listOf<Coding>(), codeableConcept.coding)
         assertNull(codeableConcept.text)

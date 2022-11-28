@@ -4,6 +4,8 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Participant
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.resource.Appointment
@@ -24,7 +26,7 @@ class R4AppointmentValidatorTest {
                     status = null,
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     )
@@ -46,7 +48,7 @@ class R4AppointmentValidatorTest {
                     status = Code("unsupported-value"),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     )
@@ -65,11 +67,11 @@ class R4AppointmentValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             R4AppointmentValidator.validate(
                 Appointment(
-                    minutesDuration = 0,
+                    minutesDuration = FHIRInteger(0),
                     status = AppointmentStatus.CANCELLED.asCode(),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     )
@@ -88,11 +90,11 @@ class R4AppointmentValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             R4AppointmentValidator.validate(
                 Appointment(
-                    priority = -1,
+                    priority = FHIRInteger(-1),
                     status = AppointmentStatus.CANCELLED.asCode(),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     )
@@ -131,7 +133,7 @@ class R4AppointmentValidatorTest {
                     status = AppointmentStatus.CANCELLED.asCode(),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     ),
@@ -154,7 +156,7 @@ class R4AppointmentValidatorTest {
                     status = AppointmentStatus.BOOKED.asCode(),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     )
@@ -176,11 +178,11 @@ class R4AppointmentValidatorTest {
                     status = AppointmentStatus.PROPOSED.asCode(),
                     participant = listOf(
                         Participant(
-                            actor = Reference(display = "actor"),
+                            actor = Reference(display = FHIRString("actor")),
                             status = ParticipationStatus.ACCEPTED.asCode()
                         )
                     ),
-                    cancelationReason = CodeableConcept(text = "cancel reason")
+                    cancelationReason = CodeableConcept(text = FHIRString("cancel reason"))
                 )
             ).alertIfErrors()
         }
@@ -198,7 +200,7 @@ class R4AppointmentValidatorTest {
                 status = AppointmentStatus.CANCELLED.asCode(),
                 participant = listOf(
                     Participant(
-                        type = listOf(CodeableConcept("123")),
+                        type = listOf(CodeableConcept(FHIRString("123"))),
                         status = ParticipationStatus.ACCEPTED.asCode()
                     )
                 )

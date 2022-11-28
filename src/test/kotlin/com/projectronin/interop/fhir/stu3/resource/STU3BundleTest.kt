@@ -11,6 +11,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.Signature
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -29,7 +30,7 @@ class STU3BundleTest {
         participant = listOf(
             Participant(
                 status = ParticipationStatus.ACCEPTED.asCode(),
-                actor = Reference(reference = "reference")
+                actor = Reference(reference = FHIRString("reference"))
             )
         )
     )
@@ -39,16 +40,16 @@ class STU3BundleTest {
         meta = Meta(profile = listOf(Canonical("STU3profile"))),
         implicitRules = Uri("implicit-rules"),
         language = Code("en-US"),
-        identifier = Identifier(value = "identifier"),
+        identifier = Identifier(value = FHIRString("identifier")),
         type = BundleType.SEARCHSET.asCode(),
         timestamp = Instant("2017-01-01T00:00:00Z"),
         total = UnsignedInt(1),
-        link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),
+        link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
         entry = listOf(STU3BundleEntry(resource = miniAppt)),
         signature = Signature(
-            type = listOf(Coding(display = "type")),
+            type = listOf(Coding(display = FHIRString("type"))),
             `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(reference = "who")
+            who = Reference(reference = FHIRString("who"))
         )
     )
 

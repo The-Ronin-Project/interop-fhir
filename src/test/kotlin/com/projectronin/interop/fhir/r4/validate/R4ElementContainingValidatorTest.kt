@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.r4.validate.datatype.validateDatatype
@@ -83,7 +84,7 @@ class R4ElementContainingValidatorTest {
 
     @Test
     fun `validates non-null elements`() {
-        val name = HumanName(id = "1234")
+        val name = HumanName(id = FHIRString("1234"))
         every { validateDatatype(name, nameLocationContext) } returns failedValidation
 
         val element = ElementValidatable(name = name)
@@ -104,7 +105,7 @@ class R4ElementContainingValidatorTest {
 
     @Test
     fun `validates non-null dynamic values`() {
-        val name = DynamicValue(DynamicValueType.STRING, "name")
+        val name = DynamicValue(DynamicValueType.STRING, FHIRString("name"))
         every { validateDynamicValue(name, nameLocationContext) } returns failedValidation
 
         val element = DynamicValueValidatable(name = name)
@@ -148,8 +149,8 @@ class R4ElementContainingValidatorTest {
 
     @Test
     fun `validates each element in collection`() {
-        val name1 = HumanName(id = "1234")
-        val name2 = HumanName(id = "5678")
+        val name1 = HumanName(id = FHIRString("1234"))
+        val name2 = HumanName(id = FHIRString("5678"))
         every { validateDatatype(name1, LocationContext("Sample", "field.name[0]")) } returns failedValidation
         every { validateDatatype(name2, LocationContext("Sample", "field.name[1]")) } returns failedValidation
 
@@ -171,8 +172,8 @@ class R4ElementContainingValidatorTest {
 
     @Test
     fun `validates each dynamic value in collection`() {
-        val name1 = DynamicValue(DynamicValueType.STRING, "name")
-        val name2 = DynamicValue(DynamicValueType.STRING, "name2")
+        val name1 = DynamicValue(DynamicValueType.STRING, FHIRString("name"))
+        val name2 = DynamicValue(DynamicValueType.STRING, FHIRString("name2"))
         every { validateDynamicValue(name1, LocationContext("Sample", "field.name[0]")) } returns failedValidation
         every { validateDynamicValue(name2, LocationContext("Sample", "field.name[1]")) } returns failedValidation
 

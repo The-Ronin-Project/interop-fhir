@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Participant
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +16,7 @@ class R4ParticipantValidatorTest {
     fun `fails if required is outside of required value set`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = Participant(
-                actor = Reference(display = "actor"),
+                actor = Reference(display = FHIRString("actor")),
                 status = ParticipationStatus.ACCEPTED.asCode(),
                 required = Code("unsupported-required")
             )
@@ -32,7 +33,7 @@ class R4ParticipantValidatorTest {
     fun `fails if no status provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = Participant(
-                actor = Reference(display = "actor"),
+                actor = Reference(display = FHIRString("actor")),
                 status = null
             )
             R4ParticipantValidator.validate(participant).alertIfErrors()
@@ -48,7 +49,7 @@ class R4ParticipantValidatorTest {
     fun `fails if status is outside of required value set`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = Participant(
-                actor = Reference(display = "actor"),
+                actor = Reference(display = FHIRString("actor")),
                 status = Code("unsupported-status")
             )
             R4ParticipantValidator.validate(participant).alertIfErrors()
@@ -78,7 +79,7 @@ class R4ParticipantValidatorTest {
     @Test
     fun `validates successfully with actor`() {
         val participant = Participant(
-            actor = Reference(display = "actor"),
+            actor = Reference(display = FHIRString("actor")),
             status = ParticipationStatus.ACCEPTED.asCode()
         )
         R4ParticipantValidator.validate(participant).alertIfErrors()
@@ -87,7 +88,7 @@ class R4ParticipantValidatorTest {
     @Test
     fun `validates successfully with type`() {
         val participant = Participant(
-            type = listOf(CodeableConcept(id = "1234")),
+            type = listOf(CodeableConcept(id = FHIRString("1234"))),
             status = ParticipationStatus.ACCEPTED.asCode()
         )
         R4ParticipantValidator.validate(participant).alertIfErrors()

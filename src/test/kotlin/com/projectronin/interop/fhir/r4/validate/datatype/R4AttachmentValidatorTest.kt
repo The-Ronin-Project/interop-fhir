@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,7 +24,7 @@ class R4AttachmentValidatorTest {
     @Test
     fun `validates successfully`() {
         val attachment = Attachment(
-            title = "Empty"
+            title = FHIRString("Empty")
         )
         R4AttachmentValidator.validate(attachment).alertIfErrors()
     }

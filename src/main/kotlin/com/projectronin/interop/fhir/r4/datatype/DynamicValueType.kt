@@ -9,6 +9,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
@@ -31,9 +35,7 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     ANNOTATION("Annotation", Annotation::class),
     ATTACHMENT("Attachment", Attachment::class),
     BASE_64_BINARY("Base64Binary", Base64Binary::class),
-    BOOLEAN("Boolean", Boolean::class) {
-        override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asBoolean()
-    },
+    BOOLEAN("Boolean", FHIRBoolean::class),
     CANONICAL("Canonical", Canonical::class),
     CODE("Code", Code::class),
     CODEABLE_CONCEPT("CodeableConcept", CodeableConcept::class),
@@ -45,9 +47,7 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     DATA_REQUIREMENT("DataRequirement", DataRequirement::class),
     DATE("Date", Date::class),
     DATE_TIME("DateTime", DateTime::class),
-    DECIMAL("Decimal", Double::class) {
-        override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asDouble()
-    },
+    DECIMAL("Decimal", Decimal::class),
     DISTANCE("Distance", Distance::class),
     DOSAGE("Dosage", Dosage::class),
     DURATION("Duration", Duration::class),
@@ -56,9 +56,7 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     ID("Id", Id::class),
     IDENTIFIER("Identifier", Identifier::class),
     INSTANT("Instant", Instant::class),
-    INTEGER("Integer", Int::class) {
-        override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asInt()
-    },
+    INTEGER("Integer", FHIRInteger::class),
     MARKDOWN("Markdown", Markdown::class),
     META("Meta", Meta::class),
     MONEY("Money", Money::class),
@@ -73,9 +71,7 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     RELATED_ARTIFACT("RelatedArtifact", RelatedArtifact::class),
     SAMPLED_DATA("SampledData", SampledData::class),
     SIGNATURE("Signature", Signature::class),
-    STRING("String", String::class) {
-        override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any = jsonNode.asText()
-    },
+    STRING("String", FHIRString::class),
     TIME("Time", Time::class),
     TIMING("Timing", Timing::class),
     TRIGGER_DEFINITION("TriggerDefinition", TriggerDefinition::class),

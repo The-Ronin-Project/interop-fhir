@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.ContributorType
@@ -14,20 +15,20 @@ class ContributorTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val contributor = Contributor(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             type = ContributorType.AUTHOR.asCode(),
-            name = "Josh Smith",
+            name = FHIRString("Josh Smith"),
             contact = listOf(
                 ContactDetail(
                     telecom = listOf(
                         ContactPoint(
-                            value = "josh@projectronin.com",
+                            value = FHIRString("josh@projectronin.com"),
                             system = ContactPointSystem.EMAIL.asCode()
                         )
                     )
@@ -62,7 +63,7 @@ class ContributorTest {
     fun `serialized JSON ignores null and empty fields`() {
         val contributor = Contributor(
             type = ContributorType.AUTHOR.asCode(),
-            name = "Josh Smith"
+            name = FHIRString("Josh Smith")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contributor)
 
@@ -86,7 +87,7 @@ class ContributorTest {
         assertNull(contributor.id)
         assertEquals(listOf<Extension>(), contributor.extension)
         assertEquals(ContributorType.AUTHOR.asCode(), contributor.type)
-        assertEquals("Josh Smith", contributor.name)
+        assertEquals(FHIRString("Josh Smith"), contributor.name)
         assertEquals(listOf<ContactDetail>(), contributor.contact)
     }
 }

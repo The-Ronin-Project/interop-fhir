@@ -17,6 +17,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
@@ -41,8 +42,8 @@ data class CarePlan(
     val status: Code? = null,
     val intent: Code? = null,
     val category: List<CodeableConcept> = listOf(),
-    val title: String? = null,
-    val description: String? = null,
+    val title: FHIRString? = null,
+    val description: FHIRString? = null,
     val subject: Reference? = null,
     val encounter: Reference? = null,
     val period: Period? = null,
@@ -55,7 +56,6 @@ data class CarePlan(
     val goal: List<Reference> = listOf(),
     val activity: List<CarePlanActivity> = listOf(),
     val note: List<Annotation> = listOf()
-
 ) : DomainResource<CarePlan> {
     override val resourceType: String = "CarePlan"
 }

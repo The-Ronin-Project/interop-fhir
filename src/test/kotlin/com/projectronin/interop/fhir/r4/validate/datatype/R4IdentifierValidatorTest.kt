@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.IdentifierUse
 import com.projectronin.interop.fhir.util.asCode
@@ -31,7 +32,7 @@ class R4IdentifierValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val identifier = Identifier(
                 use = IdentifierUse.OFFICIAL.asCode(),
-                assigner = Reference(type = Uri("Patient"), reference = "reference")
+                assigner = Reference(type = Uri("Patient"), reference = FHIRString("reference"))
             )
             R4IdentifierValidator.validate(identifier).alertIfErrors()
         }

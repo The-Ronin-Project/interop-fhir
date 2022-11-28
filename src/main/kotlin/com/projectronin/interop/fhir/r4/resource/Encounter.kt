@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.Duration
@@ -27,6 +31,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
  *
  * See [FHIR Spec](https://www.hl7.org/fhir/R4/encounter.html)
  */
+@JsonSerialize(using = EncounterSerializer::class)
+@JsonDeserialize(using = EncounterDeserializer::class)
 @JsonTypeName("Encounter")
 data class Encounter(
     override val id: Id? = null,
@@ -63,3 +69,6 @@ data class Encounter(
 ) : DomainResource<Encounter> {
     override val resourceType: String = "Encounter"
 }
+
+class EncounterSerializer : BaseFHIRSerializer<Encounter>(Encounter::class.java)
+class EncounterDeserializer : BaseFHIRDeserializer<Encounter>(Encounter::class.java)

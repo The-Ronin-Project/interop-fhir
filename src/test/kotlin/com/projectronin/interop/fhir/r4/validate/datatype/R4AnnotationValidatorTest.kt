@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ class R4AnnotationValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val annotation = Annotation(
-                    author = DynamicValue(DynamicValueType.INTEGER, 1),
+                    author = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
                     text = Markdown("text")
                 )
                 R4AnnotationValidator.validate(annotation).alertIfErrors()

@@ -10,7 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
  */
 data class UnsignedInt(
     override val value: Int?,
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf()
 ) : Primitive<Int, UnsignedInt> {
     @JsonCreator

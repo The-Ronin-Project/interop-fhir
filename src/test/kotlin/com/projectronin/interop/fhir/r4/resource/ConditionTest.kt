@@ -17,6 +17,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -31,8 +32,8 @@ import org.junit.jupiter.api.Test
 class ConditionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val onset = DynamicValue(DynamicValueType.STRING, "22")
-        val abatement = DynamicValue(DynamicValueType.STRING, "29")
+        val onset = DynamicValue(DynamicValueType.STRING, FHIRString("22"))
+        val abatement = DynamicValue(DynamicValueType.STRING, FHIRString("29"))
         val condition = Condition(
             id = Id("12345"),
             meta = Meta(
@@ -42,22 +43,22 @@ class ConditionTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             clinicalStatus = CodeableConcept(
                 coding = listOf(
                     Coding(code = Code(value = ConditionClinicalStatusCodes.RESOLVED.code))
@@ -68,19 +69,19 @@ class ConditionTest {
                     Coding(code = Code(value = ConditionVerificationStatus.CONFIRMED.code))
                 )
             ),
-            category = listOf(CodeableConcept(text = "category")),
-            severity = CodeableConcept(text = "severity"),
-            code = CodeableConcept(text = "code"),
-            bodySite = listOf(CodeableConcept(text = "body site")),
-            subject = Reference(reference = "subject"),
-            encounter = Reference(reference = "encounter"),
+            category = listOf(CodeableConcept(text = FHIRString("category"))),
+            severity = CodeableConcept(text = FHIRString("severity")),
+            code = CodeableConcept(text = FHIRString("code")),
+            bodySite = listOf(CodeableConcept(text = FHIRString("body site"))),
+            subject = Reference(reference = FHIRString("subject")),
+            encounter = Reference(reference = FHIRString("encounter")),
             onset = onset,
             abatement = abatement,
             recordedDate = DateTime("2003-06-29"),
-            recorder = Reference(reference = "recorder"),
-            asserter = Reference(reference = "asserter"),
-            stage = listOf(ConditionStage(summary = CodeableConcept(text = "summary"))),
-            evidence = listOf(ConditionEvidence(code = listOf(CodeableConcept(text = "code")))),
+            recorder = Reference(reference = FHIRString("recorder")),
+            asserter = Reference(reference = FHIRString("asserter")),
+            stage = listOf(ConditionStage(summary = CodeableConcept(text = FHIRString("summary")))),
+            evidence = listOf(ConditionEvidence(code = listOf(CodeableConcept(text = FHIRString("code"))))),
             note = listOf(Annotation(text = Markdown("note")))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
@@ -171,7 +172,7 @@ class ConditionTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val condition = Condition(
-            subject = Reference(reference = "subject"),
+            subject = Reference(reference = FHIRString("subject")),
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
@@ -213,7 +214,7 @@ class ConditionTest {
         assertNull(condition.severity)
         assertNull(condition.code)
         assertEquals(listOf<CodeableConcept>(), condition.bodySite)
-        assertEquals(Reference(reference = "subject"), condition.subject)
+        assertEquals(Reference(reference = FHIRString("subject")), condition.subject)
         assertNull(condition.encounter)
         assertNull(condition.onset)
         assertNull(condition.abatement)

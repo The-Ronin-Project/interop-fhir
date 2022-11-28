@@ -2,6 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
@@ -14,15 +16,15 @@ class LocationHoursOfOperationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val hoursOfOperation = LocationHoursOfOperation(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             daysOfWeek = listOf(DayOfWeek.SATURDAY.asCode(), DayOfWeek.SUNDAY.asCode()),
-            allDay = true,
+            allDay = FHIRBoolean.TRUE,
             openingTime = Time("06:30:00"),
             closingTime = Time("18:00:00")
         )
@@ -48,7 +50,7 @@ class LocationHoursOfOperationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val hoursOfOperation = LocationHoursOfOperation(id = "12345")
+        val hoursOfOperation = LocationHoursOfOperation(id = FHIRString("12345"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(hoursOfOperation)
 
         val expectedJson = """
@@ -66,7 +68,7 @@ class LocationHoursOfOperationTest {
             |}""".trimMargin()
         val hoursOfOperation = objectMapper.readValue<LocationHoursOfOperation>(json)
 
-        assertEquals("12345", hoursOfOperation.id)
+        assertEquals(FHIRString("12345"), hoursOfOperation.id)
         assertEquals(listOf<Extension>(), hoursOfOperation.extension)
         assertEquals(listOf<Extension>(), hoursOfOperation.modifierExtension)
         assertEquals(listOf<DayOfWeek>(), hoursOfOperation.daysOfWeek)

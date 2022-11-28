@@ -7,6 +7,8 @@ import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.TriggerType
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,7 +22,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = null,
-                    name = "any",
+                    name = FHIRString("any"),
                     data = listOf(DataRequirement(type = Code("data-type-code"))),
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
@@ -38,7 +40,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = Code("unsupported-type"),
-                    name = "any",
+                    name = FHIRString("any"),
                     data = listOf(DataRequirement(type = Code("data-type-code"))),
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
@@ -74,7 +76,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.NAMED_EVENT.asCode(),
-                    name = "any"
+                    name = FHIRString("any")
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -91,7 +93,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.PERIODIC.asCode(),
-                    timing = DynamicValue(DynamicValueType.INTEGER, 1)
+                    timing = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -109,7 +111,7 @@ class R4TriggerDefinitionValidatorTest {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.PERIODIC.asCode(),
                     timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
-                    condition = Expression(expression = "where", language = Code("py"))
+                    condition = Expression(expression = FHIRString("where"), language = Code("py"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -260,7 +262,7 @@ class R4TriggerDefinitionValidatorTest {
     fun `validates successfully with data`() {
         val triggerDefinition = TriggerDefinition(
             type = TriggerType.NAMED_EVENT.asCode(),
-            name = "any",
+            name = FHIRString("any"),
             data = listOf(DataRequirement(type = Code("data-type-code"))),
         )
         R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
@@ -270,9 +272,9 @@ class R4TriggerDefinitionValidatorTest {
     fun `validates successfully with condition`() {
         val triggerDefinition = TriggerDefinition(
             type = TriggerType.NAMED_EVENT.asCode(),
-            name = "any",
+            name = FHIRString("any"),
             data = listOf(DataRequirement(type = Code("data-type-code"))),
-            condition = Expression(expression = "where", language = Code("py"))
+            condition = Expression(expression = FHIRString("where"), language = Code("py"))
         )
         R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
     }

@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.util.asCode
@@ -15,17 +16,17 @@ class OrganizationContactTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val organizationContact = OrganizationContact(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             purpose = CodeableConcept(
@@ -36,14 +37,14 @@ class OrganizationContactTest {
                     )
                 )
             ),
-            name = HumanName(text = "Jane Doe"),
+            name = HumanName(text = FHIRString("Jane Doe")),
             telecom = listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             ),
-            address = Address(country = "USA"),
+            address = Address(country = FHIRString("USA")),
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organizationContact)
 
@@ -88,10 +89,10 @@ class OrganizationContactTest {
             telecom = listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             ),
-            address = Address(country = "USA")
+            address = Address(country = FHIRString("USA"))
         )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organizationContact)
@@ -135,7 +136,7 @@ class OrganizationContactTest {
             listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             ),
             organizationContact.telecom
@@ -143,7 +144,7 @@ class OrganizationContactTest {
         assertNull(organizationContact.name)
         assertEquals(
             Address(
-                country = "USA"
+                country = FHIRString("USA")
             ),
             organizationContact.address
         )

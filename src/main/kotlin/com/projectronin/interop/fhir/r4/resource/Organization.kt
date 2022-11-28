@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
@@ -11,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.OrganizationContact
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
@@ -20,8 +26,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
  * healthcare practice groups, payer/insurer, etc.
  *
  * See [FHIR Spec](https://hl7.org/fhir/R4/organization.html)
- * */
-
+ */
+@JsonDeserialize(using = OrganizationDeserializer::class)
+@JsonSerialize(using = OrganizationSerializer::class)
 @JsonTypeName("Organization")
 data class Organization(
     override val id: Id? = null,
@@ -33,10 +40,10 @@ data class Organization(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
-    val active: Boolean? = null,
+    val active: FHIRBoolean? = null,
     val type: List<CodeableConcept> = listOf(),
-    val name: String? = null,
-    val alias: List<String> = listOf(),
+    val name: FHIRString? = null,
+    val alias: List<FHIRString> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val address: List<Address> = listOf(),
     val partOf: Reference? = null,
@@ -45,3 +52,6 @@ data class Organization(
 ) : DomainResource<Organization> {
     override val resourceType: String = "Organization"
 }
+
+class OrganizationDeserializer : BaseFHIRDeserializer<Organization>(Organization::class.java)
+class OrganizationSerializer : BaseFHIRSerializer<Organization>(Organization::class.java)

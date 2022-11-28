@@ -5,6 +5,8 @@ import com.projectronin.interop.fhir.r4.datatype.Dosage
 import com.projectronin.interop.fhir.r4.datatype.DoseAndRate
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -14,7 +16,7 @@ class R4DosageValidatorTest {
     fun `fails for unsupported as needed dynamic value type`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val dosage = Dosage(asNeeded = DynamicValue(DynamicValueType.INTEGER, 1))
+                val dosage = Dosage(asNeeded = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)))
                 R4DosageValidator.validate(dosage).alertIfErrors()
             }
         assertEquals(
@@ -29,7 +31,7 @@ class R4DosageValidatorTest {
         val dosage = Dosage(
             doseAndRate = listOf(
                 DoseAndRate(
-                    type = CodeableConcept(text = "dose and rate type")
+                    type = CodeableConcept(text = FHIRString("dose and rate type"))
                 )
             )
         )

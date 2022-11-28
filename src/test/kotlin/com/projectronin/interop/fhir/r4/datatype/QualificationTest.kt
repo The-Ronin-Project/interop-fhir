@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,23 +13,23 @@ class QualificationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val qualification = Qualification(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            code = CodeableConcept(text = "code"),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            code = CodeableConcept(text = FHIRString("code")),
             period = Period(start = DateTime("2001")),
-            issuer = Reference(reference = "Organization/12345")
+            issuer = Reference(reference = FHIRString("Organization/12345"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
 
@@ -65,7 +66,7 @@ class QualificationTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val qualification = Qualification(
-            code = CodeableConcept(text = "code")
+            code = CodeableConcept(text = FHIRString("code"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
 
@@ -92,7 +93,7 @@ class QualificationTest {
         assertEquals(listOf<Extension>(), qualification.extension)
         assertEquals(listOf<Extension>(), qualification.modifierExtension)
         assertEquals(listOf<Identifier>(), qualification.identifier)
-        assertEquals(CodeableConcept(text = "code"), qualification.code)
+        assertEquals(CodeableConcept(text = FHIRString("code")), qualification.code)
         assertNull(qualification.period)
         assertNull(qualification.issuer)
     }

@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,11 +13,11 @@ class PeriodTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val period = Period(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             start = DateTime("1998-08"),
@@ -68,10 +69,13 @@ class PeriodTest {
             |}""".trimMargin()
         val period = objectMapper.readValue<Period>(json)
 
-        assertEquals("12345", period.id)
+        assertEquals(FHIRString("12345"), period.id)
 
         val expectedSubExtension =
-            Extension(url = Uri("http://localhost/extension"), value = DynamicValue(DynamicValueType.STRING, "Value"))
+            Extension(
+                url = Uri("http://localhost/extension"),
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+            )
         assertEquals(listOf(expectedSubExtension), period.extension)
 
         assertEquals(DateTime("1998-08"), period.start)

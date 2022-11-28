@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ConditionStage
 import com.projectronin.interop.fhir.r4.datatype.Reference
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -12,7 +13,7 @@ class R4ConditionStageValidatorTest {
     fun `fails if value provided without summary`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val conditionStage = ConditionStage(id = "id")
+                val conditionStage = ConditionStage(id = FHIRString("id"))
                 R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
             }
         assertEquals(
@@ -25,7 +26,7 @@ class R4ConditionStageValidatorTest {
     @Test
     fun `validates successfully with summary`() {
         val conditionStage = ConditionStage(
-            summary = CodeableConcept(id = "1234")
+            summary = CodeableConcept(id = FHIRString("1234"))
         )
         R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
     }
@@ -33,7 +34,7 @@ class R4ConditionStageValidatorTest {
     @Test
     fun `validates successfully with assessment`() {
         val conditionStage = ConditionStage(
-            assessment = listOf(Reference(display = "assessment"))
+            assessment = listOf(Reference(display = FHIRString("assessment")))
         )
         R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
     }

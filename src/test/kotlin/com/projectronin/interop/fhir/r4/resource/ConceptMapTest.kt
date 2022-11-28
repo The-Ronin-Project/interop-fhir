@@ -21,6 +21,8 @@ import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -38,100 +40,100 @@ class ConceptMapTest {
         val source = DynamicValue(type = DynamicValueType.URI, value = Uri("sourceUri"))
         val target = DynamicValue(type = DynamicValueType.URI, value = Uri("targetUri"))
         val depends = ConceptMapDependsOn(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             property = Uri("propertyUri"),
             system = Canonical("canonical"),
-            value = "value",
-            display = "display"
+            value = FHIRString("value"),
+            display = FHIRString("display")
         )
         val elementTarget = ConceptMapTarget(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             code = Code("test"),
-            display = "conceptMapElement",
+            display = FHIRString("conceptMapElement"),
             equivalence = ConceptMapEquivalence.EQUIVALENT.asCode(),
-            comment = "Nope",
+            comment = FHIRString("Nope"),
             dependsOn = listOf(depends)
         )
         val element = ConceptMapElement(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             code = Code("test"),
-            display = "conceptMapElement",
+            display = FHIRString("conceptMapElement"),
             target = listOf(elementTarget)
         )
         val unmapped = ConceptMapUnmapped(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             mode = ConceptMapMode.FIXED.asCode(),
             code = Code(value = "value"),
-            display = "unmapped",
+            display = FHIRString("unmapped"),
             uri = Canonical("canonical")
         )
 
         val group = ConceptMapGroup(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             source = Uri("groupSourceURI"),
-            sourceVersion = "source.V1",
+            sourceVersion = FHIRString("source.V1"),
             target = Uri("groupTargetURI"),
-            targetVersion = "target.V1",
+            targetVersion = FHIRString("target.V1"),
             element = listOf(element),
             unmapped = unmapped
         )
@@ -144,41 +146,41 @@ class ConceptMapTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             url = Uri("google.com"),
-            identifier = Identifier(value = "id"),
-            version = "v1",
-            name = "name",
+            identifier = Identifier(value = FHIRString("id")),
+            version = FHIRString("v1"),
+            name = FHIRString("name"),
             status = ConceptMapStatus.ACTIVE.asCode(),
-            experimental = false,
+            experimental = FHIRBoolean.FALSE,
             date = DateTime("2020"),
-            publisher = "Ronin",
-            contact = listOf(ContactDetail(name = "Big Dawg")),
+            publisher = FHIRString("Ronin"),
+            contact = listOf(ContactDetail(name = FHIRString("Big Dawg"))),
             description = Markdown("text"),
             useContext = listOf(
                 UsageContext(
                     code = Coding(),
                     value = DynamicValue(
                         type = DynamicValueType.REFERENCE,
-                        value = Reference(display = "blah")
+                        value = Reference(display = FHIRString("blah"))
                     )
                 )
             ),
-            jurisdiction = listOf(CodeableConcept(text = "jurisdiction category")),
+            jurisdiction = listOf(CodeableConcept(text = FHIRString("jurisdiction category"))),
             purpose = Markdown("text"),
             copyright = Markdown("text"),
             source = source,

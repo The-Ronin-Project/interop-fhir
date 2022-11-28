@@ -114,8 +114,12 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
                 parentContext
             )
             checkTrue((element.period == null || element.periodUnit != null), requiredPeriodUnitError, parentContext)
-            checkTrue((element.duration == null || element.duration >= 0), negativeDurationError, parentContext)
-            checkTrue((element.period == null || element.period >= 0), negativePeriodError, parentContext)
+            checkTrue(
+                (element.duration?.value == null || element.duration.value >= 0),
+                negativeDurationError,
+                parentContext
+            )
+            checkTrue((element.period?.value == null || element.period.value >= 0), negativePeriodError, parentContext)
             checkTrue((element.periodMax == null || element.period != null), requiredPeriodError, parentContext)
             checkTrue((element.durationMax == null || element.duration != null), requiredDurationError, parentContext)
             checkTrue((element.countMax == null || element.count != null), requiredCountError, parentContext)

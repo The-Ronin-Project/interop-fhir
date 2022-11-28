@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.stu3.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -11,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -23,6 +29,8 @@ import com.projectronin.interop.fhir.r4.resource.Appointment as R4Appointment
  *
  * See [FHIR Spec](https://hl7.org/fhir/STU3/appointment.html)
  */
+@JsonSerialize(using = STU3AppointmentSerializer::class)
+@JsonDeserialize(using = STU3AppointmentDeserializer::class)
 @JsonTypeName("Appointment")
 data class STU3Appointment(
     override val id: Id? = null,
@@ -42,15 +50,15 @@ data class STU3Appointment(
     val serviceType: List<CodeableConcept> = listOf(),
     val specialty: List<CodeableConcept> = listOf(),
     val appointmentType: CodeableConcept? = null,
-    val priority: Int? = null,
-    val description: String? = null,
+    val priority: FHIRInteger? = null,
+    val description: FHIRString? = null,
     val supportingInformation: List<Reference> = listOf(),
     val start: Instant? = null,
     val end: Instant? = null,
-    val minutesDuration: Int? = null,
+    val minutesDuration: FHIRInteger? = null,
     val slot: List<Reference> = listOf(),
     val created: DateTime? = null,
-    val comment: String? = null,
+    val comment: FHIRString? = null,
     val participant: List<Participant>,
     val requestedPeriod: List<Period> = listOf()
 ) : STU3DomainResource<STU3Appointment> {
@@ -88,3 +96,6 @@ data class STU3Appointment(
         )
     }
 }
+
+class STU3AppointmentSerializer : BaseFHIRSerializer<STU3Appointment>(STU3Appointment::class.java)
+class STU3AppointmentDeserializer : BaseFHIRDeserializer<STU3Appointment>(STU3Appointment::class.java)

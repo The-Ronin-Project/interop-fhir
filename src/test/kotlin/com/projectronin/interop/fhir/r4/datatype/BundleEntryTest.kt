@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Patient
@@ -16,24 +17,24 @@ class BundleEntryTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val bundleEntry = BundleEntry(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            link = listOf(BundleLink(relation = "next", url = Uri("http://www.example.com/next"))),
+            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://www.example.com/next"))),
             resource = Patient(id = Id("1234")),
             search = BundleSearch(mode = SearchEntryMode.INCLUDE.asCode()),
             request = BundleRequest(method = HttpVerb.GET.asCode(), url = Uri("http://www.example.com/get")),
-            response = BundleResponse(status = "Ok")
+            response = BundleResponse(status = FHIRString("Ok"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleEntry)
 
@@ -96,7 +97,7 @@ class BundleEntryTest {
             |}""".trimMargin()
         val bundleEntry = objectMapper.readValue<BundleEntry>(json)
 
-        assertEquals("1234", bundleEntry.id)
+        assertEquals(FHIRString("1234"), bundleEntry.id)
         assertEquals(listOf<Extension>(), bundleEntry.extension)
         assertEquals(listOf<Extension>(), bundleEntry.modifierExtension)
         assertEquals(listOf<BundleLink>(), bundleEntry.link)

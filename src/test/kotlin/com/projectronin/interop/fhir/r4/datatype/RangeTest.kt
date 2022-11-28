@@ -2,6 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,15 +13,15 @@ class RangeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val range = Range(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            low = SimpleQuantity(value = 1.0),
-            high = SimpleQuantity(value = 10.3)
+            low = SimpleQuantity(value = Decimal(1.0)),
+            high = SimpleQuantity(value = Decimal(10.3))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(range)
 
@@ -45,7 +47,7 @@ class RangeTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val range = Range(low = SimpleQuantity(value = 1.0))
+        val range = Range(low = SimpleQuantity(value = Decimal(1.0)))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(range)
 
         val expectedJson = """
@@ -70,6 +72,6 @@ class RangeTest {
         assertNull(range.id)
         assertEquals(listOf<Extension>(), range.extension)
         assertNull(range.low)
-        assertEquals(SimpleQuantity(value = 10.3), range.high)
+        assertEquals(SimpleQuantity(value = Decimal(10.3)), range.high)
     }
 }

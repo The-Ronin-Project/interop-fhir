@@ -12,6 +12,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.Signature
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -24,22 +25,26 @@ import org.junit.jupiter.api.Test
 class BundleTest {
     @Test
     fun `can serialize and deserialize JSON with known resource type`() {
-        val patient = Patient(id = Id("5678"), name = listOf(HumanName(family = "Doe", given = listOf("John"))))
+        val patient =
+            Patient(
+                id = Id("5678"),
+                name = listOf(HumanName(family = FHIRString("Doe"), given = listOf(FHIRString("John"))))
+            )
         val bundle = Bundle(
             id = Id("1234"),
             meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
-            identifier = Identifier(value = "identifier"),
+            identifier = Identifier(value = FHIRString("identifier")),
             type = BundleType.SEARCHSET.asCode(),
             timestamp = Instant("2017-01-01T00:00:00Z"),
             total = UnsignedInt(1),
-            link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),
+            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
             entry = listOf(BundleEntry(resource = patient)),
             signature = Signature(
-                type = listOf(Coding(display = "type")),
+                type = listOf(Coding(display = FHIRString("type"))),
                 `when` = Instant("2017-01-01T00:00:00Z"),
-                who = Reference(reference = "who")
+                who = Reference(reference = FHIRString("who"))
             )
         )
 
@@ -103,16 +108,16 @@ class BundleTest {
             meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
-            identifier = Identifier(value = "identifier"),
+            identifier = Identifier(value = FHIRString("identifier")),
             type = BundleType.SEARCHSET.asCode(),
             timestamp = Instant("2017-01-01T00:00:00Z"),
             total = UnsignedInt(1),
-            link = listOf(BundleLink(relation = "next", url = Uri("http://example.com"))),
+            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
             entry = listOf(BundleEntry(resource = unknownResource)),
             signature = Signature(
-                type = listOf(Coding(display = "type")),
+                type = listOf(Coding(display = FHIRString("type"))),
                 `when` = Instant("2017-01-01T00:00:00Z"),
-                who = Reference(reference = "who")
+                who = Reference(reference = FHIRString("who"))
             )
         )
 

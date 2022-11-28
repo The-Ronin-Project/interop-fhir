@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Contributor
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.ContributorType
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4ContributorValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val contributor = Contributor(
                 type = null,
-                name = "Josh Smith"
+                name = FHIRString("Josh Smith")
             )
             R4ContributorValidator.validate(contributor).alertIfErrors()
         }
@@ -30,7 +31,7 @@ class R4ContributorValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val contributor = Contributor(
                 type = Code("unsupported-type"),
-                name = "Josh Smith"
+                name = FHIRString("Josh Smith")
             )
             R4ContributorValidator.validate(contributor).alertIfErrors()
         }
@@ -61,7 +62,7 @@ class R4ContributorValidatorTest {
     fun `validates successfully`() {
         val contributor = Contributor(
             type = ContributorType.AUTHOR.asCode(),
-            name = "Josh Smith"
+            name = FHIRString("Josh Smith")
         )
         R4ContributorValidator.validate(contributor).alertIfErrors()
     }

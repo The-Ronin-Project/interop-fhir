@@ -53,10 +53,12 @@ class Validation {
         error: InvalidValueSetError,
         parentContext: LocationContext?,
         noinline lazyDescription: (() -> String)? = null
-    ): T where T : Enum<T>, T : CodedEnum<T> {
-        val codified = runCatching { code.value?.let { CodedEnum.byCode<T>(it) } }.getOrNull()
-        checkNotNull(codified, error, parentContext, lazyDescription)
-        return codified
+    ): T? where T : Enum<T>, T : CodedEnum<T> {
+        return code.value?.let {
+            val codified = runCatching { CodedEnum.byCode<T>(it) }.getOrNull()
+            checkNotNull(codified, error, parentContext, lazyDescription)
+            codified
+        }
     }
 
     @OptIn(ExperimentalContracts::class)

@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -14,22 +15,22 @@ class BundleResponseTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val bundleResponse = BundleResponse(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            status = "Ok",
+            status = FHIRString("Ok"),
             location = Uri("http://www.example.com/location"),
-            etag = "etag",
+            etag = FHIRString("etag"),
             lastModified = Instant("2015-02-07T13:28:17.239+02:00"),
             outcome = Patient(id = Id("67890"))
         )
@@ -63,7 +64,7 @@ class BundleResponseTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val bundleResponse = BundleResponse(status = "status")
+        val bundleResponse = BundleResponse(status = FHIRString("status"))
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleResponse)
 
@@ -85,7 +86,7 @@ class BundleResponseTest {
         assertNull(bundleResponse.id)
         assertEquals(listOf<Extension>(), bundleResponse.extension)
         assertEquals(listOf<Extension>(), bundleResponse.modifierExtension)
-        assertEquals("status", bundleResponse.status)
+        assertEquals(FHIRString("status"), bundleResponse.status)
         assertNull(bundleResponse.location)
         assertNull(bundleResponse.etag)
         assertNull(bundleResponse.lastModified)

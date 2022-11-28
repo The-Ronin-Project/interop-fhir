@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.Count
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4CountValidatorTest {
     fun `fails if code provided without system`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val count = Count(value = 2.0, code = Code("1"))
+                val count = Count(value = Decimal(2.0), code = Code("1"))
                 R4CountValidator.validate(count).alertIfErrors()
             }
         assertEquals(
@@ -27,7 +28,7 @@ class R4CountValidatorTest {
     @Test
     fun `fails if value provided without code`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(value = 2.0, system = CodeSystem.UCUM.uri)
+            val count = Count(value = Decimal(2.0), system = CodeSystem.UCUM.uri)
             R4CountValidator.validate(count).alertIfErrors()
         }
         assertEquals(
@@ -40,7 +41,7 @@ class R4CountValidatorTest {
     @Test
     fun `fails if value provided with invalid code`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(value = 2.0, code = Code("code-value"), system = CodeSystem.UCUM.uri)
+            val count = Count(value = Decimal(2.0), code = Code("code-value"), system = CodeSystem.UCUM.uri)
             R4CountValidator.validate(count).alertIfErrors()
         }
         assertEquals(
@@ -66,7 +67,7 @@ class R4CountValidatorTest {
     @Test
     fun `fails if value is non-whole number`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = 1.2)
+            val count = Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = Decimal(1.2))
             R4CountValidator.validate(count).alertIfErrors()
         }
         assertEquals(
@@ -80,7 +81,7 @@ class R4CountValidatorTest {
     fun `base quantity failure includes parent context`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val count = Count(value = 2.0, code = Code("1"))
+                val count = Count(value = Decimal(2.0), code = Code("1"))
                 R4CountValidator.validate(count, LocationContext("Test", "field")).alertIfErrors()
             }
         assertEquals(
@@ -93,7 +94,7 @@ class R4CountValidatorTest {
     @Test
     fun `validates successfully`() {
         val count = Count(
-            value = 17.0,
+            value = Decimal(17.0),
             system = CodeSystem.UCUM.uri,
             code = Code("1")
         )

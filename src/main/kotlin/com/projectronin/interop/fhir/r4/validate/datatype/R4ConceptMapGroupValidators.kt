@@ -58,7 +58,7 @@ object R4ConceptMapTargetValidator : R4ElementContainingValidator<ConceptMapTarg
                 checkTrue(
                     (
                         (codifiedEquivalence != ConceptMapEquivalence.NARROWER && codifiedEquivalence != ConceptMapEquivalence.INEXACT) ||
-                            (element.comment?.isNotEmpty() == true)
+                            (element.comment != null)
                         ),
                     requiredParticipantError, parentContext
                 )
@@ -105,8 +105,16 @@ object R4ConceptMapUnmappedValidator : R4ElementContainingValidator<ConceptMapUn
 
             ifNotNull(element.mode) {
                 val codifiedMode = checkCodedEnum<ConceptMapMode>(element.mode, invalidModeError, parentContext)
-                checkTrue((codifiedMode != ConceptMapMode.FIXED || element.code != null), fixedAndCodeError, parentContext)
-                checkTrue((codifiedMode != ConceptMapMode.OTHER_MAP || element.uri != null), otherAndUriError, parentContext)
+                checkTrue(
+                    (codifiedMode != ConceptMapMode.FIXED || element.code != null),
+                    fixedAndCodeError,
+                    parentContext
+                )
+                checkTrue(
+                    (codifiedMode != ConceptMapMode.OTHER_MAP || element.uri != null),
+                    otherAndUriError,
+                    parentContext
+                )
             }
         }
     }

@@ -6,6 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -15,15 +17,15 @@ class SubstitutionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val substitution = Substitution(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            allowed = DynamicValue(DynamicValueType.BOOLEAN, true),
-            reason = CodeableConcept(text = "reason")
+            allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+            reason = CodeableConcept(text = FHIRString("reason"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(substitution)
 
@@ -51,7 +53,7 @@ class SubstitutionTest {
             allowed = DynamicValue(
                 DynamicValueType.CODEABLE_CONCEPT,
                 CodeableConcept(
-                    text = "allowed"
+                    text = FHIRString("allowed")
                 )
             )
         )
@@ -76,7 +78,7 @@ class SubstitutionTest {
 
         assertNull(substitution.id)
         assertEquals(listOf<Extension>(), substitution.extension)
-        assertEquals(DynamicValue(DynamicValueType.BOOLEAN, true), substitution.allowed)
+        assertEquals(DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE), substitution.allowed)
         assertNull(substitution.reason)
     }
 }

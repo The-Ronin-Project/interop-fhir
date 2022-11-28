@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -13,17 +14,17 @@ class ExpressionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val expression = Expression(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            description = "expression 1",
+            description = FHIRString("expression 1"),
             name = Id("12-45"),
             language = Code("en-US"),
-            expression = "the expression",
+            expression = FHIRString("the expression"),
             reference = Uri("expression-uri")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expression)
@@ -51,7 +52,7 @@ class ExpressionTest {
     fun `serialized JSON ignores null and empty fields`() {
         val expression = Expression(
             language = Code("en-US"),
-            expression = "expression"
+            expression = FHIRString("expression")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expression)
 

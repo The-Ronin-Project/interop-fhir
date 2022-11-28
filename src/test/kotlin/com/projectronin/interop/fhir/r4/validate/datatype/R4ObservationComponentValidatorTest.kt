@@ -5,6 +5,8 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.ObservationComponent
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -15,7 +17,7 @@ class R4ObservationComponentValidatorTest {
         val ex = assertThrows<IllegalArgumentException> {
             val component = ObservationComponent(
                 code = null,
-                value = DynamicValue(DynamicValueType.BOOLEAN, true)
+                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
             )
             R4ObservationComponentValidator.validate(component).alertIfErrors()
         }
@@ -30,7 +32,7 @@ class R4ObservationComponentValidatorTest {
     fun `fails if value outside supported types`() {
         val ex = assertThrows<IllegalArgumentException> {
             val component = ObservationComponent(
-                code = CodeableConcept(text = "code"),
+                code = CodeableConcept(text = FHIRString("code")),
                 value = DynamicValue(DynamicValueType.DECIMAL, Decimal(1.2))
             )
             R4ObservationComponentValidator.validate(component).alertIfErrors()
@@ -46,9 +48,9 @@ class R4ObservationComponentValidatorTest {
     fun `fails if dataAbsentReason and value are present`() {
         val ex = assertThrows<IllegalArgumentException> {
             val component = ObservationComponent(
-                code = CodeableConcept(text = "code"),
-                value = DynamicValue(DynamicValueType.BOOLEAN, true),
-                dataAbsentReason = CodeableConcept(text = "unable to reach vein"),
+                code = CodeableConcept(text = FHIRString("code")),
+                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein")),
             )
             R4ObservationComponentValidator.validate(component).alertIfErrors()
         }
@@ -62,8 +64,8 @@ class R4ObservationComponentValidatorTest {
     @Test
     fun `validates successfully`() {
         val component = ObservationComponent(
-            code = CodeableConcept(text = "code"),
-            value = DynamicValue(DynamicValueType.BOOLEAN, true)
+            code = CodeableConcept(text = FHIRString("code")),
+            value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
         )
         R4ObservationComponentValidator.validate(component).alertIfErrors()
     }

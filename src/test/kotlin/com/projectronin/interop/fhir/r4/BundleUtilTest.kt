@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.Signature
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -24,18 +25,18 @@ class BundleUtilTest {
     @Test
     fun `merge retains original metadata`() {
         val profileCanonical1 = Canonical("RoninPractitioner")
-        val link1 = BundleLink(relation = "next", url = Uri("http://example.com"))
+        val link1 = BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))
         val signature1 = Signature(
-            type = listOf(Coding(display = "type")),
+            type = listOf(Coding(display = FHIRString("type"))),
             `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(reference = "who")
+            who = Reference(reference = FHIRString("who"))
         )
         val bundle1 = Bundle(
             id = Id("123"),
             meta = Meta(profile = listOf(profileCanonical1)),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
-            identifier = Identifier(value = "identifier"),
+            identifier = Identifier(value = FHIRString("identifier")),
             type = BundleType.SEARCHSET.asCode(),
             timestamp = Instant("2017-01-01T00:00:00Z"),
             total = UnsignedInt(1),
@@ -45,18 +46,18 @@ class BundleUtilTest {
         )
 
         val profileCanonical2 = Canonical("RoninPractitionerRole")
-        val link2 = BundleLink(relation = "next", url = Uri("http://example.com/2"))
+        val link2 = BundleLink(relation = FHIRString("next"), url = Uri("http://example.com/2"))
         val signature2 = Signature(
-            type = listOf(Coding(display = "type2")),
+            type = listOf(Coding(display = FHIRString("type2"))),
             `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(reference = "who2")
+            who = Reference(reference = FHIRString("who2"))
         )
         val bundle2 = Bundle(
             id = Id("1232"),
             meta = Meta(profile = listOf(profileCanonical2)),
             implicitRules = Uri("implicit-rules2"),
             language = Code("en-US2"),
-            identifier = Identifier(value = "identifier2"),
+            identifier = Identifier(value = FHIRString("identifier2")),
             type = BundleType.BATCH.asCode(),
             timestamp = Instant("2017-01-02T00:00:00Z"),
             total = UnsignedInt(1),
@@ -70,7 +71,7 @@ class BundleUtilTest {
         assertEquals(Meta(profile = listOf(profileCanonical1)), merged.meta)
         assertEquals(Uri("implicit-rules"), merged.implicitRules)
         assertEquals(Code("en-US"), merged.language)
-        assertEquals(Identifier(value = "identifier"), merged.identifier)
+        assertEquals(Identifier(value = FHIRString("identifier")), merged.identifier)
         assertEquals(BundleType.SEARCHSET.asCode(), merged.type)
         assertEquals(Instant("2017-01-01T00:00:00Z"), merged.timestamp)
         assertEquals(listOf(link1), merged.link)
@@ -96,7 +97,7 @@ class BundleUtilTest {
     @Test
     fun `merge can combine empty and populated bundle`() {
         val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = "id"))
+            identifier = listOf(Identifier(value = FHIRString("id")))
         )
 
         val bundle1 = Bundle(
@@ -118,7 +119,7 @@ class BundleUtilTest {
     @Test
     fun `merge can combine populated bundles`() {
         val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = "id"))
+            identifier = listOf(Identifier(value = FHIRString("id")))
         )
 
         val bundle1 = Bundle(

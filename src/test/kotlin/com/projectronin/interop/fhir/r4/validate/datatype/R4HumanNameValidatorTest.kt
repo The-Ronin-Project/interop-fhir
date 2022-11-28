@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -25,7 +26,7 @@ class R4HumanNameValidatorTest {
     @Test
     fun `validates successfully`() {
         val humanName = HumanName(
-            text = "Name"
+            text = FHIRString("Name")
         )
         R4HumanNameValidator.validate(humanName).alertIfErrors()
     }

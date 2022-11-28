@@ -25,7 +25,7 @@ object R4ObservationReferenceRangeValidator : R4ElementContainingValidator<Obser
     ) {
         validation.apply {
             checkTrue(
-                ((element.low != null) || (element.high != null) || !element.text.isNullOrEmpty()),
+                ((element.low != null) || (element.high != null) || (element.text != null)),
                 requiredDetailsError,
                 parentContext
             )

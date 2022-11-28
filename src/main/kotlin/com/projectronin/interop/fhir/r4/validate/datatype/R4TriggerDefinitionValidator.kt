@@ -68,13 +68,9 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
             ifNotNull(element.type) {
                 val codifiedType = checkCodedEnum<TriggerType>(element.type, invalidTypeError, parentContext)
 
-                ifNotNull(codifiedType) {
+                codifiedType?.let {
                     when (codifiedType) {
-                        TriggerType.NAMED_EVENT -> checkTrue(
-                            !element.name.isNullOrEmpty(),
-                            requiredNameError,
-                            parentContext
-                        )
+                        TriggerType.NAMED_EVENT -> checkNotNull(element.name, requiredNameError, parentContext)
                         TriggerType.PERIODIC -> checkNotNull(element.timing, requiredTimingError, parentContext)
                         TriggerType.DATA_ACCESSED,
                         TriggerType.DATA_ADDED,

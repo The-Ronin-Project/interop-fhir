@@ -6,6 +6,8 @@ import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Encounter
 import com.projectronin.interop.fhir.r4.valueset.EncounterStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -33,17 +35,17 @@ class R4EncounterValidatorTest {
                     Coding(
                         system = CodeSystem.SNOMED_CT.uri,
                         code = Code("103391001"),
-                        display = "Non-urgent ear, nose and throat admission"
+                        display = FHIRString("Non-urgent ear, nose and throat admission")
                     )
                 )
             ),
             subject = Reference(
-                reference = "Patient/f001",
-                display = "P. van de Heuvel"
+                reference = FHIRString("Patient/f001"),
+                display = FHIRString("P. van de Heuvel")
             ),
             length = Duration(
-                value = 90.0,
-                unit = "min",
+                value = Decimal(90.0),
+                unit = FHIRString("min"),
                 system = CodeSystem.UCUM.uri,
                 code = Code("min")
             ),
@@ -53,7 +55,7 @@ class R4EncounterValidatorTest {
                         Coding(
                             system = CodeSystem.SNOMED_CT.uri,
                             code = Code("18099001"),
-                            display = "Retropharyngeal abscess"
+                            display = FHIRString("Retropharyngeal abscess")
                         )
                     )
                 )

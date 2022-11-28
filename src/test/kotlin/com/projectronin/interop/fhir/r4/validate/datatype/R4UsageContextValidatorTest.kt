@@ -6,6 +6,9 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Quantity
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -17,7 +20,7 @@ class R4UsageContextValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val usageContext = UsageContext(
                     code = null,
-                    value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = "reference"))
+                    value = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("reference")))
                 )
                 R4UsageContextValidator.validate(usageContext).alertIfErrors()
             }
@@ -33,7 +36,7 @@ class R4UsageContextValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val usageContext = UsageContext(
-                    code = Coding(display = "code"),
+                    code = Coding(display = FHIRString("code")),
                     value = null
                 )
                 R4UsageContextValidator.validate(usageContext).alertIfErrors()
@@ -50,8 +53,8 @@ class R4UsageContextValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val usageContext = UsageContext(
-                    code = Coding(display = "code"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    code = Coding(display = FHIRString("code")),
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
                 R4UsageContextValidator.validate(usageContext).alertIfErrors()
             }
@@ -65,8 +68,8 @@ class R4UsageContextValidatorTest {
     @Test
     fun `validates successfully`() {
         val usageContext = UsageContext(
-            code = Coding(display = "code"),
-            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = 1.0))
+            code = Coding(display = FHIRString("code")),
+            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
         )
         R4UsageContextValidator.validate(usageContext).alertIfErrors()
     }

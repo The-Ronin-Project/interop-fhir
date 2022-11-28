@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
@@ -17,15 +18,15 @@ class ContactPointTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val contactPoint = ContactPoint(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             system = ContactPointSystem.EMAIL.asCode(),
-            value = "name@site.com",
+            value = FHIRString("name@site.com"),
             use = ContactPointUse.HOME.asCode(),
             rank = PositiveInt(1),
             period = Period(start = DateTime("2021-11-18"))
@@ -56,7 +57,7 @@ class ContactPointTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val contactPoint = ContactPoint(
-            value = "name@site.com",
+            value = FHIRString("name@site.com"),
             system = ContactPointSystem.EMAIL.asCode()
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
@@ -91,16 +92,16 @@ class ContactPointTest {
     @Test
     fun `can serialize and deserialize JSON with code and system extensions`() {
         val contactPoint = ContactPoint(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             system = Code(
                 ContactPointSystem.EMAIL.toString(),
-                "12345",
+                FHIRString("12345"),
                 listOf(
                     Extension(
                         url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),
@@ -114,7 +115,7 @@ class ContactPointTest {
                     )
                 )
             ),
-            value = "name@site.com",
+            value = FHIRString("name@site.com"),
             use = Code(
                 ContactPointUse.HOME.toString(),
                 null,
@@ -174,19 +175,20 @@ class ContactPointTest {
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)
         assertEquals(contactPoint, deserializedContactPoint)
     }
+
     @Test
     fun `can serialize and deserialize JSON with code and system extensions with null values`() {
         val contactPoint = ContactPoint(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             system = Code(
                 ContactPointSystem.EMAIL.toString(),
-                "12345",
+                FHIRString("12345"),
                 listOf(
                     Extension(
                         url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),
@@ -200,7 +202,7 @@ class ContactPointTest {
                     )
                 )
             ),
-            value = "name@site.com",
+            value = FHIRString("name@site.com"),
             use = Code(
                 null,
                 null,

@@ -57,6 +57,8 @@ import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.resource.Patient
@@ -120,7 +122,7 @@ class R4DatatypesTest {
 
     @Test
     fun `can validate DynamicValue of other type`() {
-        val dynamicValue = DynamicValue(DynamicValueType.BOOLEAN, true)
+        val dynamicValue = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
 
         val validation = validateDynamicValue(dynamicValue, locationContext)
         assertEquals(0, validation.issues().size)
@@ -632,7 +634,7 @@ class R4DatatypesTest {
     @Test
     fun `GenericElementValidator processes child elements`() {
         data class MadeUpElement(
-            override val id: String? = null,
+            override val id: FHIRString? = null,
             override val extension: List<Extension> = listOf(),
             val versionId: Id? = null
         ) : Element<MadeUpElement>

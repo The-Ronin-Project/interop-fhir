@@ -5,6 +5,8 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Quantity
 import com.projectronin.interop.fhir.r4.datatype.Ratio
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -15,7 +17,7 @@ class R4RatioValidatorTest {
     fun `fails if non-null numerator and null denominator`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val ratio = Ratio(numerator = Quantity(value = 3.0))
+                val ratio = Ratio(numerator = Quantity(value = Decimal(3.0)))
                 R4RatioValidator.validate(ratio).alertIfErrors()
             }
         assertEquals(
@@ -33,10 +35,10 @@ class R4RatioValidatorTest {
                     extension = listOf(
                         Extension(
                             url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, "Value")
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                         )
                     ),
-                    denominator = Quantity(value = 3.0)
+                    denominator = Quantity(value = Decimal(3.0))
                 )
                 R4RatioValidator.validate(ratio).alertIfErrors()
             }
@@ -62,7 +64,7 @@ class R4RatioValidatorTest {
 
     @Test
     fun `validates successfully`() {
-        val ratio = Ratio(numerator = Quantity(value = 3.0), denominator = Quantity(value = 4.0))
+        val ratio = Ratio(numerator = Quantity(value = Decimal(3.0)), denominator = Quantity(value = Decimal(4.0)))
         R4RatioValidator.validate(ratio).alertIfErrors()
     }
 }

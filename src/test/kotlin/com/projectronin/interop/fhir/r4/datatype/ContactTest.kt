@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
@@ -15,27 +16,32 @@ class ContactTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val contact = Contact(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             relationship = listOf(
-                CodeableConcept(text = "N")
+                CodeableConcept(text = FHIRString("N"))
             ),
-            name = HumanName(text = "Jane Doe"),
-            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL.asCode())),
-            address = Address(text = "123 Sesame St"),
+            name = HumanName(text = FHIRString("Jane Doe")),
+            telecom = listOf(
+                ContactPoint(
+                    value = FHIRString("name@site.com"),
+                    system = ContactPointSystem.EMAIL.asCode()
+                )
+            ),
+            address = Address(text = FHIRString("123 Sesame St")),
             gender = AdministrativeGender.MALE.asCode(),
-            organization = Reference(reference = "Patient/123"),
+            organization = Reference(reference = FHIRString("Patient/123")),
             period = Period(start = DateTime("1998-08"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
@@ -82,8 +88,13 @@ class ContactTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val contact = Contact(
-            name = HumanName(text = "Jane Doe"),
-            telecom = listOf(ContactPoint(value = "name@site.com", system = ContactPointSystem.EMAIL.asCode())),
+            name = HumanName(text = FHIRString("Jane Doe")),
+            telecom = listOf(
+                ContactPoint(
+                    value = FHIRString("name@site.com"),
+                    system = ContactPointSystem.EMAIL.asCode()
+                )
+            ),
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 
@@ -123,7 +134,7 @@ class ContactTest {
         assertEquals(listOf<Extension>(), contact.extension)
         assertEquals(listOf<Extension>(), contact.modifierExtension)
         assertEquals(listOf<CodeableConcept>(), contact.relationship)
-        assertEquals("Jane Doe", contact.name?.text)
+        assertEquals(FHIRString("Jane Doe"), contact.name?.text)
         assertNull(contact.address)
         assertNull(contact.gender)
         assertNull(contact.organization)

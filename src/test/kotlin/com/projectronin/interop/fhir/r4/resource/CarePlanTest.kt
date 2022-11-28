@@ -19,6 +19,10 @@ import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -33,17 +37,17 @@ class CarePlanTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val carePlanDetail = CarePlanDetail(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             kind = Code("Appointment"),
@@ -58,7 +62,7 @@ class CarePlanTest {
                     Coding(
                         system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                         code = Code("DD"),
-                        display = "Discharge diagnosis"
+                        display = FHIRString("Discharge diagnosis")
                     )
                 )
             ),
@@ -68,13 +72,13 @@ class CarePlanTest {
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                             code = Code("DD"),
-                            display = "Discharge diagnosis"
+                            display = FHIRString("Discharge diagnosis")
                         )
                     )
                 )
             ),
             goal = listOf(
-                Reference(reference = "ABC123")
+                Reference(reference = FHIRString("ABC123"))
             ),
             status = Code("scheduled"),
             statusReason = CodeableConcept(
@@ -82,31 +86,31 @@ class CarePlanTest {
                     Coding(
                         system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                         code = Code("DD"),
-                        display = "Discharge diagnosis"
+                        display = FHIRString("Discharge diagnosis")
                     )
                 )
             ),
-            doNotPerform = true,
-            scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
-            location = Reference(reference = "DEF123"),
-            performer = listOf(Reference(reference = "GHI123")),
-            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-            dailyAmount = SimpleQuantity(value = 1.1),
-            quantity = SimpleQuantity(value = 2.2),
-            description = "Description"
+            doNotPerform = FHIRBoolean.TRUE,
+            scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+            location = Reference(reference = FHIRString("DEF123")),
+            performer = listOf(Reference(reference = FHIRString("GHI123"))),
+            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
+            dailyAmount = SimpleQuantity(value = Decimal(1.1)),
+            quantity = SimpleQuantity(value = Decimal(2.2)),
+            description = FHIRString("Description")
         )
         val carePlanActivity = CarePlanActivity(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             outcomeCodeableConcept = listOf(
@@ -115,13 +119,13 @@ class CarePlanTest {
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                             code = Code("DD"),
-                            display = "Discharge diagnosis"
+                            display = FHIRString("Discharge diagnosis")
                         )
                     )
                 )
             ),
             outcomeReference = listOf(
-                Reference(reference = "outcome")
+                Reference(reference = FHIRString("outcome"))
             ),
             progress = listOf(
                 Annotation(text = Markdown("123"))
@@ -137,31 +141,31 @@ class CarePlanTest {
             language = Code("en-US"),
             text = Narrative(
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"CarePlan","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             instantiatesCanonical = listOf<Canonical>(
                 Canonical(
                     value = "canonical"
                 )
             ),
             instantiatesUri = listOf(Uri("uri")),
-            basedOn = listOf(Reference(reference = "reference")),
-            replaces = listOf(Reference(reference = "reference")),
-            partOf = listOf(Reference(reference = "reference")),
+            basedOn = listOf(Reference(reference = FHIRString("reference"))),
+            replaces = listOf(Reference(reference = FHIRString("reference"))),
+            partOf = listOf(Reference(reference = FHIRString("reference"))),
             status = Code("active"),
             intent = Code("plan"),
             category = listOf(
@@ -170,32 +174,32 @@ class CarePlanTest {
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                             code = Code("DD"),
-                            display = "Discharge diagnosis"
+                            display = FHIRString("Discharge diagnosis")
                         )
                     )
                 )
             ),
-            title = "care plan",
-            description = "description",
-            subject = Reference(reference = "XYZ123"),
-            encounter = Reference(reference = "12XYZ3"),
+            title = FHIRString("care plan"),
+            description = FHIRString("description"),
+            subject = Reference(reference = FHIRString("XYZ123")),
+            encounter = Reference(reference = FHIRString("12XYZ3")),
             period = Period(start = DateTime("2021"), end = DateTime("2022")),
             created = DateTime("2022"),
-            author = Reference(reference = "author123"),
+            author = Reference(reference = FHIRString("author123")),
             contributor = listOf(
-                Reference(reference = "contributor123")
+                Reference(reference = FHIRString("contributor123"))
             ),
             careTeam = listOf(
-                Reference(reference = "careteam123")
+                Reference(reference = FHIRString("careteam123"))
             ),
             addresses = listOf(
-                Reference(reference = "address123")
+                Reference(reference = FHIRString("address123"))
             ),
             supportingInfo = listOf(
-                Reference(reference = "supportingInfo123")
+                Reference(reference = FHIRString("supportingInfo123"))
             ),
             goal = listOf(
-                Reference(reference = "goal123")
+                Reference(reference = FHIRString("goal123"))
             ),
             activity = listOf(carePlanActivity),
             note = listOf(
@@ -378,7 +382,7 @@ class CarePlanTest {
         val carePlan = CarePlan(
             status = Code("active"),
             intent = Code("plan"),
-            subject = Reference(reference = "XYZ123")
+            subject = Reference(reference = FHIRString("XYZ123"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlan)
         val expectedJson = """
@@ -426,7 +430,7 @@ class CarePlanTest {
         assertEquals(listOf<CodeableConcept>(), carePlan.category)
         assertNull(carePlan.title)
         assertNull(carePlan.description)
-        assertEquals(Reference(reference = "XYZ123"), carePlan.subject)
+        assertEquals(Reference(reference = FHIRString("XYZ123")), carePlan.subject)
         assertNull(carePlan.encounter)
         assertNull(carePlan.period)
         assertNull(carePlan.created)

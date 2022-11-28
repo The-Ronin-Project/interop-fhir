@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -41,53 +43,56 @@ class MedicationRequestTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             status = MedicationRequestStatus.CANCELLED.asCode(),
-            statusReason = CodeableConcept(text = "statusReason"),
+            statusReason = CodeableConcept(text = FHIRString("statusReason")),
             intent = MedicationRequestIntent.PROPOSAL.asCode(),
-            category = listOf(CodeableConcept(text = "category")),
+            category = listOf(CodeableConcept(text = FHIRString("category"))),
             priority = Code("priority"),
-            doNotPerform = false,
-            reported = DynamicValue(DynamicValueType.BOOLEAN, true),
-            medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-            subject = Reference(reference = "Patient/1234"),
-            encounter = Reference(reference = "Encounter/1234"),
-            supportingInformation = listOf(Reference(reference = "Condition/1234")),
+            doNotPerform = FHIRBoolean.FALSE,
+            reported = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+            medication = DynamicValue(
+                DynamicValueType.CODEABLE_CONCEPT,
+                CodeableConcept(text = FHIRString("medication"))
+            ),
+            subject = Reference(reference = FHIRString("Patient/1234")),
+            encounter = Reference(reference = FHIRString("Encounter/1234")),
+            supportingInformation = listOf(Reference(reference = FHIRString("Condition/1234"))),
             authoredOn = DateTime("2022-11-03"),
-            requester = Reference(reference = "Practitioner/1234"),
-            performer = Reference(reference = "Practitioner/5678"),
-            performerType = CodeableConcept(text = "performer type"),
-            recorder = Reference(reference = "Practitioner/3456"),
-            reasonCode = listOf(CodeableConcept(text = "reason")),
-            reasonReference = listOf(Reference(reference = "Condition/5678")),
+            requester = Reference(reference = FHIRString("Practitioner/1234")),
+            performer = Reference(reference = FHIRString("Practitioner/5678")),
+            performerType = CodeableConcept(text = FHIRString("performer type")),
+            recorder = Reference(reference = FHIRString("Practitioner/3456")),
+            reasonCode = listOf(CodeableConcept(text = FHIRString("reason"))),
+            reasonReference = listOf(Reference(reference = FHIRString("Condition/5678"))),
             instantiatesCanonical = listOf(Canonical("canonical")),
             instantiatesUri = listOf(Uri("uri")),
-            basedOn = listOf(Reference(reference = "CarePlan/1234")),
-            groupIdentifier = Identifier(value = "group"),
-            courseOfTherapyType = CodeableConcept(text = "therapy"),
-            insurance = listOf(Reference(reference = "Coverage/1234")),
+            basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
+            groupIdentifier = Identifier(value = FHIRString("group")),
+            courseOfTherapyType = CodeableConcept(text = FHIRString("therapy")),
+            insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
             note = listOf(Annotation(text = Markdown("note"))),
-            dosageInformation = listOf(Dosage(text = "dosage")),
+            dosageInformation = listOf(Dosage(text = FHIRString("dosage"))),
             dispenseRequest = DispenseRequest(numberOfRepeatsAllowed = UnsignedInt(2)),
-            substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, true)),
-            priorPrescription = Reference(reference = "MedicationRequest/1234"),
-            detectedIssue = listOf(Reference(reference = "DetectedIssue/1234")),
-            eventHistory = listOf(Reference(reference = "Provenance/1234"))
+            substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)),
+            priorPrescription = Reference(reference = FHIRString("MedicationRequest/1234")),
+            detectedIssue = listOf(Reference(reference = FHIRString("DetectedIssue/1234"))),
+            eventHistory = listOf(Reference(reference = FHIRString("Provenance/1234")))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationRequest)
 
@@ -206,8 +211,11 @@ class MedicationRequestTest {
         val medicationRequest = MedicationRequest(
             status = MedicationRequestStatus.COMPLETED.asCode(),
             intent = MedicationRequestIntent.OPTION.asCode(),
-            medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-            subject = Reference(reference = "Patient/1234")
+            medication = DynamicValue(
+                DynamicValueType.CODEABLE_CONCEPT,
+                CodeableConcept(text = FHIRString("medication"))
+            ),
+            subject = Reference(reference = FHIRString("Patient/1234"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationRequest)
 
@@ -261,10 +269,10 @@ class MedicationRequestTest {
         assertNull(medicationRequest.doNotPerform)
         assertNull(medicationRequest.reported)
         assertEquals(
-            DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
+            DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("medication"))),
             medicationRequest.medication
         )
-        assertEquals(Reference(reference = "Patient/1234"), medicationRequest.subject)
+        assertEquals(Reference(reference = FHIRString("Patient/1234")), medicationRequest.subject)
         assertNull(medicationRequest.encounter)
         assertEquals(listOf<Reference>(), medicationRequest.supportingInformation)
         assertNull(medicationRequest.authoredOn)

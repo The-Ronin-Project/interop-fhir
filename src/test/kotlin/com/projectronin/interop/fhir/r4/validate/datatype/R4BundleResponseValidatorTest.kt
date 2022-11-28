@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.BundleResponse
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -35,7 +36,7 @@ class R4BundleResponseValidatorTest {
 
     @Test
     fun `validates successfully`() {
-        val bundleResponse = BundleResponse(status = "status")
+        val bundleResponse = BundleResponse(status = FHIRString("status"))
         R4BundleResponseValidator.validate(bundleResponse).alertIfErrors()
     }
 }

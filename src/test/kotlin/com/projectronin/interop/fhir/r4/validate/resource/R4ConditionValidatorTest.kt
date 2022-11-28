@@ -11,6 +11,8 @@ import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Condition
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -42,7 +44,7 @@ class R4ConditionValidatorTest {
                     identifier = listOf(
                         Identifier(
                             system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                            value = "MRN"
+                            value = FHIRString("MRN")
                         )
                     ),
                     clinicalStatus = CodeableConcept(
@@ -50,7 +52,7 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
                                 code = Code("potato"),
-                                display = "Potato"
+                                display = FHIRString("Potato")
                             )
                         )
                     ),
@@ -61,7 +63,7 @@ class R4ConditionValidatorTest {
                                     code = Code("encounter-diagnosis")
                                 )
                             ),
-                            text = "Encounter Diagnosis"
+                            text = FHIRString("Encounter Diagnosis")
                         )
                     ),
                     code = CodeableConcept(
@@ -69,12 +71,12 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://snomed.info/sct"),
                                 code = Code("254637007"),
-                                display = "Non-small cell lung cancer"
+                                display = FHIRString("Non-small cell lung cancer")
                             )
                         )
                     ),
                     subject = Reference(
-                        reference = "Patient/roninPatientExample01"
+                        reference = FHIRString("Patient/roninPatientExample01")
                     )
                 )
                 R4ConditionValidator.validate(condition).alertIfErrors()
@@ -94,7 +96,7 @@ class R4ConditionValidatorTest {
                     identifier = listOf(
                         Identifier(
                             system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                            value = "MRN"
+                            value = FHIRString("MRN")
                         )
                     ),
                     verificationStatus = CodeableConcept(
@@ -102,7 +104,7 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/condition-ver-status"),
                                 code = Code("potato"),
-                                display = "Potato"
+                                display = FHIRString("Potato")
                             )
                         )
                     ),
@@ -113,7 +115,7 @@ class R4ConditionValidatorTest {
                                     code = Code("encounter-diagnosis")
                                 )
                             ),
-                            text = "Encounter Diagnosis"
+                            text = FHIRString("Encounter Diagnosis")
                         )
                     ),
                     code = CodeableConcept(
@@ -121,12 +123,12 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://snomed.info/sct"),
                                 code = Code("254637007"),
-                                display = "Non-small cell lung cancer"
+                                display = FHIRString("Non-small cell lung cancer")
                             )
                         )
                     ),
                     subject = Reference(
-                        reference = "Patient/roninPatientExample01"
+                        reference = FHIRString("Patient/roninPatientExample01")
                     )
                 )
                 R4ConditionValidator.validate(condition).alertIfErrors()
@@ -146,7 +148,7 @@ class R4ConditionValidatorTest {
                     identifier = listOf(
                         Identifier(
                             system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                            value = "MRN"
+                            value = FHIRString("MRN")
                         )
                     ),
                     clinicalStatus = CodeableConcept(
@@ -154,7 +156,7 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
                                 code = Code("active"),
-                                display = "Active"
+                                display = FHIRString("Active")
                             )
                         )
                     ),
@@ -165,7 +167,7 @@ class R4ConditionValidatorTest {
                                     code = Code("encounter-diagnosis")
                                 )
                             ),
-                            text = "Encounter Diagnosis"
+                            text = FHIRString("Encounter Diagnosis")
                         )
                     ),
                     code = CodeableConcept(
@@ -173,12 +175,12 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://snomed.info/sct"),
                                 code = Code("254637007"),
-                                display = "Non-small cell lung cancer"
+                                display = FHIRString("Non-small cell lung cancer")
                             )
                         )
                     ),
                     subject = Reference(
-                        reference = "Patient/roninPatientExample01"
+                        reference = FHIRString("Patient/roninPatientExample01")
                     ),
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
                 )
@@ -199,7 +201,7 @@ class R4ConditionValidatorTest {
                     identifier = listOf(
                         Identifier(
                             system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                            value = "MRN"
+                            value = FHIRString("MRN")
                         )
                     ),
                     category = listOf(
@@ -209,7 +211,7 @@ class R4ConditionValidatorTest {
                                     code = Code("encounter-diagnosis")
                                 )
                             ),
-                            text = "Encounter Diagnosis"
+                            text = FHIRString("Encounter Diagnosis")
                         )
                     ),
                     code = CodeableConcept(
@@ -217,12 +219,12 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://snomed.info/sct"),
                                 code = Code("254637007"),
-                                display = "Non-small cell lung cancer"
+                                display = FHIRString("Non-small cell lung cancer")
                             )
                         )
                     ),
                     subject = Reference(
-                        reference = "Patient/roninPatientExample01"
+                        reference = FHIRString("Patient/roninPatientExample01")
                     ),
                     abatement = DynamicValue(DynamicValueType.PERIOD, Period(start = DateTime("2020")))
                 )
@@ -243,7 +245,7 @@ class R4ConditionValidatorTest {
                     identifier = listOf(
                         Identifier(
                             system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                            value = "MRN"
+                            value = FHIRString("MRN")
                         )
                     ),
                     clinicalStatus = CodeableConcept(
@@ -251,7 +253,7 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
                                 code = Code("active"),
-                                display = "Active"
+                                display = FHIRString("Active")
                             )
                         )
                     ),
@@ -260,7 +262,7 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/condition-ver-status"),
                                 code = Code("entered-in-error"),
-                                display = "Entered in error"
+                                display = FHIRString("Entered in error")
                             )
                         )
                     ),
@@ -271,7 +273,7 @@ class R4ConditionValidatorTest {
                                     code = Code("encounter-diagnosis")
                                 )
                             ),
-                            text = "Encounter Diagnosis"
+                            text = FHIRString("Encounter Diagnosis")
                         )
                     ),
                     code = CodeableConcept(
@@ -279,12 +281,12 @@ class R4ConditionValidatorTest {
                             Coding(
                                 system = Uri("http://snomed.info/sct"),
                                 code = Code("254637007"),
-                                display = "Non-small cell lung cancer"
+                                display = FHIRString("Non-small cell lung cancer")
                             )
                         )
                     ),
                     subject = Reference(
-                        reference = "Patient/roninPatientExample01"
+                        reference = FHIRString("Patient/roninPatientExample01")
                     )
                 )
                 R4ConditionValidator.validate(condition).alertIfErrors()
@@ -300,20 +302,20 @@ class R4ConditionValidatorTest {
     fun `cannot create onset with unsupported dynamic value type`() {
         val exception = assertThrows<IllegalArgumentException> {
             val condition = Condition(
-                subject = Reference(reference = "subject"),
+                subject = Reference(reference = FHIRString("subject")),
                 onset = DynamicValue(type = DynamicValueType.BOOLEAN, value = false),
                 clinicalStatus = CodeableConcept(
                     coding = listOf(
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
                             code = Code("inactive"),
-                            display = "Inactive"
+                            display = FHIRString("Inactive")
                         )
                     )
                 ),
                 abatement = DynamicValue(
                     DynamicValueType.AGE,
-                    Age(value = 55.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                    Age(value = Decimal(55.0), code = Code("a"), system = CodeSystem.UCUM.uri)
                 ),
             )
             R4ConditionValidator.validate(condition).alertIfErrors()
@@ -329,17 +331,17 @@ class R4ConditionValidatorTest {
     fun `cannot create abatement with unsupported dynamic value type`() {
         val exception = assertThrows<IllegalArgumentException> {
             val condition = Condition(
-                subject = Reference(reference = "subject"),
+                subject = Reference(reference = FHIRString("subject")),
                 onset = DynamicValue(
                     DynamicValueType.AGE,
-                    Age(value = 55.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                    Age(value = Decimal(55.0), code = Code("a"), system = CodeSystem.UCUM.uri)
                 ),
                 clinicalStatus = CodeableConcept(
                     coding = listOf(
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/condition-clinical"),
                             code = Code("inactive"),
-                            display = "Inactive"
+                            display = FHIRString("Inactive")
                         )
                     )
                 ),
@@ -357,7 +359,7 @@ class R4ConditionValidatorTest {
     @Test
     fun `validates successfully`() {
         val condition = Condition(
-            subject = Reference(reference = "subject")
+            subject = Reference(reference = FHIRString("subject"))
         )
         R4ConditionValidator.validate(condition).alertIfErrors()
     }

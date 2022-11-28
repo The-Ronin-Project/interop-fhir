@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.Element
 import com.projectronin.interop.fhir.r4.datatype.Extension
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 
 /**
  * Any restrictions on medication substitution
@@ -15,7 +16,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 @JsonDeserialize(using = SubstitutionDeserializer::class)
 @JsonSerialize(using = SubstitutionSerializer::class)
 data class Substitution(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val allowed: DynamicValue<Any>?,
     val reason: CodeableConcept? = null

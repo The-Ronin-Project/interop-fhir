@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -13,15 +14,15 @@ class NarrativeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val narrative = Narrative(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             status = NarrativeStatus.GENERATED.asCode(),
-            div = "narrative text"
+            div = FHIRString("narrative text")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
 
@@ -43,7 +44,7 @@ class NarrativeTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = "narrative text")
+        val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = FHIRString("narrative text"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
 
         val expectedJson = """
@@ -66,6 +67,6 @@ class NarrativeTest {
         assertNull(narrative.id)
         assertEquals(listOf<Extension>(), narrative.extension)
         assertEquals(NarrativeStatus.GENERATED.asCode(), narrative.status)
-        assertEquals("narrative text", narrative.div)
+        assertEquals(FHIRString("narrative text"), narrative.div)
     }
 }

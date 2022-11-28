@@ -79,11 +79,11 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
                 }
             }
 
-            element.minutesDuration?.let {
+            element.minutesDuration?.value?.let {
                 checkTrue(it > 0, positiveMinutesDurationError, parentContext)
             }
 
-            element.priority?.let {
+            element.priority?.value?.let {
                 checkTrue(it >= 0, nonNegativePriorityError, parentContext)
             }
 

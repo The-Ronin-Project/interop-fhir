@@ -3,8 +3,8 @@ package com.projectronin.interop.fhir.stu3.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.projectronin.interop.fhir.jackson.inbound.stu3.MedicationStatementDeserializer
-import com.projectronin.interop.fhir.jackson.outbound.stu3.MedicationStatementSerializer
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -29,8 +29,8 @@ import com.projectronin.interop.fhir.r4.resource.MedicationStatement as R4Medica
  *
  * See FHIR Spec for [MedicationStatement](http://hl7.org/fhir/STU3/medicationstatement.html)
  */
-@JsonDeserialize(using = MedicationStatementDeserializer::class)
-@JsonSerialize(using = MedicationStatementSerializer::class)
+@JsonSerialize(using = STU3MedicationStatementSerializer::class)
+@JsonDeserialize(using = STU3MedicationStatementDeserializer::class)
 @JsonTypeName("MedicationStatement")
 data class STU3MedicationStatement(
     override val id: Id? = null,
@@ -101,3 +101,9 @@ data class STU3MedicationStatement(
         }
     }
 }
+
+class STU3MedicationStatementSerializer :
+    BaseFHIRSerializer<STU3MedicationStatement>(STU3MedicationStatement::class.java)
+
+class STU3MedicationStatementDeserializer :
+    BaseFHIRDeserializer<STU3MedicationStatement>(STU3MedicationStatement::class.java)

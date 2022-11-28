@@ -5,6 +5,7 @@ import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,7 +15,7 @@ class R4EncounterDiagnosisValidatorTest {
     @Test
     fun `validate - succeeds with only required attributes`() {
         val encounterDiagnosis = EncounterDiagnosis(
-            condition = Reference(reference = "Condition/example")
+            condition = Reference(reference = FHIRString("Condition/example"))
         )
         R4EncounterDiagnosisValidator.validate(encounterDiagnosis).alertIfErrors()
     }
@@ -22,13 +23,13 @@ class R4EncounterDiagnosisValidatorTest {
     @Test
     fun `validate - succeeds with required and other attributes`() {
         val encounterDiagnosis = EncounterDiagnosis(
-            condition = Reference(reference = "Condition/example"),
+            condition = Reference(reference = FHIRString("Condition/example")),
             use = CodeableConcept(
                 coding = listOf(
                     Coding(
                         system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                         code = Code("DD"),
-                        display = "Discharge diagnosis"
+                        display = FHIRString("Discharge diagnosis")
                     )
                 )
             )
@@ -47,7 +48,7 @@ class R4EncounterDiagnosisValidatorTest {
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                                 code = Code("DD"),
-                                display = "Discharge diagnosis"
+                                display = FHIRString("Discharge diagnosis")
                             )
                         )
                     )

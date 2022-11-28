@@ -1,5 +1,9 @@
 package com.projectronin.interop.fhir.r4.resource
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.BundleEntry
 import com.projectronin.interop.fhir.r4.datatype.BundleLink
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -14,6 +18,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 /**
  * A container for a collection of resources.
  */
+@JsonSerialize(using = BundleSerializer::class)
+@JsonDeserialize(using = BundleDeserializer::class)
 data class Bundle(
     override val id: Id? = null,
     override val meta: Meta? = null,
@@ -29,3 +35,6 @@ data class Bundle(
 ) : Resource<Bundle> {
     override val resourceType: String = "Bundle"
 }
+
+class BundleSerializer : BaseFHIRSerializer<Bundle>(Bundle::class.java)
+class BundleDeserializer : BaseFHIRDeserializer<Bundle>(Bundle::class.java)

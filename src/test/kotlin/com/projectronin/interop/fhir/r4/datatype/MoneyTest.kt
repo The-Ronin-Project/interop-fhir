@@ -3,6 +3,8 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,14 +14,14 @@ class MoneyTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val money = Money(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            value = 5.99,
+            value = Decimal(5.99),
             currency = Code("USD")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(money)
@@ -42,7 +44,7 @@ class MoneyTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val money = Money(value = 3.24)
+        val money = Money(value = Decimal(3.24))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(money)
 
         val expectedJson = """

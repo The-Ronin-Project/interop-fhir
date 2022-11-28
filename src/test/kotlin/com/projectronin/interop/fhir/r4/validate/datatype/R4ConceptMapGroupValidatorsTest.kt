@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.r4.datatype.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.datatype.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapEquivalence
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapMode
@@ -103,7 +104,7 @@ class R4ConceptMapGroupValidatorsTest {
         val ex = assertThrows<IllegalArgumentException> {
             val dependsOn = ConceptMapDependsOn(
                 property = null,
-                value = "value"
+                value = FHIRString("value")
             )
             R4ConceptMapDependsOnValidator.validate(dependsOn).alertIfErrors()
         }
@@ -113,6 +114,7 @@ class R4ConceptMapGroupValidatorsTest {
             ex.message
         )
     }
+
     @Test
     fun `dependsOn - value Required`() {
         val ex = assertThrows<IllegalArgumentException> {
@@ -143,6 +145,7 @@ class R4ConceptMapGroupValidatorsTest {
             ex.message
         )
     }
+
     @Test
     fun `target - comments required for inexact`() {
         val ex = assertThrows<IllegalArgumentException> {
@@ -187,7 +190,7 @@ class R4ConceptMapGroupValidatorsTest {
     fun `target - works with narrower`() {
         val target = ConceptMapTarget(
             equivalence = ConceptMapEquivalence.NARROWER.asCode(),
-            comment = "comments"
+            comment = FHIRString("comments")
         )
         R4ConceptMapTargetValidator.validate(target).alertIfErrors()
     }
@@ -196,7 +199,7 @@ class R4ConceptMapGroupValidatorsTest {
     fun `target - works with inexact`() {
         val target = ConceptMapTarget(
             equivalence = ConceptMapEquivalence.INEXACT.asCode(),
-            comment = "comments"
+            comment = FHIRString("comments")
         )
         R4ConceptMapTargetValidator.validate(target).alertIfErrors()
     }

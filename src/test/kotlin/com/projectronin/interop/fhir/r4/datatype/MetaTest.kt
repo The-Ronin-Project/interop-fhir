@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -14,19 +15,19 @@ class MetaTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val meta = Meta(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             versionId = Id("2"),
             lastUpdated = Instant("2017-01-01T00:00:00Z"),
             source = Uri("source-uri"),
             profile = listOf(Canonical("profile-canonical")),
-            security = listOf(Coding(display = "security-coding")),
-            tag = listOf(Coding(display = "tag-coding"))
+            security = listOf(Coding(display = FHIRString("security-coding"))),
+            tag = listOf(Coding(display = FHIRString("tag-coding")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(meta)
 

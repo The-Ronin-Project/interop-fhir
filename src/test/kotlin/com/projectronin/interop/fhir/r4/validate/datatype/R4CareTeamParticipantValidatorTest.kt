@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.CareTeamParticipant
 import com.projectronin.interop.fhir.r4.datatype.Reference
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -12,7 +13,7 @@ class R4CareTeamParticipantValidatorTest {
     fun `fails if onBehalfOf populated without practitioner`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = CareTeamParticipant(
-                onBehalfOf = Reference(display = "Test")
+                onBehalfOf = Reference(display = FHIRString("Test"))
             )
             R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
         }
@@ -27,8 +28,8 @@ class R4CareTeamParticipantValidatorTest {
     fun `fails if onBehalfOf populated with non practitioner indication`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = CareTeamParticipant(
-                onBehalfOf = Reference(display = "Test"),
-                member = Reference(display = "not right type")
+                onBehalfOf = Reference(display = FHIRString("Test")),
+                member = Reference(display = FHIRString("not right type"))
             )
             R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
         }
@@ -43,8 +44,8 @@ class R4CareTeamParticipantValidatorTest {
     fun `fails if onBehalfOf populated with non practitioner`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = CareTeamParticipant(
-                onBehalfOf = Reference(display = "Test"),
-                member = Reference(display = "not right type", reference = "Garbage")
+                onBehalfOf = Reference(display = FHIRString("Test")),
+                member = Reference(display = FHIRString("not right type"), reference = FHIRString("Garbage"))
             )
             R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
         }
@@ -58,8 +59,8 @@ class R4CareTeamParticipantValidatorTest {
     @Test
     fun `validates when both member type and onbehalf of are present`() {
         val participant = CareTeamParticipant(
-            onBehalfOf = Reference(display = "Test"),
-            member = Reference(display = "Test", type = Uri("Practitioner"))
+            onBehalfOf = Reference(display = FHIRString("Test")),
+            member = Reference(display = FHIRString("Test"), type = Uri("Practitioner"))
         )
         R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
     }
@@ -67,7 +68,7 @@ class R4CareTeamParticipantValidatorTest {
     @Test
     fun `validates when both member and onbehalf of are absent`() {
         val participant = CareTeamParticipant(
-            id = "123"
+            id = FHIRString("123")
         )
         R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
     }
@@ -75,8 +76,8 @@ class R4CareTeamParticipantValidatorTest {
     @Test
     fun `validates when both member reference and onbehalf of are present`() {
         val participant = CareTeamParticipant(
-            onBehalfOf = Reference(display = "Test"),
-            member = Reference(display = "Test", reference = "ehr.com/Practitioner/123")
+            onBehalfOf = Reference(display = FHIRString("Test")),
+            member = Reference(display = FHIRString("Test"), reference = FHIRString("ehr.com/Practitioner/123"))
         )
         R4CareTeamParticipantValidator.validate(participant).alertIfErrors()
     }

@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.OrganizationContact
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
@@ -38,49 +40,49 @@ class OrganizationTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            active = true,
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            active = FHIRBoolean.TRUE,
             type = listOf(
                 CodeableConcept(
                     coding = listOf(
                         Coding(
                             system = Uri("http://terminology.hl7.org/CodeSystem/organization-type"),
                             code = Code("dept"),
-                            display = "Hospital Department"
+                            display = FHIRString("Hospital Department")
                         )
                     )
                 )
             ),
-            name = "Ronin Fake Hospital Name",
-            alias = listOf("Fake Other Org Name"),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
-            address = listOf(Address(country = "USA")),
-            partOf = Reference(reference = "Organization/super"),
+            name = FHIRString("Ronin Fake Hospital Name"),
+            alias = listOf(FHIRString("Fake Other Org Name")),
+            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+            address = listOf(Address(country = FHIRString("USA"))),
+            partOf = Reference(reference = FHIRString("Organization/super")),
             contact = listOf(
                 OrganizationContact(
-                    name = HumanName(text = "Jane Doe"),
+                    name = HumanName(text = FHIRString("Jane Doe")),
                     telecom = listOf(
                         ContactPoint(
                             system = ContactPointSystem.PHONE.asCode(),
-                            value = "8675309"
+                            value = FHIRString("8675309")
                         )
                     ),
-                    address = Address(country = "USA"),
+                    address = Address(country = FHIRString("USA")),
                     purpose = CodeableConcept(
                         coding = listOf(
                             Coding(
@@ -91,7 +93,7 @@ class OrganizationTest {
                     ),
                 )
             ),
-            endpoint = listOf(Reference(reference = "Endpoint/4321"))
+            endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321")))
         )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organization)
@@ -206,13 +208,13 @@ class OrganizationTest {
         assertEquals(listOf<Extension>(), organization.modifierExtension)
         assertEquals(listOf<Identifier>(), organization.identifier)
         assertEquals(listOf<CodeableConcept>(), organization.type)
-        assertEquals("Ronin Fake Hospital Name", organization.name)
+        assertEquals(FHIRString("Ronin Fake Hospital Name"), organization.name)
         assertEquals(listOf<String>(), organization.alias)
         assertEquals(
             listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             ),
             organization.telecom
@@ -230,7 +232,7 @@ class OrganizationTest {
                             )
                         )
                     ),
-                    address = Address(country = "USA")
+                    address = Address(country = FHIRString("USA"))
                 )
             ),
             organization.contact
@@ -241,12 +243,12 @@ class OrganizationTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val organization = Organization(
-            active = true,
-            name = "Ronin Fake Hospital Name",
+            active = FHIRBoolean.TRUE,
+            name = FHIRString("Ronin Fake Hospital Name"),
             telecom = listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             )
         )
@@ -273,14 +275,14 @@ class OrganizationTest {
                 Identifier(
                     use = Code("official"),
                     system = Uri("http://www.fakefakefakefake.com/"),
-                    value = "Ronin Fake Hospital Center"
+                    value = FHIRString("Ronin Fake Hospital Center")
                 )
             ),
-            active = true,
+            active = FHIRBoolean.TRUE,
             telecom = listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = "8675309"
+                    value = FHIRString("8675309")
                 )
             )
         )

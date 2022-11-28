@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -13,17 +15,17 @@ class EncounterParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val encounterParticipant = EncounterParticipant(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             type = listOf(
@@ -32,7 +34,7 @@ class EncounterParticipantTest {
                         Coding(
                             system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
                             code = Code("PPRT"),
-                            display = "Primary performer"
+                            display = FHIRString("Primary performer")
                         )
                     )
                 )
@@ -42,8 +44,8 @@ class EncounterParticipantTest {
                 end = DateTime(value = "2021-11-17T09:00:00Z")
             ),
             individual = Reference(
-                reference = "Practitioner/f001",
-                display = "E.M. van den Broek"
+                reference = FHIRString("Practitioner/f001"),
+                display = FHIRString("E.M. van den Broek")
             )
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterParticipant)
@@ -85,14 +87,14 @@ class EncounterParticipantTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val encounterParticipant = EncounterParticipant(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            individual = Reference(reference = "Practitioner/f001")
+            individual = Reference(reference = FHIRString("Practitioner/f001"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterParticipant)
 
@@ -127,12 +129,12 @@ class EncounterParticipantTest {
         """.trimIndent()
         val encounterParticipant = objectMapper.readValue<EncounterParticipant>(json)
 
-        assertEquals("12345", encounterParticipant.id)
+        assertEquals(FHIRString("12345"), encounterParticipant.id)
         assertEquals(
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             encounterParticipant.extension
@@ -140,6 +142,6 @@ class EncounterParticipantTest {
         assertEquals(listOf<Extension>(), encounterParticipant.modifierExtension)
         assertEquals(listOf<CodeableConcept>(), encounterParticipant.type)
         assertNull(encounterParticipant.period)
-        assertEquals(Reference(reference = "Practitioner/f001"), encounterParticipant.individual)
+        assertEquals(Reference(reference = FHIRString("Practitioner/f001")), encounterParticipant.individual)
     }
 }

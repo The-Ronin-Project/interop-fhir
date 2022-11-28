@@ -2,6 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,15 +13,15 @@ class UsageContextTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val usageContext = UsageContext(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            code = Coding(display = "code"),
-            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = 1.0))
+            code = Coding(display = FHIRString("code")),
+            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(usageContext)
 
@@ -46,8 +48,8 @@ class UsageContextTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val usageContext = UsageContext(
-            code = Coding(display = "code"),
-            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = 1.0))
+            code = Coding(display = FHIRString("code")),
+            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(usageContext)
 
@@ -78,7 +80,7 @@ class UsageContextTest {
 
         assertNull(usageContext.id)
         assertEquals(listOf<Extension>(), usageContext.extension)
-        assertEquals(Coding(display = "code"), usageContext.code)
-        assertEquals(DynamicValue(DynamicValueType.QUANTITY, Quantity(value = 1.0)), usageContext.value)
+        assertEquals(Coding(display = FHIRString("code")), usageContext.code)
+        assertEquals(DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0))), usageContext.value)
     }
 }

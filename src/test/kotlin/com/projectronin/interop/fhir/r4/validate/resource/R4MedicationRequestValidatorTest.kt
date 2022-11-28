@@ -5,6 +5,7 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.MedicationRequest
 import com.projectronin.interop.fhir.r4.valueset.MedicationRequestIntent
 import com.projectronin.interop.fhir.r4.valueset.MedicationRequestStatus
@@ -21,8 +22,11 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = null,
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234")
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -39,8 +43,11 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = Code("invalid-status"),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234")
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -57,8 +64,11 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = null,
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234")
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -75,8 +85,11 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = Code("invalid-intent"),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234")
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -93,8 +106,11 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234"),
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234")),
                 priority = Code("invalid-priority")
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
@@ -112,9 +128,12 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-                subject = Reference(reference = "Patient/1234"),
-                reported = DynamicValue(DynamicValueType.STRING, "reported")
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
+                subject = Reference(reference = FHIRString("Patient/1234")),
+                reported = DynamicValue(DynamicValueType.STRING, FHIRString("reported"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -132,7 +151,7 @@ class R4MedicationRequestValidatorTest {
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
                 medication = null,
-                subject = Reference(reference = "Patient/1234")
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -150,7 +169,7 @@ class R4MedicationRequestValidatorTest {
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
                 medication = DynamicValue(DynamicValueType.BOOLEAN, false),
-                subject = Reference(reference = "Patient/1234")
+                subject = Reference(reference = FHIRString("Patient/1234"))
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
         }
@@ -167,7 +186,10 @@ class R4MedicationRequestValidatorTest {
             val medicationRequest = MedicationRequest(
                 status = MedicationRequestStatus.COMPLETED.asCode(),
                 intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-                medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
+                medication = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("medication"))
+                ),
                 subject = null
             )
             R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
@@ -184,8 +206,11 @@ class R4MedicationRequestValidatorTest {
         val medicationRequest = MedicationRequest(
             status = MedicationRequestStatus.COMPLETED.asCode(),
             intent = MedicationRequestIntent.FILLER_ORDER.asCode(),
-            medication = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "medication")),
-            subject = Reference(reference = "Patient/1234"),
+            medication = DynamicValue(
+                DynamicValueType.CODEABLE_CONCEPT,
+                CodeableConcept(text = FHIRString("medication"))
+            ),
+            subject = Reference(reference = FHIRString("Patient/1234")),
             priority = RequestPriority.ASAP.asCode(),
             reported = DynamicValue(DynamicValueType.BOOLEAN, false)
         )

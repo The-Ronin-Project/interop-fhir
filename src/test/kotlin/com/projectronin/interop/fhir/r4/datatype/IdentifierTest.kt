@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
-import com.projectronin.interop.fhir.r4.datatype.primitive.PrimitiveData
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.IdentifierUse
 import com.projectronin.interop.fhir.util.asCode
@@ -16,20 +16,20 @@ class IdentifierTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val identifier = Identifier(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             use = IdentifierUse.OFFICIAL.asCode(),
-            type = CodeableConcept(text = "concept"),
+            type = CodeableConcept(text = FHIRString("concept")),
             system = Uri("identifier-system"),
-            value = "identifier value",
+            value = FHIRString("identifier value"),
             period = Period(start = DateTime("2021-11-01")),
             assigner = Reference(
-                reference = "Organization/123",
+                reference = FHIRString("Organization/123"),
                 type = Uri("Organization")
             )
         )
@@ -87,38 +87,37 @@ class IdentifierTest {
         assertNull(identifier.use)
         assertNull(identifier.type)
         assertNull(identifier.system)
-        assertEquals("identifier", identifier.value)
+        assertEquals(FHIRString("identifier"), identifier.value)
         assertNull(identifier.period)
         assertNull(identifier.assigner)
-        assertNull(identifier.valueData)
     }
 
     @Test
     fun `can serialize and deserialize JSON with value primitive data`() {
         val identifier = Identifier(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             use = IdentifierUse.OFFICIAL.asCode(),
-            type = CodeableConcept(text = "concept"),
+            type = CodeableConcept(text = FHIRString("concept")),
             system = Uri("identifier-system"),
-            value = "identifier value",
-            valueData = PrimitiveData(
-                id = "valueDataId",
+            value = FHIRString(
+                value = "identifier value",
+                id = FHIRString("valueDataId"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/primitiveExtension"),
-                        value = DynamicValue(DynamicValueType.STRING, "value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("value"))
                     )
                 )
             ),
             period = Period(start = DateTime("2021-11-01")),
             assigner = Reference(
-                reference = "Organization/123",
+                reference = FHIRString("Organization/123"),
                 type = Uri("Organization")
             )
         )
@@ -137,19 +136,19 @@ class IdentifierTest {
             |  },
             |  "system" : "identifier-system",
             |  "value" : "identifier value",
-            |  "period" : {
-            |    "start" : "2021-11-01"
-            |  },
-            |  "assigner" : {
-            |    "reference" : "Organization/123",
-            |    "type" : "Organization"
-            |  },
             |  "_value" : {
             |    "id" : "valueDataId",
             |    "extension" : [ {
             |      "url" : "http://localhost/primitiveExtension",
             |      "valueString" : "value"
             |    } ]
+            |  },
+            |  "period" : {
+            |    "start" : "2021-11-01"
+            |  },
+            |  "assigner" : {
+            |    "reference" : "Organization/123",
+            |    "type" : "Organization"
             |  }
             |}""".trimMargin()
         assertEquals(expectedJson, json)
@@ -178,17 +177,17 @@ class IdentifierTest {
         assertEquals(Code("usual"), identifier.use)
         assertNull(identifier.type)
         assertEquals(Uri("urn:oid:2.16.840.1.113883.4.1"), identifier.system)
-        assertNull(identifier.value)
         assertEquals(
-            PrimitiveData(
+            FHIRString(
+                value = null,
                 extension = listOf(
                     Extension(
                         url = Uri("http://hl7.org/fhir/StructureDefinition/rendered-value"),
-                        value = DynamicValue(DynamicValueType.STRING, "xxx-xx-1234")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("xxx-xx-1234"))
                     )
                 )
             ),
-            identifier.valueData
+            identifier.value
         )
         assertNull(identifier.period)
         assertNull(identifier.assigner)

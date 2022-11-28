@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.MoneyQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4MoneyQuantityValidatorTest {
     fun `fails if code provided without system`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val quantity = MoneyQuantity(value = 2.0, code = Code("USD"))
+                val quantity = MoneyQuantity(value = Decimal(2.0), code = Code("USD"))
                 R4MoneyQuantityValidator.validate(quantity).alertIfErrors()
             }
         assertEquals(
@@ -28,7 +29,7 @@ class R4MoneyQuantityValidatorTest {
     fun `fails if value provided without code`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val quantity = MoneyQuantity(value = 2.0)
+                val quantity = MoneyQuantity(value = Decimal(2.0))
                 R4MoneyQuantityValidator.validate(quantity).alertIfErrors()
             }
         assertEquals(
@@ -55,7 +56,7 @@ class R4MoneyQuantityValidatorTest {
     fun `base quantity failure includes parent context`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val quantity = MoneyQuantity(value = 2.0, code = Code("USD"))
+                val quantity = MoneyQuantity(value = Decimal(2.0), code = Code("USD"))
                 R4MoneyQuantityValidator.validate(quantity, LocationContext("Test", "field")).alertIfErrors()
             }
         assertEquals(
@@ -68,7 +69,7 @@ class R4MoneyQuantityValidatorTest {
     @Test
     fun `validates successfully`() {
         val quantity = MoneyQuantity(
-            value = 17.5,
+            value = Decimal(17.5),
             system = CodeSystem.CURRENCY.uri,
             code = Code("USD")
         )

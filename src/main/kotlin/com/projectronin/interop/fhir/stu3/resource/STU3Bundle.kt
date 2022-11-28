@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.stu3.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.BundleEntry
 import com.projectronin.interop.fhir.r4.datatype.BundleLink
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -19,9 +23,11 @@ import com.projectronin.interop.fhir.r4.resource.Bundle as R4Bundle
  *
  * See [FHIR Spec](http://www.hl7.org/fhir/bundle.html)
  */
+@JsonSerialize(using = STU3BundleSerializer::class)
+@JsonDeserialize(using = STU3BundleDeserializer::class)
 @JsonTypeName("Bundle")
 data class STU3Bundle(
-    override val id: Id?,
+    override val id: Id? = null,
     override val meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
@@ -63,3 +69,6 @@ data class STU3Bundle(
         )
     }
 }
+
+class STU3BundleSerializer : BaseFHIRSerializer<STU3Bundle>(STU3Bundle::class.java)
+class STU3BundleDeserializer : BaseFHIRDeserializer<STU3Bundle>(STU3Bundle::class.java)

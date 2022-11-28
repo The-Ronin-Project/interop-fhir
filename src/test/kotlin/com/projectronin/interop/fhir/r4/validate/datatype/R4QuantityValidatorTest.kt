@@ -3,6 +3,8 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.Quantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
 import com.projectronin.interop.fhir.util.asCode
 import com.projectronin.interop.fhir.validate.LocationContext
@@ -16,7 +18,7 @@ class R4QuantityValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val quantity = Quantity(
                 comparator = Code("unsupported-comparator"),
-                value = 17.5,
+                value = Decimal(17.5),
                 system = CodeSystem.UCUM.uri
             )
             R4QuantityValidator.validate(quantity).alertIfErrors()
@@ -32,8 +34,8 @@ class R4QuantityValidatorTest {
     fun `fails if code is provided without system`() {
         val exception = assertThrows<IllegalArgumentException> {
             val quantity = Quantity(
-                value = 60.0,
-                unit = "mL/min/1.73m2",
+                value = Decimal(60.0),
+                unit = FHIRString("mL/min/1.73m2"),
                 code = Code("mL/min/{1.73_m2}"),
             )
             R4QuantityValidator.validate(quantity).alertIfErrors()
@@ -50,7 +52,7 @@ class R4QuantityValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val quantity = Quantity(
                 comparator = Code("unsupported-comparator"),
-                value = 17.5,
+                value = Decimal(17.5),
                 system = CodeSystem.UCUM.uri
             )
             R4QuantityValidator.validate(quantity, LocationContext("Test", "field")).alertIfErrors()
@@ -66,7 +68,7 @@ class R4QuantityValidatorTest {
     fun `validates successfully`() {
         val quantity = Quantity(
             comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            value = 17.5,
+            value = Decimal(17.5),
             system = CodeSystem.UCUM.uri
         )
         R4QuantityValidator.validate(quantity).alertIfErrors()

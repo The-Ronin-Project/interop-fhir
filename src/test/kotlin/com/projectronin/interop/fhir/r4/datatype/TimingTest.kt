@@ -5,6 +5,8 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
@@ -21,41 +23,41 @@ class TimingTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val timing = Timing(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             event = listOf(DateTime("2021-11-18")),
             repeat = TimingRepeat(
-                id = "67890",
+                id = FHIRString("67890"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                     )
                 ),
                 bounds = DynamicValue(
                     DynamicValueType.DURATION,
-                    Duration(value = 3.0, code = Code("a"), system = CodeSystem.UCUM.uri)
+                    Duration(value = Decimal(3.0), code = Code("a"), system = CodeSystem.UCUM.uri)
                 ),
                 count = PositiveInt(5),
                 countMax = PositiveInt(10),
-                duration = 14.0,
-                durationMax = 30.0,
+                duration = Decimal(14.0),
+                durationMax = Decimal(30.0),
                 durationUnit = UnitOfTime.DAY.asCode(),
                 frequency = PositiveInt(2),
                 frequencyMax = PositiveInt(10),
-                period = 6.0,
-                periodMax = 8.0,
+                period = Decimal(6.0),
+                periodMax = Decimal(8.0),
                 periodUnit = UnitOfTime.HOUR.asCode(),
                 dayOfWeek = listOf(DayOfWeek.MONDAY.asCode()),
                 `when` = listOf(EventTiming.UPON_WAKING.asCode()),
                 offset = UnsignedInt(12)
             ),
-            code = CodeableConcept(text = "code-concept")
+            code = CodeableConcept(text = FHIRString("code-concept"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(timing)
 

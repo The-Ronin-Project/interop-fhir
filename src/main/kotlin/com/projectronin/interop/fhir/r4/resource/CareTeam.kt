@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CareTeamParticipant
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -12,10 +16,13 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 @JsonTypeName("CareTeam")
+@JsonSerialize(using = CareTeamSerializer::class)
+@JsonDeserialize(using = CareTeamDeserializer::class)
 data class CareTeam(
     override val id: Id? = null,
     override val meta: Meta? = null,
@@ -28,7 +35,7 @@ data class CareTeam(
     val identifier: List<Identifier> = listOf(),
     val status: Code? = null,
     val category: List<CodeableConcept> = listOf(),
-    val name: String? = null,
+    val name: FHIRString? = null,
     val subject: Reference? = null,
     val encounter: Reference? = null,
     val period: Period? = null,
@@ -41,3 +48,6 @@ data class CareTeam(
 ) : DomainResource<CareTeam> {
     override val resourceType: String = "CareTeam"
 }
+
+class CareTeamSerializer : BaseFHIRSerializer<CareTeam>(CareTeam::class.java)
+class CareTeamDeserializer : BaseFHIRDeserializer<CareTeam>(CareTeam::class.java)

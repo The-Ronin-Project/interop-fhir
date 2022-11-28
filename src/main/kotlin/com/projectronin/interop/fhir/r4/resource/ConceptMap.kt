@@ -16,6 +16,8 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -34,12 +36,12 @@ data class ConceptMap(
     override val modifierExtension: List<Extension> = listOf(),
     val url: Uri? = null,
     val identifier: Identifier? = null,
-    val version: String? = null,
-    val name: String? = null,
+    val version: FHIRString? = null,
+    val name: FHIRString? = null,
     val status: Code? = null,
-    val experimental: Boolean? = null,
+    val experimental: FHIRBoolean? = null,
     val date: DateTime? = null,
-    val publisher: String? = null,
+    val publisher: FHIRString? = null,
     val contact: List<ContactDetail> = listOf(),
     val description: Markdown? = null,
     val useContext: List<UsageContext> = listOf(),

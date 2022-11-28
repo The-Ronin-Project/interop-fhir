@@ -17,6 +17,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -38,27 +39,31 @@ class CareTeamTest {
             language = Code("en-US"),
             text = Narrative(
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             status = CareTeamStatus.ENTERED_IN_ERROR.asCode(),
-            category = listOf(CodeableConcept(text = "care team category")),
-            name = "group",
-            subject = Reference(type = Uri("Patient"), reference = "Reference/pat1", display = "Elaine Benes"),
-            encounter = Reference(reference = "Encounter/123"),
+            category = listOf(CodeableConcept(text = FHIRString("care team category"))),
+            name = FHIRString("group"),
+            subject = Reference(
+                type = Uri("Patient"),
+                reference = FHIRString("Reference/pat1"),
+                display = FHIRString("Elaine Benes")
+            ),
+            encounter = Reference(reference = FHIRString("Encounter/123")),
             period = Period(
                 start = DateTime(value = "2021-11-17T08:00:00Z"),
                 end = DateTime(value = "2021-11-17T09:00:00Z")
@@ -66,12 +71,12 @@ class CareTeamTest {
             participant = listOf(
                 CareTeamParticipant(
                     member = Reference(
-                        reference = "Practitioner/f001",
-                        display = "Dr. Van Nostrand"
+                        reference = FHIRString("Practitioner/f001"),
+                        display = FHIRString("Dr. Van Nostrand")
                     ),
                     onBehalfOf = Reference(
-                        reference = "Organization/org1",
-                        display = "Hoffermanndale Clinic"
+                        reference = FHIRString("Organization/org1"),
+                        display = FHIRString("Hoffermanndale Clinic")
                     ),
                     period = Period(
                         start = DateTime(value = "2021-11-17T08:00:00Z"),
@@ -79,9 +84,14 @@ class CareTeamTest {
                     ),
                 )
             ),
-            reasonCode = listOf(CodeableConcept(text = "reason code")),
-            reasonReference = listOf(Reference(reference = "Conditioner/cond1")),
-            managingOrganization = listOf(Reference(reference = "Organization/org2", display = "Juilliard")),
+            reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
+            reasonReference = listOf(Reference(reference = FHIRString("Conditioner/cond1"))),
+            managingOrganization = listOf(
+                Reference(
+                    reference = FHIRString("Organization/org2"),
+                    display = FHIRString("Juilliard")
+                )
+            ),
             telecom = listOf(ContactPoint()),
             note = listOf(Annotation(text = Markdown("Difficult patient")))
 

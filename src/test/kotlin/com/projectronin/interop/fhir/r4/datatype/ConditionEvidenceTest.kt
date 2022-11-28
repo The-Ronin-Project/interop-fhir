@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,21 +12,21 @@ class ConditionEvidenceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val conditionEvidence = ConditionEvidence(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            code = listOf(CodeableConcept(text = "code")),
-            detail = listOf(Reference(display = "detail"))
+            code = listOf(CodeableConcept(text = FHIRString("code"))),
+            detail = listOf(Reference(display = FHIRString("detail")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionEvidence)
 
@@ -56,7 +57,7 @@ class ConditionEvidenceTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val conditionEvidence = ConditionEvidence(
-            code = listOf(CodeableConcept(text = "code"))
+            code = listOf(CodeableConcept(text = FHIRString("code")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionEvidence)
 
@@ -83,6 +84,6 @@ class ConditionEvidenceTest {
         assertEquals(listOf<Extension>(), conditionEvidence.extension)
         assertEquals(listOf<Extension>(), conditionEvidence.modifierExtension)
         assertEquals(listOf<CodeableConcept>(), conditionEvidence.code)
-        assertEquals(listOf(Reference(display = "detail")), conditionEvidence.detail)
+        assertEquals(listOf(Reference(display = FHIRString("detail"))), conditionEvidence.detail)
     }
 }

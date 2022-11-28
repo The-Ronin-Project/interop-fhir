@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.DataRequirement
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -31,7 +32,7 @@ class R4DataRequirementValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val dataRequirement = DataRequirement(
                     type = Code("type"),
-                    subject = DynamicValue(DynamicValueType.INTEGER, 1)
+                    subject = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
                 R4DataRequirementValidator.validate(dataRequirement).alertIfErrors()
             }

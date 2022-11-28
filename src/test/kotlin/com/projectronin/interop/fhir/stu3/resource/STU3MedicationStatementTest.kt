@@ -16,6 +16,9 @@ import com.projectronin.interop.fhir.r4.datatype.Timing
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -33,15 +36,15 @@ class STU3MedicationStatementTest {
         extension = listOf(
             Extension(
                 url = Uri("http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-AsAgreedIndicator"),
-                value = DynamicValue(DynamicValueType.BOOLEAN, true)
+                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
             ),
             Extension(
                 url = Uri("http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Prescriber"),
                 value = DynamicValue(
                     DynamicValueType.REFERENCE,
                     Reference(
-                        reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Practitioner/eNylgW31R0pwKW3KahakeYg3",
-                        display = "Md Builder Family Medicine, MD"
+                        reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Practitioner/eNylgW31R0pwKW3KahakeYg3"),
+                        display = FHIRString("Md Builder Family Medicine, MD")
                     )
                 )
             )
@@ -50,18 +53,18 @@ class STU3MedicationStatementTest {
             Identifier(
                 use = Code("usual"),
                 system = Uri("urn:oid:1.2.840.114350.1.13.0.1.7.2.798268"),
-                value = "935495"
+                value = FHIRString("935495")
             )
         ),
         basedOn = listOf(
             Reference(
-                reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/MedicationRequest/eY0Avl7TVGnvJSEzD8rV8ow3",
+                reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/MedicationRequest/eY0Avl7TVGnvJSEzD8rV8ow3"),
                 identifier = Identifier(
                     use = Code("usual"),
                     system = Uri("urn:oid:1.2.840.114350.1.13.0.1.7.2.798268"),
-                    value = "935495"
+                    value = FHIRString("935495")
                 ),
-                display = "adalimumab (HUMIRA) injection 40 mg"
+                display = FHIRString("adalimumab (HUMIRA) injection 40 mg")
             )
         ),
         status = MedicationStatementStatus.ACTIVE.asCode(),
@@ -70,15 +73,15 @@ class STU3MedicationStatementTest {
                 Coding(
                     system = Uri("http://hl7.org/fhir/medication-statement-category"),
                     code = Code("outpatient"),
-                    display = "Outpatient"
+                    display = FHIRString("Outpatient")
                 )
             )
         ),
         medication = DynamicValue(
             DynamicValueType.REFERENCE,
             Reference(
-                reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Medication/e0bQzmhE9eqNm.WV2C41u14sSlxSOcSAgK0yokCPngLbC9AU0Zdrl3CecTBcFGI3t3",
-                display = "adalimumab (HUMIRA) 40 mg/0.8 mL injection"
+                reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Medication/e0bQzmhE9eqNm.WV2C41u14sSlxSOcSAgK0yokCPngLbC9AU0Zdrl3CecTBcFGI3t3"),
+                display = FHIRString("adalimumab (HUMIRA) 40 mg/0.8 mL injection")
             )
         ),
         effective = DynamicValue(
@@ -89,12 +92,12 @@ class STU3MedicationStatementTest {
         ),
         dateAsserted = DateTime("2019-12-30T14:26:01Z"),
         informationSource = Reference(
-            reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Practitioner/eNylgW31R0pwKW3KahakeYg3",
-            display = "Md Builder Family Medicine, MD"
+            reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Practitioner/eNylgW31R0pwKW3KahakeYg3"),
+            display = FHIRString("Md Builder Family Medicine, MD")
         ),
         subject = Reference(
-            reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Patient/enh2Q1c0oNRtWzXArnG4tKw3",
-            display = "M, Damon"
+            reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Patient/enh2Q1c0oNRtWzXArnG4tKw3"),
+            display = FHIRString("M, Damon")
         ),
         reasonCode = listOf(
             CodeableConcept(
@@ -102,10 +105,10 @@ class STU3MedicationStatementTest {
                     Coding(
                         code = Code("177007"),
                         system = CodeSystem.SNOMED_CT.uri,
-                        display = "Poisoning by sawfly larvae"
+                        display = FHIRString("Poisoning by sawfly larvae")
                     )
                 ),
-                text = "Poisoning by sawfly larvae"
+                text = FHIRString("Poisoning by sawfly larvae")
             )
         ),
         taken = "unk",
@@ -117,8 +120,8 @@ class STU3MedicationStatementTest {
                         value = DynamicValue(
                             type = DynamicValueType.QUANTITY,
                             value = Quantity(
-                                value = 0.8,
-                                unit = "mL",
+                                value = Decimal(0.8),
+                                unit = FHIRString("mL"),
                                 system = Uri("http://unitsofmeasure.org"),
                                 code = Code("mL")
                             )
@@ -129,8 +132,8 @@ class STU3MedicationStatementTest {
                         value = DynamicValue(
                             type = DynamicValueType.QUANTITY,
                             value = Quantity(
-                                value = 40.0,
-                                unit = "mg",
+                                value = Decimal(40.0),
+                                unit = FHIRString("mg"),
                                 system = Uri("http://unitsofmeasure.org"),
                                 code = Code("mg")
                             )
@@ -148,22 +151,22 @@ class STU3MedicationStatementTest {
                         count = PositiveInt(1)
                     )
                 ),
-                asNeeded = DynamicValue(DynamicValueType.BOOLEAN, false),
+                asNeeded = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE),
                 route = CodeableConcept(
                     coding = listOf(
                         Coding(
                             system = Uri("urn:oid:1.2.840.114350.1.13.0.1.7.4.798268.7025"),
                             code = Code("18"),
-                            display = "Subcutaneous"
+                            display = FHIRString("Subcutaneous")
                         )
                     ),
-                    text = "Subcutaneous"
+                    text = FHIRString("Subcutaneous")
                 ),
                 dose = DynamicValue(
                     type = DynamicValueType.QUANTITY,
                     value = Quantity(
-                        value = 40.0,
-                        unit = "mg",
+                        value = Decimal(40.0),
+                        unit = FHIRString("mg"),
                         system = Uri("http://unitsofmeasure.org"),
                         code = Code("mg")
                     )
@@ -293,10 +296,10 @@ class STU3MedicationStatementTest {
     fun `serialized JSON ignores null and empty fields`() {
         val medicationStatement = STU3MedicationStatement(
             status = AppointmentStatus.CANCELLED.asCode(),
-            subject = Reference(display = "x"),
+            subject = Reference(display = FHIRString("x")),
             medication = DynamicValue(
                 DynamicValueType.REFERENCE,
-                Reference(display = "y")
+                Reference(display = FHIRString("y"))
             )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationStatement)
@@ -354,16 +357,16 @@ class STU3MedicationStatementTest {
             DynamicValue(
                 DynamicValueType.REFERENCE,
                 Reference(
-                    reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Medication/e0bQzmhE9eqNm.WV2C41u14sSlxSOcSAgK0yokCPngLbC9AU0Zdrl3CecTBcFGI3t3",
-                    display = "adalimumab (HUMIRA) 40 mg/0.8 mL injection"
+                    reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Medication/e0bQzmhE9eqNm.WV2C41u14sSlxSOcSAgK0yokCPngLbC9AU0Zdrl3CecTBcFGI3t3"),
+                    display = FHIRString("adalimumab (HUMIRA) 40 mg/0.8 mL injection")
                 )
             ),
             medicationStatement.medication
         )
         assertEquals(
             Reference(
-                reference = "https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Patient/enh2Q1c0oNRtWzXArnG4tKw3",
-                display = "M, Damon"
+                reference = FHIRString("https://appmarket.epic.com/interconnect-amcurprd-oauth/api/FHIR/STU3/Patient/enh2Q1c0oNRtWzXArnG4tKw3"),
+                display = FHIRString("M, Damon")
             ),
             medicationStatement.subject
         )
@@ -408,10 +411,10 @@ class STU3MedicationStatementTest {
                         Coding(
                             code = Code("182869005"),
                             system = CodeSystem.SNOMED_CT.uri,
-                            display = "Drug not taken - patient lost tablets"
+                            display = FHIRString("Drug not taken - patient lost tablets")
                         )
                     ),
-                    text = "Drug not taken - patient lost tablets"
+                    text = FHIRString("Drug not taken - patient lost tablets")
                 )
             ),
         )

@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
@@ -15,21 +16,21 @@ class ParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val participant = Participant(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            type = listOf(CodeableConcept(text = "abc")),
-            actor = Reference(display = "actor"),
+            type = listOf(CodeableConcept(text = FHIRString("abc"))),
+            actor = Reference(display = FHIRString("actor")),
             required = ParticipantRequired.REQUIRED.asCode(),
             status = ParticipationStatus.ACCEPTED.asCode(),
             period = Period(
@@ -73,7 +74,7 @@ class ParticipantTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val participant = Participant(
-            actor = Reference(display = "actor"),
+            actor = Reference(display = FHIRString("actor")),
             status = ParticipationStatus.ACCEPTED.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)

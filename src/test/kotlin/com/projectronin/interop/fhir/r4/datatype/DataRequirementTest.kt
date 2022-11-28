@@ -5,6 +5,8 @@ import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMa
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.SortDirection
@@ -17,55 +19,55 @@ class DataRequirementTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val dataRequirement = DataRequirement(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             type = Code("data-type"),
             profile = listOf(Canonical("data-profile")),
-            subject = DynamicValue(DynamicValueType.REFERENCE, Reference(display = "subject-reference")),
-            mustSupport = listOf("item 1"),
+            subject = DynamicValue(DynamicValueType.REFERENCE, Reference(display = FHIRString("subject-reference"))),
+            mustSupport = listOf(FHIRString("item 1")),
             codeFilter = listOf(
                 CodeFilter(
-                    id = "12345",
+                    id = FHIRString("12345"),
                     extension = listOf(
                         Extension(
                             url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, "Value")
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                         )
                     ),
-                    searchParam = "search param",
+                    searchParam = FHIRString("search param"),
                     valueSet = Canonical("code-value-set"),
-                    code = listOf(Coding(userSelected = false))
+                    code = listOf(Coding(userSelected = FHIRBoolean.FALSE))
                 )
             ),
             dateFilter = listOf(
                 DateFilter(
-                    id = "12345",
+                    id = FHIRString("12345"),
                     extension = listOf(
                         Extension(
                             url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, "Value")
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                         )
                     ),
-                    path = "date-filter-path",
+                    path = FHIRString("date-filter-path"),
                     value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31"))
                 )
             ),
             limit = PositiveInt(5),
             sort = listOf(
                 Sort(
-                    id = "12345",
+                    id = FHIRString("12345"),
                     extension = listOf(
                         Extension(
                             url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, "Value")
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                         )
                     ),
-                    path = "sort-path",
+                    path = FHIRString("sort-path"),
                     direction = SortDirection.ASCENDING.asCode()
                 )
             )
@@ -161,12 +163,12 @@ class DataRequirementTest {
     fun `can serialize and deserialize with list of primitive extensions`() {
         val extension = Extension(
             url = Uri("http://localhost/extension"),
-            value = DynamicValue(DynamicValueType.STRING, "Value")
+            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
         )
         val canonical1 = Canonical("data-profile1")
-        val canonical2 = Canonical("data-profile2", "12345", listOf(extension))
+        val canonical2 = Canonical("data-profile2", FHIRString("12345"), listOf(extension))
         val canonical3 = Canonical("data-profile3", null, listOf(extension))
-        val canonical4 = Canonical("data-profile4", "67890", listOf())
+        val canonical4 = Canonical("data-profile4", FHIRString("67890"), listOf())
         val dataRequirement = DataRequirement(
             type = Code("type"),
             profile = listOf(canonical1, canonical2, canonical3, canonical4)
@@ -197,16 +199,17 @@ class DataRequirementTest {
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
         assertEquals(dataRequirement, deserializedDataRequirement)
     }
+
     @Test
     fun `can serialize and deserialize with list of primitive extensions with null values`() {
         val extension = Extension(
             url = Uri("http://localhost/extension"),
-            value = DynamicValue(DynamicValueType.STRING, "Value")
+            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
         )
         val canonical1 = Canonical("data-profile1")
-        val canonical2 = Canonical(null, "12345", listOf(extension))
+        val canonical2 = Canonical(null, FHIRString("12345"), listOf(extension))
         val canonical3 = Canonical("data-profile3", null, listOf(extension))
-        val canonical4 = Canonical("data-profile4", "67890", listOf())
+        val canonical4 = Canonical("data-profile4", FHIRString("67890"), listOf())
         val dataRequirement = DataRequirement(
             type = Code("type"),
             profile = listOf(canonical1, canonical2, canonical3, canonical4)

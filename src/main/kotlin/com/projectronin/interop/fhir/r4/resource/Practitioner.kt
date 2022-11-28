@@ -1,6 +1,10 @@
 package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -13,12 +17,15 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Qualification
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
  */
+@JsonSerialize(using = PractitionerSerializer::class)
+@JsonDeserialize(using = PractitionerDeserializer::class)
 @JsonTypeName("Practitioner")
 data class Practitioner(
     override val id: Id? = null,
@@ -30,7 +37,7 @@ data class Practitioner(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
-    val active: Boolean? = null,
+    val active: FHIRBoolean? = null,
     val name: List<HumanName> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val address: List<Address> = listOf(),
@@ -42,3 +49,6 @@ data class Practitioner(
 ) : DomainResource<Practitioner> {
     override val resourceType: String = "Practitioner"
 }
+
+class PractitionerSerializer : BaseFHIRSerializer<Practitioner>(Practitioner::class.java)
+class PractitionerDeserializer : BaseFHIRDeserializer<Practitioner>(Practitioner::class.java)

@@ -3,6 +3,8 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,18 +14,18 @@ class CodingTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val coding = Coding(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             system = Uri("system-uri"),
-            version = "1.2",
+            version = FHIRString("1.2"),
             code = Code("code-value"),
-            display = "code-value from system-uri",
-            userSelected = true
+            display = FHIRString("code-value from system-uri"),
+            userSelected = FHIRBoolean.TRUE
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(coding)
 
@@ -49,7 +51,7 @@ class CodingTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val coding = Coding(
-            display = "code-value from system-uri"
+            display = FHIRString("code-value from system-uri")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(coding)
 

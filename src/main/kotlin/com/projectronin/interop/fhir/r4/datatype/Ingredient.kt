@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 
 /**
  * Identifies a particular constituent of interest in the product.
@@ -13,11 +15,11 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 @JsonDeserialize(using = IngredientDeserializer::class)
 @JsonSerialize(using = IngredientSerializer::class)
 data class Ingredient(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val item: DynamicValue<Any>? = null,
-    val isActive: Boolean? = null,
+    val isActive: FHIRBoolean? = null,
     val strength: Ratio? = null
 ) : BackboneElement<Ingredient>
 

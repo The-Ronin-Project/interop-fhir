@@ -1,5 +1,11 @@
 package com.projectronin.interop.fhir.r4.datatype
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 
 /**
@@ -9,14 +15,19 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
  * ECG or EKG device. The data type includes a series of raw decimal values (which are mostly simple integers), along
  * with adjustments for scale and factor.
  */
+@JsonSerialize(using = SampledDataSerializer::class)
+@JsonDeserialize(using = SampledDataDeserializer::class)
 data class SampledData(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val origin: SimpleQuantity?,
-    val period: Double?,
-    val factor: Double? = null,
-    val lowerLimit: Double? = null,
-    val upperLimit: Double? = null,
+    val period: Decimal?,
+    val factor: Decimal? = null,
+    val lowerLimit: Decimal? = null,
+    val upperLimit: Decimal? = null,
     val dimensions: PositiveInt?,
-    val data: String? = null
+    val data: FHIRString? = null
 ) : Element<SampledData>
+
+class SampledDataSerializer : BaseFHIRSerializer<SampledData>(SampledData::class.java)
+class SampledDataDeserializer : BaseFHIRDeserializer<SampledData>(SampledData::class.java)

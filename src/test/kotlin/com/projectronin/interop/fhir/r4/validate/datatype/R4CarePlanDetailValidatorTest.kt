@@ -7,6 +7,9 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,27 +19,27 @@ class R4CarePlanDetailValidatorTest {
     @Test
     fun `validates successfully`() {
         val carePlanDetail = CarePlanDetail(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             kind = Code("Appointment"),
             goal = listOf(
-                Reference(reference = "ABC123")
+                Reference(reference = FHIRString("ABC123"))
             ),
             status = Code("scheduled"),
             scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
-            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-            description = "Description"
+            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
+            description = FHIRString("Description")
         )
         R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
     }
@@ -45,27 +48,30 @@ class R4CarePlanDetailValidatorTest {
     fun `fails on wrong dynamic type values for scheduled`() {
         val exception = assertThrows<IllegalArgumentException> {
             val carePlanDetail = CarePlanDetail(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                     )
                 ),
                 modifierExtension = listOf(
                     Extension(
                         url = Uri("http://localhost/modifier-extension"),
-                        value = DynamicValue(DynamicValueType.INTEGER, 1)
+                        value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                     )
                 ),
                 kind = Code("Appointment"),
                 goal = listOf(
-                    Reference(reference = "ABC123")
+                    Reference(reference = FHIRString("ABC123"))
                 ),
                 status = Code("scheduled"),
-                scheduled = DynamicValue(DynamicValueType.BOOLEAN, true),
-                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-                description = "Description"
+                scheduled = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                product = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("product"))
+                ),
+                description = FHIRString("Description")
             )
             R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
         }
@@ -80,7 +86,7 @@ class R4CarePlanDetailValidatorTest {
     fun `fails on wrong dynamic type values for product`() {
         val exception = assertThrows<IllegalArgumentException> {
             val carePlanDetail = CarePlanDetail(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
@@ -95,12 +101,12 @@ class R4CarePlanDetailValidatorTest {
                 ),
                 kind = Code("Appointment"),
                 goal = listOf(
-                    Reference(reference = "ABC123")
+                    Reference(reference = FHIRString("ABC123"))
                 ),
                 status = Code("scheduled"),
                 scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
                 product = DynamicValue(DynamicValueType.STRING, "product"),
-                description = "Description"
+                description = FHIRString("Description")
             )
             R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
         }
@@ -115,7 +121,7 @@ class R4CarePlanDetailValidatorTest {
     fun `fails on invalid code for kind`() {
         val exception = assertThrows<IllegalArgumentException> {
             val carePlanDetail = CarePlanDetail(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
@@ -130,12 +136,15 @@ class R4CarePlanDetailValidatorTest {
                 ),
                 kind = Code("potato"),
                 goal = listOf(
-                    Reference(reference = "ABC123")
+                    Reference(reference = FHIRString("ABC123"))
                 ),
                 status = Code("scheduled"),
                 scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
-                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-                description = "Description"
+                product = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("product"))
+                ),
+                description = FHIRString("Description")
             )
             R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
         }
@@ -150,7 +159,7 @@ class R4CarePlanDetailValidatorTest {
     fun `fails on null status`() {
         val exception = assertThrows<IllegalArgumentException> {
             val carePlanDetail = CarePlanDetail(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
@@ -165,12 +174,15 @@ class R4CarePlanDetailValidatorTest {
                 ),
                 kind = Code("Appointment"),
                 goal = listOf(
-                    Reference(reference = "ABC123")
+                    Reference(reference = FHIRString("ABC123"))
                 ),
                 status = null,
                 scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
-                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-                description = "Description"
+                product = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("product"))
+                ),
+                description = FHIRString("Description")
             )
             R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
         }
@@ -185,27 +197,30 @@ class R4CarePlanDetailValidatorTest {
     fun `fails on invalid code for status`() {
         val exception = assertThrows<IllegalArgumentException> {
             val carePlanDetail = CarePlanDetail(
-                id = "12345",
+                id = FHIRString("12345"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                     )
                 ),
                 modifierExtension = listOf(
                     Extension(
                         url = Uri("http://localhost/modifier-extension"),
-                        value = DynamicValue(DynamicValueType.INTEGER, 1)
+                        value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                     )
                 ),
                 kind = Code("Appointment"),
                 goal = listOf(
-                    Reference(reference = "ABC123")
+                    Reference(reference = FHIRString("ABC123"))
                 ),
                 status = Code("potato"),
                 scheduled = DynamicValue(DynamicValueType.STRING, "Value"),
-                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "product")),
-                description = "Description"
+                product = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("product"))
+                ),
+                description = FHIRString("Description")
             )
             R4CarePlanDetailValidator.validate(carePlanDetail).alertIfErrors()
         }

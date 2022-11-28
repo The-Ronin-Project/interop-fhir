@@ -18,6 +18,8 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
@@ -35,7 +37,7 @@ class LocationTest {
     fun `can serialize and deserialize JSON`() {
         val type = listOf(
             CodeableConcept(
-                text = "Diagnostic",
+                text = FHIRString("Diagnostic"),
                 coding = listOf(
                     Coding(
                         code = Code("DX"),
@@ -45,7 +47,7 @@ class LocationTest {
             )
         )
         val physicalType = CodeableConcept(
-            text = "Room",
+            text = FHIRString("Room"),
             coding = listOf(
                 Coding(
                     code = Code("ro"),
@@ -62,30 +64,30 @@ class LocationTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             mode = LocationMode.INSTANCE.asCode(),
             status = LocationStatus.ACTIVE.asCode(),
-            name = "My Office",
-            alias = listOf("Guest Room"),
-            description = "Sun Room",
+            name = FHIRString("My Office"),
+            alias = listOf(FHIRString("Guest Room")),
+            description = FHIRString("Sun Room"),
             type = type,
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
-            address = Address(country = "USA"),
+            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+            address = Address(country = FHIRString("USA")),
             physicalType = physicalType,
             position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
             hoursOfOperation = listOf(
@@ -94,11 +96,11 @@ class LocationTest {
                         DayOfWeek.SATURDAY.asCode(),
                         DayOfWeek.SUNDAY.asCode()
                     ),
-                    allDay = true
+                    allDay = FHIRBoolean.TRUE
                 )
             ),
-            availabilityExceptions = "Call for details",
-            endpoint = listOf(Reference(reference = "Endpoint/4321"))
+            availabilityExceptions = FHIRString("Call for details"),
+            endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(location)
 

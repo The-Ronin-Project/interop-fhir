@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 
 /**
@@ -13,7 +14,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 @JsonDeserialize(using = AnnotationDeserializer::class)
 @JsonSerialize(using = AnnotationSerializer::class)
 data class Annotation(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val author: DynamicValue<Any>? = null,
     val time: DateTime? = null,

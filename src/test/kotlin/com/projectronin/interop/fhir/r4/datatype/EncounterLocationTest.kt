@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.EncounterLocationStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -15,27 +17,27 @@ class EncounterLocationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val encounterLocation = EncounterLocation(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
-            location = Reference(reference = "Location/f001"),
+            location = Reference(reference = FHIRString("Location/f001")),
             status = EncounterLocationStatus.RESERVED.asCode(),
             physicalType = CodeableConcept(
                 coding = listOf(
                     Coding(
                         system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
                         code = Code("area"),
-                        display = "Area"
+                        display = FHIRString("Area")
                     )
                 )
             ),
@@ -83,14 +85,14 @@ class EncounterLocationTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val encounterLocation = EncounterLocation(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            location = Reference(reference = "Location/f001"),
+            location = Reference(reference = FHIRString("Location/f001")),
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterLocation)
 
@@ -125,18 +127,18 @@ class EncounterLocationTest {
         """.trimIndent()
         val encounterLocation = objectMapper.readValue<EncounterLocation>(json)
 
-        assertEquals("12345", encounterLocation.id)
+        assertEquals(FHIRString("12345"), encounterLocation.id)
         assertEquals(
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             encounterLocation.extension
         )
         assertEquals(listOf<Extension>(), encounterLocation.modifierExtension)
-        assertEquals(Reference(reference = "Location/f001"), encounterLocation.location)
+        assertEquals(Reference(reference = FHIRString("Location/f001")), encounterLocation.location)
         assertNull(encounterLocation.status)
         assertNull(encounterLocation.physicalType)
         assertNull(encounterLocation.period)

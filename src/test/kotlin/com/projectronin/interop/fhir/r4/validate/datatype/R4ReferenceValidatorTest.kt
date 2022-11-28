@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Reference
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -22,7 +23,7 @@ class R4ReferenceValidatorTest {
 
     @Test
     fun `validates successfully`() {
-        val reference = Reference(type = Uri("Patient"), display = "any")
+        val reference = Reference(type = Uri("Patient"), display = FHIRString("any"))
         R4ReferenceValidator.validate(reference).alertIfErrors()
     }
 }

@@ -45,7 +45,7 @@ object R4CountValidator : BaseR4QuantityValidator<Count>() {
                 parentContext
             )
             checkTrue(
-                (quantity.value == null || ceil(quantity.value) == floor(quantity.value)),
+                (quantity.value?.value == null || ceil(quantity.value.value) == floor(quantity.value.value)),
                 invalidNumberError,
                 parentContext
             )

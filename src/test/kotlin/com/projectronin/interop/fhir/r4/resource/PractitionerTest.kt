@@ -18,6 +18,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
@@ -40,31 +42,31 @@ class PractitionerTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            active = true,
-            name = listOf(HumanName(family = "Doe")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
-            address = listOf(Address(country = "USA")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            active = FHIRBoolean.TRUE,
+            name = listOf(HumanName(family = FHIRString("Doe"))),
+            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+            address = listOf(Address(country = FHIRString("USA"))),
             gender = AdministrativeGender.FEMALE.asCode(),
             birthDate = Date("1975-07-05"),
             photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
-            qualification = listOf(Qualification(code = CodeableConcept(text = "code"))),
-            communication = listOf(CodeableConcept(text = "communication"))
+            qualification = listOf(Qualification(code = CodeableConcept(text = FHIRString("code")))),
+            communication = listOf(CodeableConcept(text = FHIRString("communication")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)
 
@@ -158,7 +160,7 @@ class PractitionerTest {
         assertEquals(listOf<Extension>(), practitioner.extension)
         assertEquals(listOf<Extension>(), practitioner.modifierExtension)
         assertEquals(listOf<Identifier>(), practitioner.identifier)
-        assertEquals(true, practitioner.active)
+        assertEquals(FHIRBoolean.TRUE, practitioner.active)
         assertEquals(listOf<Identifier>(), practitioner.name)
         assertEquals(listOf<ContactPoint>(), practitioner.telecom)
         assertEquals(listOf<Address>(), practitioner.address)

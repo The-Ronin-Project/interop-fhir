@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -12,7 +13,7 @@ class R4ExpressionValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val expression = Expression(
                 language = null,
-                expression = "expression"
+                expression = FHIRString("expression")
             )
             R4ExpressionValidator.validate(expression).alertIfErrors()
         }
@@ -40,7 +41,7 @@ class R4ExpressionValidatorTest {
     fun `validates successfully`() {
         val expression = Expression(
             language = Code("en-US"),
-            expression = "expression"
+            expression = FHIRString("expression")
         )
         R4ExpressionValidator.validate(expression).alertIfErrors()
     }

@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.HttpVerb
@@ -14,25 +15,25 @@ class BundleRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val bundleRequest = BundleRequest(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             method = HttpVerb.GET.asCode(),
             url = Uri("http://www.example.com/get"),
-            ifNoneMatch = "if none match",
+            ifNoneMatch = FHIRString("if none match"),
             ifModifiedSince = Instant("2017-01-01T00:00:00Z"),
-            ifMatch = "if match",
-            ifNoneExist = "if none exist"
+            ifMatch = FHIRString("if match"),
+            ifNoneExist = FHIRString("if none exist")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleRequest)
 

@@ -15,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -37,42 +39,42 @@ class STU3AppointmentTest {
         language = Code("en-US"),
         text = Narrative(
             status = NarrativeStatus.GENERATED.asCode(),
-            div = "div"
+            div = FHIRString("div")
         ),
         contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
         extension = listOf(
             Extension(
                 url = Uri("http://localhost/extension"),
-                value = DynamicValue(DynamicValueType.STRING, "Value")
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
             )
         ),
         modifierExtension = listOf(
             Extension(
                 url = Uri("http://localhost/modifier-extension"),
-                value = DynamicValue(DynamicValueType.STRING, "Value")
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
             )
         ),
-        identifier = listOf(Identifier(value = "id")),
+        identifier = listOf(Identifier(value = FHIRString("id"))),
         status = AppointmentStatus.CANCELLED.asCode(),
-        serviceCategory = CodeableConcept(text = "service category"),
-        serviceType = listOf(CodeableConcept(text = "service type")),
-        specialty = listOf(CodeableConcept(text = "specialty")),
-        appointmentType = CodeableConcept(text = "appointment type"),
-        reason = listOf(CodeableConcept(text = "reason code")),
-        indication = listOf(Reference(display = "reason reference")),
-        priority = 1,
-        description = "appointment test",
-        supportingInformation = listOf(Reference(display = "supporting info")),
+        serviceCategory = CodeableConcept(text = FHIRString("service category")),
+        serviceType = listOf(CodeableConcept(text = FHIRString("service type"))),
+        specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
+        appointmentType = CodeableConcept(text = FHIRString("appointment type")),
+        reason = listOf(CodeableConcept(text = FHIRString("reason code"))),
+        indication = listOf(Reference(display = FHIRString("reason reference"))),
+        priority = FHIRInteger(1),
+        description = FHIRString("appointment test"),
+        supportingInformation = listOf(Reference(display = FHIRString("supporting info"))),
         start = Instant(value = "2017-01-01T00:00:00Z"),
         end = Instant(value = "2017-01-01T01:00:00Z"),
-        minutesDuration = 15,
-        slot = listOf(Reference(display = "slot")),
+        minutesDuration = FHIRInteger(15),
+        slot = listOf(Reference(display = FHIRString("slot"))),
         created = DateTime(value = "2021-11-16"),
-        comment = "comment",
-        incomingReferral = listOf(Reference(display = "based on")),
+        comment = FHIRString("comment"),
+        incomingReferral = listOf(Reference(display = FHIRString("based on"))),
         participant = listOf(
             Participant(
-                actor = Reference(display = "actor"),
+                actor = Reference(display = FHIRString("actor")),
                 status = ParticipationStatus.ACCEPTED.asCode()
             )
         ),
@@ -166,7 +168,7 @@ class STU3AppointmentTest {
             status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
-                    actor = Reference(display = "actor"),
+                    actor = Reference(display = FHIRString("actor")),
                     status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )
@@ -194,7 +196,7 @@ class STU3AppointmentTest {
             status = AppointmentStatus.CANCELLED.asCode(),
             participant = listOf(
                 Participant(
-                    type = listOf(CodeableConcept("123")),
+                    type = listOf(CodeableConcept(FHIRString("123"))),
                     status = ParticipationStatus.ACCEPTED.asCode()
                 )
             )

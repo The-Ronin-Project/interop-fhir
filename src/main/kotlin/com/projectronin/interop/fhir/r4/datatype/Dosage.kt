@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 
 /**
  * The Dosage structure defines general dosage instruction information typically represented in medication requests,
@@ -12,13 +14,13 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 @JsonDeserialize(using = DosageDeserializer::class)
 @JsonSerialize(using = DosageSerializer::class)
 data class Dosage(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
-    val sequence: Int? = null,
-    val text: String? = null,
+    val sequence: FHIRInteger? = null,
+    val text: FHIRString? = null,
     val additionalInstruction: List<CodeableConcept> = listOf(),
-    val patientInstruction: String? = null,
+    val patientInstruction: FHIRString? = null,
     val timing: Timing? = null,
     val asNeeded: DynamicValue<Any>? = null,
     val site: CodeableConcept? = null,
@@ -36,7 +38,7 @@ class DosageSerializer : BaseFHIRSerializer<Dosage>(Dosage::class.java)
 @JsonDeserialize(using = DoseAndRateDeserializer::class)
 @JsonSerialize(using = DoseAndRateSerializer::class)
 data class DoseAndRate(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val type: CodeableConcept? = null,
     val dose: DynamicValue<Any>? = null,

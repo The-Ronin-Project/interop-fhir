@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.SampledData
 import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,7 +14,7 @@ class R4SampledDataValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val sampledData = SampledData(
                 origin = null,
-                period = 3.0,
+                period = Decimal(3.0),
                 dimensions = PositiveInt(5)
             )
             R4SampledDataValidator.validate(sampledData).alertIfErrors()
@@ -29,7 +30,7 @@ class R4SampledDataValidatorTest {
     fun `fails if no period provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val sampledData = SampledData(
-                origin = SimpleQuantity(value = 1.0),
+                origin = SimpleQuantity(value = Decimal(1.0)),
                 period = null,
                 dimensions = PositiveInt(5)
             )
@@ -46,8 +47,8 @@ class R4SampledDataValidatorTest {
     fun `fails if no dimensions provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val sampledData = SampledData(
-                origin = SimpleQuantity(value = 1.0),
-                period = 3.0,
+                origin = SimpleQuantity(value = Decimal(1.0)),
+                period = Decimal(3.0),
                 dimensions = null
             )
             R4SampledDataValidator.validate(sampledData).alertIfErrors()
@@ -62,8 +63,8 @@ class R4SampledDataValidatorTest {
     @Test
     fun `validates successfully`() {
         val sampledData = SampledData(
-            origin = SimpleQuantity(value = 1.0),
-            period = 3.0,
+            origin = SimpleQuantity(value = Decimal(1.0)),
+            period = Decimal(3.0),
             dimensions = PositiveInt(5)
         )
         R4SampledDataValidator.validate(sampledData).alertIfErrors()

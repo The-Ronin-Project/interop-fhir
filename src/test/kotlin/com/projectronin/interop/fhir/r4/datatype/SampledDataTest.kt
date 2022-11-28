@@ -2,6 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -12,20 +14,20 @@ class SampledDataTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val sampledData = SampledData(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            origin = SimpleQuantity(value = 3.0),
-            period = 2.0,
-            factor = 4.0,
-            lowerLimit = 0.0,
-            upperLimit = 205.4,
+            origin = SimpleQuantity(value = Decimal(3.0)),
+            period = Decimal(2.0),
+            factor = Decimal(4.0),
+            lowerLimit = Decimal(0.0),
+            upperLimit = Decimal(205.4),
             dimensions = PositiveInt(3),
-            data = "the data"
+            data = FHIRString("the data")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sampledData)
 
@@ -54,7 +56,11 @@ class SampledDataTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val sampledData = SampledData(origin = SimpleQuantity(value = 1.0), period = 3.0, dimensions = PositiveInt(5))
+        val sampledData = SampledData(
+            origin = SimpleQuantity(value = Decimal(1.0)),
+            period = Decimal(3.0),
+            dimensions = PositiveInt(5)
+        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sampledData)
 
         val expectedJson = """
@@ -82,8 +88,8 @@ class SampledDataTest {
 
         assertNull(sampledData.id)
         assertEquals(listOf<Extension>(), sampledData.extension)
-        assertEquals(SimpleQuantity(value = 1.0), sampledData.origin)
-        assertEquals(3.0, sampledData.period)
+        assertEquals(SimpleQuantity(value = Decimal(1.0)), sampledData.origin)
+        assertEquals(Decimal(3.0), sampledData.period)
         assertNull(sampledData.factor)
         assertNull(sampledData.lowerLimit)
         assertNull(sampledData.upperLimit)

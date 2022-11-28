@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
 import com.projectronin.interop.fhir.util.asCode
@@ -15,14 +17,14 @@ class MoneyQuantityTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val moneyQuantity = MoneyQuantity(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            value = 17.5,
+            value = Decimal(17.5),
             comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
             system = CodeSystem.CURRENCY.uri,
             code = Code("USD")
@@ -50,14 +52,14 @@ class MoneyQuantityTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val moneyQuantity = MoneyQuantity(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            value = 17.5,
+            value = Decimal(17.5),
             system = CodeSystem.CURRENCY.uri,
             code = Code("USD")
         )

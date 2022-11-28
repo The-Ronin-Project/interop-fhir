@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4DurationValidatorTest {
     fun `fails if code provided without system`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val duration = Duration(value = 2.0, code = Code("code"))
+                val duration = Duration(value = Decimal(2.0), code = Code("code"))
                 R4DurationValidator.validate(duration).alertIfErrors()
             }
         assertEquals(
@@ -27,7 +28,7 @@ class R4DurationValidatorTest {
     @Test
     fun `fails if value provided without code`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val duration = Duration(value = 2.0)
+            val duration = Duration(value = Decimal(2.0))
             R4DurationValidator.validate(duration).alertIfErrors()
         }
         assertEquals(
@@ -54,7 +55,7 @@ class R4DurationValidatorTest {
     fun `base quantity failure includes parent context`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val duration = Duration(value = 2.0, code = Code("code"))
+                val duration = Duration(value = Decimal(2.0), code = Code("code"))
                 R4DurationValidator.validate(duration, LocationContext("Test", "field")).alertIfErrors()
             }
         assertEquals(
@@ -67,7 +68,7 @@ class R4DurationValidatorTest {
     @Test
     fun `validates successfully`() {
         val duration = Duration(
-            value = 17.5,
+            value = Decimal(17.5),
             system = CodeSystem.UCUM.uri,
             code = Code("a")
         )

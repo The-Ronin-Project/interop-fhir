@@ -17,6 +17,8 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
@@ -38,35 +40,35 @@ class PractitionerRoleTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            active = true,
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            active = FHIRBoolean.TRUE,
             period = Period(end = DateTime("2022")),
-            practitioner = Reference(reference = "Practitioner/1234"),
-            organization = Reference(reference = "Organization/5678"),
-            code = listOf(CodeableConcept(text = "code")),
-            specialty = listOf(CodeableConcept(text = "specialty")),
-            location = listOf(Reference(reference = "Location/9012")),
-            healthcareService = listOf(Reference(reference = "HealthcareService/3456")),
-            telecom = listOf(ContactPoint(value = "8675309", system = ContactPointSystem.PHONE.asCode())),
-            availableTime = listOf(AvailableTime(allDay = false)),
-            notAvailable = listOf(NotAvailable(description = "Not available now")),
-            availabilityExceptions = "exceptions",
-            endpoint = listOf(Reference(reference = "Endpoint/1357"))
+            practitioner = Reference(reference = FHIRString("Practitioner/1234")),
+            organization = Reference(reference = FHIRString("Organization/5678")),
+            code = listOf(CodeableConcept(text = FHIRString("code"))),
+            specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
+            location = listOf(Reference(reference = FHIRString("Location/9012"))),
+            healthcareService = listOf(Reference(reference = FHIRString("HealthcareService/3456"))),
+            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+            availableTime = listOf(AvailableTime(allDay = FHIRBoolean.FALSE)),
+            notAvailable = listOf(NotAvailable(description = FHIRString("Not available now"))),
+            availabilityExceptions = FHIRString("exceptions"),
+            endpoint = listOf(Reference(reference = FHIRString("Endpoint/1357")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
@@ -141,7 +143,7 @@ class PractitionerRoleTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = "id"))
+            identifier = listOf(Identifier(value = FHIRString("id")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
@@ -173,7 +175,7 @@ class PractitionerRoleTest {
         assertEquals(listOf<Extension>(), practitionerRole.extension)
         assertEquals(listOf<Extension>(), practitionerRole.modifierExtension)
         assertEquals(listOf<Identifier>(), practitionerRole.identifier)
-        assertEquals(true, practitionerRole.active)
+        assertEquals(FHIRBoolean.TRUE, practitionerRole.active)
         assertNull(practitionerRole.period)
         assertNull(practitionerRole.practitioner)
         assertNull(practitionerRole.organization)

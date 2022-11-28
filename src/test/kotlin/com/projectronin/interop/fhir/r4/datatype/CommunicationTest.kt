@@ -2,6 +2,8 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,21 +13,21 @@ class CommunicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val communication = Communication(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            language = CodeableConcept(text = "English"),
-            preferred = true
+            language = CodeableConcept(text = FHIRString("English")),
+            preferred = FHIRBoolean.TRUE
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
 
@@ -54,7 +56,7 @@ class CommunicationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val communication = Communication(language = CodeableConcept(text = "English"))
+        val communication = Communication(language = CodeableConcept(text = FHIRString("English")))
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
 
         val expectedJson = """

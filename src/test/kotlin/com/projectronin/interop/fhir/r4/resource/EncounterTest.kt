@@ -23,6 +23,8 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -46,22 +48,22 @@ class EncounterTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
             status = EncounterStatus.FINISHED.asCode(),
             statusHistory = listOf(
                 EncounterStatusHistory(
@@ -95,7 +97,7 @@ class EncounterTest {
             `class` = Coding(
                 system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
                 code = Code("AMB"),
-                display = "ambulatory"
+                display = FHIRString("ambulatory")
             ),
             classHistory = listOf(
                 EncounterClassHistory(
@@ -111,7 +113,7 @@ class EncounterTest {
                         Coding(
                             system = CodeSystem.SNOMED_CT.uri,
                             code = Code("270427003"),
-                            display = "Patient-initiated encounter"
+                            display = FHIRString("Patient-initiated encounter")
                         )
                     )
                 )
@@ -122,29 +124,29 @@ class EncounterTest {
                     Coding(
                         system = CodeSystem.SNOMED_CT.uri,
                         code = Code("103391001"),
-                        display = "Non-urgent ear, nose and throat admission"
+                        display = FHIRString("Non-urgent ear, nose and throat admission")
                     )
                 )
             ),
             subject = Reference(
-                reference = "Patient/f001",
-                display = "P. van de Heuvel"
+                reference = FHIRString("Patient/f001"),
+                display = FHIRString("P. van de Heuvel")
             ),
             episodeOfCare = emptyList(),
             basedOn = emptyList(),
             participant = listOf(
                 EncounterParticipant(
                     individual = Reference(
-                        reference = "Practitioner/f001",
-                        display = "E.M. van den Broek"
+                        reference = FHIRString("Practitioner/f001"),
+                        display = FHIRString("E.M. van den Broek")
                     )
                 )
             ),
             appointment = emptyList(),
             period = null,
             length = Duration(
-                value = 90.0,
-                unit = "min",
+                value = Decimal(90.0),
+                unit = FHIRString("min"),
                 system = CodeSystem.UCUM.uri,
                 code = Code("min")
             ),
@@ -154,50 +156,50 @@ class EncounterTest {
                         Coding(
                             system = CodeSystem.SNOMED_CT.uri,
                             code = Code("18099001"),
-                            display = "Retropharyngeal abscess"
+                            display = FHIRString("Retropharyngeal abscess")
                         )
                     )
                 )
             ),
             reasonReference = listOf(
                 Reference(
-                    reference = "Condition/f001",
-                    display = "Test Condition"
+                    reference = FHIRString("Condition/f001"),
+                    display = FHIRString("Test Condition")
                 )
             ),
             diagnosis = listOf(
                 EncounterDiagnosis(
-                    condition = Reference(reference = "Condition/stroke"),
+                    condition = Reference(reference = FHIRString("Condition/stroke")),
                     use = CodeableConcept(
                         coding = listOf(
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                                 code = Code("AD"),
-                                display = "Admission diagnosis"
+                                display = FHIRString("Admission diagnosis")
                             )
                         )
                     ),
                     rank = PositiveInt(1)
                 ),
                 EncounterDiagnosis(
-                    condition = Reference(reference = "Condition/f201"),
+                    condition = Reference(reference = FHIRString("Condition/f201")),
                     use = CodeableConcept(
                         coding = listOf(
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
                                 code = Code("DD"),
-                                display = "Discharge diagnosis"
+                                display = FHIRString("Discharge diagnosis")
                             )
                         )
                     )
                 )
             ),
-            account = listOf(Reference(reference = "Account/f001")),
+            account = listOf(Reference(reference = FHIRString("Account/f001"))),
             hospitalization = EncounterHospitalization(
                 preAdmissionIdentifier = Identifier(
                     use = Code("official"),
                     system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
-                    value = "93042"
+                    value = FHIRString("93042")
                 ),
                 origin = null,
                 admitSource = CodeableConcept(
@@ -205,7 +207,7 @@ class EncounterTest {
                         Coding(
                             system = CodeSystem.SNOMED_CT.uri,
                             code = Code("305956004"),
-                            display = "Referral by physician"
+                            display = FHIRString("Referral by physician")
                         )
                     )
                 ),
@@ -216,7 +218,7 @@ class EncounterTest {
                             Coding(
                                 system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
                                 code = Code("vegetarian"),
-                                display = "vegetarian"
+                                display = FHIRString("vegetarian")
                             )
                         )
                     ),
@@ -225,44 +227,44 @@ class EncounterTest {
                             Coding(
                                 system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
                                 code = Code("kosher"),
-                                display = "kosher"
+                                display = FHIRString("kosher")
                             )
                         )
                     )
                 ),
                 specialCourtesy = emptyList(),
                 specialArrangement = emptyList(),
-                destination = Reference(reference = "Location/place"),
+                destination = Reference(reference = FHIRString("Location/place")),
                 dischargeDisposition = CodeableConcept(
                     coding = listOf(
                         Coding(
                             system = CodeSystem.SNOMED_CT.uri,
                             code = Code("306689006"),
-                            display = "Discharge to home"
+                            display = FHIRString("Discharge to home")
                         )
                     )
                 )
             ),
             location = listOf(
                 EncounterLocation(
-                    location = Reference(reference = "Location/f001"),
+                    location = Reference(reference = FHIRString("Location/f001")),
                     status = EncounterLocationStatus.RESERVED.asCode(),
                     physicalType = CodeableConcept(
                         coding = listOf(
                             Coding(
                                 system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
                                 code = Code("area"),
-                                display = "Area"
+                                display = FHIRString("Area")
                             )
                         )
                     )
                 )
             ),
             serviceProvider = Reference(
-                reference = "Organization/f001",
-                display = "Community Hospital"
+                reference = FHIRString("Organization/f001"),
+                display = FHIRString("Community Hospital")
             ),
-            partOf = Reference(reference = "Encounter/super")
+            partOf = Reference(reference = FHIRString("Encounter/super"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounter)
 
@@ -467,7 +469,7 @@ class EncounterTest {
             `class` = Coding(
                 system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
                 code = Code("OBSENC"),
-                display = "observation"
+                display = FHIRString("observation")
             )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounter)
@@ -516,7 +518,7 @@ class EncounterTest {
             Coding(
                 system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
                 code = Code("OBSENC"),
-                display = "observation"
+                display = FHIRString("observation")
             ),
             encounter.`class`
         )

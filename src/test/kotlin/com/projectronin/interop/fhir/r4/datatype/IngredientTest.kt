@@ -2,6 +2,9 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,24 +14,24 @@ class IngredientTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val ingredient = Ingredient(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test")),
-            isActive = true,
+            item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test"))),
+            isActive = FHIRBoolean.TRUE,
             strength = Ratio(
-                numerator = Quantity(value = 1.0),
-                denominator = Quantity(value = 1.0)
+                numerator = Quantity(value = Decimal(1.0)),
+                denominator = Quantity(value = Decimal(1.0))
             )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
@@ -67,7 +70,12 @@ class IngredientTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val ingredient =
-            Ingredient(item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test")))
+            Ingredient(
+                item = DynamicValue(
+                    DynamicValueType.CODEABLE_CONCEPT,
+                    CodeableConcept(text = FHIRString("test"))
+                )
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
         val expectedJson = """
@@ -94,7 +102,10 @@ class IngredientTest {
         assertNull(ingredient.id)
         assertEquals(listOf<Extension>(), ingredient.extension)
         assertEquals(listOf<Extension>(), ingredient.modifierExtension)
-        assertEquals(DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test")), ingredient.item)
+        assertEquals(
+            DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test"))),
+            ingredient.item
+        )
         assertNull(ingredient.isActive)
         assertNull(ingredient.strength)
     }

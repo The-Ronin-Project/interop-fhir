@@ -16,6 +16,8 @@ import com.projectronin.interop.fhir.r4.datatype.Ratio
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.MedicationStatus
@@ -37,36 +39,36 @@ class MedicationTest {
             language = Code("en-US"),
             text = Narrative(
                 status = NarrativeStatus.GENERATED.asCode(),
-                div = "div"
+                div = FHIRString("div")
             ),
             contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            identifier = listOf(Identifier(value = "id")),
-            code = CodeableConcept(text = "Med code"),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            code = CodeableConcept(text = FHIRString("Med code")),
             status = MedicationStatus.ACTIVE.asCode(),
-            manufacturer = Reference(display = "Manufacturer reference"),
-            form = CodeableConcept(text = "Med form"),
-            amount = Ratio(numerator = Quantity(value = 1.0), denominator = Quantity(value = 1.0)),
+            manufacturer = Reference(display = FHIRString("Manufacturer reference")),
+            form = CodeableConcept(text = FHIRString("Med form")),
+            amount = Ratio(numerator = Quantity(value = Decimal(1.0)), denominator = Quantity(value = Decimal(1.0))),
             ingredient = listOf(
                 Ingredient(
                     item = DynamicValue(
                         DynamicValueType.CODEABLE_CONCEPT,
-                        CodeableConcept(text = "Med ingredient")
+                        CodeableConcept(text = FHIRString("Med ingredient"))
                     )
                 )
             ),
-            batch = Batch(lotNumber = "Batch log")
+            batch = Batch(lotNumber = FHIRString("Batch log"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medication)
 

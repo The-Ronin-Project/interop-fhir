@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
@@ -16,16 +17,16 @@ class RelatedArtifactTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val relatedArtifact = RelatedArtifact(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             type = RelatedArtifactType.DOCUMENTATION.asCode(),
-            label = "artifact label",
-            display = "Artifact",
+            label = FHIRString("artifact label"),
+            display = FHIRString("Artifact"),
             citation = Markdown("citation-markdown"),
             url = Url("http://localhost/artifact"),
             document = Attachment(url = Url("http://localhost/artifact/document")),

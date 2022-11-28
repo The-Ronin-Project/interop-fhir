@@ -10,6 +10,8 @@ import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,30 +22,30 @@ class DispenseRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val dispenseRequest = DispenseRequest(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             initialFill = InitialFill(
-                id = "67890",
+                id = FHIRString("67890"),
                 extension = listOf(
                     Extension(
                         url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, "Value")
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                     )
                 ),
-                quantity = SimpleQuantity(value = 23.0),
-                duration = Duration(value = 5.5)
+                quantity = SimpleQuantity(value = Decimal(23.0)),
+                duration = Duration(value = Decimal(5.5))
             ),
-            dispenseInterval = Duration(value = 1.0),
+            dispenseInterval = Duration(value = Decimal(1.0)),
             validityPeriod = Period(start = DateTime("2022-11-03")),
             numberOfRepeatsAllowed = UnsignedInt(3),
-            quantity = SimpleQuantity(value = 36.0),
-            expectedSupplyDuration = Duration(value = 14.0),
-            performer = Reference(reference = "Practitioner/13579")
+            quantity = SimpleQuantity(value = Decimal(36.0)),
+            expectedSupplyDuration = Duration(value = Decimal(14.0)),
+            performer = Reference(reference = FHIRString("Practitioner/13579"))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dispenseRequest)
 
@@ -93,7 +95,7 @@ class DispenseRequestTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val dispenseRequest = DispenseRequest(
-            quantity = SimpleQuantity(value = 36.0)
+            quantity = SimpleQuantity(value = Decimal(36.0))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dispenseRequest)
 

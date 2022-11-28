@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.NotAvailable
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,7 +25,7 @@ class R4NotAvailableValidatorTest {
     @Test
     fun `validates successfully`() {
         val notAvailable = NotAvailable(
-            description = "Vacation"
+            description = FHIRString("Vacation")
         )
         R4NotAvailableValidator.validate(notAvailable).alertIfErrors()
     }

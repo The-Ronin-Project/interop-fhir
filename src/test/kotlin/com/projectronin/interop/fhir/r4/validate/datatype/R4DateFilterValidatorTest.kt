@@ -4,6 +4,8 @@ import com.projectronin.interop.fhir.r4.datatype.DateFilter
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -13,7 +15,7 @@ class R4DateFilterValidatorTest {
     fun `fails for both path and searchParam provided`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val dateFilter = DateFilter(path = "path", searchParam = "search")
+                val dateFilter = DateFilter(path = FHIRString("path"), searchParam = FHIRString("search"))
                 R4DateFilterValidator.validate(dateFilter).alertIfErrors()
             }
         assertEquals(
@@ -27,7 +29,7 @@ class R4DateFilterValidatorTest {
     fun `fails for neither path nor searchParam provided`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val dateFilter = DateFilter(id = "filter")
+                val dateFilter = DateFilter(id = FHIRString("filter"))
                 R4DateFilterValidator.validate(dateFilter).alertIfErrors()
             }
         assertEquals(
@@ -41,7 +43,11 @@ class R4DateFilterValidatorTest {
     fun `fails for unsupported dynamic value type`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val dateFilter = DateFilter(path = "path", value = DynamicValue(DynamicValueType.INTEGER, 1))
+                val dateFilter =
+                    DateFilter(
+                        path = FHIRString("path"),
+                        value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
+                    )
                 R4DateFilterValidator.validate(dateFilter).alertIfErrors()
             }
         assertEquals(
@@ -54,7 +60,7 @@ class R4DateFilterValidatorTest {
     @Test
     fun `validates successfully`() {
         val dateFilter = DateFilter(
-            path = "date-filter-path",
+            path = FHIRString("date-filter-path"),
             value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31"))
         )
         R4DateFilterValidator.validate(dateFilter).alertIfErrors()

@@ -3,6 +3,8 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -13,21 +15,21 @@ class AvailableTimeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val availableTime = AvailableTime(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             daysOfWeek = listOf(Code("mon")),
-            allDay = false,
+            allDay = FHIRBoolean.FALSE,
             availableStartTime = Time("08:00:00"),
             availableEndTime = Time("16:00:00")
         )
@@ -81,7 +83,7 @@ class AvailableTimeTest {
         assertEquals(listOf<Extension>(), availableTime.extension)
         assertEquals(listOf<Extension>(), availableTime.modifierExtension)
         assertEquals(listOf<Code>(), availableTime.daysOfWeek)
-        assertEquals(true, availableTime.allDay)
+        assertEquals(FHIRBoolean.TRUE, availableTime.allDay)
         assertNull(availableTime.availableStartTime)
         assertNull(availableTime.availableEndTime)
     }

@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.util.asCode
@@ -13,15 +14,20 @@ class ContactDetailTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val contactDetail = ContactDetail(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            name = "Jane Doe",
-            telecom = listOf(ContactPoint(value = "jane@doe.com", system = ContactPointSystem.EMAIL.asCode()))
+            name = FHIRString("Jane Doe"),
+            telecom = listOf(
+                ContactPoint(
+                    value = FHIRString("jane@doe.com"),
+                    system = ContactPointSystem.EMAIL.asCode()
+                )
+            )
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactDetail)
 
@@ -47,7 +53,7 @@ class ContactDetailTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val contactDetail = ContactDetail(
-            name = "Jane Doe"
+            name = FHIRString("Jane Doe")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactDetail)
 
@@ -66,7 +72,7 @@ class ContactDetailTest {
             |}""".trimMargin()
         val contactDetail = objectMapper.readValue<ContactDetail>(json)
 
-        assertEquals("12345", contactDetail.id)
+        assertEquals(FHIRString("12345"), contactDetail.id)
         assertEquals(listOf<Extension>(), contactDetail.extension)
         assertNull(contactDetail.name)
         assertEquals(listOf<ContactPoint>(), contactDetail.telecom)

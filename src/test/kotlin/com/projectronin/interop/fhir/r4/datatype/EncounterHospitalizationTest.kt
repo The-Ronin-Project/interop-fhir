@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -13,23 +15,23 @@ class EncounterHospitalizationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val encounterHospitalization = EncounterHospitalization(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, 1)
+                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
                 )
             ),
             preAdmissionIdentifier = Identifier(
                 use = Code("official"),
                 system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
-                value = "93042"
+                value = FHIRString("93042")
             ),
             origin = null,
             admitSource = CodeableConcept(
@@ -37,7 +39,7 @@ class EncounterHospitalizationTest {
                     Coding(
                         system = CodeSystem.SNOMED_CT.uri,
                         code = Code("305956004"),
-                        display = "Referral by physician"
+                        display = FHIRString("Referral by physician")
                     )
                 )
             ),
@@ -48,7 +50,7 @@ class EncounterHospitalizationTest {
                         Coding(
                             system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
                             code = Code("vegetarian"),
-                            display = "vegetarian"
+                            display = FHIRString("vegetarian")
                         )
                     )
                 ),
@@ -57,20 +59,20 @@ class EncounterHospitalizationTest {
                         Coding(
                             system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
                             code = Code("kosher"),
-                            display = "kosher"
+                            display = FHIRString("kosher")
                         )
                     )
                 )
             ),
             specialCourtesy = emptyList(),
             specialArrangement = emptyList(),
-            destination = Reference(reference = "Location/place"),
+            destination = Reference(reference = FHIRString("Location/place")),
             dischargeDisposition = CodeableConcept(
                 coding = listOf(
                     Coding(
                         system = CodeSystem.SNOMED_CT.uri,
                         code = Code("306689006"),
-                        display = "Discharge to home"
+                        display = FHIRString("Discharge to home")
                     )
                 )
             )
@@ -134,11 +136,11 @@ class EncounterHospitalizationTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val encounterHospitalization = EncounterHospitalization(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             )
         )
@@ -172,12 +174,12 @@ class EncounterHospitalizationTest {
         """.trimIndent()
         val encounterHospitalization = objectMapper.readValue<EncounterHospitalization>(json)
 
-        assertEquals("12345", encounterHospitalization.id)
+        assertEquals(FHIRString("12345"), encounterHospitalization.id)
         assertEquals(
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             encounterHospitalization.extension

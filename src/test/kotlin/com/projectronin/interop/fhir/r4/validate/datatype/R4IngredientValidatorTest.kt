@@ -4,6 +4,8 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Ingredient
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -27,7 +29,7 @@ class R4IngredientValidatorTest {
     fun `fails for bad item dynamic value`() {
         val exception = assertThrows<IllegalArgumentException> {
             val ingredient = Ingredient(
-                item = DynamicValue(DynamicValueType.INTEGER, 5)
+                item = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(5))
             )
             R4IngredientValidator.validate(ingredient).alertIfErrors()
         }
@@ -42,7 +44,7 @@ class R4IngredientValidatorTest {
     fun `failure includes parent context`() {
         val exception = assertThrows<IllegalArgumentException> {
             val ingredient = Ingredient(
-                item = DynamicValue(DynamicValueType.INTEGER, 5)
+                item = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(5))
             )
             R4IngredientValidator.validate(ingredient, LocationContext("Test", "field")).alertIfErrors()
         }
@@ -56,7 +58,7 @@ class R4IngredientValidatorTest {
     @Test
     fun `validates successfully`() {
         val ingredient = Ingredient(
-            item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = "test"))
+            item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test")))
         )
         R4IngredientValidator.validate(ingredient).alertIfErrors()
     }

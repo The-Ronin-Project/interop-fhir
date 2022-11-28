@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.BundleLink
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ class R4BundleLinkValidatorTest {
     fun `fails if no url provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val bundleLink = BundleLink(
-                relation = "prev",
+                relation = FHIRString("prev"),
                 url = null
             )
             R4BundleLinkValidator.validate(bundleLink).alertIfErrors()
@@ -42,7 +43,7 @@ class R4BundleLinkValidatorTest {
     @Test
     fun `validates successfully`() {
         val bundleLink = BundleLink(
-            relation = "prev",
+            relation = FHIRString("prev"),
             url = Uri("http://www.example.com/prev")
         )
         R4BundleLinkValidator.validate(bundleLink).alertIfErrors()

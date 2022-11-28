@@ -1,11 +1,16 @@
 package com.projectronin.interop.fhir.stu3.datatype
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
+import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.BundleEntry
 import com.projectronin.interop.fhir.r4.datatype.BundleLink
 import com.projectronin.interop.fhir.r4.datatype.BundleRequest
 import com.projectronin.interop.fhir.r4.datatype.BundleResponse
 import com.projectronin.interop.fhir.r4.datatype.BundleSearch
 import com.projectronin.interop.fhir.r4.datatype.Extension
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.stu3.resource.STU3Resource
 
@@ -14,8 +19,10 @@ import com.projectronin.interop.fhir.stu3.resource.STU3Resource
  *
  * See [FHIR Spec](http://www.hl7.org/fhir/bundle-definitions.html#Bundle.entry)
  */
+@JsonSerialize(using = STU3BundleEntrySerializer::class)
+@JsonDeserialize(using = STU3BundleEntryDeserializer::class)
 data class STU3BundleEntry(
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val link: List<BundleLink> = listOf(),
@@ -39,3 +46,6 @@ data class STU3BundleEntry(
         )
     }
 }
+
+class STU3BundleEntrySerializer : BaseFHIRSerializer<STU3BundleEntry>(STU3BundleEntry::class.java)
+class STU3BundleEntryDeserializer : BaseFHIRDeserializer<STU3BundleEntry>(STU3BundleEntry::class.java)

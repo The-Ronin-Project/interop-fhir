@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.datatype
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,11 +13,11 @@ class ExtensionTest {
     @Test
     fun `can serialize and deserialize JSON - extension`() {
         val extension = Extension(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
@@ -41,7 +42,7 @@ class ExtensionTest {
     @Test
     fun `can serialize and deserialize JSON - value`() {
         val extension = Extension(
-            id = "12345",
+            id = FHIRString("12345"),
             url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
             value = DynamicValue(DynamicValueType.CODE, Code("I"))
         )

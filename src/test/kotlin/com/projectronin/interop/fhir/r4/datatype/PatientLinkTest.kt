@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.util.asCode
@@ -13,20 +14,20 @@ class PatientLinkTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val link = PatientLink(
-            id = "67890",
+            id = FHIRString("67890"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            other = Reference(display = "reference"),
+            other = Reference(display = FHIRString("reference")),
             type = LinkType.REPLACES.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
@@ -57,7 +58,7 @@ class PatientLinkTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val link = PatientLink(
-            other = Reference(display = "any"),
+            other = Reference(display = FHIRString("any")),
             type = LinkType.REPLACES.asCode()
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)

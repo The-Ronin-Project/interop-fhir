@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -13,7 +14,7 @@ class R4ContactPointValidatorTest {
     fun `fails if system is outside of required value set`() {
         val exception = assertThrows<IllegalArgumentException> {
             val contactPoint = ContactPoint(
-                value = "name@site.com",
+                value = FHIRString("name@site.com"),
                 system = Code("unsupported-system")
             )
             R4ContactPointValidator.validate(contactPoint).alertIfErrors()
@@ -29,7 +30,7 @@ class R4ContactPointValidatorTest {
     fun `fails if use is outside of required value set`() {
         val exception = assertThrows<IllegalArgumentException> {
             val contactPoint = ContactPoint(
-                value = "name@site.com",
+                value = FHIRString("name@site.com"),
                 system = ContactPointSystem.PHONE.asCode(),
                 use = Code("unsupported-use")
             )
@@ -46,7 +47,7 @@ class R4ContactPointValidatorTest {
     fun `fails if value provided and no system is provided`() {
         val exception = assertThrows<IllegalArgumentException> {
             val contactPoint = ContactPoint(
-                value = "name@site.com"
+                value = FHIRString("name@site.com")
             )
             R4ContactPointValidator.validate(contactPoint).alertIfErrors()
         }
@@ -60,7 +61,7 @@ class R4ContactPointValidatorTest {
     @Test
     fun `validates successfully`() {
         val contactPoint = ContactPoint(
-            value = "name@site.com",
+            value = FHIRString("name@site.com"),
             system = ContactPointSystem.EMAIL.asCode()
         )
         R4ContactPointValidator.validate(contactPoint).alertIfErrors()
@@ -68,7 +69,7 @@ class R4ContactPointValidatorTest {
 
     @Test
     fun `validates successfully with no value`() {
-        val contactPoint = ContactPoint(id = "1234")
+        val contactPoint = ContactPoint(id = FHIRString("1234"))
         R4ContactPointValidator.validate(contactPoint).alertIfErrors()
     }
 }

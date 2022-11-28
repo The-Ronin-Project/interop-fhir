@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.Contact
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -15,7 +16,7 @@ class R4ContactValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val contact = Contact(
                 gender = Code("unsupported-gender"),
-                name = HumanName(text = "name")
+                name = HumanName(text = FHIRString("name"))
             )
             R4ContactValidator.validate(contact).alertIfErrors()
         }
@@ -42,10 +43,10 @@ class R4ContactValidatorTest {
     @Test
     fun `validates successfully`() {
         val contact = Contact(
-            name = HumanName(text = "Jane Doe"),
+            name = HumanName(text = FHIRString("Jane Doe")),
             telecom = listOf(
                 ContactPoint(
-                    value = "name@site.com",
+                    value = FHIRString("name@site.com"),
                     system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.EMAIL.asCode()
                 )
             ),

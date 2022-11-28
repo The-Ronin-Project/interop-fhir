@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Medication
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -38,13 +39,13 @@ internal class R4MedicationValidatorTest {
         R4MedicationValidator.validate(
             Medication(
                 code = CodeableConcept(
-                    text = "b",
+                    text = FHIRString("b"),
                     coding = listOf(
                         Coding(
                             system = CodeSystem.RXNORM.uri,
                             code = Code("b"),
-                            version = "1.0.0",
-                            display = "b"
+                            version = FHIRString("1.0.0"),
+                            display = FHIRString("b")
                         )
                     )
                 ),
@@ -58,13 +59,13 @@ internal class R4MedicationValidatorTest {
         R4MedicationValidator.validate(
             Medication(
                 code = CodeableConcept(
-                    text = "b",
+                    text = FHIRString("b"),
                     coding = listOf(
                         Coding(
                             system = CodeSystem.RXNORM.uri,
                             code = Code("b"),
-                            version = "1.0.0",
-                            display = "b"
+                            version = FHIRString("1.0.0"),
+                            display = FHIRString("b")
                         )
                     )
                 )

@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.PatientLink
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 
@@ -41,7 +42,7 @@ data class Patient(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
-    val active: Boolean? = null,
+    val active: FHIRBoolean? = null,
     val name: List<HumanName> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val gender: Code? = null,

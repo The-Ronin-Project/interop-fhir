@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -11,20 +12,20 @@ class BundleLinkTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val bundleLink = BundleLink(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             modifierExtension = listOf(
                 Extension(
                     url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            relation = "next",
+            relation = FHIRString("next"),
             url = Uri("http://www.example.com/next")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleLink)
@@ -51,7 +52,7 @@ class BundleLinkTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val bundleLink = BundleLink(relation = "prev", url = Uri("http://www.example.com/prev"))
+        val bundleLink = BundleLink(relation = FHIRString("prev"), url = Uri("http://www.example.com/prev"))
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleLink)
 
@@ -75,7 +76,7 @@ class BundleLinkTest {
         assertNull(bundleLink.id)
         assertEquals(listOf<Extension>(), bundleLink.extension)
         assertEquals(listOf<Extension>(), bundleLink.modifierExtension)
-        assertEquals("prev", bundleLink.relation)
+        assertEquals(FHIRString("prev"), bundleLink.relation)
         assertEquals(Uri("http://www.example.com/prev"), bundleLink.url)
     }
 }

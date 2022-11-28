@@ -14,6 +14,7 @@ object R4CareTeamParticipantValidator : R4ElementContainingValidator<CareTeamPar
         description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
         location = LocationContext(CareTeamParticipant::class)
     )
+
     override fun validateElement(
         element: CareTeamParticipant,
         parentContext: LocationContext?,
@@ -23,7 +24,7 @@ object R4CareTeamParticipantValidator : R4ElementContainingValidator<CareTeamPar
             ifNotNull(element.onBehalfOf) {
                 val isPractitioner = element.member?.let {
                     it.type?.value == "Practitioner" ||
-                        it.reference?.contains("Practitioner/") == true
+                        it.reference?.value?.contains("Practitioner/") == true
                 } ?: false
                 checkTrue(isPractitioner, onBehalfOfError, parentContext)
             }

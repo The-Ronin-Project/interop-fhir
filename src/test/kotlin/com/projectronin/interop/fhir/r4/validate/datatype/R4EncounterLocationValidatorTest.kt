@@ -5,6 +5,7 @@ import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.EncounterLocation
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.valueset.EncounterLocationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +16,7 @@ class R4EncounterLocationValidatorTest {
     @Test
     fun `validate - succeeds with only required attributes`() {
         val encounterLocation = EncounterLocation(
-            location = Reference(reference = "Location/example")
+            location = Reference(reference = FHIRString("Location/example"))
         )
         R4EncounterLocationValidator.validate(encounterLocation).alertIfErrors()
     }
@@ -23,7 +24,7 @@ class R4EncounterLocationValidatorTest {
     @Test
     fun `validate - succeeds with required and other attributes`() {
         val encounterLocation = EncounterLocation(
-            location = Reference(reference = "Location/example"),
+            location = Reference(reference = FHIRString("Location/example")),
             status = EncounterLocationStatus.ACTIVE.asCode(),
             physicalType = CodeableConcept(coding = listOf(Coding(code = Code("ca"))))
         )
@@ -52,7 +53,7 @@ class R4EncounterLocationValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val encounterLocation = EncounterLocation(
-                    location = Reference(reference = "Location/example"),
+                    location = Reference(reference = FHIRString("Location/example")),
                     status = Code("unavailable")
                 )
                 R4EncounterLocationValidator.validate(encounterLocation).alertIfErrors()

@@ -21,7 +21,7 @@ object R4RangeValidator : R4ElementContainingValidator<Range>() {
     override fun validateElement(element: Range, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkTrue(
-                (element.low == null || element.high == null || (element.low.value != null && element.high.value != null && element.low.value < element.high.value)),
+                (element.low == null || element.high == null || (element.low.value?.value != null && element.high.value?.value != null && element.low.value.value < element.high.value.value)),
                 lowLowerThanHighError,
                 parentContext
             )

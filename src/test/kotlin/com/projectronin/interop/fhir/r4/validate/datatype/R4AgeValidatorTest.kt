@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.datatype.Age
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.validate.LocationContext
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,7 +15,7 @@ class R4AgeValidatorTest {
     fun `fails if code provided without system`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val age = Age(value = 2.0, code = Code("code"))
+                val age = Age(value = Decimal(2.0), code = Code("code"))
                 R4AgeValidator.validate(age).alertIfErrors()
             }
         assertEquals(
@@ -28,7 +29,7 @@ class R4AgeValidatorTest {
     fun `fails if value provided without code`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val age = Age(value = 2.0, system = CodeSystem.UCUM.uri)
+                val age = Age(value = Decimal(2.0), system = CodeSystem.UCUM.uri)
                 R4AgeValidator.validate(age).alertIfErrors()
             }
         assertEquals(
@@ -54,7 +55,7 @@ class R4AgeValidatorTest {
     @Test
     fun `fails if value is zero`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = 0.0)
+            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
             R4AgeValidator.validate(age).alertIfErrors()
         }
         assertEquals(
@@ -67,7 +68,7 @@ class R4AgeValidatorTest {
     @Test
     fun `fails if value is negative`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = -3.0)
+            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(-3.0))
             R4AgeValidator.validate(age).alertIfErrors()
         }
         assertEquals(
@@ -81,7 +82,7 @@ class R4AgeValidatorTest {
     fun `base quantity failure includes parent context`() {
         val exception =
             assertThrows<IllegalArgumentException> {
-                val age = Age(value = 2.0, code = Code("code"))
+                val age = Age(value = Decimal(2.0), code = Code("code"))
                 R4AgeValidator.validate(age, LocationContext("Test", "field")).alertIfErrors()
             }
         assertEquals(
@@ -94,7 +95,7 @@ class R4AgeValidatorTest {
     @Test
     fun `age failure includes parent context`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = 0.0)
+            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
             R4AgeValidator.validate(age, LocationContext("Test", "field")).alertIfErrors()
         }
         assertEquals(
@@ -107,7 +108,7 @@ class R4AgeValidatorTest {
     @Test
     fun `validates successfully`() {
         val age = Age(
-            value = 17.0,
+            value = Decimal(17.0),
             system = CodeSystem.UCUM.uri,
             code = Code("a")
         )

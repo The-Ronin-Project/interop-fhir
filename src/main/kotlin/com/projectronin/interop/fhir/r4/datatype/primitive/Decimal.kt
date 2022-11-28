@@ -10,9 +10,12 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
  */
 data class Decimal(
     override val value: Double?,
-    override val id: String? = null,
+    override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf()
 ) : Primitive<Double, Decimal> {
     @JsonCreator
     constructor(value: Double) : this(value, null, emptyList())
+
+    @JsonCreator
+    constructor(value: Int) : this(value.toDouble(), null, emptyList())
 }

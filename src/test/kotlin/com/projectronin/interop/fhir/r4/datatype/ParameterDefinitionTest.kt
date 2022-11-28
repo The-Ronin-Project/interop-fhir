@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.OperationParameterUse
 import com.projectronin.interop.fhir.util.asCode
@@ -15,18 +17,18 @@ class ParameterDefinitionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val parameterDefinition = ParameterDefinition(
-            id = "12345",
+            id = FHIRString("12345"),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, "Value")
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
             name = Code("parameter name"),
             use = OperationParameterUse.INPUT.asCode(),
-            min = 1,
-            max = "3",
-            documentation = "parameter documentation",
+            min = FHIRInteger(1),
+            max = FHIRString("3"),
+            documentation = FHIRString("parameter documentation"),
             type = Code("integer"),
             profile = Canonical("profile-canonical")
         )
