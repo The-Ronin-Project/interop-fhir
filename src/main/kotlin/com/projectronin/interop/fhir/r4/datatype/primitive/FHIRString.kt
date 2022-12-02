@@ -13,6 +13,9 @@ data class FHIRString(
 ) : Primitive<String, FHIRString> {
     @JsonCreator
     constructor(value: String) : this(value, null, emptyList())
+
+    @JsonCreator
+    constructor(value: Int) : this(value.toString(), null, emptyList())
 }
 
 fun String.asFHIR(): FHIRString = FHIRString(this)

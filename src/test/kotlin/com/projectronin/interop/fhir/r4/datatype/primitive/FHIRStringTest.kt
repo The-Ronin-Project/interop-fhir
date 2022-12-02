@@ -21,6 +21,13 @@ class FHIRStringTest {
     }
 
     @Test
+    fun `can deserialize from int`() {
+        val json = "25"
+        val string = objectMapper.readValue<FHIRString>(json)
+        assertEquals(FHIRString("25"), string)
+    }
+
+    @Test
     fun `supports String extension`() {
         assertEquals(FHIRString("value"), "value".asFHIR())
     }
