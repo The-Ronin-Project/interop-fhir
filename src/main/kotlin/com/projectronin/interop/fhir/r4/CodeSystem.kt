@@ -15,7 +15,8 @@ enum class CodeSystem(uriString: String) {
     LOINC("http://loinc.org"),
     CONDITION_CLINICAL("http://terminology.hl7.org/CodeSystem/condition-clinical"),
     SNOMED_CT("http://snomed.info/sct"),
-    RXNORM("http://www.nlm.nih.gov/research/umls/rxnorm");
+    RXNORM("http://www.nlm.nih.gov/research/umls/rxnorm"),
+    CAREPLAN_CATEGORY("http://hl7.org/fhir/us/core/CodeSystem/careplan-category");
 
     val uri = Uri(uriString)
 }
