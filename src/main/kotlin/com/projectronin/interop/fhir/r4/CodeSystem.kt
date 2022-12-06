@@ -16,7 +16,10 @@ enum class CodeSystem(uriString: String) {
     CONDITION_CLINICAL("http://terminology.hl7.org/CodeSystem/condition-clinical"),
     SNOMED_CT("http://snomed.info/sct"),
     RXNORM("http://www.nlm.nih.gov/research/umls/rxnorm"),
-    CAREPLAN_CATEGORY("http://hl7.org/fhir/us/core/CodeSystem/careplan-category");
+    CAREPLAN_CATEGORY("http://hl7.org/fhir/us/core/CodeSystem/careplan-category"),
+    RONIN_TENANT("http://projectronin.com/id/tenantId"),
+    RONIN_MRN("http://projectronin.com/id/mrn"),
+    RONIN_FHIR_ID("http://projectronin.com/id/fhir");
 
     val uri = Uri(uriString)
 }
