@@ -38,7 +38,7 @@ class R4ParameterDefinitionValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: use is outside of required value set @ ParameterDefinition.use",
+                "ERROR INV_VALUE_SET: 'unsupported-use' is outside of required value set @ ParameterDefinition.use",
             exception.message
         )
     }

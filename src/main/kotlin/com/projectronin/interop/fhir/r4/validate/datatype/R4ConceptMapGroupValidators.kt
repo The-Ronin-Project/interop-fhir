@@ -35,7 +35,6 @@ object R4ConceptMapElementValidator : R4ElementContainingValidator<ConceptMapEle
 
 object R4ConceptMapTargetValidator : R4ElementContainingValidator<ConceptMapTarget>() {
     private val requiredEquivalenceError = RequiredFieldError(ConceptMapTarget::equivalence)
-    private val invalidEquivalence = InvalidValueSetError(ConceptMapTarget::equivalence)
     private val requiredParticipantError = FHIRError(
         code = "R4_CNCPMPTG_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -53,7 +52,8 @@ object R4ConceptMapTargetValidator : R4ElementContainingValidator<ConceptMapTarg
             ifNotNull(element.equivalence) {
                 val codifiedEquivalence = checkCodedEnum<ConceptMapEquivalence>(
                     element.equivalence,
-                    invalidEquivalence, parentContext
+                    InvalidValueSetError(ConceptMapTarget::equivalence, element.equivalence.value),
+                    parentContext
                 )
                 checkTrue(
                     (
@@ -85,7 +85,6 @@ object R4ConceptMapDependsOnValidator : R4ElementContainingValidator<ConceptMapD
 
 object R4ConceptMapUnmappedValidator : R4ElementContainingValidator<ConceptMapUnmapped>() {
     private val requiredModeError = RequiredFieldError(ConceptMapUnmapped::mode)
-    private val invalidModeError = InvalidValueSetError(ConceptMapUnmapped::mode)
     private val fixedAndCodeError = FHIRError(
         code = "R4_CNCPMPUM_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -104,7 +103,11 @@ object R4ConceptMapUnmappedValidator : R4ElementContainingValidator<ConceptMapUn
             checkNotNull(element.mode, requiredModeError, parentContext)
 
             ifNotNull(element.mode) {
-                val codifiedMode = checkCodedEnum<ConceptMapMode>(element.mode, invalidModeError, parentContext)
+                val codifiedMode = checkCodedEnum<ConceptMapMode>(
+                    element.mode,
+                    InvalidValueSetError(ConceptMapUnmapped::mode, element.mode.value),
+                    parentContext
+                )
                 checkTrue(
                     (codifiedMode != ConceptMapMode.FIXED || element.code != null),
                     fixedAndCodeError,

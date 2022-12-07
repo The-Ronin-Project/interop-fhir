@@ -54,7 +54,7 @@ class R4PatientLinkValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: type is outside of required value set @ PatientLink.type",
+                "ERROR INV_VALUE_SET: 'unsupported-type' is outside of required value set @ PatientLink.type",
             exception.message
         )
     }

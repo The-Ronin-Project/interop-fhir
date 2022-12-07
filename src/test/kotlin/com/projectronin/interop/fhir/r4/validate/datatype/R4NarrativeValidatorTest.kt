@@ -37,7 +37,7 @@ class R4NarrativeValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ Narrative.status",
+                "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ Narrative.status",
             exception.message
         )
     }

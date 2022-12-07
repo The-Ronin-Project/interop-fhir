@@ -80,14 +80,20 @@ class InvalidDynamicValueError(
 /**
  * Defines an error for a value outside of a required value set.
  */
-class InvalidValueSetError(actualLocation: LocationContext) : FHIRError(
+class InvalidValueSetError(actualLocation: LocationContext, value: String) : FHIRError(
     "INV_VALUE_SET",
     ValidationIssueSeverity.ERROR,
-    "${actualLocation.field} is outside of required value set",
+    "${
+    if (value.contains(",")) "'${value.replace(", ", "', '")}' are"
+    else "'$value' is"
+    } outside of required value set",
     actualLocation
 ) {
     /**
      * Creates an InvalidValueSetError based off an explicit property.
      */
-    constructor(actualLocation: KProperty1<*, *>) : this(LocationContext(actualLocation))
+    constructor(actualLocation: KProperty1<*, *>, value: String? = null) : this(
+        LocationContext(actualLocation),
+        value!!
+    )
 }

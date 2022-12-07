@@ -13,13 +13,16 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4RelatedArtifactValidator : R4ElementContainingValidator<RelatedArtifact>() {
     private val requiredTypeError = RequiredFieldError(RelatedArtifact::type)
-    private val invalidTypeError = InvalidValueSetError(RelatedArtifact::type)
 
     override fun validateElement(element: RelatedArtifact, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.type, requiredTypeError, parentContext)
             ifNotNull(element.type) {
-                checkCodedEnum<RelatedArtifactType>(element.type, invalidTypeError, parentContext)
+                checkCodedEnum<RelatedArtifactType>(
+                    element.type,
+                    InvalidValueSetError(RelatedArtifact::type, element.type.value),
+                    parentContext
+                )
             }
         }
     }

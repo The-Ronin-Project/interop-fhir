@@ -16,14 +16,17 @@ object R4PatientValidator : R4ElementContainingValidator<Patient>() {
     private val acceptedDeceasedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.DATE_TIME)
     private val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
 
-    private val invalidGenderError = InvalidValueSetError(Patient::gender)
     private val invalidDeceasedError = InvalidDynamicValueError(Patient::deceased, acceptedDeceasedTypes)
     private val invalidMultipleBirthError = InvalidDynamicValueError(Patient::multipleBirth, acceptedMultipleBirthTypes)
 
     override fun validateElement(element: Patient, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.gender?.let {
-                checkCodedEnum<AdministrativeGender>(it, invalidGenderError, parentContext)
+            element.gender?.let { code ->
+                checkCodedEnum<AdministrativeGender>(
+                    code,
+                    InvalidValueSetError(Patient::gender, code.value),
+                    parentContext
+                )
             }
 
             element.deceased?.let { data ->

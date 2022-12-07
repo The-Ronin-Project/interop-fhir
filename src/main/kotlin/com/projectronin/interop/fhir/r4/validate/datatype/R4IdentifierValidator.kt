@@ -13,7 +13,6 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Identifier](http://hl7.org/fhir/R4/datatypes.html#Identifier).
  */
 object R4IdentifierValidator : R4ElementContainingValidator<Identifier>() {
-    private val invalidUseError = InvalidValueSetError(Identifier::use)
     private val invalidAssignerError = FHIRError(
         code = "R4_IDENT_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -23,8 +22,8 @@ object R4IdentifierValidator : R4ElementContainingValidator<Identifier>() {
 
     override fun validateElement(element: Identifier, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.use?.let {
-                checkCodedEnum<IdentifierUse>(it, invalidUseError, parentContext)
+            element.use?.let { code ->
+                checkCodedEnum<IdentifierUse>(code, InvalidValueSetError(Identifier::use, code.value), parentContext)
             }
 
             element.assigner?.type?.let {

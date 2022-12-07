@@ -14,7 +14,6 @@ import com.projectronin.interop.fhir.validate.Validation
 object R4PatientLinkValidator : R4ElementContainingValidator<PatientLink>() {
     private val requiredOtherError = RequiredFieldError(PatientLink::other)
     private val requiredTypeError = RequiredFieldError(PatientLink::type)
-    private val invalidTypeError = InvalidValueSetError(PatientLink::type)
 
     override fun validateElement(element: PatientLink, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
@@ -22,7 +21,11 @@ object R4PatientLinkValidator : R4ElementContainingValidator<PatientLink>() {
             checkNotNull(element.type, requiredTypeError, parentContext)
 
             ifNotNull(element.type) {
-                checkCodedEnum<LinkType>(element.type, invalidTypeError, parentContext)
+                checkCodedEnum<LinkType>(
+                    element.type,
+                    InvalidValueSetError(PatientLink::type, element.type.value),
+                    parentContext
+                )
             }
         }
     }

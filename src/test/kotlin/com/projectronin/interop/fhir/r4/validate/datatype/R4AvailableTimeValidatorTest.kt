@@ -18,7 +18,7 @@ class R4AvailableTimeValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: daysOfWeek is outside of required value set @ AvailableTime.daysOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day' is outside of required value set @ AvailableTime.daysOfWeek",
             exception.message
         )
     }
@@ -27,13 +27,13 @@ class R4AvailableTimeValidatorTest {
     fun `fails for multiple invalid days of week`() {
         val exception = assertThrows<IllegalArgumentException> {
             val availableTime = AvailableTime(
-                daysOfWeek = listOf(Code("not-a-day"), Code("also-not-a-day"))
+                daysOfWeek = listOf(Code("not-a-day"), Code("wed"), Code("sun"), Code("also-not-a-day"))
             )
             R4AvailableTimeValidator.validate(availableTime).alertIfErrors()
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: daysOfWeek is outside of required value set @ AvailableTime.daysOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day', 'also-not-a-day' are outside of required value set @ AvailableTime.daysOfWeek",
             exception.message
         )
     }

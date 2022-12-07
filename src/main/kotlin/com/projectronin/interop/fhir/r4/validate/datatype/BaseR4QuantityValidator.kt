@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.BaseQuantity
+import com.projectronin.interop.fhir.r4.datatype.Quantity
 import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
 import com.projectronin.interop.fhir.validate.FHIRError
@@ -13,8 +14,6 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Base validator for [R4 Quantity](https://hl7.org/fhir/R4/datatypes.html#Quantity)
  */
 abstract class BaseR4QuantityValidator<T : BaseQuantity<T>> : R4ElementContainingValidator<T>() {
-    private val invalidComparatorError = InvalidValueSetError(LocationContext("Quantity", "comparator"))
-
     private val requiredSystemError = FHIRError(
         code = "R4_QUAN_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -29,8 +28,12 @@ abstract class BaseR4QuantityValidator<T : BaseQuantity<T>> : R4ElementContainin
 
     override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.comparator?.let {
-                checkCodedEnum<QuantityComparator>(it, invalidComparatorError, parentContext)
+            element.comparator?.let { code ->
+                checkCodedEnum<QuantityComparator>(
+                    code,
+                    InvalidValueSetError(Quantity::comparator, code.value),
+                    parentContext
+                )
             }
 
             checkTrue((element.code == null || element.system != null), requiredSystemError, parentContext)

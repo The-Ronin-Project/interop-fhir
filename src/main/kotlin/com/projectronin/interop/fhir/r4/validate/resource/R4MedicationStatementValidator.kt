@@ -15,7 +15,6 @@ object R4MedicationStatementValidator : R4ElementContainingValidator<MedicationS
     private val acceptedEffectives = listOf(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD)
 
     private val requiredStatusError = RequiredFieldError(MedicationStatement::status)
-    private val invalidStatusError = InvalidValueSetError(MedicationStatement::status)
 
     private val requiredMedicationError = RequiredFieldError(MedicationStatement::medication)
     private val invalidMedicationError = InvalidDynamicValueError(MedicationStatement::medication, acceptedMedications)
@@ -28,7 +27,11 @@ object R4MedicationStatementValidator : R4ElementContainingValidator<MedicationS
         validation.apply {
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<MedicationStatementStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<MedicationStatementStatus>(
+                    element.status,
+                    InvalidValueSetError(MedicationStatement::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.medication, requiredMedicationError, parentContext)

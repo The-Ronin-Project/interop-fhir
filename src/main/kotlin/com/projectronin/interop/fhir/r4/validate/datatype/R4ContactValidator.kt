@@ -13,7 +13,6 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Contact](http://hl7.org/fhir/R4/patient-definitions.html#Patient.contact).
  */
 object R4ContactValidator : R4ElementContainingValidator<Contact>() {
-    private val invalidGenderError = InvalidValueSetError(Contact::gender)
     private val missingDetailsError = FHIRError(
         code = "R4_CNTCT_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -23,8 +22,12 @@ object R4ContactValidator : R4ElementContainingValidator<Contact>() {
 
     override fun validateElement(element: Contact, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.gender?.let {
-                checkCodedEnum<AdministrativeGender>(it, invalidGenderError, parentContext)
+            element.gender?.let { code ->
+                checkCodedEnum<AdministrativeGender>(
+                    code,
+                    InvalidValueSetError(Contact::gender, code.value),
+                    parentContext
+                )
             }
 
             checkTrue(

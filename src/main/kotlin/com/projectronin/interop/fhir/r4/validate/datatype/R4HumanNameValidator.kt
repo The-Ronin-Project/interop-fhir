@@ -11,12 +11,11 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 HumanName](http://hl7.org/fhir/R4/datatypes.html#HumanName).
  */
 object R4HumanNameValidator : R4ElementContainingValidator<HumanName>() {
-    private val invalidUseError = InvalidValueSetError(HumanName::use)
 
     override fun validateElement(element: HumanName, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.use?.let {
-                checkCodedEnum<NameUse>(it, invalidUseError, parentContext)
+            element.use?.let { code ->
+                checkCodedEnum<NameUse>(code, InvalidValueSetError(HumanName::use, code.value), parentContext)
             }
         }
     }

@@ -13,14 +13,17 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4BundleValidator : R4ElementContainingValidator<Bundle>() {
     private val requiredTypeError = RequiredFieldError(Bundle::type)
-    private val invalidTypeError = InvalidValueSetError(Bundle::type)
 
     override fun validateElement(element: Bundle, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.type, requiredTypeError, parentContext)
 
             ifNotNull(element.type) {
-                checkCodedEnum<BundleType>(element.type, invalidTypeError, parentContext)
+                checkCodedEnum<BundleType>(
+                    element.type,
+                    InvalidValueSetError(Bundle::type, element.type.value),
+                    parentContext
+                )
             }
         }
     }

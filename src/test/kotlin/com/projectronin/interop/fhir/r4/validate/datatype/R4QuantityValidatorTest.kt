@@ -25,7 +25,7 @@ class R4QuantityValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: comparator is outside of required value set @ Quantity.comparator",
+                "ERROR INV_VALUE_SET: 'unsupported-comparator' is outside of required value set @ Quantity.comparator",
             exception.message
         )
     }
@@ -59,7 +59,7 @@ class R4QuantityValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: comparator is outside of required value set @ Test.field.comparator",
+                "ERROR INV_VALUE_SET: 'unsupported-comparator' is outside of required value set @ Test.field.comparator",
             exception.message
         )
     }

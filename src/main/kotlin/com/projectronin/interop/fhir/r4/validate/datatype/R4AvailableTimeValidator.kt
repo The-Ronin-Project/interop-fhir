@@ -12,15 +12,17 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 AvailableTime](http://hl7.org/fhir/R4/practitionerrole-definitions.html#PractitionerRole.availableTime)
  */
 object R4AvailableTimeValidator : R4ElementContainingValidator<AvailableTime>() {
-    private val invalidDayOfWeekError = InvalidValueSetError(AvailableTime::daysOfWeek)
-
     override fun validateElement(element: AvailableTime, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkTrue(
-                element.daysOfWeek.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null },
-                invalidDayOfWeekError,
-                parentContext
-            )
+            element.daysOfWeek.let {
+                val invalidDayOfWeekCodes =
+                    element.daysOfWeek.filter { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null }
+                checkTrue(
+                    invalidDayOfWeekCodes.isNullOrEmpty(),
+                    InvalidValueSetError(AvailableTime::daysOfWeek, invalidDayOfWeekCodes.joinToString { it.value!! }),
+                    parentContext
+                )
+            }
         }
     }
 }

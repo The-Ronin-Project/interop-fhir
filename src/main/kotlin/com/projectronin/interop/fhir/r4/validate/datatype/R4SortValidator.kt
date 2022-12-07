@@ -14,7 +14,6 @@ import com.projectronin.interop.fhir.validate.Validation
 object R4SortValidator : R4ElementContainingValidator<Sort>() {
     private val requiredPathError = RequiredFieldError(Sort::path)
     private val requiredDirectionError = RequiredFieldError(Sort::direction)
-    private val invalidDirectionError = InvalidValueSetError(Sort::direction)
 
     override fun validateElement(element: Sort, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
@@ -22,7 +21,11 @@ object R4SortValidator : R4ElementContainingValidator<Sort>() {
 
             checkNotNull(element.direction, requiredDirectionError, parentContext)
             ifNotNull(element.direction) {
-                checkCodedEnum<SortDirection>(element.direction, invalidDirectionError, parentContext)
+                checkCodedEnum<SortDirection>(
+                    element.direction,
+                    InvalidValueSetError(Sort::direction, element.direction.value),
+                    parentContext
+                )
             }
         }
     }

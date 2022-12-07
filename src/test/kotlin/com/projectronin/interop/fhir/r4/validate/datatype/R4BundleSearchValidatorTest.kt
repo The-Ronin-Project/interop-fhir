@@ -18,7 +18,7 @@ class R4BundleSearchValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: mode is outside of required value set @ BundleSearch.mode",
+                "ERROR INV_VALUE_SET: 'unsupported-mode' is outside of required value set @ BundleSearch.mode",
             exception.message
         )
     }
@@ -31,7 +31,7 @@ class R4BundleSearchValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: mode is outside of required value set @ Test.field.mode",
+                "ERROR INV_VALUE_SET: 'unsupported-mode' is outside of required value set @ Test.field.mode",
             exception.message
         )
     }

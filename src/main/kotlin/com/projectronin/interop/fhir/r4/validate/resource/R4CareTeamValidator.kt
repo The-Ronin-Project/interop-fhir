@@ -8,12 +8,14 @@ import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 
 object R4CareTeamValidator : R4ElementContainingValidator<CareTeam>() {
-    private val invalidStatusError = InvalidValueSetError(CareTeam::status)
-
     override fun validateElement(element: CareTeam, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             ifNotNull(element.status) {
-                checkCodedEnum<CareTeamStatus>(element.status!!, invalidStatusError, parentContext)
+                checkCodedEnum<CareTeamStatus>(
+                    element.status!!,
+                    InvalidValueSetError(CareTeam::status, element.status.value),
+                    parentContext
+                )
             }
         }
     }

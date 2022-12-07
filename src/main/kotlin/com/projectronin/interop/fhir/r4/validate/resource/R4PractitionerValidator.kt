@@ -11,12 +11,14 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 Practitioner](http://hl7.org/fhir/R4/practitioner.html)
  */
 object R4PractitionerValidator : R4ElementContainingValidator<Practitioner>() {
-    private val invalidGenderError = InvalidValueSetError(Practitioner::gender)
-
     override fun validateElement(element: Practitioner, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.gender?.let {
-                checkCodedEnum<AdministrativeGender>(it, invalidGenderError, parentContext)
+            element.gender?.let { code ->
+                checkCodedEnum<AdministrativeGender>(
+                    code,
+                    InvalidValueSetError(Practitioner::gender, code.value),
+                    parentContext
+                )
             }
         }
     }

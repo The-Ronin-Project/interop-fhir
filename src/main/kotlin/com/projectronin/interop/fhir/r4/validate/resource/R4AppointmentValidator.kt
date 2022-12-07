@@ -19,7 +19,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
     private val requiredCancelledReasons = listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW)
 
     private val requiredStatusError = RequiredFieldError(Appointment::status)
-    private val invalidStatusError = InvalidValueSetError(Appointment::status)
 
     private val startAndEndOrNeitherError = FHIRError(
         code = "R4_APPT_001",
@@ -66,7 +65,11 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
 
             var codifiedStatus: AppointmentStatus? = null
             ifNotNull(element.status) {
-                codifiedStatus = checkCodedEnum<AppointmentStatus>(element.status, invalidStatusError, parentContext)
+                codifiedStatus = checkCodedEnum<AppointmentStatus>(
+                    element.status,
+                    InvalidValueSetError(Appointment::status, element.status.value),
+                    parentContext
+                )
             }
 
             ifNotNull(codifiedStatus) {

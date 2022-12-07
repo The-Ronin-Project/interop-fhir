@@ -53,7 +53,7 @@ class R4SortValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: direction is outside of required value set @ Sort.direction",
+                "ERROR INV_VALUE_SET: 'unsupported-direction' is outside of required value set @ Sort.direction",
             exception.message
         )
     }

@@ -60,7 +60,7 @@ class R4EncounterLocationValidatorTest {
             }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ EncounterLocation.status",
+                "ERROR INV_VALUE_SET: 'unavailable' is outside of required value set @ EncounterLocation.status",
             exception.message
         )
     }
@@ -78,7 +78,7 @@ class R4EncounterLocationValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: location is a required element @ EncounterLocation.location\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ EncounterLocation.status",
+                "ERROR INV_VALUE_SET: 'unavailable' is outside of required value set @ EncounterLocation.status",
             exception.message
         )
     }

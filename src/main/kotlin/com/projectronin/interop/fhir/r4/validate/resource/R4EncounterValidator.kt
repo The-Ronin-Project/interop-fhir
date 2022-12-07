@@ -13,7 +13,6 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4EncounterValidator : R4ElementContainingValidator<Encounter>() {
     private val requiredStatusError = RequiredFieldError(Encounter::status)
-    private val invalidStatusError = InvalidValueSetError(Encounter::status)
     private val requiredClassError = RequiredFieldError(Encounter::`class`)
 
     override fun validateElement(element: Encounter, parentContext: LocationContext?, validation: Validation) {
@@ -21,7 +20,11 @@ object R4EncounterValidator : R4ElementContainingValidator<Encounter>() {
 
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<EncounterStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<EncounterStatus>(
+                    element.status,
+                    InvalidValueSetError(Encounter::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.`class`, requiredClassError, parentContext)

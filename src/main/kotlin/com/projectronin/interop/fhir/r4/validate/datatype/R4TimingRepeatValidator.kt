@@ -23,10 +23,6 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
     private val invalidWhens =
         listOf(EventTiming.MEAL.code, EventTiming.BREAKFAST.code, EventTiming.LUNCH.code, EventTiming.DINNER.code)
 
-    private val invalidDurationUnitError = InvalidValueSetError(TimingRepeat::durationUnit)
-    private val invalidPeriodUnitError = InvalidValueSetError(TimingRepeat::periodUnit)
-    private val invalidDayOfWeekError = InvalidValueSetError(TimingRepeat::dayOfWeek)
-    private val invalidWhenError = InvalidValueSetError(TimingRepeat::`when`)
     private val invalidBoundsError = InvalidDynamicValueError(TimingRepeat::bounds, acceptedBoundTypes)
 
     private val requiredDurationUnitError = FHIRError(
@@ -86,23 +82,39 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
 
     override fun validateElement(element: TimingRepeat, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.durationUnit?.let {
-                checkCodedEnum<UnitOfTime>(it, invalidDurationUnitError, parentContext)
+            element.durationUnit?.let { code ->
+                checkCodedEnum<UnitOfTime>(
+                    code,
+                    InvalidValueSetError(TimingRepeat::durationUnit, code.value),
+                    parentContext
+                )
             }
-            element.periodUnit?.let {
-                checkCodedEnum<UnitOfTime>(it, invalidPeriodUnitError, parentContext)
+            element.periodUnit?.let { code ->
+                checkCodedEnum<UnitOfTime>(
+                    code,
+                    InvalidValueSetError(TimingRepeat::periodUnit, code.value),
+                    parentContext
+                )
             }
 
-            checkTrue(
-                element.dayOfWeek.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null },
-                invalidDayOfWeekError,
-                parentContext
-            )
-            checkTrue(
-                element.`when`.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<EventTiming>(it1) } }.getOrNull() == null },
-                invalidWhenError,
-                parentContext
-            )
+            element.dayOfWeek.let {
+                val invalidDayOfWeekCodes =
+                    element.dayOfWeek.filter { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null }
+                checkTrue(
+                    invalidDayOfWeekCodes.isEmpty(),
+                    InvalidValueSetError(TimingRepeat::dayOfWeek, invalidDayOfWeekCodes.joinToString { it.value!! }),
+                    parentContext
+                )
+            }
+            element.`when`.let {
+                val invalidWhenCodes =
+                    element.`when`.filter { runCatching { it.value?.let { it1 -> CodedEnum.byCode<EventTiming>(it1) } }.getOrNull() == null }
+                checkTrue(
+                    invalidWhenCodes.isEmpty(),
+                    InvalidValueSetError(TimingRepeat::`when`, invalidWhenCodes.joinToString { it.value!! }),
+                    parentContext
+                )
+            }
 
             element.bounds?.let { bounds ->
                 checkTrue(acceptedBoundTypes.contains(bounds.type), invalidBoundsError, parentContext)

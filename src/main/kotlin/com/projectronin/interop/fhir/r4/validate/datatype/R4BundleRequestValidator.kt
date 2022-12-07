@@ -13,7 +13,6 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4BundleRequestValidator : R4ElementContainingValidator<BundleRequest>() {
     private val requiredMethodError = RequiredFieldError(BundleRequest::method)
-    private val invalidMethodError = InvalidValueSetError(BundleRequest::method)
     private val requiredUrlError = RequiredFieldError(BundleRequest::url)
 
     override fun validateElement(element: BundleRequest, parentContext: LocationContext?, validation: Validation) {
@@ -21,7 +20,11 @@ object R4BundleRequestValidator : R4ElementContainingValidator<BundleRequest>() 
             checkNotNull(element.method, requiredMethodError, parentContext)
 
             ifNotNull(element.method) {
-                checkCodedEnum<HttpVerb>(element.method, invalidMethodError, parentContext)
+                checkCodedEnum<HttpVerb>(
+                    element.method,
+                    InvalidValueSetError(BundleRequest::method, element.method.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.url, requiredUrlError, parentContext)

@@ -19,7 +19,7 @@ class R4LocationHoursOfOperationValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: daysOfWeek is outside of required value set @ LocationHoursOfOperation.daysOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day' is outside of required value set @ LocationHoursOfOperation.daysOfWeek",
             exception.message
         )
     }
@@ -28,13 +28,13 @@ class R4LocationHoursOfOperationValidatorTest {
     fun `fails for multiple invalid days of week`() {
         val exception = assertThrows<IllegalArgumentException> {
             val hoursOfOperation = LocationHoursOfOperation(
-                daysOfWeek = listOf(Code("not-a-day"), Code("also-not-a-day"))
+                daysOfWeek = listOf(Code("not-a-day"), Code("wed"), Code("sun"), Code("also-not-a-day"))
             )
             R4LocationHoursOfOperationValidator.validate(hoursOfOperation).alertIfErrors()
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: daysOfWeek is outside of required value set @ LocationHoursOfOperation.daysOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day', 'also-not-a-day' are outside of required value set @ LocationHoursOfOperation.daysOfWeek",
             exception.message
         )
     }

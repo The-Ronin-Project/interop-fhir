@@ -31,7 +31,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: durationUnit is outside of required value set @ TimingRepeat.durationUnit",
+                "ERROR INV_VALUE_SET: 'unsupported-durationUnit' is outside of required value set @ TimingRepeat.durationUnit",
             exception.message
         )
     }
@@ -47,7 +47,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: periodUnit is outside of required value set @ TimingRepeat.periodUnit",
+                "ERROR INV_VALUE_SET: 'unsupported-periodUnit' is outside of required value set @ TimingRepeat.periodUnit",
             exception.message
         )
     }
@@ -63,7 +63,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: dayOfWeek is outside of required value set @ TimingRepeat.dayOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day' is outside of required value set @ TimingRepeat.dayOfWeek",
             exception.message
         )
     }
@@ -79,7 +79,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: dayOfWeek is outside of required value set @ TimingRepeat.dayOfWeek",
+                "ERROR INV_VALUE_SET: 'not-a-day', 'also-not-a-day' are outside of required value set @ TimingRepeat.dayOfWeek",
             exception.message
         )
     }
@@ -94,7 +94,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: when is outside of required value set @ TimingRepeat.when",
+                "ERROR INV_VALUE_SET: 'not-a-timing' is outside of required value set @ TimingRepeat.when",
             exception.message
         )
     }
@@ -109,7 +109,7 @@ class R4TimingRepeatValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: when is outside of required value set @ TimingRepeat.when",
+                "ERROR INV_VALUE_SET: 'not-a-timing', 'also-not-a-timing' are outside of required value set @ TimingRepeat.when",
             exception.message
         )
     }

@@ -18,7 +18,7 @@ class R4PractitionerValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: gender is outside of required value set @ Practitioner.gender",
+                "ERROR INV_VALUE_SET: 'unsupported-gender' is outside of required value set @ Practitioner.gender",
             exception.message
         )
     }

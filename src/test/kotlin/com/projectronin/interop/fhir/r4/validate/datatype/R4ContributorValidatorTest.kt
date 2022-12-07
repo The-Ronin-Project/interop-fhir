@@ -37,7 +37,7 @@ class R4ContributorValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: type is outside of required value set @ Contributor.type",
+                "ERROR INV_VALUE_SET: 'unsupported-type' is outside of required value set @ Contributor.type",
             exception.message
         )
     }

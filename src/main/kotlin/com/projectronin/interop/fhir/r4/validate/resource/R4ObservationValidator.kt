@@ -24,7 +24,6 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
     )
 
     private val requiredStatusError = RequiredFieldError(Observation::status)
-    private val invalidStatusError = InvalidValueSetError(Observation::status)
     private val requiredCodeError = RequiredFieldError(Observation::code)
     private val invalidEffectiveError = InvalidDynamicValueError(Observation::effective, acceptedEffectives)
 
@@ -46,7 +45,11 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
             checkNotNull(element.status, requiredStatusError, parentContext)
 
             ifNotNull(element.status) {
-                checkCodedEnum<ObservationStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<ObservationStatus>(
+                    element.status,
+                    InvalidValueSetError(Observation::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.code, requiredCodeError, parentContext)

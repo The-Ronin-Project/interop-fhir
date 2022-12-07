@@ -14,7 +14,6 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4EncounterStatusHistoryValidator : R4ElementContainingValidator<EncounterStatusHistory>() {
     private val requiredStatusError = RequiredFieldError(EncounterStatusHistory::status)
-    private val invalidStatusError = InvalidValueSetError(EncounterStatusHistory::status)
     private val requiredPeriodError = RequiredFieldError(EncounterStatusHistory::period)
 
     override fun validateElement(
@@ -26,7 +25,11 @@ object R4EncounterStatusHistoryValidator : R4ElementContainingValidator<Encounte
 
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<EncounterStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<EncounterStatus>(
+                    element.status,
+                    InvalidValueSetError(EncounterStatusHistory::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.period, requiredPeriodError, parentContext)

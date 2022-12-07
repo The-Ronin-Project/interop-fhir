@@ -15,9 +15,7 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Participant](http://hl7.org/fhir/R4/appointment-definitions.html#Appointment.participant).
  */
 object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
-    private val invalidRequiredError = InvalidValueSetError(Participant::required)
     private val requiredStatusError = RequiredFieldError(Participant::status)
-    private val invalidStatusError = InvalidValueSetError(Participant::status)
     private val typeOrActorError = FHIRError(
         code = "R4_PRTCPNT_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -27,14 +25,18 @@ object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
 
     override fun validateElement(element: Participant, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.required?.let {
-                checkCodedEnum<ParticipantRequired>(it, invalidRequiredError, parentContext)
+            element.required?.let { code ->
+                checkCodedEnum<ParticipantRequired>(code, InvalidValueSetError(Participant::required, code.value), parentContext)
             }
 
             checkNotNull(element.status, requiredStatusError, parentContext)
 
             ifNotNull(element.status) {
-                checkCodedEnum<ParticipationStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<ParticipationStatus>(
+                    element.status,
+                    InvalidValueSetError(Participant::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkTrue((element.type.isNotEmpty() || element.actor != null), typeOrActorError, parentContext)

@@ -21,7 +21,7 @@ class R4CareTeamValidatorTest {
         }
         Assertions.assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ CareTeam.status",
+                "ERROR INV_VALUE_SET: 'blah' is outside of required value set @ CareTeam.status",
             exception.message
         )
     }

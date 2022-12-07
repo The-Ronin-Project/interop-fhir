@@ -21,7 +21,7 @@ class R4ContactPointValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: system is outside of required value set @ ContactPoint.system",
+                "ERROR INV_VALUE_SET: 'unsupported-system' is outside of required value set @ ContactPoint.system",
             exception.message
         )
     }
@@ -38,7 +38,7 @@ class R4ContactPointValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: use is outside of required value set @ ContactPoint.use",
+                "ERROR INV_VALUE_SET: 'unsupported-use' is outside of required value set @ ContactPoint.use",
             exception.message
         )
     }

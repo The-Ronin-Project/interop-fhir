@@ -40,9 +40,7 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
 
     private val requiredSubjectError = RequiredFieldError(Condition::subject)
     private val invalidOnsetError = InvalidDynamicValueError(Condition::onset, acceptedOnsetTypes)
-    private val invalidClinicalStatusError = InvalidValueSetError(Condition::clinicalStatus)
     private val invalidAbatementError = InvalidDynamicValueError(Condition::abatement, acceptedAbatementTypes)
-    private val invalidVerificationStatusError = InvalidValueSetError(Condition::verificationStatus)
 
     private val invalidClinicalStatusForAbatementError = FHIRError(
         code = "R4_CND_001",
@@ -77,11 +75,16 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
                 }
             } ?: emptyList()
 
-            checkTrue(
-                (element.clinicalStatus == null || clinicalStatusCodes.size == 1),
-                invalidClinicalStatusError,
-                parentContext
-            )
+            element.clinicalStatus?.let { clinicalStatus ->
+                checkTrue(
+                    clinicalStatusCodes.size == 1,
+                    InvalidValueSetError(
+                        Condition::clinicalStatus,
+                        clinicalStatus.coding.joinToString { it.code?.value!! }
+                    ),
+                    parentContext
+                )
+            }
 
             element.abatement?.let { data ->
                 checkTrue(acceptedAbatementTypes.contains(data.type), invalidAbatementError, parentContext)
@@ -92,8 +95,8 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
                 )
             }
 
-            val verificationStatusCodes = element.verificationStatus?.let { status ->
-                status.coding.mapNotNull { coding ->
+            val verificationStatusCodes = element.verificationStatus?.let { verificationStatus ->
+                verificationStatus.coding.mapNotNull { coding ->
                     coding.code?.let { code ->
                         runCatching {
                             code.value?.let {
@@ -104,17 +107,24 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
                 }
             } ?: emptyList()
 
-            checkTrue(
-                (element.verificationStatus == null || verificationStatusCodes.size == 1),
-                invalidVerificationStatusError,
-                parentContext
-            )
+            element.verificationStatus?.let { verificationStatus ->
+                checkTrue(
+                    verificationStatusCodes.size == 1,
+                    InvalidValueSetError(
+                        Condition::verificationStatus,
+                        verificationStatus.coding.joinToString { it.code?.value!! }
+                    ),
+                    parentContext
+                )
+            }
 
-            checkTrue(
-                (element.clinicalStatus == null || (verificationStatusCodes.firstOrNull() != ConditionVerificationStatus.ENTERED_IN_ERROR)),
-                clinicalStatusAndEnteredInErrorError,
-                parentContext
-            )
+            element.clinicalStatus?.let {
+                checkTrue(
+                    verificationStatusCodes.firstOrNull() != ConditionVerificationStatus.ENTERED_IN_ERROR,
+                    clinicalStatusAndEnteredInErrorError,
+                    parentContext
+                )
+            }
         }
     }
 }

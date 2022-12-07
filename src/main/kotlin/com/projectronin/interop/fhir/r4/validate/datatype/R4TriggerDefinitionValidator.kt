@@ -24,7 +24,6 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
     )
 
     private val requiredTypeError = RequiredFieldError(TriggerDefinition::type)
-    private val invalidTypeError = InvalidValueSetError(TriggerDefinition::type)
     private val invalidTimingError = InvalidDynamicValueError(TriggerDefinition::timing, acceptedTimingTypes)
 
     private val timingOrDataError = FHIRError(
@@ -66,7 +65,11 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
             checkTrue((element.condition == null || element.data.isNotEmpty()), requiredConditionError, parentContext)
 
             ifNotNull(element.type) {
-                val codifiedType = checkCodedEnum<TriggerType>(element.type, invalidTypeError, parentContext)
+                val codifiedType = checkCodedEnum<TriggerType>(
+                    element.type,
+                    InvalidValueSetError(TriggerDefinition::type, element.type.value),
+                    parentContext
+                )
 
                 codifiedType?.let {
                     when (codifiedType) {

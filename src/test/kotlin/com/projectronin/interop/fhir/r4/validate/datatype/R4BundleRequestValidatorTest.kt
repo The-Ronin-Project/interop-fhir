@@ -37,7 +37,7 @@ class R4BundleRequestValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: method is outside of required value set @ BundleRequest.method",
+                "ERROR INV_VALUE_SET: 'unsupported-method' is outside of required value set @ BundleRequest.method",
             exception.message
         )
     }

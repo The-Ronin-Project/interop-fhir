@@ -13,7 +13,6 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4ParameterDefinitionValidator : R4ElementContainingValidator<ParameterDefinition>() {
     private val requiredUseError = RequiredFieldError(ParameterDefinition::use)
-    private val invalidUseError = InvalidValueSetError(ParameterDefinition::use)
     private val requiredTypeError = RequiredFieldError(ParameterDefinition::type)
 
     override fun validateElement(
@@ -24,7 +23,11 @@ object R4ParameterDefinitionValidator : R4ElementContainingValidator<ParameterDe
         validation.apply {
             checkNotNull(element.use, requiredUseError, parentContext)
             ifNotNull(element.use) {
-                checkCodedEnum<OperationParameterUse>(element.use, invalidUseError, parentContext)
+                checkCodedEnum<OperationParameterUse>(
+                    element.use,
+                    InvalidValueSetError(ParameterDefinition::use, element.use.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.type, requiredTypeError, parentContext)

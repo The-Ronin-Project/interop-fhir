@@ -22,7 +22,7 @@ class R4IdentifierValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: use is outside of required value set @ Identifier.use",
+                "ERROR INV_VALUE_SET: 'unsupported-use' is outside of required value set @ Identifier.use",
             exception.message
         )
     }

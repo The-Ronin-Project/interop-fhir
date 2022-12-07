@@ -10,13 +10,16 @@ import com.projectronin.interop.fhir.validate.Validation
 
 object R4ConceptMapValidator : R4ElementContainingValidator<ConceptMap>() {
     private val requiredStatusError = RequiredFieldError(ConceptMap::status)
-    private val invalidStatusError = InvalidValueSetError(ConceptMap::status)
 
     override fun validateElement(element: ConceptMap, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<ConceptMapStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<ConceptMapStatus>(
+                    element.status,
+                    InvalidValueSetError(ConceptMap::status, element.status.value),
+                    parentContext
+                )
             }
         }
     }

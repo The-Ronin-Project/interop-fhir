@@ -23,11 +23,7 @@ object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>(
     )
     private val invalidScheduledValueError = InvalidDynamicValueError(CarePlanDetail::scheduled, acceptedScheduledValues)
     private val invalidProductValueError = InvalidDynamicValueError(CarePlanDetail::product, acceptedProductValues)
-
-    private val invalidKindError = InvalidValueSetError(CarePlanDetail::kind)
-
     private val requiredStatusError = RequiredFieldError(CarePlanDetail::status)
-    private val invalidStatusError = InvalidValueSetError(CarePlanDetail::status)
 
     override fun validateElement(
         element: CarePlanDetail,
@@ -43,13 +39,21 @@ object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>(
                 checkTrue(acceptedProductValues.contains(value.type), invalidProductValueError, parentContext)
             }
 
-            element.kind?.let {
-                checkCodedEnum<CarePlanActivityKind>(element.kind, invalidKindError, parentContext)
+            element.kind?.let { code ->
+                checkCodedEnum<CarePlanActivityKind>(
+                    code,
+                    InvalidValueSetError(CarePlanDetail::kind, code.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<CarePlanActivityStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<CarePlanActivityStatus>(
+                    element.status,
+                    InvalidValueSetError(CarePlanDetail::status, element.status.value),
+                    parentContext
+                )
             }
         }
     }

@@ -20,10 +20,7 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
     private val acceptedMedicationTypes = listOf(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
 
     private val requiredStatusError = RequiredFieldError(MedicationRequest::status)
-    private val invalidStatusError = InvalidValueSetError(MedicationRequest::status)
     private val requiredIntentError = RequiredFieldError(MedicationRequest::intent)
-    private val invalidIntentError = InvalidValueSetError(MedicationRequest::intent)
-    private val invalidPriorityError = InvalidValueSetError(MedicationRequest::priority)
     private val invalidReportedError = InvalidDynamicValueError(MedicationRequest::reported, acceptedReportedTypes)
     private val requiredMedicationError = RequiredFieldError(MedicationRequest::medication)
     private val invalidMedicationError =
@@ -34,16 +31,28 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
         validation.apply {
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<MedicationRequestStatus>(element.status, invalidStatusError, parentContext)
+                checkCodedEnum<MedicationRequestStatus>(
+                    element.status,
+                    InvalidValueSetError(MedicationRequest::status, element.status.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.intent, requiredIntentError, parentContext)
             ifNotNull(element.intent) {
-                checkCodedEnum<MedicationRequestIntent>(element.intent, invalidIntentError, parentContext)
+                checkCodedEnum<MedicationRequestIntent>(
+                    element.intent,
+                    InvalidValueSetError(MedicationRequest::intent, element.intent.value),
+                    parentContext
+                )
             }
 
-            element.priority?.let {
-                checkCodedEnum<RequestPriority>(it, invalidPriorityError, parentContext)
+            element.priority?.let { code ->
+                checkCodedEnum<RequestPriority>(
+                    code,
+                    InvalidValueSetError(MedicationRequest::priority, code.value),
+                    parentContext
+                )
             }
 
             element.reported?.let {

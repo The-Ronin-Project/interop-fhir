@@ -31,7 +31,7 @@ class R4ConceptMapValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ ConceptMap.status",
+                "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ ConceptMap.status",
             ex.message
         )
     }

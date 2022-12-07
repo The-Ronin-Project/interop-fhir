@@ -19,7 +19,7 @@ class R4LocationValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ Location.status",
+                "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ Location.status",
             exception.message
         )
     }
@@ -34,7 +34,7 @@ class R4LocationValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: mode is outside of required value set @ Location.mode",
+                "ERROR INV_VALUE_SET: 'unsupported-mode' is outside of required value set @ Location.mode",
             exception.message
         )
     }

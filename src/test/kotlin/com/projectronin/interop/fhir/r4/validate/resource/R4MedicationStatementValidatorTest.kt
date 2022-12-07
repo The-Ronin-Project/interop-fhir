@@ -53,7 +53,7 @@ class R4MedicationStatementValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ MedicationStatement.status",
+                "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ MedicationStatement.status",
             ex.message
         )
     }

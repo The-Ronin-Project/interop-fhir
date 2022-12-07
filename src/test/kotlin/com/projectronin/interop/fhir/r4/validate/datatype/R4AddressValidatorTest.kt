@@ -19,7 +19,8 @@ class R4AddressValidatorTest {
             R4AddressValidator.validate(address).alertIfErrors()
         }
         assertEquals(
-            "Encountered validation error(s):\nERROR INV_VALUE_SET: use is outside of required value set @ Address.use",
+            "Encountered validation error(s):\n" +
+                "ERROR INV_VALUE_SET: 'unsupported-use' is outside of required value set @ Address.use",
             exception.message
         )
     }
@@ -33,7 +34,8 @@ class R4AddressValidatorTest {
             R4AddressValidator.validate(address).alertIfErrors()
         }
         assertEquals(
-            "Encountered validation error(s):\nERROR INV_VALUE_SET: type is outside of required value set @ Address.type",
+            "Encountered validation error(s):\n" +
+                "ERROR INV_VALUE_SET: 'unsupported-type' is outside of required value set @ Address.type",
             exception.message
         )
     }
@@ -47,7 +49,8 @@ class R4AddressValidatorTest {
             R4AddressValidator.validate(address, LocationContext("Test", "field")).alertIfErrors()
         }
         assertEquals(
-            "Encountered validation error(s):\nERROR INV_VALUE_SET: type is outside of required value set @ Test.field.type",
+            "Encountered validation error(s):\n" +
+                "ERROR INV_VALUE_SET: 'unsupported-type' is outside of required value set @ Test.field.type",
             exception.message
         )
     }

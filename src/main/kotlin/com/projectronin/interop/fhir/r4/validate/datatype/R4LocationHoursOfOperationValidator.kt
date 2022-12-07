@@ -12,7 +12,6 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 LocationHoursOfOperation](http://hl7.org/fhir/R4/location-definitions.html#Location.hoursOfOperation)
  */
 object R4LocationHoursOfOperationValidator : R4ElementContainingValidator<LocationHoursOfOperation>() {
-    private val invalidDayOfWeekError = InvalidValueSetError(LocationHoursOfOperation::daysOfWeek)
 
     override fun validateElement(
         element: LocationHoursOfOperation,
@@ -20,11 +19,15 @@ object R4LocationHoursOfOperationValidator : R4ElementContainingValidator<Locati
         validation: Validation
     ) {
         validation.apply {
-            checkTrue(
-                element.daysOfWeek.none { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null },
-                invalidDayOfWeekError,
-                parentContext
-            )
+            element.daysOfWeek.let {
+                val invalidDayOfWeekCodes =
+                    element.daysOfWeek.filter { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null }
+                checkTrue(
+                    invalidDayOfWeekCodes.isNullOrEmpty(),
+                    InvalidValueSetError(LocationHoursOfOperation::daysOfWeek, invalidDayOfWeekCodes.joinToString { it.value!! }),
+                    parentContext
+                )
+            }
         }
     }
 }

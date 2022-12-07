@@ -24,7 +24,7 @@ class R4ParticipantValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: required is outside of required value set @ Participant.required",
+                "ERROR INV_VALUE_SET: 'unsupported-required' is outside of required value set @ Participant.required",
             exception.message
         )
     }
@@ -56,7 +56,7 @@ class R4ParticipantValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ Participant.status",
+                "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ Participant.status",
             exception.message
         )
     }

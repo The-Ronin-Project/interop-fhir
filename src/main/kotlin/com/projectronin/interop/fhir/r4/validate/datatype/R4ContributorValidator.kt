@@ -13,14 +13,17 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4ContributorValidator : R4ElementContainingValidator<Contributor>() {
     private val requiredTypeError = RequiredFieldError(Contributor::type)
-    private val invalidTypeError = InvalidValueSetError(Contributor::type)
     private val requiredNameError = RequiredFieldError(Contributor::name)
 
     override fun validateElement(element: Contributor, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             checkNotNull(element.type, requiredTypeError, parentContext)
             ifNotNull(element.type) {
-                checkCodedEnum<ContributorType>(element.type, invalidTypeError, parentContext)
+                checkCodedEnum<ContributorType>(
+                    element.type,
+                    InvalidValueSetError(Contributor::type, element.type.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.name, requiredNameError, parentContext)

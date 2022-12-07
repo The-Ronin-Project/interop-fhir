@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.validate
 import com.projectronin.interop.fhir.r4.datatype.Age
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.Attachment
+import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import io.github.classgraph.ClassGraph
@@ -191,19 +192,41 @@ class FHIRErrorTest {
 
     @Test
     fun `InvalidValueSetError creates FHIRError from LocationContext`() {
-        val error = InvalidValueSetError(LocationContext("FHIR", "value"))
+        val value = Code(value = "valueless")
+        val error = InvalidValueSetError(LocationContext("FHIR", "value"), value.value!!)
         assertEquals("INV_VALUE_SET", error.code)
         assertEquals(ValidationIssueSeverity.ERROR, error.severity)
-        assertEquals("value is outside of required value set", error.description)
+        assertEquals("'valueless' is outside of required value set", error.description)
         assertEquals(LocationContext("FHIR", "value"), error.location)
     }
 
     @Test
     fun `InvalidValueSetError creates FHIRError from KProperty`() {
-        val error = InvalidValueSetError(Attachment::creation)
+        val value = Code(value = "valueless")
+        val error = InvalidValueSetError(Attachment::creation, value.value!!)
         assertEquals("INV_VALUE_SET", error.code)
         assertEquals(ValidationIssueSeverity.ERROR, error.severity)
-        assertEquals("creation is outside of required value set", error.description)
+        assertEquals("'valueless' is outside of required value set", error.description)
+        assertEquals(LocationContext("Attachment", "creation"), error.location)
+    }
+
+    @Test
+    fun `InvalidValueSetError creates FHIRError with non-empty code value`() {
+        val value = Code(value = "valueless")
+        val error = InvalidValueSetError(Attachment::creation, value.value)
+        assertEquals("INV_VALUE_SET", error.code)
+        assertEquals(ValidationIssueSeverity.ERROR, error.severity)
+        assertEquals("'valueless' is outside of required value set", error.description)
+        assertEquals(LocationContext("Attachment", "creation"), error.location)
+    }
+
+    @Test
+    fun `InvalidValueSetError creates FHIRError with non-empty Coding list to string`() {
+        val value = listOf(Coding(code = Code(value = "valueless")), Coding(code = Code(value = "decremented")))
+        val error = InvalidValueSetError(Attachment::creation, value.map { it.code?.value }.joinToString())
+        assertEquals("INV_VALUE_SET", error.code)
+        assertEquals(ValidationIssueSeverity.ERROR, error.severity)
+        assertEquals("'valueless', 'decremented' are outside of required value set", error.description)
         assertEquals(LocationContext("Attachment", "creation"), error.location)
     }
 }

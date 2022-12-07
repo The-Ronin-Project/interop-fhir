@@ -12,17 +12,14 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 Location](http://hl7.org/fhir/R4/location.html)
  */
 object R4LocationValidator : R4ElementContainingValidator<Location>() {
-    private val invalidStatusError = InvalidValueSetError(Location::status)
-    private val invalidModeError = InvalidValueSetError(Location::mode)
-
     override fun validateElement(element: Location, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.status?.let {
-                checkCodedEnum<LocationStatus>(it, invalidStatusError, parentContext)
+            element.status?.let { code ->
+                checkCodedEnum<LocationStatus>(code, InvalidValueSetError(Location::status, code.value), parentContext)
             }
 
-            element.mode?.let {
-                checkCodedEnum<LocationMode>(it, invalidModeError, parentContext)
+            element.mode?.let { code ->
+                checkCodedEnum<LocationMode>(code, InvalidValueSetError(Location::mode, code.value), parentContext)
             }
         }
     }

@@ -82,7 +82,7 @@ class R4EncounterStatusHistoryValidatorTest {
             }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ EncounterStatusHistory.status",
+                "ERROR INV_VALUE_SET: 'unavailable' is outside of required value set @ EncounterStatusHistory.status",
             exception.message
         )
     }

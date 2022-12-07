@@ -53,7 +53,7 @@ class R4MedicationRequestValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ MedicationRequest.status",
+                "ERROR INV_VALUE_SET: 'invalid-status' is outside of required value set @ MedicationRequest.status",
             exception.message
         )
     }
@@ -95,7 +95,7 @@ class R4MedicationRequestValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: intent is outside of required value set @ MedicationRequest.intent",
+                "ERROR INV_VALUE_SET: 'invalid-intent' is outside of required value set @ MedicationRequest.intent",
             exception.message
         )
     }
@@ -117,7 +117,7 @@ class R4MedicationRequestValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: priority is outside of required value set @ MedicationRequest.priority",
+                "ERROR INV_VALUE_SET: 'invalid-priority' is outside of required value set @ MedicationRequest.priority",
             exception.message
         )
     }

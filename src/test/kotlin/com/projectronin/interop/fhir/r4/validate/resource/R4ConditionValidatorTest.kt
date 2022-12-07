@@ -83,7 +83,7 @@ class R4ConditionValidatorTest {
             }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: clinicalStatus is outside of required value set @ Condition.clinicalStatus",
+                "ERROR INV_VALUE_SET: 'potato' is outside of required value set @ Condition.clinicalStatus",
             exception.message
         )
     }
@@ -135,7 +135,7 @@ class R4ConditionValidatorTest {
             }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: verificationStatus is outside of required value set @ Condition.verificationStatus",
+                "ERROR INV_VALUE_SET: 'potato' is outside of required value set @ Condition.verificationStatus",
             exception.message
         )
     }

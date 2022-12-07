@@ -12,17 +12,14 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 Address](http://hl7.org/fhir/R4/datatypes.html#Address)
  */
 object R4AddressValidator : R4ElementContainingValidator<Address>() {
-    private val invalidUseError = InvalidValueSetError(Address::use)
-    private val invalidTypeError = InvalidValueSetError(Address::type)
-
     override fun validateElement(element: Address, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.use?.let {
-                checkCodedEnum<AddressUse>(it, invalidUseError, parentContext)
+            element.use?.let { code ->
+                checkCodedEnum<AddressUse>(code, InvalidValueSetError(Address::use, code.value), parentContext)
             }
 
-            element.type?.let {
-                checkCodedEnum<AddressType>(it, invalidTypeError, parentContext)
+            element.type?.let { code ->
+                checkCodedEnum<AddressType>(code, InvalidValueSetError(Address::type, code.value), parentContext)
             }
         }
     }

@@ -57,7 +57,7 @@ class R4AppointmentValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ Appointment.status",
+                "ERROR INV_VALUE_SET: 'unsupported-value' is outside of required value set @ Appointment.status",
             exception.message
         )
     }

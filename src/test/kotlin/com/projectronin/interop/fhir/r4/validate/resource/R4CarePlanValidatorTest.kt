@@ -82,7 +82,7 @@ class R4CarePlanValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: intent is outside of required value set @ CarePlan.intent",
+                "ERROR INV_VALUE_SET: 'potato' is outside of required value set @ CarePlan.intent",
             exception.message
         )
     }
@@ -99,7 +99,7 @@ class R4CarePlanValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: status is outside of required value set @ CarePlan.status",
+                "ERROR INV_VALUE_SET: 'potato' is outside of required value set @ CarePlan.status",
             exception.message
         )
     }
