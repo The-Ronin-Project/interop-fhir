@@ -18,7 +18,8 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.jvmErasure
 
-abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class<T>) : StdDeserializer<T>(clazz) {
+abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class<T>) :
+    StdDeserializer<T>(clazz) {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): T {
         val node = p.codec.readTree<JsonNode>(p) ?: throw JsonParseException(p, "unable to parse node")
 
