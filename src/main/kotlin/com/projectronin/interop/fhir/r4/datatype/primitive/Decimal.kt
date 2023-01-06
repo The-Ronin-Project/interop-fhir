@@ -17,5 +17,5 @@ data class Decimal(
     constructor(value: Double) : this(value, null, emptyList())
 
     @JsonCreator
-    constructor(value: Int) : this(value.toDouble(), null, emptyList())
+    constructor(value: Number) : this(value.toDouble(), null, emptyList())
 }

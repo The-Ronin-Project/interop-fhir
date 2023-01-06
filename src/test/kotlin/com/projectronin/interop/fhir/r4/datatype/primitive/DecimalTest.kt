@@ -26,4 +26,11 @@ class DecimalTest {
         val decimal = objectMapper.readValue<Decimal>(json)
         assertEquals(Decimal(25.0), decimal)
     }
+
+    @Test
+    fun `can deserialize from long`() {
+        val json = "2147483648" // Int.MAX_VALUE + 1
+        val decimal = objectMapper.readValue<Decimal>(json)
+        assertEquals(Decimal(2147483648.0), decimal)
+    }
 }
