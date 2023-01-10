@@ -2,7 +2,6 @@ package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager.Companion.objectMapper
-import com.projectronin.interop.fhir.r4.datatype.AvailableTime
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -11,7 +10,6 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.NotAvailable
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
@@ -188,5 +186,80 @@ class PractitionerRoleTest {
         assertEquals(listOf<NotAvailable>(), practitionerRole.notAvailable)
         assertNull(practitionerRole.availabilityExceptions)
         assertEquals(listOf<Reference>(), practitionerRole.endpoint)
+    }
+}
+
+class NotAvailableTest {
+    @Test
+    fun `can serialize and deserialize JSON`() {
+        val notAvailable = NotAvailable(
+            id = FHIRString("67890"),
+            extension = listOf(
+                Extension(
+                    url = Uri("http://localhost/extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            modifierExtension = listOf(
+                Extension(
+                    url = Uri("http://localhost/modifier-extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            description = FHIRString("Not available now"),
+            during = Period(start = DateTime("2021-12-01"), end = DateTime("2021-12-08"))
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(notAvailable)
+
+        val expectedJson = """
+            |{
+            |  "id" : "67890",
+            |  "extension" : [ {
+            |    "url" : "http://localhost/extension",
+            |    "valueString" : "Value"
+            |  } ],
+            |  "modifierExtension" : [ {
+            |    "url" : "http://localhost/modifier-extension",
+            |    "valueString" : "Value"
+            |  } ],
+            |  "description" : "Not available now",
+            |  "during" : {
+            |    "start" : "2021-12-01",
+            |    "end" : "2021-12-08"
+            |  }
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+
+        val deserializedNotAvailable = objectMapper.readValue<NotAvailable>(json)
+        assertEquals(notAvailable, deserializedNotAvailable)
+    }
+
+    @Test
+    fun `serialized JSON ignores null and empty fields`() {
+        val notAvailable = NotAvailable(
+            description = FHIRString("Vacation")
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(notAvailable)
+
+        val expectedJson = """
+            |{
+            |  "description" : "Vacation"
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+    }
+
+    @Test
+    fun `can deserialize from JSON with nullable and empty fields`() {
+        val json = """
+            |{
+            |  "description" : "Vacation"
+            |}""".trimMargin()
+        val notAvailable = objectMapper.readValue<NotAvailable>(json)
+
+        assertNull(notAvailable.id)
+        assertEquals(listOf<Extension>(), notAvailable.extension)
+        assertEquals(listOf<Extension>(), notAvailable.modifierExtension)
+        assertEquals(FHIRString("Vacation"), notAvailable.description)
+        assertNull(notAvailable.during)
     }
 }

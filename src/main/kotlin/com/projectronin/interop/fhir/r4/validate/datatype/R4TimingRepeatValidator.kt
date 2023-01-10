@@ -3,7 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.EventTiming
 import com.projectronin.interop.fhir.r4.valueset.UnitOfTime

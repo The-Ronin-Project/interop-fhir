@@ -4,14 +4,18 @@ import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
-import com.projectronin.interop.fhir.r4.datatype.ObservationComponent
 import com.projectronin.interop.fhir.r4.datatype.Quantity
+import com.projectronin.interop.fhir.r4.datatype.Range
 import com.projectronin.interop.fhir.r4.datatype.Reference
+import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Observation
+import com.projectronin.interop.fhir.r4.resource.ObservationComponent
+import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
 import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -174,5 +178,106 @@ class R4ObservationValidatorTest {
             component = listOf(component2, component2)
         )
         R4ObservationValidator.validate(observation).alertIfErrors()
+    }
+}
+
+class R4ObservationComponentValidatorTest {
+    @Test
+    fun `fails if code is not provided`() {
+        val ex = assertThrows<IllegalArgumentException> {
+            val component = ObservationComponent(
+                code = null,
+                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
+            )
+            R4ObservationComponentValidator.validate(component).alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR REQ_FIELD: code is a required element @ ObservationComponent.code",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `fails if value outside supported types`() {
+        val ex = assertThrows<IllegalArgumentException> {
+            val component = ObservationComponent(
+                code = CodeableConcept(text = FHIRString("code")),
+                value = DynamicValue(DynamicValueType.DECIMAL, Decimal(1.2))
+            )
+            R4ObservationComponentValidator.validate(component).alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INV_DYN_VAL: value can only be one of the following: Quantity, CodeableConcept, String, Boolean, Integer, Range, Ratio, SampledData, Time, DateTime, Period @ ObservationComponent.value",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `fails if dataAbsentReason and value are present`() {
+        val ex = assertThrows<IllegalArgumentException> {
+            val component = ObservationComponent(
+                code = CodeableConcept(text = FHIRString("code")),
+                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein")),
+            )
+            R4ObservationComponentValidator.validate(component).alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR R4_OBSCOM_001: dataAbsentReason SHALL only be present if value[x] is not present @ ObservationComponent",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `validates successfully`() {
+        val component = ObservationComponent(
+            code = CodeableConcept(text = FHIRString("code")),
+            value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
+        )
+        R4ObservationComponentValidator.validate(component).alertIfErrors()
+    }
+}
+
+class R4ObservationReferenceRangeValidatorTest {
+    @Test
+    fun `fails if no low, high or text`() {
+        val ex = assertThrows<IllegalArgumentException> {
+            val referenceRange = ObservationReferenceRange(
+                age = Range(low = SimpleQuantity(value = Decimal(15.0)))
+            )
+            R4ObservationReferenceRangeValidator.validate(referenceRange).alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR R4_OBSREFRNG_001: referenceRange must have at least a low or a high or text @ ObservationReferenceRange",
+            ex.message
+        )
+    }
+
+    @Test
+    fun `validates successfully with low`() {
+        val referenceRange = ObservationReferenceRange(
+            low = SimpleQuantity(value = Decimal(15.0))
+        )
+        R4ObservationReferenceRangeValidator.validate(referenceRange).alertIfErrors()
+    }
+
+    @Test
+    fun `validates successfully with high`() {
+        val referenceRange = ObservationReferenceRange(
+            high = SimpleQuantity(value = Decimal(15.0))
+        )
+        R4ObservationReferenceRangeValidator.validate(referenceRange).alertIfErrors()
+    }
+
+    @Test
+    fun `validates successfully with text`() {
+        val referenceRange = ObservationReferenceRange(
+            text = FHIRString("text")
+        )
+        R4ObservationReferenceRangeValidator.validate(referenceRange).alertIfErrors()
     }
 }

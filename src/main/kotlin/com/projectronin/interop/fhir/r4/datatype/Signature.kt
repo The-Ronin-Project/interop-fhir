@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * A Signature holds an electronic representation of a signature and its supporting context in a FHIR accessible form.

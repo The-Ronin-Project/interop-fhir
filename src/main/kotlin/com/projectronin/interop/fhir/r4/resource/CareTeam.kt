@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
-import com.projectronin.interop.fhir.r4.datatype.CareTeamParticipant
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -19,6 +18,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 @JsonTypeName("CareTeam")
 @JsonSerialize(using = CareTeamSerializer::class)
@@ -51,3 +51,18 @@ data class CareTeam(
 
 class CareTeamSerializer : BaseFHIRSerializer<CareTeam>(CareTeam::class.java)
 class CareTeamDeserializer : BaseFHIRDeserializer<CareTeam>(CareTeam::class.java)
+
+@JsonSerialize(using = CareTeamParticipantSerializer::class)
+@JsonDeserialize(using = CareTeamParticipantDeserializer::class)
+data class CareTeamParticipant(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val role: List<CodeableConcept> = listOf(),
+    val member: Reference? = null,
+    val onBehalfOf: Reference? = null,
+    val period: Period? = null,
+) : BackboneElement<CareTeamParticipant>
+
+class CareTeamParticipantSerializer : BaseFHIRSerializer<CareTeamParticipant>(CareTeamParticipant::class.java)
+class CareTeamParticipantDeserializer : BaseFHIRDeserializer<CareTeamParticipant>(CareTeamParticipant::class.java)

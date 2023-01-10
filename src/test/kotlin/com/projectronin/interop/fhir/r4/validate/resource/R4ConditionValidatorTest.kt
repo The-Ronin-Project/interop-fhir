@@ -15,6 +15,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Condition
+import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
+import com.projectronin.interop.fhir.r4.resource.ConditionStage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -362,5 +364,61 @@ class R4ConditionValidatorTest {
             subject = Reference(reference = FHIRString("subject"))
         )
         R4ConditionValidator.validate(condition).alertIfErrors()
+    }
+}
+
+class R4ConditionEvidenceValidatorTest {
+    @Test
+    fun `fails if value provided without code or detail`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val conditionEvidence = ConditionEvidence(id = FHIRString("id"))
+                R4ConditionEvidenceValidator.validate(conditionEvidence).alertIfErrors()
+            }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR R4_CNDEV_001: evidence SHALL have code or details @ ConditionEvidence",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `validates successfully`() {
+        val conditionEvidence = ConditionEvidence(
+            code = listOf(CodeableConcept(text = FHIRString("code")))
+        )
+        R4ConditionEvidenceValidator.validate(conditionEvidence).alertIfErrors()
+    }
+}
+
+class R4ConditionStageValidatorTest {
+    @Test
+    fun `fails if value provided without summary`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val conditionStage = ConditionStage(id = FHIRString("id"))
+                R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
+            }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR R4_CNDSTG_001: stage SHALL have summary or assessment @ ConditionStage",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `validates successfully with summary`() {
+        val conditionStage = ConditionStage(
+            summary = CodeableConcept(id = FHIRString("1234"))
+        )
+        R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
+    }
+
+    @Test
+    fun `validates successfully with assessment`() {
+        val conditionStage = ConditionStage(
+            assessment = listOf(Reference(display = FHIRString("assessment")))
+        )
+        R4ConditionStageValidator.validate(conditionStage).alertIfErrors()
     }
 }

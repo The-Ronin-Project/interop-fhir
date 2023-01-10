@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * The ParameterDefinition structure defines a parameter to a knowledge asset such as a decision support rule or quality

@@ -14,12 +14,15 @@ import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.Qualification
+import com.projectronin.interop.fhir.r4.datatype.Period
+import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
@@ -52,3 +55,23 @@ data class Practitioner(
 
 class PractitionerSerializer : BaseFHIRSerializer<Practitioner>(Practitioner::class.java)
 class PractitionerDeserializer : BaseFHIRDeserializer<Practitioner>(Practitioner::class.java)
+
+/**
+ * The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by
+ * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice
+ * medicine within a certain locality.
+ */
+@JsonSerialize(using = QualificationSerializer::class)
+@JsonDeserialize(using = QualificationDeserializer::class)
+data class Qualification(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val identifier: List<Identifier> = listOf(),
+    val code: CodeableConcept?,
+    val period: Period? = null,
+    val issuer: Reference? = null
+) : BackboneElement<Qualification>
+
+class QualificationSerializer : BaseFHIRSerializer<Qualification>(Qualification::class.java)
+class QualificationDeserializer : BaseFHIRDeserializer<Qualification>(Qualification::class.java)

@@ -1,7 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.r4.valueset.ContactPointUse
 import com.projectronin.interop.fhir.validate.FHIRError

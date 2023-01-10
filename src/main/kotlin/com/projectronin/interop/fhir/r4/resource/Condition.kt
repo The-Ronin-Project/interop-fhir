@@ -7,8 +7,6 @@ import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
-import com.projectronin.interop.fhir.r4.datatype.ConditionEvidence
-import com.projectronin.interop.fhir.r4.datatype.ConditionStage
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -17,8 +15,10 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern.
@@ -58,3 +58,36 @@ data class Condition(
 
 class ConditionDeserializer : BaseFHIRDeserializer<Condition>(Condition::class.java)
 class ConditionSerializer : BaseFHIRSerializer<Condition>(Condition::class.java)
+
+/**
+ * Supporting evidence
+ */
+@JsonSerialize(using = ConditionEvidenceSerializer::class)
+@JsonDeserialize(using = ConditionEvidenceDeserializer::class)
+data class ConditionEvidence(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val code: List<CodeableConcept> = listOf(),
+    val detail: List<Reference> = listOf()
+) : BackboneElement<ConditionEvidence>
+
+class ConditionEvidenceSerializer : BaseFHIRSerializer<ConditionEvidence>(ConditionEvidence::class.java)
+class ConditionEvidenceDeserializer : BaseFHIRDeserializer<ConditionEvidence>(ConditionEvidence::class.java)
+
+/**
+ * Stage/grade, usually assessed formally
+ */
+@JsonSerialize(using = ConditionStageSerializer::class)
+@JsonDeserialize(using = ConditionStageDeserializer::class)
+data class ConditionStage(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val summary: CodeableConcept? = null,
+    val assessment: List<Reference> = listOf(),
+    val type: CodeableConcept? = null
+) : BackboneElement<ConditionStage>
+
+class ConditionStageSerializer : BaseFHIRSerializer<ConditionStage>(ConditionStage::class.java)
+class ConditionStageDeserializer : BaseFHIRDeserializer<ConditionStage>(ConditionStage::class.java)

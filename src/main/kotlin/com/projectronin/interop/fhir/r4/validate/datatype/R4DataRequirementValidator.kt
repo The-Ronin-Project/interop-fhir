@@ -2,7 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.DataRequirement
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.RequiredFieldError

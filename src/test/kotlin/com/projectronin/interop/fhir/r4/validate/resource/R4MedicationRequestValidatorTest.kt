@@ -7,10 +7,12 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.MedicationRequest
+import com.projectronin.interop.fhir.r4.resource.Substitution
 import com.projectronin.interop.fhir.r4.valueset.MedicationRequestIntent
 import com.projectronin.interop.fhir.r4.valueset.MedicationRequestStatus
 import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.util.asCode
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -215,5 +217,39 @@ class R4MedicationRequestValidatorTest {
             reported = DynamicValue(DynamicValueType.BOOLEAN, false)
         )
         R4MedicationRequestValidator.validate(medicationRequest).alertIfErrors()
+    }
+}
+
+class R4SubstitutionValidatorTest {
+    @Test
+    fun `fails if no allowed provided`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            val substitution = Substitution(allowed = null)
+            R4SubstitutionValidator.validate(substitution).alertIfErrors()
+        }
+        Assertions.assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR REQ_FIELD: allowed is a required element @ Substitution.allowed",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `fails for unsupported allowed dynamic value type`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            val substitution = Substitution(allowed = DynamicValue(DynamicValueType.STRING, "Not Allowed"))
+            R4SubstitutionValidator.validate(substitution).alertIfErrors()
+        }
+        Assertions.assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INV_DYN_VAL: allowed can only be one of the following: Boolean, CodeableConcept @ Substitution.allowed",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `validates successfully`() {
+        val substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, true))
+        R4SubstitutionValidator.validate(substitution).alertIfErrors()
     }
 }

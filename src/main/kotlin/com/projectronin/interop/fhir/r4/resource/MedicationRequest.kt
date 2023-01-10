@@ -8,20 +8,24 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Dosage
+import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
+import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
-import com.projectronin.interop.fhir.r4.datatype.medication.DispenseRequest
-import com.projectronin.interop.fhir.r4.datatype.medication.Substitution
+import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
+import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * An order or request for both supply of the medication and the instructions for administration of the medication to a
@@ -79,3 +83,52 @@ data class MedicationRequest(
 
 class MedicationRequestSerializer : BaseFHIRSerializer<MedicationRequest>(MedicationRequest::class.java)
 class MedicationRequestDeserializer : BaseFHIRDeserializer<MedicationRequest>(MedicationRequest::class.java)
+/**
+ * Medication supply authorization
+ */
+@JsonDeserialize(using = DispenseRequestDeserializer::class)
+@JsonSerialize(using = DispenseRequestSerializer::class)
+data class DispenseRequest(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    val initialFill: InitialFill? = null,
+    val dispenseInterval: Duration? = null,
+    val validityPeriod: Period? = null,
+    val numberOfRepeatsAllowed: UnsignedInt? = null,
+    val quantity: SimpleQuantity? = null,
+    val expectedSupplyDuration: Duration? = null,
+    val performer: Reference? = null
+) : Element<DispenseRequest>
+
+class DispenseRequestSerializer : BaseFHIRSerializer<DispenseRequest>(DispenseRequest::class.java)
+class DispenseRequestDeserializer : BaseFHIRDeserializer<DispenseRequest>(DispenseRequest::class.java)
+
+/**
+ * First fill details
+ */
+@JsonDeserialize(using = InitialFillDeserializer::class)
+@JsonSerialize(using = InitialFillSerializer::class)
+data class InitialFill(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    val quantity: SimpleQuantity? = null,
+    val duration: Duration? = null
+) : Element<InitialFill>
+
+class InitialFillSerializer : BaseFHIRSerializer<InitialFill>(InitialFill::class.java)
+class InitialFillDeserializer : BaseFHIRDeserializer<InitialFill>(InitialFill::class.java)
+
+/**
+ * Any restrictions on medication substitution
+ */
+@JsonDeserialize(using = SubstitutionDeserializer::class)
+@JsonSerialize(using = SubstitutionSerializer::class)
+data class Substitution(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    val allowed: DynamicValue<Any>?,
+    val reason: CodeableConcept? = null
+) : Element<Substitution>
+
+class SubstitutionSerializer : BaseFHIRSerializer<Substitution>(Substitution::class.java)
+class SubstitutionDeserializer : BaseFHIRDeserializer<Substitution>(Substitution::class.java)

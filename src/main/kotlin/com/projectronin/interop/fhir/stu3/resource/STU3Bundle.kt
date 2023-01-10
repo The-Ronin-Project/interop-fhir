@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
-import com.projectronin.interop.fhir.r4.datatype.BundleEntry
-import com.projectronin.interop.fhir.r4.datatype.BundleLink
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Signature
@@ -15,7 +13,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.stu3.datatype.STU3BundleEntry
+import com.projectronin.interop.fhir.r4.resource.BundleEntry
+import com.projectronin.interop.fhir.r4.resource.BundleLink
+import com.projectronin.interop.fhir.stu3.element.STU3BundleEntry
 import com.projectronin.interop.fhir.r4.resource.Bundle as R4Bundle
 
 /**

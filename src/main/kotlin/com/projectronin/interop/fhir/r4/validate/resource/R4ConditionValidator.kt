@@ -3,7 +3,9 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Condition
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
+import com.projectronin.interop.fhir.r4.resource.ConditionStage
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
 import com.projectronin.interop.fhir.r4.valueset.ConditionVerificationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
@@ -125,6 +127,46 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
                     parentContext
                 )
             }
+        }
+    }
+}
+
+/**
+ * Validator for the [R4 ConditionEvidence](http://hl7.org/fhir/R4/condition-definitions.html#Condition.evidence)
+ */
+object R4ConditionEvidenceValidator : R4ElementContainingValidator<ConditionEvidence>() {
+    private val codeOrDetailError = FHIRError(
+        code = "R4_CNDEV_001",
+        severity = ValidationIssueSeverity.ERROR,
+        description = "evidence SHALL have code or details",
+        location = LocationContext(ConditionEvidence::class)
+    )
+
+    override fun validateElement(element: ConditionEvidence, parentContext: LocationContext?, validation: Validation) {
+        validation.apply {
+            checkTrue((element.code.isNotEmpty() || element.detail.isNotEmpty()), codeOrDetailError, parentContext)
+        }
+    }
+}
+
+/**
+ * Validator for the [R4 ConditionStage](http://hl7.org/fhir/R4/condition-definitions.html#Condition.stage)
+ */
+object R4ConditionStageValidator : R4ElementContainingValidator<ConditionStage>() {
+    private val summaryOrAssessmentError = FHIRError(
+        code = "R4_CNDSTG_001",
+        severity = ValidationIssueSeverity.ERROR,
+        description = "stage SHALL have summary or assessment",
+        location = LocationContext(ConditionStage::class)
+    )
+
+    override fun validateElement(element: ConditionStage, parentContext: LocationContext?, validation: Validation) {
+        validation.apply {
+            checkTrue(
+                (element.summary != null || element.assessment.isNotEmpty()),
+                summaryOrAssessmentError,
+                parentContext
+            )
         }
     }
 }

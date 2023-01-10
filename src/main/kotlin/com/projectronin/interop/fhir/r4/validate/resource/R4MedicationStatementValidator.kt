@@ -2,7 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.MedicationStatement
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.MedicationStatementStatus
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError

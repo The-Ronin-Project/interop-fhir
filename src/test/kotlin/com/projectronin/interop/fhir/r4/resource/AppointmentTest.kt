@@ -9,7 +9,6 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.Participant
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
@@ -22,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
+import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -266,5 +266,107 @@ class AppointmentTest {
         assertNull(appointment.patientInstruction)
         assertEquals(listOf<Reference>(), appointment.basedOn)
         assertEquals(listOf<Period>(), appointment.requestedPeriod)
+    }
+}
+
+class ParticipantTest {
+    @Test
+    fun `can serialize and deserialize JSON`() {
+        val participant = Participant(
+            id = FHIRString("67890"),
+            extension = listOf(
+                Extension(
+                    url = Uri("http://localhost/extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            modifierExtension = listOf(
+                Extension(
+                    url = Uri("http://localhost/modifier-extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            type = listOf(CodeableConcept(text = FHIRString("abc"))),
+            actor = Reference(display = FHIRString("actor")),
+            required = ParticipantRequired.REQUIRED.asCode(),
+            status = ParticipationStatus.ACCEPTED.asCode(),
+            period = Period(
+                start = DateTime("1998-08"),
+                end = DateTime("2002-05")
+            )
+        )
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
+
+        val expectedJson = """
+            {
+              "id" : "67890",
+              "extension" : [ {
+                "url" : "http://localhost/extension",
+                "valueString" : "Value"
+              } ],
+              "modifierExtension" : [ {
+                "url" : "http://localhost/modifier-extension",
+                "valueString" : "Value"
+              } ],
+              "type" : [ {
+                "text" : "abc"
+              } ],
+              "actor" : {
+                "display" : "actor"
+              },
+              "required" : "required",
+              "status" : "accepted",
+              "period" : {
+                "start" : "1998-08",
+                "end" : "2002-05"
+              }
+            }
+        """.trimIndent()
+        assertEquals(expectedJson, json)
+
+        val deserializedParticipant = JacksonManager.objectMapper.readValue<Participant>(json)
+        assertEquals(participant, deserializedParticipant)
+    }
+
+    @Test
+    fun `serialized JSON ignores null and empty fields`() {
+        val participant = Participant(
+            actor = Reference(display = FHIRString("actor")),
+            status = ParticipationStatus.ACCEPTED.asCode()
+        )
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
+
+        val expectedJson = """
+            {
+              "actor" : {
+                "display" : "actor"
+              },
+              "status" : "accepted"
+            }
+        """.trimIndent()
+        assertEquals(expectedJson, json)
+
+        val deserializedParticipant = JacksonManager.objectMapper.readValue<Participant>(json)
+        assertEquals(participant, deserializedParticipant)
+    }
+
+    @Test
+    fun `can deserialize from JSON with nullable and empty fields`() {
+        val json = """
+            {
+             "type" : [ {
+                "text" : "abc"
+             } ],
+             "status" : "accepted"
+            }
+        """.trimIndent()
+        val participant = JacksonManager.objectMapper.readValue<Participant>(json)
+
+        assertNull(participant.id)
+        assertEquals(listOf<Extension>(), participant.extension)
+        assertEquals(listOf<Extension>(), participant.modifierExtension)
+        assertNull(participant.actor)
+        assertNull(participant.required)
+        assertNull(participant.period)
     }
 }

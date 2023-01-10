@@ -2,7 +2,9 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Observation
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.resource.ObservationComponent
+import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
@@ -72,6 +74,80 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
                     parentContext
                 )
             }
+        }
+    }
+}
+
+/**
+ * Validator for the [R4 ObservationComponent](http://hl7.org/fhir/R4/observation-definitions.html#Observation.component)
+ */
+object R4ObservationComponentValidator : R4ElementContainingValidator<ObservationComponent>() {
+    private val acceptedValues = listOf(
+        DynamicValueType.QUANTITY,
+        DynamicValueType.CODEABLE_CONCEPT,
+        DynamicValueType.STRING,
+        DynamicValueType.BOOLEAN,
+        DynamicValueType.INTEGER,
+        DynamicValueType.RANGE,
+        DynamicValueType.RATIO,
+        DynamicValueType.SAMPLED_DATA,
+        DynamicValueType.TIME,
+        DynamicValueType.DATE_TIME,
+        DynamicValueType.PERIOD
+    )
+
+    private val requiredCodeError = RequiredFieldError(ObservationComponent::code)
+    private val invalidValueError = InvalidDynamicValueError(ObservationComponent::value, acceptedValues)
+    private val valueOrDataAbsentReasonError = FHIRError(
+        code = "R4_OBSCOM_001",
+        severity = ValidationIssueSeverity.ERROR,
+        description = "dataAbsentReason SHALL only be present if value[x] is not present",
+        location = LocationContext(ObservationComponent::class)
+    )
+
+    override fun validateElement(
+        element: ObservationComponent,
+        parentContext: LocationContext?,
+        validation: Validation
+    ) {
+        validation.apply {
+            checkNotNull(element.code, requiredCodeError, parentContext)
+
+            element.value?.let { value ->
+                checkTrue(acceptedValues.contains(value.type), invalidValueError, parentContext)
+            }
+
+            checkTrue(
+                (element.value == null || element.dataAbsentReason == null),
+                valueOrDataAbsentReasonError,
+                parentContext
+            )
+        }
+    }
+}
+
+/**
+ * Validator for the [R4 ObservationReferenceRange](http://hl7.org/fhir/R4/observation-definitions.html#Observation.referenceRange)
+ */
+object R4ObservationReferenceRangeValidator : R4ElementContainingValidator<ObservationReferenceRange>() {
+    private val requiredDetailsError = FHIRError(
+        code = "R4_OBSREFRNG_001",
+        severity = ValidationIssueSeverity.ERROR,
+        description = "referenceRange must have at least a low or a high or text",
+        location = LocationContext(ObservationReferenceRange::class)
+    )
+
+    override fun validateElement(
+        element: ObservationReferenceRange,
+        parentContext: LocationContext?,
+        validation: Validation
+    ) {
+        validation.apply {
+            checkTrue(
+                ((element.low != null) || (element.high != null) || (element.text != null)),
+                requiredDetailsError,
+                parentContext
+            )
         }
     }
 }

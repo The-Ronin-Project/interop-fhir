@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * The RelatedArtifact structure defines resources related to a module such as previous and next versions of documents,

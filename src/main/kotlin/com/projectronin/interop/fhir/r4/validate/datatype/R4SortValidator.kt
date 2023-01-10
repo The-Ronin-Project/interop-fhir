@@ -1,7 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.Sort
-import com.projectronin.interop.fhir.r4.validate.R4ElementContainingValidator
+import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.SortDirection
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext

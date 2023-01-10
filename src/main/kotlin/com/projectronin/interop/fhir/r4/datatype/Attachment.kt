@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * This type is for containing or referencing attachments - additional data content defined in other formats. The most

@@ -4,11 +4,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
-import com.projectronin.interop.fhir.r4.datatype.ConceptMapDependsOn
-import com.projectronin.interop.fhir.r4.datatype.ConceptMapElement
-import com.projectronin.interop.fhir.r4.datatype.ConceptMapGroup
-import com.projectronin.interop.fhir.r4.datatype.ConceptMapTarget
-import com.projectronin.interop.fhir.r4.datatype.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.datatype.ContactDetail
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType

@@ -10,7 +10,6 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.Participant
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
@@ -20,6 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific
@@ -67,3 +67,22 @@ data class Appointment(
 
 class AppointmentSerializer : BaseFHIRSerializer<Appointment>(Appointment::class.java)
 class AppointmentDeserializer : BaseFHIRDeserializer<Appointment>(Appointment::class.java)
+
+/**
+ * List of participants involved in the appointment.
+ */
+@JsonSerialize(using = ParticipantSerializer::class)
+@JsonDeserialize(using = ParticipantDeserializer::class)
+data class Participant(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val type: List<CodeableConcept> = listOf(),
+    val actor: Reference? = null,
+    val required: Code? = null,
+    val status: Code?,
+    val period: Period? = null
+) : BackboneElement<Participant>
+
+class ParticipantSerializer : BaseFHIRSerializer<Participant>(Participant::class.java)
+class ParticipantDeserializer : BaseFHIRDeserializer<Participant>(Participant::class.java)

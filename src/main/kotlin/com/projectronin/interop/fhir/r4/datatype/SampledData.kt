@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * Data that comes from a series of measurements taken by a device, which may have upper and lower limits. The data type

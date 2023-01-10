@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
+import com.projectronin.interop.fhir.r4.element.Element
 
 /**
  * Details for all kinds of technology-mediated contact points for a person or organization, including telephone, email, etc.

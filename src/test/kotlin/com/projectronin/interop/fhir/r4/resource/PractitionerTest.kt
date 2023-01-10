@@ -13,11 +13,13 @@ import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.Qualification
+import com.projectronin.interop.fhir.r4.datatype.Period
+import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
@@ -169,5 +171,95 @@ class PractitionerTest {
         assertEquals(listOf<Attachment>(), practitioner.photo)
         assertEquals(listOf<Qualification>(), practitioner.qualification)
         assertEquals(listOf<CodeableConcept>(), practitioner.communication)
+    }
+}
+
+class QualificationTest {
+    @Test
+    fun `can serialize and deserialize JSON`() {
+        val qualification = Qualification(
+            id = FHIRString("67890"),
+            extension = listOf(
+                Extension(
+                    url = Uri("http://localhost/extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            modifierExtension = listOf(
+                Extension(
+                    url = Uri("http://localhost/modifier-extension"),
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                )
+            ),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+            code = CodeableConcept(text = FHIRString("code")),
+            period = Period(start = DateTime("2001")),
+            issuer = Reference(reference = FHIRString("Organization/12345"))
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
+
+        val expectedJson = """
+            |{
+            |  "id" : "67890",
+            |  "extension" : [ {
+            |    "url" : "http://localhost/extension",
+            |    "valueString" : "Value"
+            |  } ],
+            |  "modifierExtension" : [ {
+            |    "url" : "http://localhost/modifier-extension",
+            |    "valueString" : "Value"
+            |  } ],
+            |  "identifier" : [ {
+            |    "value" : "id"
+            |  } ],
+            |  "code" : {
+            |    "text" : "code"
+            |  },
+            |  "period" : {
+            |    "start" : "2001"
+            |  },
+            |  "issuer" : {
+            |    "reference" : "Organization/12345"
+            |  }
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+
+        val deserializedQualification = objectMapper.readValue<Qualification>(json)
+        assertEquals(qualification, deserializedQualification)
+    }
+
+    @Test
+    fun `serialized JSON ignores null and empty fields`() {
+        val qualification = Qualification(
+            code = CodeableConcept(text = FHIRString("code"))
+        )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
+
+        val expectedJson = """
+            |{
+            |  "code" : {
+            |    "text" : "code"
+            |  }
+            |}""".trimMargin()
+        assertEquals(expectedJson, json)
+    }
+
+    @Test
+    fun `can deserialize from JSON with nullable and empty fields`() {
+        val json = """
+            |{
+            |  "code" : {
+            |    "text" : "code"
+            |  }
+            |}""".trimMargin()
+        val qualification = objectMapper.readValue<Qualification>(json)
+
+        assertNull(qualification.id)
+        assertEquals(listOf<Extension>(), qualification.extension)
+        assertEquals(listOf<Extension>(), qualification.modifierExtension)
+        assertEquals(listOf<Identifier>(), qualification.identifier)
+        assertEquals(CodeableConcept(text = FHIRString("code")), qualification.code)
+        assertNull(qualification.period)
+        assertNull(qualification.issuer)
     }
 }

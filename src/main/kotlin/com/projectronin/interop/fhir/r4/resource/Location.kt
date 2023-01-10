@@ -11,15 +11,17 @@ import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
-import com.projectronin.interop.fhir.r4.datatype.LocationHoursOfOperation
-import com.projectronin.interop.fhir.r4.datatype.LocationPosition
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
+import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * Details and position information for a physical place where services are provided and
@@ -60,3 +62,41 @@ data class Location(
 
 class LocationSerializer : BaseFHIRSerializer<Location>(Location::class.java)
 class LocationDeserializer : BaseFHIRDeserializer<Location>(Location::class.java)
+
+/**
+ * What days/times during a week is this location usually open.
+ */
+@JsonSerialize(using = LocationHoursOfOperationSerializer::class)
+@JsonDeserialize(using = LocationHoursOfOperationDeserializer::class)
+data class LocationHoursOfOperation(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val daysOfWeek: List<Code> = listOf(),
+    val allDay: FHIRBoolean? = null,
+    val openingTime: Time? = null,
+    val closingTime: Time? = null
+) : BackboneElement<LocationHoursOfOperation>
+
+class LocationHoursOfOperationSerializer :
+    BaseFHIRSerializer<LocationHoursOfOperation>(LocationHoursOfOperation::class.java)
+
+class LocationHoursOfOperationDeserializer :
+    BaseFHIRDeserializer<LocationHoursOfOperation>(LocationHoursOfOperation::class.java)
+
+/**
+ * The absolute geographic location.
+ */
+@JsonSerialize(using = LocationPositionSerializer::class)
+@JsonDeserialize(using = LocationPositionDeserializer::class)
+data class LocationPosition(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val longitude: Decimal?,
+    val latitude: Decimal?,
+    val altitude: Decimal? = null,
+) : BackboneElement<LocationPosition>
+
+class LocationPositionSerializer : BaseFHIRSerializer<LocationPosition>(LocationPosition::class.java)
+class LocationPositionDeserializer : BaseFHIRDeserializer<LocationPosition>(LocationPosition::class.java)

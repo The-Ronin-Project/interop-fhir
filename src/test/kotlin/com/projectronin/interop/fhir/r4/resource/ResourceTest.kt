@@ -2,7 +2,7 @@ package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.projectronin.interop.fhir.r4.BaseElementTest
+import com.projectronin.interop.fhir.r4.element.BaseElementTest
 import io.github.classgraph.ClassGraph
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail

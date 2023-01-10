@@ -24,7 +24,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.MedicationStatementStatus
-import com.projectronin.interop.fhir.stu3.datatype.STU3Dosage
+import com.projectronin.interop.fhir.stu3.element.STU3Dosage
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull

@@ -19,7 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.MedicationStatementStatus
-import com.projectronin.interop.fhir.stu3.datatype.STU3Dosage
+import com.projectronin.interop.fhir.stu3.element.STU3Dosage
 import com.projectronin.interop.fhir.util.asCode
 import com.projectronin.interop.fhir.r4.resource.MedicationStatement as R4MedicationStatement
 

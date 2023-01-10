@@ -9,16 +9,17 @@ import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Extension
+import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.datatype.OrganizationContact
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * A formally or informally recognized grouping of people or organizations formed for the purpose of achieving some
@@ -55,3 +56,23 @@ data class Organization(
 
 class OrganizationDeserializer : BaseFHIRDeserializer<Organization>(Organization::class.java)
 class OrganizationSerializer : BaseFHIRSerializer<Organization>(Organization::class.java)
+
+/**
+ * Contact for the organization for a certain purpose.
+ *
+ * See [FHIR Spec] (https://hl7.org/fhir/R4/organization-definitions.html#Organization.contact)
+ */
+@JsonSerialize(using = OrganizationContactSerializer::class)
+@JsonDeserialize(using = OrganizationContactDeserializer::class)
+data class OrganizationContact(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val purpose: CodeableConcept? = null,
+    val name: HumanName? = null,
+    val telecom: List<ContactPoint> = listOf(),
+    val address: Address? = null
+) : BackboneElement<OrganizationContact>
+
+class OrganizationContactSerializer : BaseFHIRSerializer<OrganizationContact>(OrganizationContact::class.java)
+class OrganizationContactDeserializer : BaseFHIRDeserializer<OrganizationContact>(OrganizationContact::class.java)

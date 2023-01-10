@@ -5,18 +5,21 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
-import com.projectronin.interop.fhir.r4.datatype.Batch
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
+import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
-import com.projectronin.interop.fhir.r4.datatype.Ingredient
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Ratio
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * This resource is primarily used for the identification and definition of a medication for the purposes of
@@ -50,3 +53,40 @@ data class Medication(
 
 class MedicationSerializer : BaseFHIRSerializer<Medication>(Medication::class.java)
 class MedicationDeserializer : BaseFHIRDeserializer<Medication>(Medication::class.java)
+
+/**
+ * Information that only applies to packages (not products).
+ *
+ * See [FHIR Spec](https://www.hl7.org/fhir/R4/medication-definitions.html#Medication.batch)
+ */
+@JsonSerialize(using = BatchSerializer::class)
+@JsonDeserialize(using = BatchDeserializer::class)
+data class Batch(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val lotNumber: FHIRString? = null,
+    val expirationDate: DateTime? = null
+) : BackboneElement<Batch>
+
+class BatchSerializer : BaseFHIRSerializer<Batch>(Batch::class.java)
+class BatchDeserializer : BaseFHIRDeserializer<Batch>(Batch::class.java)
+
+/**
+ * Identifies a particular constituent of interest in the product.
+ *
+ * See [FHIR Spec](https://www.hl7.org/fhir/R4/medication-definitions.html#Medication.ingredient)
+ */
+@JsonDeserialize(using = IngredientDeserializer::class)
+@JsonSerialize(using = IngredientSerializer::class)
+data class Ingredient(
+    override val id: FHIRString? = null,
+    override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
+    val item: DynamicValue<Any>? = null,
+    val isActive: FHIRBoolean? = null,
+    val strength: Ratio? = null
+) : BackboneElement<Ingredient>
+
+class IngredientDeserializer : BaseFHIRDeserializer<Ingredient>(Ingredient::class.java)
+class IngredientSerializer : BaseFHIRSerializer<Ingredient>(Ingredient::class.java)
