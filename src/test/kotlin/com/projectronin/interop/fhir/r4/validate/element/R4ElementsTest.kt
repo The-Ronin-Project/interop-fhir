@@ -54,6 +54,7 @@ import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
+import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
 import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
@@ -121,6 +122,7 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapTargetVali
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DiagnosticReportMediaValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistoryValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
@@ -396,6 +398,20 @@ class R4ElementsTest {
     }
 
     @Test
+    fun `can validate DiagnosticReportMedia`() {
+        val diagnosticReportMedia = mockk<DiagnosticReportMedia>()
+        every {
+            diagnosticReportMedia.validate(
+                R4DiagnosticReportMediaValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(diagnosticReportMedia, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
     fun `can validate Distance`() {
         val distance = mockk<Distance>()
         every { distance.validate(R4DistanceValidator, locationContext) } returns failedValidation
@@ -434,7 +450,12 @@ class R4ElementsTest {
     @Test
     fun `can validate EncounterClassHistory`() {
         val encounterClassHistory = mockk<EncounterClassHistory>()
-        every { encounterClassHistory.validate(R4EncounterClassHistoryValidator, locationContext) } returns failedValidation
+        every {
+            encounterClassHistory.validate(
+                R4EncounterClassHistoryValidator,
+                locationContext
+            )
+        } returns failedValidation
 
         val validation = validateElement(encounterClassHistory, locationContext)
         assertEquals(1, validation.issues().size)
@@ -461,7 +482,12 @@ class R4ElementsTest {
     @Test
     fun `can validate EncounterStatusHistory`() {
         val encounterStatusHistory = mockk<EncounterStatusHistory>()
-        every { encounterStatusHistory.validate(R4EncounterStatusHistoryValidator, locationContext) } returns failedValidation
+        every {
+            encounterStatusHistory.validate(
+                R4EncounterStatusHistoryValidator,
+                locationContext
+            )
+        } returns failedValidation
 
         val validation = validateElement(encounterStatusHistory, locationContext)
         assertEquals(1, validation.issues().size)

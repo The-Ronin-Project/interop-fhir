@@ -51,6 +51,7 @@ import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
+import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
 import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
@@ -116,6 +117,7 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapTargetVali
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DiagnosticReportMediaValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistoryValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
@@ -195,6 +197,7 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is ConceptMapUnmapped -> element.validate(R4ConceptMapUnmappedValidator, parentContext)
         is ConditionEvidence -> element.validate(R4ConditionEvidenceValidator, parentContext)
         is ConditionStage -> element.validate(R4ConditionStageValidator, parentContext)
+        is DiagnosticReportMedia -> element.validate(R4DiagnosticReportMediaValidator, parentContext)
         is EncounterClassHistory -> element.validate(R4EncounterClassHistoryValidator, parentContext)
         is EncounterDiagnosis -> element.validate(R4EncounterDiagnosisValidator, parentContext)
         is EncounterLocation -> element.validate(R4EncounterLocationValidator, parentContext)
