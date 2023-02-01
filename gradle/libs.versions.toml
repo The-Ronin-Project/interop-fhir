@@ -2,7 +2,10 @@
 classgraph = "io.github.classgraph:classgraph:4.8.154"
 interop-common = "com.projectronin.interop:interop-common:3.2.2"
 interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.2.2"
-jackson-core = "com.fasterxml.jackson.core:jackson-core:2.14.1"
-jackson-databind = "com.fasterxml.jackson.core:jackson-databind:2.14.1"
+
+jackson-core = "com.fasterxml.jackson.core:jackson-core:2.14.2"
+jackson-databind = "com.fasterxml.jackson.core:jackson-databind:2.14.2"
+
 jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2"
+
 mockk = "io.mockk:mockk:1.13.4"
