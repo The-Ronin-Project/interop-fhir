@@ -143,4 +143,44 @@ class ReferenceTest {
         val reference = Reference(reference = (FHIRString("HotGarbage!")))
         assertNull(reference.decomposedType())
     }
+
+    @Test
+    fun `static getType returns null when non-reference provided`() {
+        val type = Reference.getType("http://www.google.com")
+        assertNull(type)
+    }
+
+    @Test
+    fun `static getType returns type from full reference`() {
+        val type =
+            Reference.getType("https://fhir-ehr.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d/Communication/472894781.0.-4.0")
+        assertEquals("Communication", type)
+    }
+
+    @Test
+    fun `static getType returns type from partial reference`() {
+        val type =
+            Reference.getType("Communication/472894781.0.-4.0")
+        assertEquals("Communication", type)
+    }
+
+    @Test
+    fun `static getId returns null when non-reference provided`() {
+        val id = Reference.getId("http://www.google.com/1234")
+        assertNull(id)
+    }
+
+    @Test
+    fun `static getId returns type from full reference`() {
+        val id =
+            Reference.getId("https://apporchard.epic.com/interconnect-aocurprd-oauth/api/FHIR/R4/PractitionerRole/e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3")
+        assertEquals("e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3", id)
+    }
+
+    @Test
+    fun `static getId returns type from partial reference`() {
+        val id =
+            Reference.getId("PractitionerRole/e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3")
+        assertEquals("e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3", id)
+    }
 }
