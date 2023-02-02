@@ -8,8 +8,8 @@ import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
-import com.projectronin.interop.fhir.r4.resource.Communication
 import com.projectronin.interop.fhir.r4.resource.Patient
+import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
@@ -74,26 +74,26 @@ class R4PatientValidatorTest {
     }
 }
 
-class R4CommunicationValidatorTest {
+class R4PatientCommunicationValidatorTest {
     @Test
     fun `fails if no language provided`() {
         val exception = assertThrows<IllegalArgumentException> {
-            val communication = Communication(
+            val patientCommunication = PatientCommunication(
                 language = null
             )
-            R4CommunicationValidator.validate(communication).alertIfErrors()
+            R4PatientCommunicationValidator.validate(patientCommunication).alertIfErrors()
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: language is a required element @ Communication.language",
+                "ERROR REQ_FIELD: language is a required element @ PatientCommunication.language",
             exception.message
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val communication = Communication(language = CodeableConcept(text = FHIRString("English")))
-        R4CommunicationValidator.validate(communication).alertIfErrors()
+        val patientCommunication = PatientCommunication(language = CodeableConcept(text = FHIRString("English")))
+        R4PatientCommunicationValidator.validate(patientCommunication).alertIfErrors()
     }
 }
 

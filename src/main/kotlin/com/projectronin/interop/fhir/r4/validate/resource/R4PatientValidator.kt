@@ -1,8 +1,8 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
-import com.projectronin.interop.fhir.r4.resource.Communication
 import com.projectronin.interop.fhir.r4.resource.Patient
+import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
@@ -47,12 +47,16 @@ object R4PatientValidator : R4ElementContainingValidator<Patient>() {
 }
 
 /**
- * Validator for the [R4 Communication](http://hl7.org/fhir/R4/patient-definitions.html#Patient.communication).
+ * Validator for the [R4 Patient.Communication](http://hl7.org/fhir/R4/patient-definitions.html#Patient.communication).
  */
-object R4CommunicationValidator : R4ElementContainingValidator<Communication>() {
-    private val requiredLanguageError = RequiredFieldError(Communication::language)
+object R4PatientCommunicationValidator : R4ElementContainingValidator<PatientCommunication>() {
+    private val requiredLanguageError = RequiredFieldError(PatientCommunication::language)
 
-    override fun validateElement(element: Communication, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: PatientCommunication,
+        parentContext: LocationContext?,
+        validation: Validation
+    ) {
         validation.apply {
             checkNotNull(element.language, requiredLanguageError, parentContext)
         }

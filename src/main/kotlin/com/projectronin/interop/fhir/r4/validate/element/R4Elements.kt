@@ -43,7 +43,7 @@ import com.projectronin.interop.fhir.r4.resource.BundleSearch
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
 import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.resource.CareTeamParticipant
-import com.projectronin.interop.fhir.r4.resource.Communication
+import com.projectronin.interop.fhir.r4.resource.CommunicationPayload
 import com.projectronin.interop.fhir.r4.resource.ConceptMapDependsOn
 import com.projectronin.interop.fhir.r4.resource.ConceptMapElement
 import com.projectronin.interop.fhir.r4.resource.ConceptMapGroup
@@ -63,6 +63,7 @@ import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
 import com.projectronin.interop.fhir.r4.resource.Participant
+import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.resource.Qualification
@@ -109,7 +110,7 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4BundleSearchValidato
 import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanActivityValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanDetailValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CareTeamParticipantValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4CommunicationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4CommunicationPayloadValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapDependsOnValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapElementValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapGroupValidator
@@ -129,6 +130,7 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4NotAvailableValidato
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationComponentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationReferenceRangeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ParticipantValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunicationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
@@ -189,7 +191,7 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is CarePlanActivity -> element.validate(R4CarePlanActivityValidator, parentContext)
         is CarePlanDetail -> element.validate(R4CarePlanDetailValidator, parentContext)
         is CareTeamParticipant -> element.validate(R4CareTeamParticipantValidator, parentContext)
-        is Communication -> element.validate(R4CommunicationValidator, parentContext)
+        is CommunicationPayload -> element.validate(R4CommunicationPayloadValidator, parentContext)
         is ConceptMapDependsOn -> element.validate(R4ConceptMapDependsOnValidator, parentContext)
         is ConceptMapElement -> element.validate(R4ConceptMapElementValidator, parentContext)
         is ConceptMapGroup -> element.validate(R4ConceptMapGroupValidator, parentContext)
@@ -209,6 +211,7 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is ObservationComponent -> element.validate(R4ObservationComponentValidator, parentContext)
         is ObservationReferenceRange -> element.validate(R4ObservationReferenceRangeValidator, parentContext)
         is Participant -> element.validate(R4ParticipantValidator, parentContext)
+        is PatientCommunication -> element.validate(R4PatientCommunicationValidator, parentContext)
         is PatientContact -> element.validate(R4PatientContactValidator, parentContext)
         is PatientLink -> element.validate(R4PatientLinkValidator, parentContext)
         is Qualification -> element.validate(R4QualificationValidator, parentContext)

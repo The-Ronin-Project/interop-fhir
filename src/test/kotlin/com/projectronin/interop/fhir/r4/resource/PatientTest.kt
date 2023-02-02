@@ -75,7 +75,7 @@ class PatientTest {
             multipleBirth = multipleBirth,
             photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
             contact = listOf(PatientContact(name = HumanName(text = FHIRString("Jane Doe")))),
-            communication = listOf(Communication(language = CodeableConcept(text = FHIRString("English")))),
+            communication = listOf(PatientCommunication(language = CodeableConcept(text = FHIRString("English")))),
             generalPractitioner = listOf(Reference(display = FHIRString("GP"))),
             managingOrganization = Reference(display = FHIRString("organization")),
             link = listOf(
@@ -206,17 +206,17 @@ class PatientTest {
         assertNull(patient.multipleBirth)
         assertEquals(listOf<Attachment>(), patient.photo)
         assertEquals(listOf<PatientContact>(), patient.contact)
-        assertEquals(listOf<Communication>(), patient.communication)
+        assertEquals(listOf<PatientCommunication>(), patient.communication)
         assertEquals(listOf<Reference>(), patient.generalPractitioner)
         assertNull(patient.managingOrganization)
         assertEquals(listOf<PatientLink>(), patient.link)
     }
 }
 
-class CommunicationTest {
+class PatientCommunicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val communication = Communication(
+        val patientCommunication = PatientCommunication(
             id = FHIRString("67890"),
             extension = listOf(
                 Extension(
@@ -233,7 +233,7 @@ class CommunicationTest {
             language = CodeableConcept(text = FHIRString("English")),
             preferred = FHIRBoolean.TRUE
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCommunication)
 
         val expectedJson = """
             {
@@ -254,14 +254,14 @@ class CommunicationTest {
         """.trimIndent()
         assertEquals(expectedJson, json)
 
-        val deserializedCommunication = JacksonManager.objectMapper.readValue<Communication>(json)
-        assertEquals(communication, deserializedCommunication)
+        val deserializedPatientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
+        assertEquals(patientCommunication, deserializedPatientCommunication)
     }
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val communication = Communication(language = CodeableConcept(text = FHIRString("English")))
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
+        val patientCommunication = PatientCommunication(language = CodeableConcept(text = FHIRString("English")))
+        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCommunication)
 
         val expectedJson = """
             {
@@ -272,8 +272,8 @@ class CommunicationTest {
         """.trimIndent()
         assertEquals(expectedJson, json)
 
-        val deserializedCommunication = JacksonManager.objectMapper.readValue<Communication>(json)
-        assertEquals(communication, deserializedCommunication)
+        val deserializedPatientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
+        assertEquals(patientCommunication, deserializedPatientCommunication)
     }
 
     @Test
@@ -285,12 +285,12 @@ class CommunicationTest {
               }
             }
         """.trimIndent()
-        val communication = JacksonManager.objectMapper.readValue<Communication>(json)
+        val patientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
 
-        assertNull(communication.id)
-        assertEquals(listOf<Extension>(), communication.extension)
-        assertEquals(listOf<Extension>(), communication.modifierExtension)
-        assertNull(communication.preferred)
+        assertNull(patientCommunication.id)
+        assertEquals(listOf<Extension>(), patientCommunication.extension)
+        assertEquals(listOf<Extension>(), patientCommunication.modifierExtension)
+        assertNull(patientCommunication.preferred)
     }
 }
 

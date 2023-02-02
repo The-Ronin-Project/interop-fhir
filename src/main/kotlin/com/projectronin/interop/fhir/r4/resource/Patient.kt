@@ -53,7 +53,7 @@ data class Patient(
     val multipleBirth: DynamicValue<Any>? = null,
     val photo: List<Attachment> = listOf(),
     val contact: List<PatientContact> = listOf(),
-    val communication: List<Communication> = listOf(),
+    val communication: List<PatientCommunication> = listOf(),
     val generalPractitioner: List<Reference> = listOf(),
     val managingOrganization: Reference? = null,
     val link: List<PatientLink> = listOf()
@@ -67,18 +67,18 @@ class PatientSerializer : BaseFHIRSerializer<Patient>(Patient::class.java)
 /**
  * A language which may be used to communicate with the patient about his or her health.
  */
-@JsonSerialize(using = CommunicationSerializer::class)
-@JsonDeserialize(using = CommunicationDeserializer::class)
-data class Communication(
+@JsonSerialize(using = PatientCommunicationSerializer::class)
+@JsonDeserialize(using = PatientCommunicationDeserializer::class)
+data class PatientCommunication(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val language: CodeableConcept?,
     val preferred: FHIRBoolean? = null
-) : BackboneElement<Communication>
+) : BackboneElement<PatientCommunication>
 
-class CommunicationSerializer : BaseFHIRSerializer<Communication>(Communication::class.java)
-class CommunicationDeserializer : BaseFHIRDeserializer<Communication>(Communication::class.java)
+class PatientCommunicationSerializer : BaseFHIRSerializer<PatientCommunication>(PatientCommunication::class.java)
+class PatientCommunicationDeserializer : BaseFHIRDeserializer<PatientCommunication>(PatientCommunication::class.java)
 
 /**
  * Contact covers all kinds of contact parties: family members, business contacts, guardians, caregivers. Not applicable
