@@ -1,4 +1,4 @@
-name: Interop FHIR Tests
+name: Interop FHIR Generator Tests
 on:
   push:
     branches: [ main, refactor ]
@@ -23,13 +23,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Gradlew Test
-        run: ./gradlew test
+        run: ./gradlew :interop-fhir-generators:test
       - name: Upload Code Coverage
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-          file: ./codecov/test/jacocoTestReport.xml
+          file: ./interop-fhir-generators/codecov/test/jacocoTestReport.xml
+          flags: fhir-generators
 
       - name: Upload report to DataDog
         if: always() && !cancelled()
@@ -37,4 +38,4 @@ jobs:
           DD_ENV: ci
           DATADOG_SITE: datadoghq.com
           DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-        run: datadog-ci junit upload --service interop-fhir ./build/test-results/test
+        run: datadog-ci junit upload --service interop-fhir-generators ./interop-fhir-generators/build/test-results/test

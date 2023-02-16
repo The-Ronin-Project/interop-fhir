@@ -15,4 +15,4 @@ data class FHIRInteger(
     constructor(value: Int) : this(value, null, emptyList())
 }
 
-fun Int.asFHIR(): FHIRInteger? = FHIRInteger(this)
+fun Int.asFHIR(): FHIRInteger = FHIRInteger(this)
