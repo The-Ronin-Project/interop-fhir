@@ -229,4 +229,14 @@ class FHIRErrorTest {
         assertEquals("'valueless', 'decremented' are outside of required value set", error.description)
         assertEquals(LocationContext("Attachment", "creation"), error.location)
     }
+
+    @Test
+    fun `InvalidValueSetError creates FHIRError from null value`() {
+        val value = null
+        val error = InvalidValueSetError(Attachment::creation, value)
+        assertEquals("INV_VALUE_SET", error.code)
+        assertEquals(ValidationIssueSeverity.ERROR, error.severity)
+        assertEquals("'null' is outside of required value set", error.description)
+        assertEquals(LocationContext("Attachment", "creation"), error.location)
+    }
 }

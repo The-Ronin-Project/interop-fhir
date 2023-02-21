@@ -94,6 +94,6 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String) : FHI
      */
     constructor(actualLocation: KProperty1<*, *>, value: String? = null) : this(
         LocationContext(actualLocation),
-        value!!
+        value ?: "null"
     )
 }
