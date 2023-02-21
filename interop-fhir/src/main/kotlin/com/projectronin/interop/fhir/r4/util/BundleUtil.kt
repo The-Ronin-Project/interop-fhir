@@ -18,6 +18,6 @@ fun mergeBundles(source: Bundle, addition: Bundle): Bundle =
         timestamp = source.timestamp,
         total = UnsignedInt((source.total?.value ?: 0) + (addition.total?.value ?: 0)),
         link = source.link,
-        entry = source.entry + addition.entry,
+        entry = (source.entry + addition.entry).associateBy { it.resource?.id }.values.toList(),
         signature = source.signature
     )

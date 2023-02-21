@@ -119,27 +119,171 @@ class BundleUtilTest {
 
     @Test
     fun `merge can combine populated bundles`() {
-        val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = FHIRString("id")))
+        val practitionerRoleOne = PractitionerRole(
+            id = Id("practitionerOne"),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
+        )
+
+        val practitionerRoleTwo = PractitionerRole(
+            id = Id("practitionerTwo"),
+            identifier = listOf(Identifier(value = FHIRString("id"))),
         )
 
         val bundle1 = Bundle(
             id = Id("123"),
             type = BundleType.SEARCHSET.asCode(),
             total = UnsignedInt(1),
-            entry = listOf(BundleEntry(resource = practitionerRole))
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("id"),
+                    resource = practitionerRoleOne
+                )
+            )
         )
         val bundle2 = Bundle(
             id = Id("1232"),
             type = BundleType.SEARCHSET.asCode(),
             total = UnsignedInt(1),
-            entry = listOf(BundleEntry(resource = practitionerRole))
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("id"),
+                    resource = practitionerRoleTwo
+                )
+            )
         )
 
         val merged = mergeBundles(bundle1, bundle2)
         assertEquals(2, merged.total?.value)
         assertEquals(
-            listOf(BundleEntry(resource = practitionerRole), BundleEntry(resource = practitionerRole)),
+            listOf(
+                BundleEntry(
+                    id = FHIRString("id"),
+                    resource = practitionerRoleOne
+                ),
+                BundleEntry(
+                    id = FHIRString("id"),
+                    resource = practitionerRoleTwo
+                )
+            ),
+            merged.entry
+        )
+    }
+
+    @Test
+    fun `merge can de-duplicate bundle entries`() {
+        /*
+        De-dup happens at the id level of the resource within a bundleEntry within a bundle. Last resource wins.
+         */
+        val practitionerRoleOne = PractitionerRole(
+            id = Id("practitionerOne"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+        val practitionerRoleTwo = PractitionerRole(
+            id = Id("practitionerTwo"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+        val practitionerRoleThree = PractitionerRole(
+            id = Id("practitionerOne"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+        val practitionerRoleFour = PractitionerRole(
+            id = Id("practitionerThree"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+        val practitionerRoleFive = PractitionerRole(
+            id = Id("practitionerThree"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+        val practitionerRoleSix = PractitionerRole(
+            id = Id("practitionerThree"),
+            identifier = listOf(Identifier(value = FHIRString("id")))
+        )
+
+        val bundle1 = Bundle(
+            id = Id("bundleOne"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryOne"),
+                    resource = practitionerRoleOne
+                )
+            )
+        )
+        val bundle2 = Bundle(
+            id = Id("bundleTwo"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryTwo"),
+                    resource = practitionerRoleTwo
+                )
+            )
+        )
+        val bundle3 = Bundle(
+            id = Id("bundleThree"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryThree"),
+                    resource = practitionerRoleThree
+                )
+            )
+        )
+        val bundle4 = Bundle(
+            id = Id("bundleFour"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryFour"),
+                    resource = practitionerRoleFour
+                )
+            )
+        )
+        val bundle5 = Bundle(
+            id = Id("bundleFive"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryFive"),
+                    resource = practitionerRoleFive
+                )
+            )
+        )
+        val bundle6 = Bundle(
+            id = Id("bundleSix"),
+            type = BundleType.SEARCHSET.asCode(),
+            total = UnsignedInt(1),
+            entry = listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntrySix"),
+                    resource = practitionerRoleSix
+                )
+            )
+        )
+
+        val bundles = listOf(bundle1, bundle2, bundle3, bundle4, bundle5, bundle6)
+        val merged = bundles.reduce { mergedBundle, currentBundle -> mergeBundles(mergedBundle, currentBundle) }
+
+        assertEquals(
+            listOf(
+                BundleEntry(
+                    id = FHIRString("bundleEntryThree"),
+                    resource = practitionerRoleOne
+                ),
+                BundleEntry(
+                    id = FHIRString("bundleEntryTwo"),
+                    resource = practitionerRoleTwo
+                ),
+                BundleEntry(
+                    id = FHIRString("bundleEntrySix"),
+                    resource = practitionerRoleFour
+                )
+            ),
             merged.entry
         )
     }
