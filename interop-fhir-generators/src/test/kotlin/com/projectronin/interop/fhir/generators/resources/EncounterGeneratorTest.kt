@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.generators.resources
 
+import com.projectronin.interop.fhir.generators.datatypes.codeableConcept
 import com.projectronin.interop.fhir.generators.datatypes.coding
 import com.projectronin.interop.fhir.generators.datatypes.encounterParticipant
 import com.projectronin.interop.fhir.generators.datatypes.identifier
@@ -24,6 +25,7 @@ class EncounterGeneratorTest {
         assertNotNull(encounter.`class`)
         assertNotNull(encounter.subject)
         assertTrue(encounter.participant.isEmpty())
+        assertTrue(encounter.type.isEmpty())
     }
 
     @Test
@@ -44,6 +46,9 @@ class EncounterGeneratorTest {
                 end of dateTime { year of 1990 }
             }
             subject of reference("Patient", "123")
+            type of listOf(
+                codeableConcept { text of "type" }
+            )
         }
         assertEquals("id", encounter.id?.value)
         assertEquals(1, encounter.identifier.size)
@@ -51,6 +56,7 @@ class EncounterGeneratorTest {
         assertEquals(1, encounter.participant.size)
         assertEquals("coding", encounter.`class`?.code?.value)
         assertEquals("Patient/123", encounter.subject?.reference?.value)
+        assertEquals("type", encounter.type.first().text?.value)
         assertTrue(encounter.period?.start?.value?.startsWith("1990")!!)
         assertTrue(encounter.period?.end?.value?.startsWith("1990")!!)
     }
