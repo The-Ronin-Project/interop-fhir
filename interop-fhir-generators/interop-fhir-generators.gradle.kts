@@ -1,9 +1,5 @@
 plugins {
-    // Version must be defined before publish in order to set the proper version
-    id("com.projectronin.interop.gradle.version")
-
     id("com.projectronin.interop.gradle.junit")
-    id("com.projectronin.interop.gradle.publish")
     id("com.projectronin.interop.gradle.spring")
 }
 
