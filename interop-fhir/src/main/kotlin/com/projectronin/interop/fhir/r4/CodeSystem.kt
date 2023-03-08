@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 enum class CodeSystem(uriString: String) {
     CAREPLAN_CATEGORY("http://hl7.org/fhir/us/core/CodeSystem/careplan-category"),
     CONDITION_CATEGORY("http://terminology.hl7.org/CodeSystem/condition-category"),
+    CONDITION_CATEGORY_HEALTH_CONCERN("http://hl7.org/fhir/us/core/CodeSystem/condition-category"),
     CONDITION_CLINICAL("http://terminology.hl7.org/CodeSystem/condition-clinical"),
     CURRENCY("urn:iso:std:iso:4217"),
     DIAGNOSTIC_REPORT_LABORATORY("http://terminology.hl7.org/CodeSystem/v2-0074"),
