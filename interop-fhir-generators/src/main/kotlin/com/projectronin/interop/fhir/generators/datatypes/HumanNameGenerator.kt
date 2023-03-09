@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.github.javafaker.Name
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
@@ -8,6 +7,7 @@ import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
 import com.projectronin.test.data.generator.faker.NameGenerator
+import net.datafaker.providers.base.Name
 
 class HumanNameGenerator : DataGenerator<HumanName>() {
 

@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.generators.resources
 
-import com.github.javafaker.Faker
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
@@ -9,6 +8,7 @@ import com.projectronin.interop.fhir.r4.resource.Location
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
+import net.datafaker.Faker
 
 class LocationGenerator(
     override val id: DataGenerator<Id?> = NullDataGenerator(),

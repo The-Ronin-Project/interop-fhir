@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.ronin.test.data.generator)
 
     implementation(libs.jackson.core)
-    implementation(libs.javafaker)
+    implementation(libs.datafaker)
     implementation(libs.jackson.databind)
 
     testImplementation(libs.jackson.module.kotlin)
