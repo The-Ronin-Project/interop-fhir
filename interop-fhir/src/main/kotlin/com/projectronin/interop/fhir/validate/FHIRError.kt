@@ -92,7 +92,7 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String) : FHI
     /**
      * Creates an InvalidValueSetError based off an explicit property.
      */
-    constructor(actualLocation: KProperty1<*, *>, value: String? = null) : this(
+    constructor(actualLocation: KProperty1<*, *>, value: String?) : this(
         LocationContext(actualLocation),
         value ?: "null"
     )

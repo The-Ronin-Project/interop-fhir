@@ -54,8 +54,11 @@ class Validation {
         parentContext: LocationContext?,
         noinline lazyDescription: (() -> String)? = null
     ): T? where T : Enum<T>, T : CodedEnum<T> {
+        checkNotNull(code.value, error, parentContext, lazyDescription)
+
+        // despite IntelliJ and compiler warnings: ? here prevents NPE on CodedEnum.byCode
         return code.value?.let {
-            val codified = runCatching { CodedEnum.byCode<T>(it) }.getOrNull()
+            val codified = runCatching { CodedEnum.byCode<T>(code.value) }.getOrNull()
             checkNotNull(codified, error, parentContext, lazyDescription)
             codified
         }

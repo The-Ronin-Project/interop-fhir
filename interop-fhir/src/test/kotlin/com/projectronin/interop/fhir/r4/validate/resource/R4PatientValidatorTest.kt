@@ -36,9 +36,41 @@ class R4PatientValidatorTest {
     }
 
     @Test
+    fun `gender value null is outside of required value set`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            val patient = Patient(
+                gender = Code(null)
+            )
+            R4PatientValidator.validate(patient).alertIfErrors()
+        }
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INV_VALUE_SET: 'null' is outside of required value set @ Patient.gender",
+            exception.message
+        )
+    }
+
+    @Test
+    fun `missing gender is accepted with no error for R4`() {
+        val patient = Patient()
+        val validation = R4PatientValidator.validate(patient)
+        assertEquals(0, validation.issues().size)
+    }
+
+    @Test
+    fun `null gender is accepted with no error for R4`() {
+        val patient = Patient(
+            gender = null
+        )
+        val validation = R4PatientValidator.validate(patient)
+        assertEquals(0, validation.issues().size)
+    }
+
+    @Test
     fun `deceased can only be one of the following data types`() {
         val exception = assertThrows<IllegalArgumentException> {
             val patient = Patient(
+                gender = AdministrativeGender.FEMALE.asCode(),
                 deceased = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = false)
             )
             R4PatientValidator.validate(patient).alertIfErrors()
@@ -54,6 +86,7 @@ class R4PatientValidatorTest {
     fun `multipleBirth can only be one of the following data types`() {
         val exception = assertThrows<IllegalArgumentException> {
             val patient = Patient(
+                gender = AdministrativeGender.FEMALE.asCode(),
                 multipleBirth = DynamicValue(type = DynamicValueType.BASE_64_BINARY, value = 2)
             )
             R4PatientValidator.validate(patient).alertIfErrors()

@@ -1,5 +1,9 @@
 package com.projectronin.interop.fhir.validate
 
+import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.resource.Patient
+import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -52,6 +56,68 @@ class ValidationTest {
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(validationError.toString(), issues[0].toString())
+    }
+
+    @Test
+    fun `checkCodedEnum with valid code value passes`() {
+        val validation = Validation()
+        val gender = AdministrativeGender.FEMALE.asCode()
+        validation.checkCodedEnum<AdministrativeGender>(
+            gender,
+            InvalidValueSetError(Patient::gender, gender.value),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(0, issues.size)
+    }
+
+    @Test
+    fun `checkCodedEnum with invalid code value creates an InvalidValueSetError`() {
+        val validation = Validation()
+        val gender = Code("I do not know")
+        val message = "ERROR INV_VALUE_SET: 'I do not know' is outside of required value set @ Patient.gender"
+        validation.checkCodedEnum<AdministrativeGender>(
+            gender,
+            InvalidValueSetError(Patient::gender, gender.value),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(message, issues[0].toString())
+    }
+
+    @Test
+    fun `checkCodedEnum with null code creates an InvalidValueSetError`() {
+        val validation = Validation()
+        val gender = null
+        val message = "ERROR INV_VALUE_SET: 'null' is outside of required value set @ Patient.gender"
+        validation.checkNotNull(
+            gender,
+            InvalidValueSetError(Patient::gender, gender),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(message, issues[0].toString())
+    }
+
+    @Test
+    fun `checkCodedEnum with null code value creates an InvalidValueSetError`() {
+        val validation = Validation()
+        val gender = Code(null)
+        val message = "ERROR INV_VALUE_SET: 'null' is outside of required value set @ Patient.gender"
+        validation.checkCodedEnum<AdministrativeGender>(
+            gender,
+            InvalidValueSetError(Patient::gender, gender.value),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(message, issues[0].toString())
     }
 
     @Test
