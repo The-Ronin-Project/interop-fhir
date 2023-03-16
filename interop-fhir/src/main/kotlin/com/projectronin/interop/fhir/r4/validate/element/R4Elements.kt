@@ -52,6 +52,8 @@ import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
 import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
+import com.projectronin.interop.fhir.r4.resource.DocumentReferenceContent
+import com.projectronin.interop.fhir.r4.resource.DocumentReferenceRelatesTo
 import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
@@ -119,6 +121,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedVa
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4DiagnosticReportMediaValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceContentValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceRelatesToValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistoryValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
@@ -181,7 +185,7 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is Quantity -> element.validate(R4QuantityValidator, parentContext)
         is SimpleQuantity -> element.validate(R4SimpleQuantityValidator, parentContext)
 
-        // r4.element
+        // r4.resource
         is AvailableTime -> element.validate(R4AvailableTimeValidator, parentContext)
         is BundleLink -> element.validate(R4BundleLinkValidator, parentContext)
         is BundleRequest -> element.validate(R4BundleRequestValidator, parentContext)
@@ -199,6 +203,8 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is ConditionEvidence -> element.validate(R4ConditionEvidenceValidator, parentContext)
         is ConditionStage -> element.validate(R4ConditionStageValidator, parentContext)
         is DiagnosticReportMedia -> element.validate(R4DiagnosticReportMediaValidator, parentContext)
+        is DocumentReferenceContent -> element.validate(R4DocumentReferenceContentValidator, parentContext)
+        is DocumentReferenceRelatesTo -> element.validate(R4DocumentReferenceRelatesToValidator, parentContext)
         is EncounterClassHistory -> element.validate(R4EncounterClassHistoryValidator, parentContext)
         is EncounterDiagnosis -> element.validate(R4EncounterDiagnosisValidator, parentContext)
         is EncounterLocation -> element.validate(R4EncounterLocationValidator, parentContext)

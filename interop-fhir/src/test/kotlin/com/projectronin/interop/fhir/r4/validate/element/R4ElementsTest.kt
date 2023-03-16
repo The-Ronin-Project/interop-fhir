@@ -55,6 +55,8 @@ import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
 import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
+import com.projectronin.interop.fhir.r4.resource.DocumentReferenceContent
+import com.projectronin.interop.fhir.r4.resource.DocumentReferenceRelatesTo
 import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
@@ -124,6 +126,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedVa
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4DiagnosticReportMediaValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceContentValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceRelatesToValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistoryValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
@@ -424,6 +428,24 @@ class R4ElementsTest {
         every { distance.validate(R4DistanceValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(distance, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate DocumentReferenceContent`() {
+        val content = mockk<DocumentReferenceContent>()
+        every { content.validate(R4DocumentReferenceContentValidator, locationContext) } returns failedValidation
+
+        val validation = validateElement(content, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate DocumentReferenceRelatesTo`() {
+        val relatesTo = mockk<DocumentReferenceRelatesTo>()
+        every { relatesTo.validate(R4DocumentReferenceRelatesToValidator, locationContext) } returns failedValidation
+
+        val validation = validateElement(relatesTo, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
