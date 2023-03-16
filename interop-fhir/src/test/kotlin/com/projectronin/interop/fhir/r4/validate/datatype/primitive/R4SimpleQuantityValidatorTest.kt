@@ -21,7 +21,7 @@ class R4SimpleQuantityValidatorTest {
             val simpleQuantity = SimpleQuantity(
                 value = Decimal(60.0),
                 unit = FHIRString("mL/min/1.73m2"),
-                code = Code("mL/min/{1.73_m2}"),
+                code = Code("mL/min/{1.73_m2}")
             )
             R4SimpleQuantityValidator.validate(simpleQuantity).alertIfErrors()
         }
@@ -38,7 +38,7 @@ class R4SimpleQuantityValidatorTest {
             val simpleQuantity = SimpleQuantity(
                 value = Decimal(60.0),
                 unit = FHIRString("mL/min/1.73m2"),
-                code = Code("mL/min/{1.73_m2}"),
+                code = Code("mL/min/{1.73_m2}")
             )
             R4SimpleQuantityValidator.validate(simpleQuantity, LocationContext("Test", "field")).alertIfErrors()
         }
@@ -59,7 +59,7 @@ class R4SimpleQuantityValidatorTest {
                     value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            value = Decimal(17.5),
+            value = Decimal(17.5)
         )
         R4SimpleQuantityValidator.validate(simpleQuantity).alertIfErrors()
     }

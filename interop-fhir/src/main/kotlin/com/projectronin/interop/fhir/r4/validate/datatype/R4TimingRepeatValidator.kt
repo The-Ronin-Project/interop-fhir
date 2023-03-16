@@ -145,7 +145,8 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
                         }
                         )
                     ),
-                requiredWhenError, parentContext
+                requiredWhenError,
+                parentContext
             )
             checkTrue((element.timeOfDay.isEmpty() || element.`when`.isEmpty()), whenOrTimeOfDay, parentContext)
         }

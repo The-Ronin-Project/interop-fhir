@@ -41,7 +41,8 @@ class CodingTest {
             |  "code" : "code-value",
             |  "display" : "code-value from system-uri",
             |  "userSelected" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCoding = objectMapper.readValue<Coding>(json)
@@ -58,7 +59,8 @@ class CodingTest {
         val expectedJson = """
             |{
             |  "display" : "code-value from system-uri"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -67,7 +69,8 @@ class CodingTest {
         val json = """
             |{
             |  "code" : "code-value"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val coding = objectMapper.readValue<Coding>(json)
 
         assertNull(coding.id)

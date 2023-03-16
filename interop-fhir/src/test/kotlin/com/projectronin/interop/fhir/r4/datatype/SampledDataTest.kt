@@ -47,7 +47,8 @@ class SampledDataTest {
             |  "upperLimit" : 205.4,
             |  "dimensions" : 3,
             |  "data" : "the data"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSampledData = objectMapper.readValue<SampledData>(json)
@@ -70,7 +71,8 @@ class SampledDataTest {
             |  },
             |  "period" : 3.0,
             |  "dimensions" : 5
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -83,7 +85,8 @@ class SampledDataTest {
             |  },
             |  "period" : 3.0,
             |  "dimensions" : 5
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val sampledData = objectMapper.readValue<SampledData>(json)
 
         assertNull(sampledData.id)

@@ -86,6 +86,7 @@ object R4BundleResponseValidator : R4ElementContainingValidator<BundleResponse>(
         }
     }
 }
+
 /**
  * Validator for the [R4 BundleSearch](http://hl7.org/fhir/R4/bundle-definitions.html#Bundle.entry.search).
  */

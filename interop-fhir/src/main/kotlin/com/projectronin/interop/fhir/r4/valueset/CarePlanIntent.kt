@@ -11,6 +11,7 @@ enum class CarePlanIntent(override val code: String) : CodedEnum<CarePlanIntent>
      * without providing an authorization to act.
      */
     PROPOSAL("proposal"),
+
     /**
      * The request represents an intention to ensure something occurs without providing an authorization for others to act.
      */

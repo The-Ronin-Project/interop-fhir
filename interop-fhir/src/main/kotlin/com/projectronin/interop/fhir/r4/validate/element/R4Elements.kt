@@ -143,7 +143,6 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 fun <T : Element<T>> validateElement(element: Element<T>, parentContext: LocationContext?): Validation {
     return when (element) {
-
         // r4.datatype
         is Address -> element.validate(R4AddressValidator, parentContext)
         is Annotation -> element.validate(R4AnnotationValidator, parentContext)

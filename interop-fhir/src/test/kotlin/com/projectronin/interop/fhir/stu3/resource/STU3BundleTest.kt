@@ -55,7 +55,6 @@ class STU3BundleTest {
 
     @Test
     fun `can serialize and deserialize JSON with known resource type`() {
-
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(goodBundle)
 
         val expectedJson = """

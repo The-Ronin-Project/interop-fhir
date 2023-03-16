@@ -23,7 +23,7 @@ class R4TriggerDefinitionValidatorTest {
                 val triggerDefinition = TriggerDefinition(
                     type = null,
                     name = FHIRString("any"),
-                    data = listOf(DataRequirement(type = Code("data-type-code"))),
+                    data = listOf(DataRequirement(type = Code("data-type-code")))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -41,7 +41,7 @@ class R4TriggerDefinitionValidatorTest {
                 val triggerDefinition = TriggerDefinition(
                     type = Code("unsupported-type"),
                     name = FHIRString("any"),
-                    data = listOf(DataRequirement(type = Code("data-type-code"))),
+                    data = listOf(DataRequirement(type = Code("data-type-code")))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -128,7 +128,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.NAMED_EVENT.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -162,7 +162,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_ACCESSED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -179,7 +179,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_ADDED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -196,7 +196,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_CHANGED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -213,7 +213,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_ACCESS_ENDED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -230,7 +230,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_MODIFIED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -247,7 +247,7 @@ class R4TriggerDefinitionValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val triggerDefinition = TriggerDefinition(
                     type = TriggerType.DATA_REMOVED.asCode(),
-                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22")),
+                    timing = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2022-02-22"))
                 )
                 R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
             }
@@ -263,7 +263,7 @@ class R4TriggerDefinitionValidatorTest {
         val triggerDefinition = TriggerDefinition(
             type = TriggerType.NAMED_EVENT.asCode(),
             name = FHIRString("any"),
-            data = listOf(DataRequirement(type = Code("data-type-code"))),
+            data = listOf(DataRequirement(type = Code("data-type-code")))
         )
         R4TriggerDefinitionValidator.validate(triggerDefinition).alertIfErrors()
     }

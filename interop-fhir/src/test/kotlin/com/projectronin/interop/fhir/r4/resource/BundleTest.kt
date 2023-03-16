@@ -229,7 +229,8 @@ class BundleEntryTest {
             |  "response" : {
             |    "status" : "Ok"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleEntry = objectMapper.readValue<BundleEntry>(json)
@@ -247,7 +248,8 @@ class BundleEntryTest {
             |  "search" : {
             |    "mode" : "include"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -256,7 +258,8 @@ class BundleEntryTest {
         val json = """
             |{
             |  "id" : "1234"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val bundleEntry = objectMapper.readValue<BundleEntry>(json)
 
         assertEquals(FHIRString("1234"), bundleEntry.id)
@@ -305,7 +308,8 @@ class BundleLinkTest {
             |  } ],
             |  "relation" : "next",
             |  "url" : "http://www.example.com/next"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleLink = objectMapper.readValue<BundleLink>(json)
@@ -322,7 +326,8 @@ class BundleLinkTest {
             |{
             |  "relation" : "prev",
             |  "url" : "http://www.example.com/prev"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -332,7 +337,8 @@ class BundleLinkTest {
             |{
             |  "relation" : "prev",
             |  "url" : "http://www.example.com/prev"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val bundleLink = objectMapper.readValue<BundleLink>(json)
 
         Assertions.assertNull(bundleLink.id)
@@ -386,7 +392,8 @@ class BundleRequestTest {
             |  "ifModifiedSince" : "2017-01-01T00:00:00Z",
             |  "ifMatch" : "if match",
             |  "ifNoneExist" : "if none exist"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleRequest = objectMapper.readValue<BundleRequest>(json)
@@ -403,7 +410,8 @@ class BundleRequestTest {
             |{
             |  "method" : "POST",
             |  "url" : "http://www.example.com/post"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -413,7 +421,8 @@ class BundleRequestTest {
             |{
             |  "method" : "PUT",
             |  "url" : "http://www.example.com/put"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val bundleRequest = objectMapper.readValue<BundleRequest>(json)
 
         Assertions.assertNull(bundleRequest.id)
@@ -472,7 +481,8 @@ class BundleResponseTest {
             |    "resourceType" : "Patient",
             |    "id" : "67890"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleResponse = objectMapper.readValue<BundleResponse>(json)
@@ -488,7 +498,8 @@ class BundleResponseTest {
         val expectedJson = """
             |{
             |  "status" : "status"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -497,7 +508,8 @@ class BundleResponseTest {
         val json = """
             |{
             |  "status" : "status"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val bundleResponse = objectMapper.readValue<BundleResponse>(json)
 
         Assertions.assertNull(bundleResponse.id)
@@ -546,7 +558,8 @@ class BundleSearchTest {
             |  } ],
             |  "mode" : "include",
             |  "score" : 1.4
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleSearch = objectMapper.readValue<BundleSearch>(json)
@@ -562,7 +575,8 @@ class BundleSearchTest {
         val expectedJson = """
             |{
             |  "mode" : "outcome"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -571,7 +585,8 @@ class BundleSearchTest {
         val json = """
             |{
             |  "score" : 3.14
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val bundleSearch = objectMapper.readValue<BundleSearch>(json)
 
         Assertions.assertNull(bundleSearch.id)

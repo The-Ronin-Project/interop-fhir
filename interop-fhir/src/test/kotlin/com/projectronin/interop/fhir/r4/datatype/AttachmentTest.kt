@@ -50,7 +50,8 @@ class AttachmentTest {
             |  "hash" : "1234",
             |  "title" : "Title",
             |  "creation" : "2021-11-17T17:39:00Z"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAttachment = objectMapper.readValue<Attachment>(json)
@@ -67,7 +68,8 @@ class AttachmentTest {
         val expectedJson = """
             |{
             |  "title" : "Empty"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -76,7 +78,8 @@ class AttachmentTest {
         val json = """
             |{
             |  "url" : "http://localhost/data"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val attachment = objectMapper.readValue<Attachment>(json)
 
         assertNull(attachment.id)

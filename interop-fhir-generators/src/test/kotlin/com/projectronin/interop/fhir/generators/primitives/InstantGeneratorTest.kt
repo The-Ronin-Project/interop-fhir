@@ -31,6 +31,7 @@ class InstantGeneratorTest {
         val instant = 2.daysAgo()
         assertNotNull(instant.value)
     }
+
     @Test
     fun `days from now works`() {
         val instant = 2.daysFromNow()

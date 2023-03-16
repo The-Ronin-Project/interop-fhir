@@ -44,7 +44,8 @@ class AgeTest {
             |  "unit" : "years",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAge = objectMapper.readValue<Age>(json)
@@ -77,7 +78,8 @@ class AgeTest {
             |  "value" : 17.0,
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -86,7 +88,8 @@ class AgeTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val age = objectMapper.readValue<Age>(json)
 
         assertNull(age.id)

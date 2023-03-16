@@ -134,7 +134,7 @@ class CarePlanTest {
         val carePlan = CarePlan(
             id = Id("123"),
             meta = Meta(
-                profile = listOf(Canonical("CarePlan")),
+                profile = listOf(Canonical("CarePlan"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),

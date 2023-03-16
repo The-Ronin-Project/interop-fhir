@@ -48,7 +48,8 @@ class MetaTest {
             |  "tag" : [ {
             |    "display" : "tag-coding"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMeta = objectMapper.readValue<Meta>(json)
@@ -63,7 +64,8 @@ class MetaTest {
         val expectedJson = """
             |{
             |  "versionId" : "2"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -72,7 +74,8 @@ class MetaTest {
         val json = """
             |{
             |  "source" : "source-uri"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val meta = objectMapper.readValue<Meta>(json)
 
         assertNull(meta.id)

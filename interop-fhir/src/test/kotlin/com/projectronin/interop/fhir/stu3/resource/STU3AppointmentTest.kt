@@ -33,7 +33,7 @@ class STU3AppointmentTest {
     private val goodSTU3Appointment = STU3Appointment(
         id = Id("12345"),
         meta = Meta(
-            profile = listOf(Canonical("STU3profile")),
+            profile = listOf(Canonical("STU3profile"))
         ),
         implicitRules = Uri("implicit-rules"),
         language = Code("en-US"),

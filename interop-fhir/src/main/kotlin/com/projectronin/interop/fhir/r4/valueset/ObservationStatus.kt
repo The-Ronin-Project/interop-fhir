@@ -14,5 +14,5 @@ enum class ObservationStatus constructor(@JsonValue override val code: String) :
     CORRECTED("corrected"),
     CANCELLED("cancelled"),
     ENTERED_IN_ERROR("entered-in-error"),
-    UNKNOWN("unknown"),
+    UNKNOWN("unknown")
 }

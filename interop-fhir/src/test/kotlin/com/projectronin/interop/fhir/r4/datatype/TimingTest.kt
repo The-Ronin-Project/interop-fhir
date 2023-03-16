@@ -97,7 +97,8 @@ class TimingTest {
             |  "code" : {
             |    "text" : "code-concept"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedTiming = objectMapper.readValue<Timing>(json)
@@ -118,7 +119,8 @@ class TimingTest {
             |  "repeat" : {
             |    "timeOfDay" : [ "12:00:00" ]
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -129,7 +131,8 @@ class TimingTest {
             |  "repeat" : {
             |    "count" : 3
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val timing = objectMapper.readValue<Timing>(json)
 
         assertNull(timing.id)

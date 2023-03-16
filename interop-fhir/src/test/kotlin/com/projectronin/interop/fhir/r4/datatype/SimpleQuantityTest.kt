@@ -40,7 +40,8 @@ class SimpleQuantityTest {
             |  "unit" : "years",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSimpleQuantity = objectMapper.readValue<SimpleQuantity>(json)
@@ -57,7 +58,7 @@ class SimpleQuantityTest {
                     value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            value = Decimal(17.5),
+            value = Decimal(17.5)
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(simpleQuantity)
 
@@ -69,7 +70,8 @@ class SimpleQuantityTest {
             |    "valueString" : "Value"
             |  } ],
             |  "value" : 17.5
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -78,7 +80,8 @@ class SimpleQuantityTest {
         val json = """
             |{
             |  "value" : 20.32
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val simpleQuantity = objectMapper.readValue<SimpleQuantity>(json)
 
         assertNull(simpleQuantity.id)

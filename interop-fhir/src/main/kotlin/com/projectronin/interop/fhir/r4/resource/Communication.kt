@@ -69,7 +69,7 @@ data class CommunicationPayload(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
-    val content: DynamicValue<Any>?,
+    val content: DynamicValue<Any>?
 ) : BackboneElement<CommunicationPayload>
 
 class CommunicationPayloadSerializer : BaseFHIRSerializer<CommunicationPayload>(CommunicationPayload::class.java)

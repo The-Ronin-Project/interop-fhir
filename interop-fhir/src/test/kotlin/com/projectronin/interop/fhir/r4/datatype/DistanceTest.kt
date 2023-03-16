@@ -44,7 +44,8 @@ class DistanceTest {
             |  "unit" : "millimeters",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mm"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDistance = objectMapper.readValue<Distance>(json)
@@ -77,7 +78,8 @@ class DistanceTest {
             |  "value" : 17.5,
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mm"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -86,7 +88,8 @@ class DistanceTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val distance = objectMapper.readValue<Distance>(json)
 
         assertNull(distance.id)

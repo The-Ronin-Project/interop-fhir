@@ -167,7 +167,7 @@ class DynamicValueTypeTest {
             """{"type":"periodic","timingDate":"2022-02-22"}""",
             TriggerDefinition(
                 type = TriggerType.PERIODIC.asCode(),
-                timing = DynamicValue(DynamicValueType.DATE, Date("2022-02-22")),
+                timing = DynamicValue(DynamicValueType.DATE, Date("2022-02-22"))
             )
         ),
         DynamicValueType.UNSIGNED_INT to TestData(""""48"""", UnsignedInt(48)),

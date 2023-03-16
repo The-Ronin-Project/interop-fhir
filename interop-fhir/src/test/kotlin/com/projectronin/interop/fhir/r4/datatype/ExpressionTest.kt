@@ -41,7 +41,8 @@ class ExpressionTest {
             |  "language" : "en-US",
             |  "expression" : "the expression",
             |  "reference" : "expression-uri"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExpression = objectMapper.readValue<Expression>(json)
@@ -60,7 +61,8 @@ class ExpressionTest {
             |{
             |  "language" : "en-US",
             |  "expression" : "expression"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -70,7 +72,8 @@ class ExpressionTest {
             |{
             |  "language" : "en-US",
             |  "reference" : "reference"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val expression = objectMapper.readValue<Expression>(json)
 
         assertNull(expression.id)

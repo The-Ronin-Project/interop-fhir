@@ -18,7 +18,7 @@ class STU3UnknownResourceTest {
             resourceType = "Banana",
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninUnknown")),
+                profile = listOf(Canonical("RoninUnknown"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),

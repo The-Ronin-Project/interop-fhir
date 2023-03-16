@@ -116,7 +116,7 @@ data class ConceptMapDependsOn(
     val property: Uri?,
     val system: Canonical? = null,
     val value: FHIRString?,
-    val display: FHIRString? = null,
+    val display: FHIRString? = null
 ) : BackboneElement<ConceptMapDependsOn>
 
 class ConceptMapDependsOnSerializer : BaseFHIRSerializer<ConceptMapDependsOn>(ConceptMapDependsOn::class.java)
@@ -131,7 +131,7 @@ data class ConceptMapUnmapped(
     val mode: Code?,
     val code: Code? = null,
     val display: FHIRString? = null,
-    val uri: Canonical? = null,
+    val uri: Canonical? = null
 ) : BackboneElement<ConceptMapUnmapped>
 
 class ConceptMapUnmappedSerializer : BaseFHIRSerializer<ConceptMapUnmapped>(ConceptMapUnmapped::class.java)

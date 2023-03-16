@@ -44,7 +44,8 @@ class DurationTest {
             |  "unit" : "years",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDuration = objectMapper.readValue<Duration>(json)
@@ -77,7 +78,8 @@ class DurationTest {
             |  "value" : 17.5,
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -86,7 +88,8 @@ class DurationTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val duration = objectMapper.readValue<Duration>(json)
 
         assertNull(duration.id)

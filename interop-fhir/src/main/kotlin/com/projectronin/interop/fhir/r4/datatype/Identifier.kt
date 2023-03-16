@@ -24,7 +24,7 @@ data class Identifier(
     val system: Uri? = null,
     val value: FHIRString? = null,
     val period: Period? = null,
-    val assigner: Reference? = null,
+    val assigner: Reference? = null
 ) : Element<Identifier>
 
 class IdentifierSerializer : BaseFHIRSerializer<Identifier>(Identifier::class.java)

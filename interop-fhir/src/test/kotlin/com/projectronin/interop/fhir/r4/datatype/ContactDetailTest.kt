@@ -43,7 +43,8 @@ class ContactDetailTest {
             |    "system" : "email",
             |    "value" : "jane@doe.com"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactDetail = objectMapper.readValue<ContactDetail>(json)
@@ -60,7 +61,8 @@ class ContactDetailTest {
         val expectedJson = """
             |{
             |  "name" : "Jane Doe"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -69,7 +71,8 @@ class ContactDetailTest {
         val json = """
             |{
             |  "id" : "12345"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val contactDetail = objectMapper.readValue<ContactDetail>(json)
 
         assertEquals(FHIRString("12345"), contactDetail.id)

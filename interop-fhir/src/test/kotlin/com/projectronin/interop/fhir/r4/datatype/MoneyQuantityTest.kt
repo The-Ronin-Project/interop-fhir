@@ -42,7 +42,8 @@ class MoneyQuantityTest {
             |  "comparator" : ">=",
             |  "system" : "urn:iso:std:iso:4217",
             |  "code" : "USD"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMoneyQuantity = objectMapper.readValue<MoneyQuantity>(json)
@@ -75,7 +76,8 @@ class MoneyQuantityTest {
             |  "value" : 17.5,
             |  "system" : "urn:iso:std:iso:4217",
             |  "code" : "USD"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -84,7 +86,8 @@ class MoneyQuantityTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val distance = objectMapper.readValue<Distance>(json)
 
         assertNull(distance.id)

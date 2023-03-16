@@ -34,7 +34,7 @@ class CareTeamTest {
         val careTeam = CareTeam(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninCareTeam")),
+                profile = listOf(Canonical("RoninCareTeam"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -82,7 +82,7 @@ class CareTeamTest {
                     period = Period(
                         start = DateTime(value = "2021-11-17T08:00:00Z"),
                         end = DateTime(value = "2021-11-17T09:00:00Z")
-                    ),
+                    )
                 )
             ),
             reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
@@ -262,7 +262,7 @@ class CareTeamParticipantTest {
             period = Period(
                 start = DateTime(value = "2021-11-17T08:00:00Z"),
                 end = DateTime(value = "2021-11-17T09:00:00Z")
-            ),
+            )
 
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(careTeamParticipant)

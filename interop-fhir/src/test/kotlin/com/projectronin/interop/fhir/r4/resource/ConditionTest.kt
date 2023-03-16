@@ -35,7 +35,7 @@ class ConditionTest {
         val condition = Condition(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninConditionProblemsHealthConcerns")),
+                profile = listOf(Canonical("RoninConditionProblemsHealthConcerns"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -170,7 +170,7 @@ class ConditionTest {
     @Test
     fun `serialized JSON ignores null and empty fields`() {
         val condition = Condition(
-            subject = Reference(reference = FHIRString("subject")),
+            subject = Reference(reference = FHIRString("subject"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
@@ -264,7 +264,8 @@ class ConditionEvidenceTest {
             |  "detail" : [ {
             |    "display" : "detail"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedConditionEvidence = JacksonManager.objectMapper.readValue<ConditionEvidence>(json)
@@ -283,7 +284,8 @@ class ConditionEvidenceTest {
             |  "code" : [ {
             |    "text" : "code"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -294,7 +296,8 @@ class ConditionEvidenceTest {
             |  "detail" : [ {
             |    "display" : "detail"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val conditionEvidence = JacksonManager.objectMapper.readValue<ConditionEvidence>(json)
 
         assertNull(conditionEvidence.id)
@@ -348,7 +351,8 @@ class ConditionStageTest {
             |  "type" : {
             |    "text" : "type"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedConditionStage = JacksonManager.objectMapper.readValue<ConditionStage>(json)
@@ -367,7 +371,8 @@ class ConditionStageTest {
             |  "assessment" : [ {
             |    "display" : "assessment"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -378,7 +383,8 @@ class ConditionStageTest {
             |  "summary" : {
             |    "text" : "summary"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val conditionStage = JacksonManager.objectMapper.readValue<ConditionStage>(json)
 
         assertNull(conditionStage.id)

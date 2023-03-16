@@ -30,7 +30,7 @@ import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
 @JsonSubTypes(
     JsonSubTypes.Type(STU3Appointment::class),
     JsonSubTypes.Type(STU3Bundle::class),
-    JsonSubTypes.Type(STU3MedicationStatement::class),
+    JsonSubTypes.Type(STU3MedicationStatement::class)
 )
 interface STU3Resource<T : STU3Resource<T>> : Validatable<T> {
     val resourceType: String

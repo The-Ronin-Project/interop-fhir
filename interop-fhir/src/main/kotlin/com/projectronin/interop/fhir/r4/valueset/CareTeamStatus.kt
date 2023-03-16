@@ -8,5 +8,5 @@ enum class CareTeamStatus(@JsonValue override val code: String) : CodedEnum<Care
     ACTIVE("active"),
     SUSPENDED("suspended"),
     INACTIVE("inactive"),
-    ENTERED_IN_ERROR("entered-in-error"),
+    ENTERED_IN_ERROR("entered-in-error")
 }

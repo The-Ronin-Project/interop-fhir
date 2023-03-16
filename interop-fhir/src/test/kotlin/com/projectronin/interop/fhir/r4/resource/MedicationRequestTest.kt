@@ -39,7 +39,7 @@ class MedicationRequestTest {
         val medicationRequest = MedicationRequest(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninMedicationRequest")),
+                profile = listOf(Canonical("RoninMedicationRequest"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -367,7 +367,8 @@ class DispenseRequestTest {
             |  "performer" : {
             |    "reference" : "Practitioner/13579"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDispenseRequest = JacksonManager.objectMapper.readValue<DispenseRequest>(json)
@@ -386,7 +387,8 @@ class DispenseRequestTest {
             |  "quantity" : {
             |    "value" : 36.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -395,7 +397,8 @@ class DispenseRequestTest {
         val json = """
             |{
             |  "numberOfRepeatsAllowed" : 3
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val dispenseRequest = JacksonManager.objectMapper.readValue<DispenseRequest>(json)
 
         assertNull(dispenseRequest.id)
@@ -437,7 +440,8 @@ class SubstitutionTest {
             |  "reason" : {
             |    "text" : "reason"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSubstitution = JacksonManager.objectMapper.readValue<Substitution>(json)
@@ -461,7 +465,8 @@ class SubstitutionTest {
             |  "allowedCodeableConcept" : {
             |    "text" : "allowed"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -470,7 +475,8 @@ class SubstitutionTest {
         val json = """
             |{
             |  "allowedBoolean" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val substitution = JacksonManager.objectMapper.readValue<Substitution>(json)
 
         assertNull(substitution.id)

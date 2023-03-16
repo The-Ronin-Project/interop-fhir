@@ -26,7 +26,6 @@ import com.projectronin.interop.fhir.validate.Validatable
     defaultImpl = UnknownResource::class,
     visible = true
 )
-
 /**
  * This is the list of FHIR resources that Ronin product code can use.
  */

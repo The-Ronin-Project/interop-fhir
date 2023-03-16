@@ -47,7 +47,8 @@ class ContactPointTest {
             |  "period" : {
             |    "start" : "2021-11-18"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)
@@ -66,7 +67,8 @@ class ContactPointTest {
             |{
             |  "system" : "email",
             |  "value" : "name@site.com"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -77,7 +79,8 @@ class ContactPointTest {
             |  "period" : {
             |    "start" : "2021-11-18"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val contactPoint = objectMapper.readValue<ContactPoint>(json)
 
         assertNull(contactPoint.id)
@@ -169,7 +172,8 @@ class ContactPointTest {
             |  "period" : {
             |    "start" : "2021-11-18"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)
@@ -255,7 +259,8 @@ class ContactPointTest {
             |  "period" : {
             |    "start" : "2021-11-18"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)

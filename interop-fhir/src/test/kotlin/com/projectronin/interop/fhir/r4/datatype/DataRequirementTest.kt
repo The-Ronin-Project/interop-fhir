@@ -118,7 +118,8 @@ class DataRequirementTest {
             |    "path" : "sort-path",
             |    "direction" : "ascending"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
@@ -135,7 +136,8 @@ class DataRequirementTest {
         val expectedJson = """
             |{
             |  "type" : "type"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -144,7 +146,8 @@ class DataRequirementTest {
         val json = """
             |{
             |  "type" : "type"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val dataRequirement = objectMapper.readValue<DataRequirement>(json)
 
         assertNull(dataRequirement.id)
@@ -193,7 +196,8 @@ class DataRequirementTest {
             |  }, {
             |    "id" : "67890"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
@@ -234,7 +238,8 @@ class DataRequirementTest {
             |  }, {
             |    "id" : "67890"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)

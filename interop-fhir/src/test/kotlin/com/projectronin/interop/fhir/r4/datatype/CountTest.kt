@@ -44,7 +44,8 @@ class CountTest {
             |  "unit" : "1",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "1"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCount = objectMapper.readValue<Count>(json)
@@ -77,7 +78,8 @@ class CountTest {
             |  "value" : 17.0,
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "1"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -86,7 +88,8 @@ class CountTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val count = objectMapper.readValue<Count>(json)
 
         Assertions.assertNull(count.id)

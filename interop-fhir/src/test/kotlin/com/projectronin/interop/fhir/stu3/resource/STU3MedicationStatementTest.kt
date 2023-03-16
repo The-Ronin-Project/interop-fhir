@@ -179,7 +179,6 @@ class STU3MedicationStatementTest {
     fun `can serialize and deserialize JSON`() {
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(goodSTU3MedicationStatement)
-        println(json)
 
         val expectedJson = """
           {
@@ -416,7 +415,7 @@ class STU3MedicationStatementTest {
                     ),
                     text = FHIRString("Drug not taken - patient lost tablets")
                 )
-            ),
+            )
         )
         val r4MedicationStatement = medicationStatement.transformToR4()
 

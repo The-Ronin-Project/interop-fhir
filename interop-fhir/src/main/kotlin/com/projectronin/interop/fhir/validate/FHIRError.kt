@@ -84,8 +84,11 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String) : FHI
     "INV_VALUE_SET",
     ValidationIssueSeverity.ERROR,
     "${
-    if (value.contains(",")) "'${value.replace(", ", "', '")}' are"
-    else "'$value' is"
+    if (value.contains(",")) {
+        "'${value.replace(", ", "', '")}' are"
+    } else {
+        "'$value' is"
+    }
     } outside of required value set",
     actualLocation
 ) {

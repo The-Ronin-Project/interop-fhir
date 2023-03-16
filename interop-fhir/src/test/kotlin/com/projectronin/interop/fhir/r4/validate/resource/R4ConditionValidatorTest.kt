@@ -27,7 +27,7 @@ class R4ConditionValidatorTest {
         val exception =
             assertThrows<IllegalArgumentException> {
                 val condition = Condition(
-                    subject = null,
+                    subject = null
                 )
                 R4ConditionValidator.validate(condition).alertIfErrors()
             }
@@ -318,7 +318,7 @@ class R4ConditionValidatorTest {
                 abatement = DynamicValue(
                     DynamicValueType.AGE,
                     Age(value = Decimal(55.0), code = Code("a"), system = CodeSystem.UCUM.uri)
-                ),
+                )
             )
             R4ConditionValidator.validate(condition).alertIfErrors()
         }

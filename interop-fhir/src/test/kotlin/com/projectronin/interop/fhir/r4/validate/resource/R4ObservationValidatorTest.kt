@@ -85,7 +85,7 @@ class R4ObservationValidatorTest {
                 code = CodeableConcept(text = FHIRString("code")),
                 subject = Reference(display = FHIRString("Peter Chalmers")),
                 value = DynamicValue(DynamicValueType.QUANTITY, quantity),
-                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein")),
+                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein"))
             )
             R4ObservationValidator.validate(observation).alertIfErrors()
         }
@@ -145,7 +145,7 @@ class R4ObservationValidatorTest {
                 code = CodeableConcept(text = FHIRString("code")),
                 subject = Reference(reference = FHIRString("subject")),
                 effective = DynamicValue(type = DynamicValueType.BOOLEAN, value = false),
-                value = (DynamicValue(DynamicValueType.QUANTITY, quantity)),
+                value = (DynamicValue(DynamicValueType.QUANTITY, quantity))
             )
             R4ObservationValidator.validate(observation).alertIfErrors()
         }
@@ -220,7 +220,7 @@ class R4ObservationComponentValidatorTest {
             val component = ObservationComponent(
                 code = CodeableConcept(text = FHIRString("code")),
                 value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
-                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein")),
+                dataAbsentReason = CodeableConcept(text = FHIRString("unable to reach vein"))
             )
             R4ObservationComponentValidator.validate(component).alertIfErrors()
         }

@@ -121,7 +121,8 @@ class DosageTest {
             |  "maxDosePerLifetime" : {
             |    "value" : 120.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDosage = objectMapper.readValue<Dosage>(json)
@@ -146,7 +147,8 @@ class DosageTest {
             |      "text" : "dose and rate type"
             |    }
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -155,7 +157,8 @@ class DosageTest {
         val json = """
             |{
             |  "asNeededBoolean" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val dosage = objectMapper.readValue<Dosage>(json)
 
         assertNull(dosage.id)

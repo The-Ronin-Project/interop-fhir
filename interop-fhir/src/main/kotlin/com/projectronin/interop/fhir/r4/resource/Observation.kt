@@ -62,7 +62,7 @@ data class Observation(
     val referenceRange: List<ObservationReferenceRange> = listOf(),
     val hasMember: List<Reference> = listOf(),
     val derivedFrom: List<Reference> = listOf(),
-    val component: List<ObservationComponent> = listOf(),
+    val component: List<ObservationComponent> = listOf()
 ) : DomainResource<Observation> {
     override val resourceType: String = "Observation"
 }
@@ -83,7 +83,7 @@ data class ObservationComponent(
     val value: DynamicValue<Any>? = null,
     val dataAbsentReason: CodeableConcept? = null,
     val interpretation: List<CodeableConcept> = listOf(),
-    val referenceRange: List<ObservationReferenceRange> = listOf(),
+    val referenceRange: List<ObservationReferenceRange> = listOf()
 ) : BackboneElement<ObservationComponent>
 
 class ObservationComponentDeserializer : BaseFHIRDeserializer<ObservationComponent>(ObservationComponent::class.java)
@@ -104,7 +104,7 @@ data class ObservationReferenceRange(
     val type: CodeableConcept? = null,
     val appliesTo: List<CodeableConcept> = listOf(),
     val age: Range? = null,
-    val text: FHIRString? = null,
+    val text: FHIRString? = null
 ) : BackboneElement<ObservationReferenceRange>
 
 class ObservationReferenceRangeSerializer :

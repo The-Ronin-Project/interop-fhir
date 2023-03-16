@@ -37,7 +37,7 @@ class EncounterTest {
         val encounter = Encounter(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninEncounter")),
+                profile = listOf(Canonical("RoninEncounter"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -709,7 +709,7 @@ class EncounterDiagnosisTest {
                     value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            condition = Reference(reference = FHIRString("Condition/example")),
+            condition = Reference(reference = FHIRString("Condition/example"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterDiagnosis)
 
@@ -1026,7 +1026,7 @@ class EncounterLocationTest {
                     value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            location = Reference(reference = FHIRString("Location/f001")),
+            location = Reference(reference = FHIRString("Location/f001"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterLocation)
 

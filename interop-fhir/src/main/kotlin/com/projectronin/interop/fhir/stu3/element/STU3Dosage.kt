@@ -60,7 +60,7 @@ data class STU3Dosage(
             doseAndRate = transformToR4DoseAndRate(dose, rate),
             maxDosePerPeriod = maxDosePerPeriod,
             maxDosePerAdministration = maxDosePerAdministration,
-            maxDosePerLifetime = maxDosePerLifetime,
+            maxDosePerLifetime = maxDosePerLifetime
         )
     }
 

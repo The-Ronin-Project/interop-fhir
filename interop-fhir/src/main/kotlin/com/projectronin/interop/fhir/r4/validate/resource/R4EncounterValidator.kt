@@ -22,7 +22,6 @@ object R4EncounterValidator : R4ElementContainingValidator<Encounter>() {
 
     override fun validateElement(element: Encounter, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
                 checkCodedEnum<EncounterStatus>(
@@ -47,7 +46,6 @@ object R4EncounterClassHistoryValidator : R4ElementContainingValidator<Encounter
 
     override fun validateElement(element: EncounterClassHistory, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-
             checkNotNull(element.`class`, requiredClassError, parentContext)
 
             checkNotNull(element.period, requiredPeriodError, parentContext)
@@ -78,7 +76,6 @@ object R4EncounterLocationValidator : R4ElementContainingValidator<EncounterLoca
 
     override fun validateElement(element: EncounterLocation, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-
             checkNotNull(element.location, requiredLocationError, parentContext)
 
             ifNotNull(element.status) {
@@ -106,7 +103,6 @@ object R4EncounterStatusHistoryValidator : R4ElementContainingValidator<Encounte
         validation: Validation
     ) {
         validation.apply {
-
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
                 checkCodedEnum<EncounterStatus>(

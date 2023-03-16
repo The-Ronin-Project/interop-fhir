@@ -48,7 +48,8 @@ class ParameterDefinitionTest {
             |  "documentation" : "parameter documentation",
             |  "type" : "integer",
             |  "profile" : "profile-canonical"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedParameterDefinition = objectMapper.readValue<ParameterDefinition>(json)
@@ -65,7 +66,8 @@ class ParameterDefinitionTest {
             |{
             |  "use" : "out",
             |  "type" : "integer"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -75,7 +77,8 @@ class ParameterDefinitionTest {
             |{
             |  "use" : "out",
             |  "type" : "integer"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val parameterDefinition = objectMapper.readValue<ParameterDefinition>(json)
 
         assertNull(parameterDefinition.id)

@@ -12,7 +12,7 @@ import net.datafaker.Faker
 
 class LocationGenerator(
     override val id: DataGenerator<Id?> = NullDataGenerator(),
-    override val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
+    override val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator())
 ) : FhirTestResource<Location> {
     val name: DataGenerator<String> = LocationNameGenerator()
     override fun toFhir(): Location =

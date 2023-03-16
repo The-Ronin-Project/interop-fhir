@@ -52,7 +52,8 @@ class SignatureTest {
             |  "targetFormat" : "target-format",
             |  "sigFormat" : "sig-format",
             |  "data" : "1234"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSignature = objectMapper.readValue<Signature>(json)
@@ -77,7 +78,8 @@ class SignatureTest {
             |  "who" : {
             |    "display" : "Reference"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -92,7 +94,8 @@ class SignatureTest {
             |  "who" : {
             |    "display" : "Reference"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val signature = objectMapper.readValue<Signature>(json)
 
         assertNull(signature.id)

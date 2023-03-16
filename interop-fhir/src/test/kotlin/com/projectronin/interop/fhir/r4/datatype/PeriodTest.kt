@@ -34,7 +34,8 @@ class PeriodTest {
             |  } ],
             |  "start" : "1998-08",
             |  "end" : "2002-05"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPeriod = objectMapper.readValue<Period>(json)
@@ -51,7 +52,8 @@ class PeriodTest {
         val expectedJson = """
             |{
             |  "start" : "1998-08"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -66,7 +68,8 @@ class PeriodTest {
             |  } ],
             |  "start" : "1998-08",
             |  "end" : "2002-05"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val period = objectMapper.readValue<Period>(json)
 
         assertEquals(FHIRString("12345"), period.id)
@@ -87,7 +90,8 @@ class PeriodTest {
         val json = """
             |{
             |  "end" : "2002-05"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val period = objectMapper.readValue<Period>(json)
 
         assertNull(period.id)

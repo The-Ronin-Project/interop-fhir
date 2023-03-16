@@ -169,7 +169,7 @@ class R4PatientContactValidatorTest {
                     value = FHIRString("name@site.com"),
                     system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.EMAIL.asCode()
                 )
-            ),
+            )
         )
         R4PatientContactValidator.validate(contact).alertIfErrors()
     }

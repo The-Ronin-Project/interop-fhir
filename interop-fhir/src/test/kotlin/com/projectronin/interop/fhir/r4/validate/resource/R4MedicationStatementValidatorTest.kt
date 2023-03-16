@@ -25,7 +25,7 @@ class R4MedicationStatementValidatorTest {
             val medicationStatement = MedicationStatement(
                 status = null,
                 medication = medication,
-                subject = Reference(display = FHIRString("reference")),
+                subject = Reference(display = FHIRString("reference"))
             )
             R4MedicationStatementValidator.validate(medicationStatement).alertIfErrors()
         }
@@ -47,7 +47,7 @@ class R4MedicationStatementValidatorTest {
             val medicationStatement = MedicationStatement(
                 status = Code("unsupported-status"),
                 medication = medication,
-                subject = Reference(display = FHIRString("reference")),
+                subject = Reference(display = FHIRString("reference"))
             )
             R4MedicationStatementValidator.validate(medicationStatement).alertIfErrors()
         }
@@ -64,7 +64,7 @@ class R4MedicationStatementValidatorTest {
             val medicationStatement = MedicationStatement(
                 status = MedicationStatementStatus.COMPLETED.asCode(),
                 medication = null,
-                subject = Reference(display = FHIRString("reference")),
+                subject = Reference(display = FHIRString("reference"))
             )
             R4MedicationStatementValidator.validate(medicationStatement).alertIfErrors()
         }
@@ -82,7 +82,7 @@ class R4MedicationStatementValidatorTest {
             val medicationStatement = MedicationStatement(
                 status = MedicationStatementStatus.COMPLETED.asCode(),
                 medication = medication,
-                subject = Reference(display = FHIRString("reference")),
+                subject = Reference(display = FHIRString("reference"))
             )
             R4MedicationStatementValidator.validate(medicationStatement).alertIfErrors()
         }
@@ -147,7 +147,7 @@ class R4MedicationStatementValidatorTest {
         val medicationStatement = MedicationStatement(
             status = MedicationStatementStatus.COMPLETED.asCode(),
             medication = medication,
-            subject = Reference(display = FHIRString("reference")),
+            subject = Reference(display = FHIRString("reference"))
         )
         R4MedicationStatementValidator.validate(medicationStatement).alertIfErrors()
     }

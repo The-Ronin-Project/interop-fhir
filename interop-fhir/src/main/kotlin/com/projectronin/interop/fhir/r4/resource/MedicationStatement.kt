@@ -47,7 +47,7 @@ data class MedicationStatement(
     val reasonCode: List<CodeableConcept> = listOf(),
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
-    val dosage: List<Dosage> = listOf(),
+    val dosage: List<Dosage> = listOf()
 ) : DomainResource<MedicationStatement> {
     override val resourceType: String = "MedicationStatement"
 }

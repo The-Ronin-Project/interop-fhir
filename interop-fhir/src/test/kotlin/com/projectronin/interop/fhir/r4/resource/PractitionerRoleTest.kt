@@ -32,7 +32,7 @@ class PractitionerRoleTest {
         val practitionerRole = PractitionerRole(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninPractitionerRole")),
+                profile = listOf(Canonical("RoninPractitionerRole"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -131,7 +131,8 @@ class PractitionerRoleTest {
             |  "endpoint" : [ {
             |    "reference" : "Endpoint/1357"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPractitionerRole = objectMapper.readValue<PractitionerRole>(json)
@@ -151,7 +152,8 @@ class PractitionerRoleTest {
             |  "identifier" : [ {
             |    "value" : "id"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -161,7 +163,8 @@ class PractitionerRoleTest {
             |{
             |  "resourceType" : "PractitionerRole",
             |  "active" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val practitionerRole = objectMapper.readValue<PractitionerRole>(json)
 
         assertNull(practitionerRole.id)
@@ -227,7 +230,8 @@ class NotAvailableTest {
             |    "start" : "2021-12-01",
             |    "end" : "2021-12-08"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedNotAvailable = objectMapper.readValue<NotAvailable>(json)
@@ -244,7 +248,8 @@ class NotAvailableTest {
         val expectedJson = """
             |{
             |  "description" : "Vacation"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -253,7 +258,8 @@ class NotAvailableTest {
         val json = """
             |{
             |  "description" : "Vacation"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val notAvailable = objectMapper.readValue<NotAvailable>(json)
 
         assertNull(notAvailable.id)

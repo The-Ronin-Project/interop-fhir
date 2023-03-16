@@ -41,7 +41,8 @@ class ReferenceTest {
             |    "value" : "123"
             |  },
             |  "display" : "Patient 123"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedReference = objectMapper.readValue<Reference>(json)
@@ -57,7 +58,8 @@ class ReferenceTest {
             |{
             |  "type" : "Patient",
             |  "display" : "any"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -66,7 +68,8 @@ class ReferenceTest {
         val json = """
             |{
             |  "reference" : "Patient/123"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val reference = objectMapper.readValue<Reference>(json)
 
         assertNull(reference.id)

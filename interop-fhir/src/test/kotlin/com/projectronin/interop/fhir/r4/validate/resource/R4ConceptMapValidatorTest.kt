@@ -32,11 +32,12 @@ class R4ConceptMapValidatorTest {
             ex.message
         )
     }
+
     @Test
     fun `status is outside of required value set`() {
         val ex = assertThrows<IllegalArgumentException> {
             val conceptMap = ConceptMap(
-                status = Code("unsupported-status"),
+                status = Code("unsupported-status")
             )
             R4ConceptMapValidator.validate(conceptMap).alertIfErrors()
         }
@@ -68,7 +69,7 @@ class R4ConceptMapGroupValidatorsTest {
     fun `unmapped -  mode is outside of required value set`() {
         val ex = assertThrows<IllegalArgumentException> {
             val unmapped = ConceptMapUnmapped(
-                mode = Code("unsupported-status"),
+                mode = Code("unsupported-status")
             )
             R4ConceptMapUnmappedValidator.validate(unmapped).alertIfErrors()
         }

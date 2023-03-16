@@ -54,7 +54,7 @@ class ObservationTest {
         val observation = Observation(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninObservationHeartRate")),
+                profile = listOf(Canonical("RoninObservationHeartRate"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -112,7 +112,7 @@ class ObservationTest {
                     code = valueType,
                     value = DynamicValue(DynamicValueType.QUANTITY, quantityValue)
                 )
-            ),
+            )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation)
 
@@ -244,7 +244,7 @@ class ObservationTest {
         val observation = Observation(
             status = ObservationStatus.FINAL.asCode(),
             code = CodeableConcept(text = FHIRString("code")),
-            subject = Reference(reference = FHIRString("subject")),
+            subject = Reference(reference = FHIRString("subject"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation)
 

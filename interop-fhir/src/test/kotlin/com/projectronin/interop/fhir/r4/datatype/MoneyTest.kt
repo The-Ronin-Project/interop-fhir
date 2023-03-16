@@ -35,7 +35,8 @@ class MoneyTest {
             |  } ],
             |  "value" : 5.99,
             |  "currency" : "USD"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMoney = objectMapper.readValue<Money>(json)
@@ -50,7 +51,8 @@ class MoneyTest {
         val expectedJson = """
             |{
             |  "value" : 3.24
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -59,7 +61,8 @@ class MoneyTest {
         val json = """
             |{
             |  "currency" : "USD"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val money = objectMapper.readValue<Money>(json)
 
         assertNull(money.id)

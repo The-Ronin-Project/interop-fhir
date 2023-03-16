@@ -42,7 +42,7 @@ class PatientTest {
         val patient = Patient(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninPatient")),
+                profile = listOf(Canonical("RoninPatient"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -376,7 +376,7 @@ class PatientContactTest {
                     value = FHIRString("name@site.com"),
                     system = ContactPointSystem.EMAIL.asCode()
                 )
-            ),
+            )
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 

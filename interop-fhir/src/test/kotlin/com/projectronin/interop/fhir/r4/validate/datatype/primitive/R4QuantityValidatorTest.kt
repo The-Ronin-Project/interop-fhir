@@ -37,7 +37,7 @@ class R4QuantityValidatorTest {
             val quantity = Quantity(
                 value = Decimal(60.0),
                 unit = FHIRString("mL/min/1.73m2"),
-                code = Code("mL/min/{1.73_m2}"),
+                code = Code("mL/min/{1.73_m2}")
             )
             R4QuantityValidator.validate(quantity).alertIfErrors()
         }

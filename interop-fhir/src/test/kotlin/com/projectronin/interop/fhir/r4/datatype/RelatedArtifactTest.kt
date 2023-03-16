@@ -50,7 +50,8 @@ class RelatedArtifactTest {
             |    "url" : "http://localhost/artifact/document"
             |  },
             |  "resource" : "resource-canonical"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRelatedArtifact = objectMapper.readValue<RelatedArtifact>(json)
@@ -65,7 +66,8 @@ class RelatedArtifactTest {
         val expectedJson = """
             |{
             |  "type" : "documentation"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -74,7 +76,8 @@ class RelatedArtifactTest {
         val json = """
             |{
             |  "type" : "documentation"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val relatedArtifact = objectMapper.readValue<RelatedArtifact>(json)
 
         assertNull(relatedArtifact.id)

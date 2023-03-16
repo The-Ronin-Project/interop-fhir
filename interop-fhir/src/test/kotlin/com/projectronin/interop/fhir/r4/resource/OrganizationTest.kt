@@ -33,7 +33,7 @@ class OrganizationTest {
         val organization = Organization(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninOrganization")),
+                profile = listOf(Canonical("RoninOrganization"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -89,7 +89,7 @@ class OrganizationTest {
                                 code = Code("ADMIN")
                             )
                         )
-                    ),
+                    )
                 )
             ),
             endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321")))
@@ -339,7 +339,7 @@ class OrganizationContactTest {
                     value = FHIRString("8675309")
                 )
             ),
-            address = Address(country = FHIRString("USA")),
+            address = Address(country = FHIRString("USA"))
         )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organizationContact)
 

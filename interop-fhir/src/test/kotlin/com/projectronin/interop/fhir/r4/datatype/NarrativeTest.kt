@@ -35,7 +35,8 @@ class NarrativeTest {
             |  } ],
             |  "status" : "generated",
             |  "div" : "narrative text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedNarrative = objectMapper.readValue<Narrative>(json)
@@ -51,7 +52,8 @@ class NarrativeTest {
             |{
             |  "status" : "generated",
             |  "div" : "narrative text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -61,7 +63,8 @@ class NarrativeTest {
             |{
             |  "status" : "generated",
             |  "div" : "narrative text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val narrative = objectMapper.readValue<Narrative>(json)
 
         assertNull(narrative.id)

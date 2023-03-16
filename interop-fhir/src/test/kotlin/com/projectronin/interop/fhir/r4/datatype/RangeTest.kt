@@ -38,7 +38,8 @@ class RangeTest {
             |  "high" : {
             |    "value" : 10.3
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRange = objectMapper.readValue<Range>(json)
@@ -55,7 +56,8 @@ class RangeTest {
             |  "low" : {
             |    "value" : 1.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -66,7 +68,8 @@ class RangeTest {
             |  "high" : {
             |    "value" : 10.3
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val range = objectMapper.readValue<Range>(json)
 
         assertNull(range.id)

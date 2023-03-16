@@ -7,5 +7,5 @@ enum class ConceptMapStatus(@JsonValue override val code: String) : CodedEnum<Co
     DRAFT("draft"),
     ACTIVE("active"),
     RETIRED("retired"),
-    UNKNOWN("unknown"),
+    UNKNOWN("unknown")
 }

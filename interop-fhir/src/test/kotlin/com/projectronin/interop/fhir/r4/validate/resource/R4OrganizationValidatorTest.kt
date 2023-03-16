@@ -97,7 +97,7 @@ class R4OrganizationValidatorTest {
             telecom = listOf(
                 ContactPoint(
                     value = FHIRString("8675309"),
-                    system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.PHONE.asCode(),
+                    system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.PHONE.asCode()
                 )
             )
         )
@@ -112,7 +112,7 @@ class R4OrganizationValidatorTest {
             telecom = listOf(
                 ContactPoint(
                     value = FHIRString("8675309"),
-                    system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.PHONE.asCode(),
+                    system = com.projectronin.interop.fhir.r4.valueset.ContactPointSystem.PHONE.asCode()
                 )
             )
         )

@@ -51,7 +51,7 @@ class STU3DosageTest {
         ),
         rate = DynamicValue(
             type = DynamicValueType.QUANTITY,
-            value = Quantity(value = Decimal(2.0)),
+            value = Quantity(value = Decimal(2.0))
         ),
         maxDosePerPeriod = Ratio(
             numerator = Quantity(value = Decimal(2.0)),
@@ -114,7 +114,8 @@ class STU3DosageTest {
             |  "maxDosePerLifetime" : {
             |    "value" : 120.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDosage = objectMapper.readValue<STU3Dosage>(json)
@@ -133,7 +134,8 @@ class STU3DosageTest {
             |  "doseQuantity" : {
             |    "value" : 3.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -142,7 +144,8 @@ class STU3DosageTest {
         val json = """
             |{
             |  "asNeededBoolean" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val dosage = objectMapper.readValue<STU3Dosage>(json)
 
         assertNull(dosage.id)

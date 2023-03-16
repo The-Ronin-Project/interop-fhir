@@ -135,7 +135,7 @@ class ConceptMapTest {
         val conceptMap = ConceptMap(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninConceptMap/guid")),
+                profile = listOf(Canonical("RoninConceptMap/guid"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),

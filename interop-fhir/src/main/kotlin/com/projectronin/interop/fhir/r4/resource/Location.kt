@@ -55,7 +55,7 @@ data class Location(
     val partOf: Reference? = null,
     val hoursOfOperation: List<LocationHoursOfOperation> = listOf(),
     val availabilityExceptions: FHIRString? = null,
-    val endpoint: List<Reference> = listOf(),
+    val endpoint: List<Reference> = listOf()
 ) : DomainResource<Location> {
     override val resourceType: String = "Location"
 }
@@ -95,7 +95,7 @@ data class LocationPosition(
     override val modifierExtension: List<Extension> = listOf(),
     val longitude: Decimal?,
     val latitude: Decimal?,
-    val altitude: Decimal? = null,
+    val altitude: Decimal? = null
 ) : BackboneElement<LocationPosition>
 
 class LocationPositionSerializer : BaseFHIRSerializer<LocationPosition>(LocationPosition::class.java)

@@ -62,7 +62,7 @@ data class Encounter(
     val hospitalization: EncounterHospitalization? = null,
     val location: List<EncounterLocation> = listOf(),
     val serviceProvider: Reference? = null,
-    val partOf: Reference? = null,
+    val partOf: Reference? = null
 ) : DomainResource<Encounter> {
     override val resourceType: String = "Encounter"
 }
@@ -81,7 +81,7 @@ data class EncounterClassHistory(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val `class`: Code?,
-    val period: Period?,
+    val period: Period?
 ) : BackboneElement<EncounterClassHistory>
 
 class EncounterClassHistorySerializer : BaseFHIRSerializer<EncounterClassHistory>(EncounterClassHistory::class.java)
@@ -99,7 +99,7 @@ data class EncounterDiagnosis(
     override val modifierExtension: List<Extension> = listOf(),
     val condition: Reference?,
     val use: CodeableConcept? = null,
-    val rank: PositiveInt? = null,
+    val rank: PositiveInt? = null
 ) : BackboneElement<EncounterDiagnosis>
 
 class EncounterDiagnosisSerializer : BaseFHIRSerializer<EncounterDiagnosis>(EncounterDiagnosis::class.java)
@@ -123,7 +123,7 @@ data class EncounterHospitalization(
     val specialCourtesy: List<CodeableConcept> = listOf(),
     val specialArrangement: List<CodeableConcept> = listOf(),
     val destination: Reference? = null,
-    val dischargeDisposition: CodeableConcept? = null,
+    val dischargeDisposition: CodeableConcept? = null
 ) : BackboneElement<EncounterHospitalization>
 
 class EncounterHospitalizationSerializer :
@@ -145,7 +145,7 @@ data class EncounterLocation(
     val location: Reference?,
     val status: Code? = null,
     val physicalType: CodeableConcept? = null,
-    val period: Period? = null,
+    val period: Period? = null
 ) : BackboneElement<EncounterLocation>
 
 class EncounterLocationSerializer : BaseFHIRSerializer<EncounterLocation>(EncounterLocation::class.java)
@@ -163,7 +163,7 @@ data class EncounterParticipant(
     override val modifierExtension: List<Extension> = listOf(),
     val type: List<CodeableConcept> = listOf(),
     val period: Period? = null,
-    val individual: Reference? = null,
+    val individual: Reference? = null
 ) : BackboneElement<EncounterParticipant>
 
 class EncounterParticipantSerializer : BaseFHIRSerializer<EncounterParticipant>(EncounterParticipant::class.java)
@@ -180,7 +180,7 @@ data class EncounterStatusHistory(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val status: Code?,
-    val period: Period?,
+    val period: Period?
 ) : BackboneElement<EncounterStatusHistory>
 
 class EncounterStatusHistorySerializer : BaseFHIRSerializer<EncounterStatusHistory>(EncounterStatusHistory::class.java)

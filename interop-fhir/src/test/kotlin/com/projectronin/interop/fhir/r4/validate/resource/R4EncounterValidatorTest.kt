@@ -31,7 +31,7 @@ class R4EncounterValidatorTest {
     fun `validate - succeeds with only required attributes`() {
         val encounter = Encounter(
             status = EncounterStatus.TRIAGED.asCode(),
-            `class` = Coding(code = EncounterStatus.TRIAGED.asCode()),
+            `class` = Coding(code = EncounterStatus.TRIAGED.asCode())
         )
         R4EncounterValidator.validate(encounter).alertIfErrors()
     }
@@ -98,7 +98,7 @@ class R4EncounterValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounter = Encounter(
                     status = null,
-                    `class` = Coding(code = EncounterStatus.UNKNOWN.asCode()),
+                    `class` = Coding(code = EncounterStatus.UNKNOWN.asCode())
                 )
                 R4EncounterValidator.validate(encounter).alertIfErrors()
             }
@@ -115,7 +115,7 @@ class R4EncounterValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounter = Encounter(
                     status = Code("unavailable"),
-                    `class` = Coding(code = EncounterStatus.UNKNOWN.asCode()),
+                    `class` = Coding(code = EncounterStatus.UNKNOWN.asCode())
                 )
                 R4EncounterValidator.validate(encounter).alertIfErrors()
             }
@@ -203,7 +203,7 @@ class R4EncounterClassHistoryValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounterClassHistory = EncounterClassHistory(
                     `class` = Code("PRENC"),
-                    period = null,
+                    period = null
                 )
                 R4EncounterClassHistoryValidator.validate(encounterClassHistory).alertIfErrors()
             }
@@ -220,7 +220,7 @@ class R4EncounterClassHistoryValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounterClassHistory = EncounterClassHistory(
                     `class` = null,
-                    period = null,
+                    period = null
                 )
                 R4EncounterClassHistoryValidator.validate(encounterClassHistory).alertIfErrors()
             }
@@ -435,7 +435,7 @@ class R4EncounterStatusHistoryValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounterStatusHistory = EncounterStatusHistory(
                     status = EncounterStatus.TRIAGED.asCode(),
-                    period = null,
+                    period = null
                 )
                 R4EncounterStatusHistoryValidator.validate(encounterStatusHistory).alertIfErrors()
             }
@@ -452,7 +452,7 @@ class R4EncounterStatusHistoryValidatorTest {
             assertThrows<IllegalArgumentException> {
                 val encounterStatusHistory = EncounterStatusHistory(
                     status = null,
-                    period = null,
+                    period = null
                 )
                 R4EncounterStatusHistoryValidator.validate(encounterStatusHistory).alertIfErrors()
             }

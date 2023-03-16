@@ -83,6 +83,7 @@ data class MedicationRequest(
 
 class MedicationRequestSerializer : BaseFHIRSerializer<MedicationRequest>(MedicationRequest::class.java)
 class MedicationRequestDeserializer : BaseFHIRDeserializer<MedicationRequest>(MedicationRequest::class.java)
+
 /**
  * Medication supply authorization
  */

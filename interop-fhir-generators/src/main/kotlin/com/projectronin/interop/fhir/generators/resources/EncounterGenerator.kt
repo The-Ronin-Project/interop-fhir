@@ -26,7 +26,7 @@ data class EncounterGenerator(
     val `class`: CodingGenerator = CodingGenerator(),
     val period: DataGenerator<Period> = PeriodGenerator(),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
-    val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
+    val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
 ) : FhirTestResource<Encounter> {
 
     override fun toFhir(): Encounter =

@@ -52,7 +52,8 @@ class ContributorTest {
             |      "value" : "josh@projectronin.com"
             |    } ]
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Contributor>(json)
@@ -71,7 +72,8 @@ class ContributorTest {
             |{
             |  "type" : "author",
             |  "name" : "Josh Smith"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -81,7 +83,8 @@ class ContributorTest {
             |{
             |  "type" : "author",
             |  "name" : "Josh Smith"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val contributor = objectMapper.readValue<Contributor>(json)
 
         assertNull(contributor.id)

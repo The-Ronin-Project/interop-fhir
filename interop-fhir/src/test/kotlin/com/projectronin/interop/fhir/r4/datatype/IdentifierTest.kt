@@ -55,7 +55,8 @@ class IdentifierTest {
             |    "reference" : "Organization/123",
             |    "type" : "Organization"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedIdentifier = JacksonManager.objectMapper.readValue<Identifier>(json)
@@ -70,7 +71,8 @@ class IdentifierTest {
         val expectedJson = """
             |{
             |  "use" : "official"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -79,7 +81,8 @@ class IdentifierTest {
         val json = """
             |{
             |  "value" : "identifier"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val identifier = JacksonManager.objectMapper.readValue<Identifier>(json)
 
         assertNull(identifier.id)
@@ -150,7 +153,8 @@ class IdentifierTest {
             |    "reference" : "Organization/123",
             |    "type" : "Organization"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedIdentifier = JacksonManager.objectMapper.readValue<Identifier>(json)
@@ -169,7 +173,8 @@ class IdentifierTest {
             |      "url" : "http://hl7.org/fhir/StructureDefinition/rendered-value"
             |    } ]
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val identifier = JacksonManager.objectMapper.readValue<Identifier>(json)
 
         assertNull(identifier.id)

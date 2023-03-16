@@ -38,7 +38,8 @@ class AnnotationTest {
             |  "authorString" : "Author",
             |  "time" : "2021-11-17",
             |  "text" : "Markdown text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAnnotation = objectMapper.readValue<Annotation>(json)
@@ -55,7 +56,8 @@ class AnnotationTest {
         val expectedJson = """
             |{
             |  "text" : "Markdown text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -64,7 +66,8 @@ class AnnotationTest {
         val json = """
             |{
             |  "text" : "Markdown text"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val annotation = objectMapper.readValue<Annotation>(json)
 
         assertNull(annotation.id)
@@ -116,7 +119,8 @@ class AnnotationTest {
             |      "valueCode" : "e-mail"
             |    } ]
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAnnotation = objectMapper.readValue<Annotation>(json)

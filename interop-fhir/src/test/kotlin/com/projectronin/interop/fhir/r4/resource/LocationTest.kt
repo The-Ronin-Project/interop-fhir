@@ -57,7 +57,7 @@ class LocationTest {
         val location = Location(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("https://www.hl7.org/fhir/location")),
+                profile = listOf(Canonical("https://www.hl7.org/fhir/location"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -166,7 +166,8 @@ class LocationTest {
             |  "endpoint" : [ {
             |    "reference" : "Endpoint/4321"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedLocation = objectMapper.readValue<Location>(json)
@@ -182,7 +183,8 @@ class LocationTest {
             |{
             |  "resourceType" : "Location",
             |  "status" : "active"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -192,7 +194,8 @@ class LocationTest {
             |{
             |  "resourceType" : "Location",
             |  "mode" : "instance"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val location = objectMapper.readValue<Location>(json)
 
         assertNull(location.id)
@@ -242,7 +245,8 @@ class LocationHoursOfOperationTest {
             |  "allDay" : true,
             |  "openingTime" : "06:30:00",
             |  "closingTime" : "18:00:00"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedHoursOfOperation = objectMapper.readValue<LocationHoursOfOperation>(json)
@@ -257,7 +261,8 @@ class LocationHoursOfOperationTest {
         val expectedJson = """
             |{
             |  "id" : "12345"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -266,7 +271,8 @@ class LocationHoursOfOperationTest {
         val json = """
             |{
             |  "id" : "12345"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val hoursOfOperation = objectMapper.readValue<LocationHoursOfOperation>(json)
 
         assertEquals(FHIRString("12345"), hoursOfOperation.id)
@@ -305,7 +311,8 @@ class LocationPositionTest {
             |  "longitude" : 13.81531,
             |  "latitude" : 66.077132,
             |  "altitude" : 17.0
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPosition = objectMapper.readValue<LocationPosition>(json)
@@ -324,7 +331,8 @@ class LocationPositionTest {
             |{
             |  "longitude" : 13.81531,
             |  "latitude" : 66.077132
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -334,7 +342,8 @@ class LocationPositionTest {
             |{
             |  "longitude" : 13.81531,
             |  "latitude" : 66.077132
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val position = objectMapper.readValue<LocationPosition>(json)
 
         assertNull(position.id)

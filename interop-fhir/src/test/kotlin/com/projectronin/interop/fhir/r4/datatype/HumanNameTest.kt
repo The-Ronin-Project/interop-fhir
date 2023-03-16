@@ -48,7 +48,8 @@ class HumanNameTest {
             |  "period" : {
             |    "start" : "1994-02-29"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedHumanName = objectMapper.readValue<HumanName>(json)
@@ -65,7 +66,8 @@ class HumanNameTest {
         val expectedJson = """
             |{
             |  "text" : "Name"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -74,7 +76,8 @@ class HumanNameTest {
         val json = """
             |{
             |  "use" : "nickname"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val humanName = objectMapper.readValue<HumanName>(json)
 
         assertNull(humanName.id)

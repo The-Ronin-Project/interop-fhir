@@ -55,7 +55,7 @@ class R4ExtensionValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             val extension = Extension(
                 id = FHIRString("12345"),
-                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
+                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use")
             )
             R4ExtensionValidator.validate(extension).alertIfErrors()
         }

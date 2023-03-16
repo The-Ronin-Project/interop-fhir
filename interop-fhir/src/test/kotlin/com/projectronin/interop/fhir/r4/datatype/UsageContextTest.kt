@@ -38,7 +38,8 @@ class UsageContextTest {
             |  "valueQuantity" : {
             |    "value" : 1.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedUsageContext = objectMapper.readValue<UsageContext>(json)
@@ -61,7 +62,8 @@ class UsageContextTest {
             |  "valueQuantity" : {
             |    "value" : 1.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -75,7 +77,8 @@ class UsageContextTest {
             |  "valueQuantity" : {
             |    "value" : 1.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val usageContext = objectMapper.readValue<UsageContext>(json)
 
         assertNull(usageContext.id)

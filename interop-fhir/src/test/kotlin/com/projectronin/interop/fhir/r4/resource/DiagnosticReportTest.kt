@@ -30,7 +30,7 @@ class DiagnosticReportTest {
         val diagnosticReport = DiagnosticReport(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninAppointment")),
+                profile = listOf(Canonical("RoninAppointment"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),

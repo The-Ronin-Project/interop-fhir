@@ -51,7 +51,8 @@ class AvailableTimeTest {
             |  "allDay" : false,
             |  "availableStartTime" : "08:00:00",
             |  "availableEndTime" : "16:00:00"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAvailableTime = objectMapper.readValue<AvailableTime>(json)
@@ -68,7 +69,8 @@ class AvailableTimeTest {
         val expectedJson = """
             |{
             |  "availableStartTime" : "08:00:00"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -77,7 +79,8 @@ class AvailableTimeTest {
         val json = """
             |{
             |  "allDay" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val availableTime = objectMapper.readValue<AvailableTime>(json)
 
         assertNull(availableTime.id)

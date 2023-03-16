@@ -36,7 +36,7 @@ class MedicationStatementTest {
         val medicationStatement = MedicationStatement(
             id = Id("123"),
             meta = Meta(
-                profile = listOf(Canonical("RoninMedicationStatement")),
+                profile = listOf(Canonical("RoninMedicationStatement"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),

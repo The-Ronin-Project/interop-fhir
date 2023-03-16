@@ -35,7 +35,8 @@ class CodeableConceptTest {
             |    "system" : "coding-system"
             |  } ],
             |  "text" : "concept"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCodeableConcept = objectMapper.readValue<CodeableConcept>(json)
@@ -52,7 +53,8 @@ class CodeableConceptTest {
         val expectedJson = """
             |{
             |  "text" : "concept"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -61,7 +63,8 @@ class CodeableConceptTest {
         val json = """
             |{
             |  "id" : "12345"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val codeableConcept = objectMapper.readValue<CodeableConcept>(json)
 
         assertEquals(FHIRString("12345"), codeableConcept.id)

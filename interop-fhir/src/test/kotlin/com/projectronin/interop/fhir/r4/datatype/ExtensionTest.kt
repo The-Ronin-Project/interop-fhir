@@ -20,7 +20,7 @@ class ExtensionTest {
                     value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
                 )
             ),
-            url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
+            url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(extension)
 
@@ -32,7 +32,8 @@ class ExtensionTest {
             |    "valueString" : "Value"
             |  } ],
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Extension>(json)
@@ -53,7 +54,8 @@ class ExtensionTest {
             |  "id" : "12345",
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Extension>(json)
@@ -72,7 +74,8 @@ class ExtensionTest {
             |{
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -82,7 +85,8 @@ class ExtensionTest {
             |{
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val extension = objectMapper.readValue<Extension>(json)
 
         assertNull(extension.id)

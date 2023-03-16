@@ -56,7 +56,8 @@ class AddressTest {
             |    "start" : "1998-08",
             |    "end" : "2002-05"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAddress = objectMapper.readValue<Address>(json)
@@ -96,7 +97,8 @@ class AddressTest {
             |      "url" : "http://localhost/string-extension",
             |      "valueString" : "Value"
             |    } ]
-            |  }""".trimMargin()
+            |  }
+        """.trimMargin()
 
         val expectedJson = """
             |{
@@ -126,7 +128,8 @@ class AddressTest {
             |    "start" : "1998-08",
             |    "end" : "2002-05"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAddress = objectMapper.readValue<Address>(json)
@@ -142,7 +145,8 @@ class AddressTest {
         val expectedJson = """
             |{
             |  "type" : "postal"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -151,7 +155,8 @@ class AddressTest {
         val json = """
             |{
             |  "use" : "home"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val address = objectMapper.readValue<Address>(json)
 
         assertNull(address.id)
@@ -175,7 +180,8 @@ class AddressTest {
         val json = """
             |{
             |  "line" : [ "925 Powder Springs St", "" ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
 
         val address = objectMapper.readValue<Address>(json)
 
@@ -189,7 +195,8 @@ class AddressTest {
         val json = """
             |{
             |  "line" : [ "925 Powder Springs St", "   " ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
 
         val address = objectMapper.readValue<Address>(json)
 

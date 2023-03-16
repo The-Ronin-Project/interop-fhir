@@ -61,7 +61,7 @@ data class CareTeamParticipant(
     val role: List<CodeableConcept> = listOf(),
     val member: Reference? = null,
     val onBehalfOf: Reference? = null,
-    val period: Period? = null,
+    val period: Period? = null
 ) : BackboneElement<CareTeamParticipant>
 
 class CareTeamParticipantSerializer : BaseFHIRSerializer<CareTeamParticipant>(CareTeamParticipant::class.java)

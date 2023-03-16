@@ -38,7 +38,8 @@ class RatioTest {
             |  "denominator" : {
             |    "value" : 4.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRatio = objectMapper.readValue<Ratio>(json)
@@ -58,7 +59,8 @@ class RatioTest {
             |  "denominator" : {
             |    "value" : 4.0
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -70,7 +72,8 @@ class RatioTest {
             |    "url" : "http://localhost/extension",
             |    "valueString" : "Value"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val ratio = objectMapper.readValue<Ratio>(json)
 
         assertNull(ratio.id)

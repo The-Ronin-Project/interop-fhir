@@ -38,7 +38,7 @@ class PractitionerTest {
         val practitioner = Practitioner(
             id = Id("12345"),
             meta = Meta(
-                profile = listOf(Canonical("RoninPractitionerRole")),
+                profile = listOf(Canonical("RoninPractitionerRole"))
             ),
             implicitRules = Uri("implicit-rules"),
             language = Code("en-US"),
@@ -122,7 +122,8 @@ class PractitionerTest {
             |  "communication" : [ {
             |    "text" : "communication"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPractitioner = objectMapper.readValue<Practitioner>(json)
@@ -140,7 +141,8 @@ class PractitionerTest {
             |{
             |  "resourceType" : "Practitioner",
             |  "birthDate" : "1936-12-25"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -150,7 +152,8 @@ class PractitionerTest {
             |{
             |  "resourceType" : "Practitioner",
             |  "active" : true
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val practitioner = objectMapper.readValue<Practitioner>(json)
 
         assertNull(practitioner.id)
@@ -221,7 +224,8 @@ class QualificationTest {
             |  "issuer" : {
             |    "reference" : "Organization/12345"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedQualification = objectMapper.readValue<Qualification>(json)
@@ -240,7 +244,8 @@ class QualificationTest {
             |  "code" : {
             |    "text" : "code"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -251,7 +256,8 @@ class QualificationTest {
             |  "code" : {
             |    "text" : "code"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val qualification = objectMapper.readValue<Qualification>(json)
 
         assertNull(qualification.id)

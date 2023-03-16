@@ -79,7 +79,8 @@ object R4ConceptMapTargetValidator : R4ElementContainingValidator<ConceptMapTarg
                         (codifiedEquivalence != ConceptMapEquivalence.NARROWER && codifiedEquivalence != ConceptMapEquivalence.INEXACT) ||
                             (element.comment != null)
                         ),
-                    requiredParticipantError, parentContext
+                    requiredParticipantError,
+                    parentContext
                 )
             }
         }

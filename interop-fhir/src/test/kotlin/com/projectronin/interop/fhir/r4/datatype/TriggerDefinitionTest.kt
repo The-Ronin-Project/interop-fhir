@@ -45,7 +45,8 @@ class TriggerDefinitionTest {
             |    "language" : "en-US",
             |    "expression" : "Expression"
             |  }
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedTriggerDefinition = objectMapper.readValue<TriggerDefinition>(json)
@@ -57,7 +58,7 @@ class TriggerDefinitionTest {
         val triggerDefinition = TriggerDefinition(
             type = TriggerType.NAMED_EVENT.asCode(),
             name = FHIRString("any"),
-            data = listOf(DataRequirement(type = Code("data-type-code"))),
+            data = listOf(DataRequirement(type = Code("data-type-code")))
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(triggerDefinition)
 
@@ -68,7 +69,8 @@ class TriggerDefinitionTest {
             |  "data" : [ {
             |    "type" : "data-type-code"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -78,7 +80,8 @@ class TriggerDefinitionTest {
             |{
             |  "type" : "periodic",
             |  "timingDate" : "2022-02-22"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val triggerDefinition = objectMapper.readValue<TriggerDefinition>(json)
 
         assertNull(triggerDefinition.id)

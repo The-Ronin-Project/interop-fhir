@@ -44,7 +44,8 @@ class QuantityTest {
             |  "unit" : "years",
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedQuantity = objectMapper.readValue<Quantity>(json)
@@ -63,7 +64,7 @@ class QuantityTest {
             ),
             value = Decimal(17.5),
             system = CodeSystem.UCUM.uri,
-            code = Code("mL/min/{1.73_m2}"),
+            code = Code("mL/min/{1.73_m2}")
         )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(quantity)
 
@@ -77,7 +78,8 @@ class QuantityTest {
             |  "value" : 17.5,
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mL/min/{1.73_m2}"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -86,7 +88,8 @@ class QuantityTest {
         val json = """
             |{
             |  "comparator" : ">="
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val quantity = objectMapper.readValue<Quantity>(json)
 
         assertNull(quantity.id)

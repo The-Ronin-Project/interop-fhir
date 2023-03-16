@@ -108,7 +108,8 @@ class R4CommunicationPayloadValidatorTest {
             R4CommunicationPayloadValidator.validate(
                 CommunicationPayload(
                     content = DynamicValue(
-                        DynamicValueType.CANONICAL, Canonical("canonical")
+                        DynamicValueType.CANONICAL,
+                        Canonical("canonical")
                     )
                 )
             ).alertIfErrors()

@@ -29,7 +29,8 @@ class PrimitiveDataTest {
             |    "url" : "http://localhost/extension",
             |    "valueString" : "Value"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPrimitiveData = objectMapper.readValue<PrimitiveData>(json)
@@ -54,7 +55,8 @@ class PrimitiveDataTest {
             |    "url" : "http://hl7.org/fhir/StructureDefinition/rendered-value",
             |    "valueString" : "xxx-xx-1234"
             |  } ]
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
@@ -63,7 +65,8 @@ class PrimitiveDataTest {
         val json = """
             |{
             |  "id" : "12345"
-            |}""".trimMargin()
+            |}
+        """.trimMargin()
         val primitiveData = objectMapper.readValue<PrimitiveData>(json)
 
         assertEquals(FHIRString("12345"), primitiveData.id)

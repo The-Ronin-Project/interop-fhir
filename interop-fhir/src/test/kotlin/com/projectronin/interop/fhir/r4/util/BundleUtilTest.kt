@@ -121,12 +121,12 @@ class BundleUtilTest {
     fun `merge can combine populated bundles`() {
         val practitionerRoleOne = PractitionerRole(
             id = Id("practitionerOne"),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
+            identifier = listOf(Identifier(value = FHIRString("id")))
         )
 
         val practitionerRoleTwo = PractitionerRole(
             id = Id("practitionerTwo"),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
+            identifier = listOf(Identifier(value = FHIRString("id")))
         )
 
         val bundle1 = Bundle(

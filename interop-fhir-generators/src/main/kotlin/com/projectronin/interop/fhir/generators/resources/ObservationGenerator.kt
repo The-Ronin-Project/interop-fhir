@@ -24,7 +24,7 @@ data class ObservationGenerator(
     val category: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val code: DataGenerator<CodeableConcept> = CodeableConceptGenerator(),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
-    val effective: DataGenerator<DateTime> = DateTimeGenerator(),
+    val effective: DataGenerator<DateTime> = DateTimeGenerator()
 
 ) : FhirTestResource<Observation> {
     override fun toFhir(): Observation =
