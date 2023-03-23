@@ -70,6 +70,14 @@ import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.resource.Qualification
 import com.projectronin.interop.fhir.r4.resource.Substitution
+import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
+import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
+import com.projectronin.interop.fhir.r4.resource.ValueSetContains
+import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
+import com.projectronin.interop.fhir.r4.resource.ValueSetExpansion
+import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
+import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
+import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AddressValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AgeValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AnnotationValidator
@@ -139,6 +147,14 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValida
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetComposeValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetConceptValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetContainsValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetDesignationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetExpansionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetFilterValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetIncludeValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetParameterValidator
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 
@@ -221,6 +237,14 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is PatientLink -> element.validate(R4PatientLinkValidator, parentContext)
         is Qualification -> element.validate(R4QualificationValidator, parentContext)
         is Substitution -> element.validate(R4SubstitutionValidator, parentContext)
+        is ValueSetCompose -> element.validate(R4ValueSetComposeValidator, parentContext)
+        is ValueSetConcept -> element.validate(R4ValueSetConceptValidator, parentContext)
+        is ValueSetContains -> element.validate(R4ValueSetContainsValidator, parentContext)
+        is ValueSetDesignation -> element.validate(R4ValueSetDesignationValidator, parentContext)
+        is ValueSetExpansion -> element.validate(R4ValueSetExpansionValidator, parentContext)
+        is ValueSetFilter -> element.validate(R4ValueSetFilterValidator, parentContext)
+        is ValueSetInclude -> element.validate(R4ValueSetIncludeValidator, parentContext)
+        is ValueSetParameter -> element.validate(R4ValueSetParameterValidator, parentContext)
 
         // no unique validator class
         else -> element.validate(GenericElementValidator(), parentContext)

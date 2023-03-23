@@ -195,7 +195,7 @@ class CommunicationTest {
     }
 
     @Test
-    fun `can deserialize form JSON with nullable and empty fields`() {
+    fun `can deserialize from JSON with nullable and empty fields`() {
         val json = """
             {
               "resourceType" : "Communication",

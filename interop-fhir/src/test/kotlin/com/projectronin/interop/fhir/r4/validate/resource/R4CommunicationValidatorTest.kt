@@ -71,7 +71,7 @@ class R4CommunicationValidatorTest {
                 status = EventStatus.IN_PROGRESS.asCode(),
                 priority = RequestPriority.STAT.asCode()
             )
-        )
+        ).alertIfErrors()
     }
 
     @Test

@@ -74,6 +74,14 @@ import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.resource.Qualification
 import com.projectronin.interop.fhir.r4.resource.Substitution
+import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
+import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
+import com.projectronin.interop.fhir.r4.resource.ValueSetContains
+import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
+import com.projectronin.interop.fhir.r4.resource.ValueSetExpansion
+import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
+import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
+import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AddressValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AgeValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AnnotationValidator
@@ -144,6 +152,14 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValida
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetComposeValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetConceptValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetContainsValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetDesignationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetExpansionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetFilterValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetIncludeValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetParameterValidator
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.ProfileValidator
 import com.projectronin.interop.fhir.validate.RequiredFieldError
@@ -827,6 +843,118 @@ class R4ElementsTest {
         every { usageContext.validate(R4UsageContextValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(usageContext, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetCompose`() {
+        val valueSetCompose = mockk<ValueSetCompose>()
+        every {
+            valueSetCompose.validate(
+                R4ValueSetComposeValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetCompose, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetConcept`() {
+        val valueSetConcept = mockk<ValueSetConcept>()
+        every {
+            valueSetConcept.validate(
+                R4ValueSetConceptValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetConcept, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetContains`() {
+        val valueSetContains = mockk<ValueSetContains>()
+        every {
+            valueSetContains.validate(
+                R4ValueSetContainsValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetContains, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetDesignation`() {
+        val valueSetDesignation = mockk<ValueSetDesignation>()
+        every {
+            valueSetDesignation.validate(
+                R4ValueSetDesignationValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetDesignation, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetExpansion`() {
+        val valueSetExpansion = mockk<ValueSetExpansion>()
+        every {
+            valueSetExpansion.validate(
+                R4ValueSetExpansionValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetExpansion, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetFilter`() {
+        val valueSetFilter = mockk<ValueSetFilter>()
+        every {
+            valueSetFilter.validate(
+                R4ValueSetFilterValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetFilter, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetInclude`() {
+        val valueSetInclude = mockk<ValueSetInclude>()
+        every {
+            valueSetInclude.validate(
+                R4ValueSetIncludeValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetInclude, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ValueSetParameter`() {
+        val valueSetParameter = mockk<ValueSetParameter>()
+        every {
+            valueSetParameter.validate(
+                R4ValueSetParameterValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(valueSetParameter, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
