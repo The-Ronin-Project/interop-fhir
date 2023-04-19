@@ -41,4 +41,15 @@ object CodeableConcepts {
             )
         )
     )
+
+    val RONIN_DATA_AUTHORITY_ID = CodeableConcept(
+        text = "Data Authority Identifier".asFHIR(),
+        coding = listOf(
+            Coding(
+                system = CodeSystem.RONIN_DATA_AUTHORITY.uri,
+                code = Code("DAID"),
+                display = "Data Authority Identifier".asFHIR()
+            )
+        )
+    )
 }

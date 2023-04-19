@@ -29,4 +29,12 @@ class CodeableConceptsTest {
         assertEquals("FHIR Identifier".asFHIR(), coding.display)
         assertNotNull(coding.system)
     }
+
+    @Test
+    fun `codecov for CodeableConcept DATA_AUTHORITY_ID`() {
+        val coding = CodeableConcepts.RONIN_DATA_AUTHORITY_ID.coding.first()
+        assertEquals("DAID", coding.code!!.value)
+        assertEquals("Data Authority Identifier".asFHIR(), coding.display)
+        assertNotNull(coding.system)
+    }
 }

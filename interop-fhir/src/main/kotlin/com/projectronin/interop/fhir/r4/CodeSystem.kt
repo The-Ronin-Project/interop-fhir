@@ -19,6 +19,7 @@ enum class CodeSystem(uriString: String) {
     RONIN_TENANT("http://projectronin.com/id/tenantId"),
     RONIN_MRN("http://projectronin.com/id/mrn"),
     RONIN_FHIR_ID("http://projectronin.com/id/fhir"),
+    RONIN_DATA_AUTHORITY("http://projectronin.com/id/dataAuthorityId"),
     RXNORM("http://www.nlm.nih.gov/research/umls/rxnorm"),
     SNOMED_CT("http://snomed.info/sct"),
     UCUM("http://unitsofmeasure.org");
