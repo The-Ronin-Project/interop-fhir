@@ -15,6 +15,13 @@ class DiagnosticReportGeneratorTest {
     fun `function works with defaults`() {
         val diagnosticReport = diagnosticReport {}
         assertNull(diagnosticReport.id)
+        assertNull(diagnosticReport.meta)
+        assertNull(diagnosticReport.implicitRules)
+        assertNull(diagnosticReport.language)
+        assertNull(diagnosticReport.text)
+        assertEquals(0, diagnosticReport.contained.size)
+        assertEquals(0, diagnosticReport.extension.size)
+        assertEquals(0, diagnosticReport.modifierExtension.size)
         assertTrue(diagnosticReport.identifier.isEmpty())
         assertNull(diagnosticReport.status)
         assertNotNull(diagnosticReport.code)

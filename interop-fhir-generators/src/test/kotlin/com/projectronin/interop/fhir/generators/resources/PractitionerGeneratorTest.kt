@@ -13,6 +13,13 @@ class PractitionerGeneratorTest {
     fun `function works with defaults`() {
         val practitioner = practitioner {}
         assertNull(practitioner.id)
+        assertNull(practitioner.meta)
+        assertNull(practitioner.implicitRules)
+        assertNull(practitioner.language)
+        assertNull(practitioner.text)
+        assertEquals(0, practitioner.contained.size)
+        assertEquals(0, practitioner.extension.size)
+        assertEquals(0, practitioner.modifierExtension.size)
         assertTrue(practitioner.identifier.isEmpty())
         assertEquals(1, practitioner.name.size)
     }

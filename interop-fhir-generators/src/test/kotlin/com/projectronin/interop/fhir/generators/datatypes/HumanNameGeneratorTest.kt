@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class HumanNameGeneratorTest {
-
     @Test
     fun `function works with defaults`() {
         val name = name { }

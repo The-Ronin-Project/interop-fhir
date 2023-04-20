@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -26,7 +25,7 @@ class IdentifierGeneratorTest {
             type of codeableConcept { }
             system of "system"
             value of "value"
-            period of Period()
+            period of period { }
             assigner of reference("Patient", "123")
         }
         assertNotNull("code", identifier.use?.value)

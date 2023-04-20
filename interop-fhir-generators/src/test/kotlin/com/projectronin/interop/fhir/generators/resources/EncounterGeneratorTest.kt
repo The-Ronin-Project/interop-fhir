@@ -19,6 +19,13 @@ class EncounterGeneratorTest {
     fun `function works with defaults`() {
         val encounter = encounter {}
         assertNull(encounter.id)
+        assertNull(encounter.meta)
+        assertNull(encounter.implicitRules)
+        assertNull(encounter.language)
+        assertNull(encounter.text)
+        assertEquals(0, encounter.contained.size)
+        assertEquals(0, encounter.extension.size)
+        assertEquals(0, encounter.modifierExtension.size)
         assertTrue(encounter.identifier.isEmpty())
         assertNull(encounter.status)
         assertNotNull(encounter.period)

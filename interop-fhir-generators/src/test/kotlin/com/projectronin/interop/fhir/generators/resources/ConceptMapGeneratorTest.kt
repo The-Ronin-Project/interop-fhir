@@ -11,6 +11,13 @@ class ConceptMapGeneratorTest {
     fun `function works with defaults`() {
         val conceptMap = conceptMap {}
         assertNull(conceptMap.id)
+        assertNull(conceptMap.meta)
+        assertNull(conceptMap.implicitRules)
+        assertNull(conceptMap.language)
+        assertNull(conceptMap.text)
+        assertEquals(0, conceptMap.contained.size)
+        assertEquals(0, conceptMap.extension.size)
+        assertEquals(0, conceptMap.modifierExtension.size)
         assertNull(conceptMap.identifier)
         assertNull(conceptMap.status)
     }

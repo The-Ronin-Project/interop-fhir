@@ -13,6 +13,13 @@ class LocationGeneratorTest {
     fun `function works with defaults`() {
         val location = location {}
         assertNull(location.id)
+        assertNull(location.meta)
+        assertNull(location.implicitRules)
+        assertNull(location.language)
+        assertNull(location.text)
+        assertEquals(0, location.contained.size)
+        assertEquals(0, location.extension.size)
+        assertEquals(0, location.modifierExtension.size)
         assertTrue(location.identifier.isEmpty())
         assertNotNull(location.name)
     }

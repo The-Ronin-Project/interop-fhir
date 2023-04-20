@@ -11,6 +11,9 @@ class BundleGeneratorTest {
     fun `function works with defaults`() {
         val bundle = bundle {}
         assertNull(bundle.id)
+        assertNull(bundle.meta)
+        assertNull(bundle.implicitRules)
+        assertNull(bundle.language)
         assertNull(bundle.identifier)
         assertNull(bundle.type)
     }

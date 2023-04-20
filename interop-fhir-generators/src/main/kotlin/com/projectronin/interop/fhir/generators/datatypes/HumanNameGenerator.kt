@@ -1,5 +1,7 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
+import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
@@ -10,9 +12,8 @@ import com.projectronin.test.data.generator.faker.NameGenerator
 import net.datafaker.providers.base.Name
 
 class HumanNameGenerator : DataGenerator<HumanName>() {
-
     val use: CodeGenerator = CodeGenerator()
-    val text: NullDataGenerator<String> = NullDataGenerator()
+    val text: FHIRStringDataGenerator = FHIRStringDataGenerator()
     val family: DataGenerator<String> = NameGenerator(Name::lastName)
     val given: ListDataGenerator<String> = ListDataGenerator(1, NameGenerator(Name::firstName))
     val prefix: ListDataGenerator<String> = ListDataGenerator(0, NameGenerator(Name::prefix))
@@ -22,7 +23,7 @@ class HumanNameGenerator : DataGenerator<HumanName>() {
     override fun generateInternal(): HumanName {
         return HumanName(
             use = use.generate(),
-            text = text.generate()?.asFHIR(),
+            text = text.generate(),
             family = family.generate().asFHIR(),
             given = given.generate().asFHIR(),
             prefix = prefix.generate().asFHIR(),
@@ -31,6 +32,7 @@ class HumanNameGenerator : DataGenerator<HumanName>() {
         )
     }
 }
+
 fun name(block: HumanNameGenerator.() -> Unit): HumanName {
     val name = HumanNameGenerator()
     name.apply(block)

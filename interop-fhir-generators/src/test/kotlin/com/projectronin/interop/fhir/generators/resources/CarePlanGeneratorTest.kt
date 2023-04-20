@@ -15,6 +15,13 @@ class CarePlanGeneratorTest {
     fun `function works with defaults`() {
         val carePlan = carePlan {}
         assertNull(carePlan.id)
+        assertNull(carePlan.meta)
+        assertNull(carePlan.implicitRules)
+        assertNull(carePlan.language)
+        assertNull(carePlan.text)
+        assertEquals(0, carePlan.contained.size)
+        assertEquals(0, carePlan.extension.size)
+        assertEquals(0, carePlan.modifierExtension.size)
         assertTrue(carePlan.identifier.isEmpty())
         assertNull(carePlan.status)
         assertNull(carePlan.intent)

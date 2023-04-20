@@ -17,6 +17,13 @@ class ObservationGeneratorTest {
     fun `function works with defaults`() {
         val observation = observation {}
         assertNull(observation.id)
+        assertNull(observation.meta)
+        assertNull(observation.implicitRules)
+        assertNull(observation.language)
+        assertNull(observation.text)
+        assertEquals(0, observation.contained.size)
+        assertEquals(0, observation.extension.size)
+        assertEquals(0, observation.modifierExtension.size)
         assertTrue(observation.identifier.isEmpty())
         assertNull(observation.status)
         assertTrue(observation.category.isEmpty())

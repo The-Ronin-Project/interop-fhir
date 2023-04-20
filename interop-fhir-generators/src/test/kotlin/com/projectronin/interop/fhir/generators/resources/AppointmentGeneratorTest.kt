@@ -16,6 +16,13 @@ class AppointmentGeneratorTest {
     fun `function works with defaults`() {
         val appt = appointment {}
         assertNull(appt.id)
+        assertNull(appt.meta)
+        assertNull(appt.implicitRules)
+        assertNull(appt.language)
+        assertNull(appt.text)
+        assertEquals(0, appt.contained.size)
+        assertEquals(0, appt.extension.size)
+        assertEquals(0, appt.modifierExtension.size)
         assertTrue(appt.identifier.isEmpty())
         assertNull(appt.status)
         assertNull(appt.cancelationReason)

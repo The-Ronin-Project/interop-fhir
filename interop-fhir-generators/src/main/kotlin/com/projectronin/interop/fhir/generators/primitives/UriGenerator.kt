@@ -1,6 +1,5 @@
-package com.projectronin.interop.fhir.generators.datatypes
+package com.projectronin.interop.fhir.generators.primitives
 
-import com.projectronin.interop.fhir.generators.primitives.StringGenerator
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.test.data.generator.DataGenerator
 

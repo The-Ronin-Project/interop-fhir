@@ -13,6 +13,13 @@ class OrganizationGeneratorTest {
     fun `function works with defaults`() {
         val organization = organization {}
         assertNull(organization.id)
+        assertNull(organization.meta)
+        assertNull(organization.implicitRules)
+        assertNull(organization.language)
+        assertNull(organization.text)
+        assertEquals(0, organization.contained.size)
+        assertEquals(0, organization.extension.size)
+        assertEquals(0, organization.modifierExtension.size)
         assertTrue(organization.identifier.isEmpty())
         assertNotNull(organization.name?.value)
     }

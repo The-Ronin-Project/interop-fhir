@@ -103,11 +103,18 @@ class Validation {
      * Throws an [IllegalArgumentException] if any errors were captured during validation.
      */
     fun alertIfErrors() {
+        getErrorString()?.let { throw IllegalArgumentException(it) }
+    }
+
+    /**
+     * Returns a String defining the error(s) if one or more errors exist; otherwise, null is returned.
+     */
+    fun getErrorString(): String? {
         val errors = issues.filter { it.severity == ValidationIssueSeverity.ERROR }
-        if (errors.isNotEmpty()) {
-            throw IllegalArgumentException(
-                errors.joinToString(separator = "\n", prefix = "Encountered validation error(s):\n")
-            )
+        return if (errors.isEmpty()) {
+            null
+        } else {
+            errors.joinToString(separator = "\n", prefix = "Encountered validation error(s):\n")
         }
     }
 

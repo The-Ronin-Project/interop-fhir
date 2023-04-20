@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -198,6 +199,47 @@ class ValidationTest {
                 "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
             exception.message
         )
+    }
+
+    @Test
+    fun `getErrorString returns null if no errors exist`() {
+        val validation = Validation()
+        validation.checkTrue(true, error, null)
+        val errorString = validation.getErrorString()
+        assertNull(errorString)
+    }
+
+    @Test
+    fun `getErrorString reports errors`() {
+        val validation = Validation()
+        validation.checkTrue(false, error, null)
+        val errorString = validation.getErrorString()
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
+            errorString
+        )
+    }
+
+    @Test
+    fun `getErrorString ignores issues when errors present`() {
+        val validation = Validation()
+        validation.checkTrue(false, warning, null)
+        validation.checkTrue(false, error, null)
+        val errorString = validation.getErrorString()
+        assertEquals(
+            "Encountered validation error(s):\n" +
+                "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
+            errorString
+        )
+    }
+
+    @Test
+    fun `getErrorString ignores issues when no errors present`() {
+        val validation = Validation()
+        validation.checkTrue(false, warning, null)
+        val errorString = validation.getErrorString()
+        assertNull(errorString)
     }
 
     @Test

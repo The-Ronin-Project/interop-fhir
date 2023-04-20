@@ -17,6 +17,13 @@ class MedicationRequestGeneratorTest {
     fun `function works with defaults`() {
         val medicationRequest = medicationRequest {}
         assertNull(medicationRequest.id)
+        assertNull(medicationRequest.meta)
+        assertNull(medicationRequest.implicitRules)
+        assertNull(medicationRequest.language)
+        assertNull(medicationRequest.text)
+        assertEquals(0, medicationRequest.contained.size)
+        assertEquals(0, medicationRequest.extension.size)
+        assertEquals(0, medicationRequest.modifierExtension.size)
         assertTrue(medicationRequest.identifier.isEmpty())
         assertNull(medicationRequest.intent)
         assertEquals(DynamicValueType.CODEABLE_CONCEPT, medicationRequest.medication?.type)

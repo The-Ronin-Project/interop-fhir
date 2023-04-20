@@ -14,6 +14,13 @@ class PractitionerRoleGeneratorTest {
     fun `function works with defaults`() {
         val practitionerRole = practitionerRole {}
         assertNull(practitionerRole.id)
+        assertNull(practitionerRole.meta)
+        assertNull(practitionerRole.implicitRules)
+        assertNull(practitionerRole.language)
+        assertNull(practitionerRole.text)
+        assertEquals(0, practitionerRole.contained.size)
+        assertEquals(0, practitionerRole.extension.size)
+        assertEquals(0, practitionerRole.modifierExtension.size)
         assertTrue(practitionerRole.identifier.isEmpty())
         assertNotNull(practitionerRole.practitioner)
         assertTrue(practitionerRole.location.isEmpty())

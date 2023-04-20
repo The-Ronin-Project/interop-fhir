@@ -1,4 +1,4 @@
-package com.projectronin.interop.fhir.generators.datatypes
+package com.projectronin.interop.fhir.generators.primitives
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull

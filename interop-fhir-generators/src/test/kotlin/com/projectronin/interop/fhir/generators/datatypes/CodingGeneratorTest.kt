@@ -12,7 +12,6 @@ class CodingGeneratorTest {
         val coding = coding {}
         assertNotNull(coding.system?.value)
         assertNull(coding.code)
-        assertNull(coding.code?.value)
         assertNull(coding.version)
         assertNull(coding.display)
         assertNull(coding.userSelected)

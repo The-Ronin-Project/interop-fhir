@@ -21,6 +21,13 @@ class MedicationStatementGeneratorTest {
         val medicationStatement = medicationStatement {}
 
         assertNull(medicationStatement.id)
+        assertNull(medicationStatement.meta)
+        assertNull(medicationStatement.implicitRules)
+        assertNull(medicationStatement.language)
+        assertNull(medicationStatement.text)
+        assertEquals(0, medicationStatement.contained.size)
+        assertEquals(0, medicationStatement.extension.size)
+        assertEquals(0, medicationStatement.modifierExtension.size)
         assertTrue(medicationStatement.identifier.isEmpty())
         assertTrue(medicationStatement.dateAsserted is DateTime)
         assertEquals(DynamicValueType.CODEABLE_CONCEPT, medicationStatement.medication?.type)

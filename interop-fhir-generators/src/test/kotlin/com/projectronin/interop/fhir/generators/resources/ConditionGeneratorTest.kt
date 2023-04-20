@@ -16,6 +16,13 @@ class ConditionGeneratorTest {
     fun `function works with defaults`() {
         val condition = condition {}
         assertNull(condition.id)
+        assertNull(condition.meta)
+        assertNull(condition.implicitRules)
+        assertNull(condition.language)
+        assertNull(condition.text)
+        assertEquals(0, condition.contained.size)
+        assertEquals(0, condition.extension.size)
+        assertEquals(0, condition.modifierExtension.size)
         assertTrue(condition.identifier.isEmpty())
         assertNotNull(condition.clinicalStatus)
         assertTrue(condition.category.isEmpty())

@@ -10,7 +10,6 @@ import com.projectronin.test.data.generator.collection.ListDataGenerator
 
 class EncounterParticipantGenerator : DataGenerator<EncounterParticipant>() {
     val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
-    val required: CodeGenerator = CodeGenerator()
     val period: NullDataGenerator<Period> = NullDataGenerator()
     val individual: DataGenerator<Reference> = ReferenceGenerator()
 

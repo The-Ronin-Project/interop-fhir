@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.r4.datatype.Period
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -10,7 +9,7 @@ class ParticipantGeneratorTest {
     @Test
     fun `function works with default`() {
         val participant = participant {}
-        assertNotNull(participant.type)
+        assertEquals(0, participant.type.size)
         assertNotNull(participant.actor)
         assertNull(participant.required)
         assertNull(participant.status)
@@ -24,7 +23,7 @@ class ParticipantGeneratorTest {
             actor of reference("Patient", "123")
             required of "required"
             status of "status"
-            period of Period()
+            period of period { }
         }
         assertNotNull(participant.type)
         assertEquals("Patient/123", participant.actor?.reference?.value)

@@ -12,6 +12,13 @@ class CommunicationGeneratorTest {
     fun `function works with defaults`() {
         val communication = communication {}
         assertNull(communication.id)
+        assertNull(communication.meta)
+        assertNull(communication.implicitRules)
+        assertNull(communication.language)
+        assertNull(communication.text)
+        assertEquals(0, communication.contained.size)
+        assertEquals(0, communication.extension.size)
+        assertEquals(0, communication.modifierExtension.size)
         assertTrue(communication.identifier.isEmpty())
         assertNull(communication.status)
     }
