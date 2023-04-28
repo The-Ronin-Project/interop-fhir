@@ -25,7 +25,7 @@ import com.projectronin.interop.fhir.r4.element.BackboneElement
 @JsonDeserialize(using = CareTeamDeserializer::class)
 data class CareTeam(
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,

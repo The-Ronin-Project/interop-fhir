@@ -34,7 +34,7 @@ import com.projectronin.interop.fhir.r4.resource.Appointment as R4Appointment
 @JsonTypeName("Appointment")
 data class STU3Appointment(
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,

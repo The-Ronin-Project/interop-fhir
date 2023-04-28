@@ -24,7 +24,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 @JsonTypeName("MedicationStatement")
 data class MedicationStatement(
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,

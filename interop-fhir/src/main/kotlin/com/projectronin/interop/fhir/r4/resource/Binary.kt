@@ -21,7 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 @JsonTypeName("Binary")
 data class Binary(
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val contentType: Code?,

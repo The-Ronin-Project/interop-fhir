@@ -55,7 +55,7 @@ import com.projectronin.interop.fhir.validate.Validatable
 interface Resource<T : Resource<T>> : Validatable<T> {
     val resourceType: String
     val id: Id?
-    val meta: Meta?
+    var meta: Meta?
     val implicitRules: Uri?
     val language: Code?
 }

@@ -38,7 +38,7 @@ import com.projectronin.interop.fhir.r4.element.Element
 @JsonTypeName("MedicationRequest")
 data class MedicationRequest(
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,

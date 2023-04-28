@@ -14,7 +14,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 data class UnknownResource(
     override val resourceType: String,
     override val id: Id? = null,
-    override val meta: Meta? = null,
+    override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val otherData: Map<String, Any?>
