@@ -69,6 +69,9 @@ import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.resource.Qualification
+import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
+import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
+import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
 import com.projectronin.interop.fhir.r4.resource.Substitution
 import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
 import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
@@ -146,6 +149,9 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunication
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupConditionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupRelatedActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetComposeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetConceptValidator
@@ -236,6 +242,9 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is PatientContact -> element.validate(R4PatientContactValidator, parentContext)
         is PatientLink -> element.validate(R4PatientLinkValidator, parentContext)
         is Qualification -> element.validate(R4QualificationValidator, parentContext)
+        is RequestGroupAction -> element.validate(R4RequestGroupActionValidator, parentContext)
+        is RequestGroupCondition -> element.validate(R4RequestGroupConditionValidator, parentContext)
+        is RequestGroupRelatedAction -> element.validate(R4RequestGroupRelatedActionValidator, parentContext)
         is Substitution -> element.validate(R4SubstitutionValidator, parentContext)
         is ValueSetCompose -> element.validate(R4ValueSetComposeValidator, parentContext)
         is ValueSetConcept -> element.validate(R4ValueSetConceptValidator, parentContext)
