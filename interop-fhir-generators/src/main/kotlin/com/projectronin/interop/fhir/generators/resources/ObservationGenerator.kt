@@ -47,7 +47,7 @@ data class ObservationGenerator(
     val code: DataGenerator<CodeableConcept> = CodeableConceptGenerator(),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
     val focus: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
-    val encounter: DataGenerator<Reference> = ReferenceGenerator(),
+    val encounter: DataGenerator<Reference?> = NullDataGenerator(),
     val effective: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
     val issued: DataGenerator<Instant?> = NullDataGenerator(),
     val performer: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),

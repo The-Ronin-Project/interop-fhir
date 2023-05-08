@@ -34,7 +34,7 @@ class ObservationGeneratorTest {
         assertNotNull(observation.code)
         assertNotNull(observation.subject)
         assertEquals(0, observation.focus.size)
-        assertNotNull(observation.encounter)
+        assertNull(observation.encounter)
         assertNull(observation.effective)
         assertNull(observation.issued)
         assertEquals(0, observation.performer.size)
