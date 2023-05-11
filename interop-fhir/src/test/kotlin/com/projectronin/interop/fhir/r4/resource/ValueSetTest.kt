@@ -665,6 +665,45 @@ class ValueSetTest {
             assertNull(expansion)
         }
     }
+
+    @Test
+    fun `can deserialize from JSON with missing required field`() {
+        val json = """
+            {
+              "resourceType" : "ValueSet"
+            }
+        """.trimIndent()
+
+        val valueSet = objectMapper.readValue<ValueSet>(json)
+        valueSet.apply {
+            assertNull(id)
+            assertNull(meta)
+            assertNull(implicitRules)
+            assertNull(language)
+            assertNull(text)
+            assertEquals(listOf<ContainedResource>(), contained)
+            assertEquals(listOf<Extension>(), extension)
+            assertEquals(listOf<Extension>(), modifierExtension)
+            assertNull(url)
+            assertEquals(listOf<Identifier>(), identifier)
+            assertNull(version)
+            assertNull(name)
+            assertNull(title)
+            assertNull(status)
+            assertNull(experimental)
+            assertNull(date)
+            assertNull(publisher)
+            assertEquals(listOf<ContactDetail>(), contact)
+            assertNull(description)
+            assertEquals(listOf<UsageContext>(), useContext)
+            assertEquals(listOf<CodeableConcept>(), jurisdiction)
+            assertNull(immutable)
+            assertNull(purpose)
+            assertNull(copyright)
+            assertNull(compose)
+            assertNull(expansion)
+        }
+    }
 }
 
 class ValueSetParameterTest {

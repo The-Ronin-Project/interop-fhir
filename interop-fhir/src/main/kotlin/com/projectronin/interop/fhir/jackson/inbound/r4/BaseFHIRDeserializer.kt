@@ -92,7 +92,11 @@ abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class
         val constructorParameters = constructor.parameters
         val actualParameters = constructorParameters.mapNotNull { param ->
             val value = values[param.name]
-            value?.let { Pair(param, it) }
+            if (!param.isOptional) {
+                Pair(param, value)
+            } else {
+                value?.let { Pair(param, it) }
+            }
         }.associate { it }
         return constructor.callBy(actualParameters)
     }
