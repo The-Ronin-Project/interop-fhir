@@ -3,10 +3,11 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
+import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
+import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.resource.Appointment
 import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
@@ -67,7 +68,7 @@ class R4AppointmentValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             R4AppointmentValidator.validate(
                 Appointment(
-                    minutesDuration = FHIRInteger(0),
+                    minutesDuration = PositiveInt(0),
                     status = AppointmentStatus.CANCELLED.asCode(),
                     participant = listOf(
                         Participant(
@@ -80,7 +81,7 @@ class R4AppointmentValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR R4_APPT_004: Appointment duration must be positive @ Appointment.minutesDuration",
+                "ERROR R4_INV_PRIM: Supplied value is not valid for a PositiveInt @ Appointment.minutesDuration",
             exception.message
         )
     }
@@ -90,7 +91,7 @@ class R4AppointmentValidatorTest {
         val exception = assertThrows<IllegalArgumentException> {
             R4AppointmentValidator.validate(
                 Appointment(
-                    priority = FHIRInteger(-1),
+                    priority = UnsignedInt(-1),
                     status = AppointmentStatus.CANCELLED.asCode(),
                     participant = listOf(
                         Participant(
@@ -103,7 +104,7 @@ class R4AppointmentValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR R4_APPT_005: Priority cannot be negative @ Appointment.priority",
+                "ERROR R4_INV_PRIM: Supplied value is not valid for a UnsignedInt @ Appointment.priority",
             exception.message
         )
     }

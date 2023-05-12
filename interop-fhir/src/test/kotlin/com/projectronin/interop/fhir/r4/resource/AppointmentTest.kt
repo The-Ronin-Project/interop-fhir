@@ -14,10 +14,11 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
-import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
+import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
+import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
@@ -64,12 +65,12 @@ class AppointmentTest {
             appointmentType = CodeableConcept(text = FHIRString("appointment type")),
             reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
             reasonReference = listOf(Reference(display = FHIRString("reason reference"))),
-            priority = FHIRInteger(1),
+            priority = UnsignedInt(1),
             description = FHIRString("appointment test"),
             supportingInformation = listOf(Reference(display = FHIRString("supporting info"))),
             start = Instant(value = "2017-01-01T00:00:00Z"),
             end = Instant(value = "2017-01-01T01:00:00Z"),
-            minutesDuration = FHIRInteger(15),
+            minutesDuration = PositiveInt(15),
             slot = listOf(Reference(display = FHIRString("slot"))),
             created = DateTime(value = "2021-11-16"),
             comment = FHIRString("comment"),

@@ -41,18 +41,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
         description = "cancelationReason is only used for appointments that have the following statuses: ${requiredCancelledReasons.joinToString { it.code }}",
         location = LocationContext(Appointment::class)
     )
-    private val positiveMinutesDurationError = FHIRError(
-        code = "R4_APPT_004",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "Appointment duration must be positive",
-        location = LocationContext(Appointment::minutesDuration)
-    )
-    private val nonNegativePriorityError = FHIRError(
-        code = "R4_APPT_005",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "Priority cannot be negative",
-        location = LocationContext(Appointment::priority)
-    )
     private val requiredParticipantError = FHIRError(
         code = "R4_APPT_006",
         severity = ValidationIssueSeverity.ERROR,
@@ -85,14 +73,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
                 }
             }
 
-            element.minutesDuration?.value?.let {
-                checkTrue(it > 0, positiveMinutesDurationError, parentContext)
-            }
-
-            element.priority?.value?.let {
-                checkTrue(it >= 0, nonNegativePriorityError, parentContext)
-            }
-
             checkTrue(element.participant.isNotEmpty(), requiredParticipantError, parentContext)
         }
     }
@@ -113,7 +93,11 @@ object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
     override fun validateElement(element: Participant, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             element.required?.let { code ->
-                checkCodedEnum<ParticipantRequired>(code, InvalidValueSetError(Participant::required, code.value), parentContext)
+                checkCodedEnum<ParticipantRequired>(
+                    code,
+                    InvalidValueSetError(Participant::required, code.value),
+                    parentContext
+                )
             }
 
             checkNotNull(element.status, requiredStatusError, parentContext)

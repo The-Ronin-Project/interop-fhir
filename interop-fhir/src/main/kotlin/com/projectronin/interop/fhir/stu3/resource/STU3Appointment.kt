@@ -14,10 +14,11 @@ import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
-import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
+import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
+import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.Participant
@@ -50,12 +51,12 @@ data class STU3Appointment(
     val serviceType: List<CodeableConcept> = listOf(),
     val specialty: List<CodeableConcept> = listOf(),
     val appointmentType: CodeableConcept? = null,
-    val priority: FHIRInteger? = null,
+    val priority: UnsignedInt? = null,
     val description: FHIRString? = null,
     val supportingInformation: List<Reference> = listOf(),
     val start: Instant? = null,
     val end: Instant? = null,
-    val minutesDuration: FHIRInteger? = null,
+    val minutesDuration: PositiveInt? = null,
     val slot: List<Reference> = listOf(),
     val created: DateTime? = null,
     val comment: FHIRString? = null,
