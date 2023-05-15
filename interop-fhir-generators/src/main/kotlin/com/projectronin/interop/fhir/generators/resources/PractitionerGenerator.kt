@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.generators.resources
 
+import com.projectronin.interop.fhir.generators.datatypes.AttachmentGenerator
 import com.projectronin.interop.fhir.generators.datatypes.CodeableConceptGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.HumanNameGenerator
@@ -7,6 +8,7 @@ import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
 import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Address
+import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -45,6 +47,7 @@ data class PractitionerGenerator(
     val address: ListDataGenerator<Address?> = ListDataGenerator(0, NullDataGenerator()),
     val gender: CodeGenerator = CodeGenerator(AdministrativeGender::class),
     val birthDate: DataGenerator<Date?> = NullDataGenerator(),
+    val photo: ListDataGenerator<Attachment> = ListDataGenerator(0, AttachmentGenerator()),
     val qualification: ListDataGenerator<Qualification> = ListDataGenerator(0, QualificationGenerator()),
     val communication: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
 ) : DomainResource<Practitioner> {
@@ -65,6 +68,7 @@ data class PractitionerGenerator(
             address = address.generate().filterNotNull(),
             gender = gender.generate(),
             birthDate = birthDate.generate(),
+            photo = photo.generate(),
             qualification = qualification.generate(),
             communication = communication.generate()
         )

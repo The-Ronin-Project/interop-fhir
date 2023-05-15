@@ -2,16 +2,19 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.generators.datatypes.address
+import com.projectronin.interop.fhir.generators.datatypes.attachment
 import com.projectronin.interop.fhir.generators.datatypes.codeableConcept
 import com.projectronin.interop.fhir.generators.datatypes.coding
 import com.projectronin.interop.fhir.generators.datatypes.contactPoint
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.name
 import com.projectronin.interop.fhir.generators.primitives.date
+import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
+import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
 import com.projectronin.interop.fhir.util.asCode
@@ -42,6 +45,7 @@ class PractitionerGeneratorTest {
         assertEquals(0, practitioner.address.size)
         assertNotNull(practitioner.gender)
         assertNull(practitioner.birthDate)
+        assertEquals(0, practitioner.photo.size)
         assertEquals(0, practitioner.qualification.size)
         assertEquals(0, practitioner.communication.size)
     }
@@ -67,8 +71,15 @@ class PractitionerGeneratorTest {
                     state of "KS"
                 }
             )
-            // gender of "Very"
+            gender of "Very"
             birthDate of date { year of 1990 }
+            photo of listOf(
+                attachment {
+                    id of "123"
+                    size of UnsignedInt(1)
+                    data of Base64Binary("12343211234")
+                }
+            )
             qualification of listOf(
                 qualification {
                     code of codeableConcept {
@@ -104,8 +115,11 @@ class PractitionerGeneratorTest {
         assertEquals(FHIRString("doctor.com"), practitioner.telecom.first().value)
         assertEquals(FHIRString("Kansas City"), practitioner.address.first().city)
         assertEquals(FHIRString("KS"), practitioner.address.first().state)
-        assertNotNull(practitioner.gender)
+        assertEquals(Code("Very"), practitioner.gender)
         assertTrue(practitioner.birthDate?.value?.startsWith("1990")!!)
+        assertEquals(FHIRString("123"), practitioner.photo.first().id)
+        assertEquals(1, practitioner.photo.size)
+        assertEquals(Base64Binary("12343211234"), practitioner.photo.first().data)
         assertEquals("systemA", practitioner.qualification.first().code?.coding?.first()?.system?.value)
         assertEquals("codeA", practitioner.qualification.first().code?.coding?.first()?.code?.value)
         assertEquals("textA", practitioner.qualification.first().code?.text?.value)
