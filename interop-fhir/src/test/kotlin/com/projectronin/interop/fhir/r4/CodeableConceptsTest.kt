@@ -16,8 +16,9 @@ class CodeableConceptsTest {
 
     @Test
     fun `codecov for CodeableConcept MRN`() {
+        assertEquals("MRN".asFHIR(), CodeableConcepts.RONIN_MRN.text)
         val coding = CodeableConcepts.RONIN_MRN.coding.first()
-        assertEquals("MRN", coding.code!!.value)
+        assertEquals("MR", coding.code!!.value)
         assertEquals("Medical Record Number".asFHIR(), coding.display)
         assertNotNull(coding.system)
     }

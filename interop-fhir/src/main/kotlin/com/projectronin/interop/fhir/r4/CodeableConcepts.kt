@@ -21,11 +21,11 @@ object CodeableConcepts {
     )
 
     val RONIN_MRN = CodeableConcept(
-        text = "Medical Record Number".asFHIR(),
+        text = "MRN".asFHIR(),
         coding = listOf(
             Coding(
                 system = CodeSystem.HL7_IDENTIFIER_TYPE.uri,
-                code = Code("MRN"),
+                code = Code("MR"),
                 display = "Medical Record Number".asFHIR()
             )
         )
