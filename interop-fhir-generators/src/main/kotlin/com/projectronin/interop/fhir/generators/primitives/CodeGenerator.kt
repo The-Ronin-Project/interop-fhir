@@ -16,8 +16,8 @@ class CodeGenerator(private val possibleValues: List<String> = listOf()) : DataG
             val index = IntGenerator(0, possibleValues.size - 1).generate()
             Code(possibleValues[index])
         }
+}
 
-    infix fun of(value: String) {
-        of(Code(value))
-    }
+infix fun DataGenerator<Code?>.of(value: String) {
+    of(Code(value))
 }

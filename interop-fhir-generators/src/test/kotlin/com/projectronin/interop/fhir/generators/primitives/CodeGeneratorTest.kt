@@ -32,7 +32,7 @@ class CodeGeneratorTest {
     }
 
     @Test
-    fun `infix works`() {
+    fun `infix extension works`() {
         val code = CodeGenerator()
         code of "123"
         assertEquals("123", code.generate()?.value)

@@ -5,8 +5,8 @@ import com.projectronin.test.data.generator.DataGenerator
 
 class FHIRBooleanDataGenerator : DataGenerator<FHIRBoolean?>() {
     override fun generateInternal(): FHIRBoolean? = null
+}
 
-    infix fun of(value: Boolean) {
-        of(FHIRBoolean(value))
-    }
+infix fun DataGenerator<FHIRBoolean?>.of(value: Boolean) {
+    of(FHIRBoolean(value))
 }

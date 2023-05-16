@@ -14,7 +14,7 @@ class FHIRBooleanDataGeneratorTest {
     }
 
     @Test
-    fun `supports infix setter for Boolean`() {
+    fun `supports infix extension for Boolean`() {
         val generator = FHIRBooleanDataGenerator()
         generator of true
         val boolean = generator.generate()

@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.identifier
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -37,7 +38,7 @@ class CommunicationGeneratorTest {
 
         assertEquals("id", communication.id?.value)
         assertEquals(1, communication.identifier.size)
-        assertEquals("identifier", communication.identifier?.first()?.value?.value)
+        assertEquals("identifier", communication.identifier.first().value?.value)
         assertEquals("status", communication.status?.value)
     }
 }

@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.reference
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -41,7 +42,7 @@ class CareTeamGeneratorTest {
 
         assertEquals("id", careTeam.id?.value)
         assertEquals(1, careTeam.identifier.size)
-        assertEquals("identifier", careTeam.identifier?.first()?.value?.value)
+        assertEquals("identifier", careTeam.identifier.first().value?.value)
         assertEquals("Patient/123", careTeam.subject?.reference?.value)
         assertEquals("status", careTeam.status?.value)
     }

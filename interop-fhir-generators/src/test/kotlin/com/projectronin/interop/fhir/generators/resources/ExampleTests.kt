@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.name
 import com.projectronin.interop.fhir.generators.primitives.date
+import com.projectronin.interop.fhir.generators.primitives.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

@@ -25,6 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
@@ -125,7 +126,7 @@ class PatientCommunicationGenerator : DataGenerator<PatientCommunication>() {
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val language: DataGenerator<CodeableConcept> = CodeableConceptGenerator()
-    val preferred: FHIRBooleanDataGenerator = FHIRBooleanDataGenerator()
+    val preferred: DataGenerator<FHIRBoolean?> = NullDataGenerator()
 
     override fun generateInternal() = PatientCommunication(
         id = id.generate(),

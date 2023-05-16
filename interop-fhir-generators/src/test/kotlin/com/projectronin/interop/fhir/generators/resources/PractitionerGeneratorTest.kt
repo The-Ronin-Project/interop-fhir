@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.generators.datatypes.contactPoint
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.name
 import com.projectronin.interop.fhir.generators.primitives.date
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
@@ -57,7 +58,7 @@ class PractitionerGeneratorTest {
             identifier of listOf(
                 identifier {}
             )
-            active of FHIRBoolean(true)
+            active of true
             name of listOf(name { family of "Felt" })
             telecom of listOf(
                 contactPoint {
@@ -140,7 +141,7 @@ class PractitionerGeneratorTest {
             gender of "Very"
             birthDate of date { year of 1990 }
 
-            // Say your test require a qualification
+            // Say your test requires a qualification
             qualification of listOf(
                 qualification {
                     code of codeableConcept {

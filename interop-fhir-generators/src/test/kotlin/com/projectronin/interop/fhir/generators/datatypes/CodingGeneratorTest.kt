@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -26,7 +27,6 @@ class CodingGeneratorTest {
             display of "display"
             userSelected of true
         }
-        assertNotNull(coding)
         assertEquals("system", coding.system?.value)
         assertEquals("code", coding.code?.value)
         assertEquals("v1", coding.version?.value)

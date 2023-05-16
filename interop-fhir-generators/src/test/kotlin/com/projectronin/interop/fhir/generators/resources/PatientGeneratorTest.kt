@@ -1,11 +1,14 @@
 package com.projectronin.interop.fhir.generators.resources
 
+import com.projectronin.interop.fhir.generators.datatypes.address
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.name
 import com.projectronin.interop.fhir.generators.datatypes.period
 import com.projectronin.interop.fhir.generators.datatypes.reference
 import com.projectronin.interop.fhir.generators.primitives.date
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -82,8 +85,14 @@ class PatientContactGeneratorTest {
     fun `function works with parameters`() {
         val patientContact = patientContact {
             period of period { }
+            address of address {
+                city of "Kansas City"
+                state of "KS"
+            }
         }
         assertNotNull(patientContact.period)
+        assertEquals(FHIRString("Kansas City"), patientContact.address?.city)
+        assertEquals(FHIRString("KS"), patientContact.address?.state)
     }
 }
 
