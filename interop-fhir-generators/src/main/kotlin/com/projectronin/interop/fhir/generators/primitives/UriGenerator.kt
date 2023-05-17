@@ -13,3 +13,5 @@ class UriGenerator : DataGenerator<Uri>() {
         of(Uri(value))
     }
 }
+
+infix fun DataGenerator<Uri?>.of(value: String) = of(Uri(value))

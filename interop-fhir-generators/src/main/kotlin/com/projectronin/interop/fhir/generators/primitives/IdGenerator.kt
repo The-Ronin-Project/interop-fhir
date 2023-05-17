@@ -23,3 +23,5 @@ fun id(block: IdGenerator.() -> Unit): Id {
     id.apply(block)
     return id.generate()
 }
+
+infix fun DataGenerator<Id?>.of(value: String) = of(Id(value))

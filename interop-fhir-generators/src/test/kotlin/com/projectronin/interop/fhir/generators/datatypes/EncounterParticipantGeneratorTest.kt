@@ -9,7 +9,10 @@ class EncounterParticipantGeneratorTest {
     @Test
     fun `function works with default`() {
         val participant = encounterParticipant {}
-        assertNotNull(participant.type)
+        assertNull(participant.id)
+        assertEquals(0, participant.extension.size)
+        assertEquals(0, participant.modifierExtension.size)
+        assertEquals(0, participant.type.size)
         assertNull(participant.period)
         assertNotNull(participant.individual)
     }
@@ -21,7 +24,7 @@ class EncounterParticipantGeneratorTest {
             individual of reference("Patient", "123")
             period of period { }
         }
-        assertNotNull(participant.type)
+        assertEquals(1, participant.type.size)
         assertEquals("Patient/123", participant.individual?.reference?.value)
         assertNotNull(participant.period)
     }

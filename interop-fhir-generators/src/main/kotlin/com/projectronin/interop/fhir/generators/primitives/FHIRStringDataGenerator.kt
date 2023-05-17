@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.faker.FakerDataGenerator
 
+@Deprecated("Use NullDataGenerator instead")
 class FHIRStringDataGenerator : DataGenerator<FHIRString?>() {
     override fun generateInternal(): FHIRString? = null
 
@@ -21,3 +22,5 @@ abstract class FHIRStringFakerDataGenerator : FakerDataGenerator<FHIRString>() {
         of(FHIRString(value))
     }
 }
+
+infix fun DataGenerator<FHIRString?>.of(value: String) = of(FHIRString(value))

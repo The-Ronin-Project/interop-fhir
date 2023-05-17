@@ -56,7 +56,10 @@ class LocationGenerator(
     val position: DataGenerator<LocationPosition?> = NullDataGenerator(),
     val managingOrganization: DataGenerator<Reference?> = NullDataGenerator(),
     val partOf: DataGenerator<Reference?> = NullDataGenerator(),
-    val hoursOfOperation: ListDataGenerator<LocationHoursOfOperation?> = ListDataGenerator(0, NullDataGenerator()),
+    val hoursOfOperation: ListDataGenerator<LocationHoursOfOperation> = ListDataGenerator(
+        0,
+        LocationHoursOfOperationGenerator()
+    ),
     val availabilityExceptions: DataGenerator<String?> = NullDataGenerator(),
     val endpoint: ListDataGenerator<Reference?> = ListDataGenerator(0, NullDataGenerator())
 ) : DomainResource<Location> {
@@ -84,7 +87,7 @@ class LocationGenerator(
             position = position.generate(),
             managingOrganization = managingOrganization.generate(),
             partOf = partOf.generate(),
-            hoursOfOperation = hoursOfOperation.generate().filterNotNull(),
+            hoursOfOperation = hoursOfOperation.generate(),
             availabilityExceptions = availabilityExceptions.generate()?.asFHIR(),
             endpoint = endpoint.generate().filterNotNull()
         )
@@ -94,7 +97,7 @@ class LocationGenerator(
     }
 }
 
-class LocationPositionGenerator : DataGenerator<LocationPosition?>() {
+class LocationPositionGenerator : DataGenerator<LocationPosition>() {
     val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
@@ -140,13 +143,13 @@ fun location(block: LocationGenerator.() -> Unit): Location {
     return location.toFhir()
 }
 
-fun locationPosition(block: LocationPositionGenerator.() -> Unit): LocationPosition? {
+fun locationPosition(block: LocationPositionGenerator.() -> Unit): LocationPosition {
     val locationPosition = LocationPositionGenerator()
     locationPosition.apply(block)
     return locationPosition.generate()
 }
 
-fun locationHoursOfOperation(block: LocationHoursOfOperationGenerator.() -> Unit): LocationHoursOfOperation? {
+fun locationHoursOfOperation(block: LocationHoursOfOperationGenerator.() -> Unit): LocationHoursOfOperation {
     val locationHoursOfOperation = LocationHoursOfOperationGenerator()
     locationHoursOfOperation.apply(block)
     return locationHoursOfOperation.generate()

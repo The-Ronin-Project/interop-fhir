@@ -1,31 +1,48 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.of
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
+import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class ReferenceGeneratorTest {
-
     @Test
     fun `function works`() {
         val reference = reference("Patient", "123")
-        assertEquals("123", reference.id?.value)
-        assertEquals("Patient", reference.type?.value)
-        assertEquals("Patient/123", reference.reference?.value)
-        assertNotNull(reference.identifier)
+        assertNull(reference.id)
+        assertEquals(0, reference.extension.size)
+        assertEquals(FHIRString("Patient/123"), reference.reference)
+        assertNull(reference.type)
+        assertNull(reference.identifier)
         assertNull(reference.display)
     }
 
     @Test
-    fun `generator works`() {
-        val generator = ReferenceGenerator()
-        val reference = generator.generate()
-        assertNotNull(reference)
-        assertNotNull(reference.type)
-        assertNotNull(reference.identifier)
+    fun `generator works with default`() {
+        val reference = ReferenceGenerator().generate()
+
         assertNull(reference.id)
-        assertNull(reference.display)
+        assertEquals(0, reference.extension.size)
         assertNull(reference.reference)
+        assertNull(reference.type)
+        assertNull(reference.identifier)
+        assertNull(reference.display)
+    }
+
+    @Test
+    fun `generator works with values`() {
+        val generator = ReferenceGenerator()
+        generator.id of "1234"
+        generator.type of "Practitioner"
+        val reference = generator.generate()
+
+        assertEquals(FHIRString("1234"), reference.id)
+        assertEquals(0, reference.extension.size)
+        assertNull(reference.reference)
+        assertEquals(Uri("Practitioner"), reference.type)
+        assertNull(reference.identifier)
+        assertNull(reference.display)
     }
 }
