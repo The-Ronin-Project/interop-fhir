@@ -5,7 +5,7 @@ interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.7.0"
 
 jackson-core = "com.fasterxml.jackson.core:jackson-core:2.15.1"
 jackson-databind = "com.fasterxml.jackson.core:jackson-databind:2.15.1"
-jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0"
+jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
 datafaker = "net.datafaker:datafaker:1.9.0"
 mockk = "io.mockk:mockk:1.13.5"
 ronin-test-data-generator = "com.projectronin.test:ronin-test-data-generator:0.0.2"
