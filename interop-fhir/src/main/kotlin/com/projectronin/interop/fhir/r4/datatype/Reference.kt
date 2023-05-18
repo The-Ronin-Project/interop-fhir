@@ -26,12 +26,18 @@ data class Reference(
         return this.type?.value == type || (reference?.value?.contains("$type/") ?: false)
     }
 
+    /**
+     * Returns the type as determined based off the [reference].
+     */
     fun decomposedType(): String? {
-        return this.type?.value ?: this.reference?.value?.let { getType(it) }
+        return this.reference?.value?.let { getType(it) }
     }
 
+    /**
+     * Returns the ID as determined based off the [reference].
+     */
     fun decomposedId(): String? {
-        return this.id?.value ?: this.reference?.value?.let { getId(it) }
+        return this.reference?.value?.let { getId(it) }
     }
 
     companion object {

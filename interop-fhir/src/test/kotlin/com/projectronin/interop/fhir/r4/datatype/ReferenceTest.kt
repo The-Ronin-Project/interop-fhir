@@ -100,50 +100,50 @@ class ReferenceTest {
     }
 
     @Test
-    fun `decomposedID - works when id is present`() {
-        val reference = Reference(id = FHIRString("123"))
+    fun `decomposedID - ignores id when present`() {
+        val reference = Reference(id = FHIRString("123"), reference = FHIRString("Patient/456"))
+        assertEquals("456", reference.decomposedId())
+    }
+
+    @Test
+    fun `decomposedID - works when reference is valid`() {
+        val reference = Reference(reference = FHIRString("Patient/123"))
         assertEquals("123", reference.decomposedId())
     }
 
     @Test
-    fun `decomposedID - works when no is present but reference is valid`() {
-        val reference = Reference(reference = (FHIRString("Patient/123")))
-        assertEquals("123", reference.decomposedId())
-    }
-
-    @Test
-    fun `decomposedID - returns null when no id and reference has no ID`() {
-        val reference = Reference(reference = (FHIRString("Patient/")))
+    fun `decomposedID - returns null when reference has no ID`() {
+        val reference = Reference(reference = FHIRString("Patient/"))
         assertNull(reference.decomposedId())
     }
 
     @Test
-    fun `decomposedID - returns null when no id and reference is bad`() {
-        val reference = Reference(reference = (FHIRString("HotGarbage!")))
+    fun `decomposedID - returns null when reference is bad`() {
+        val reference = Reference(reference = FHIRString("HotGarbage!"))
         assertNull(reference.decomposedId())
     }
 
     @Test
-    fun `decomposedType - returns type when present`() {
-        val reference = Reference(type = Uri("Patient"))
-        assertEquals("Patient", reference.decomposedType())
+    fun `decomposedType - ignores type when present`() {
+        val reference = Reference(type = Uri("Patient"), reference = FHIRString("Practitioner/456"))
+        assertEquals("Practitioner", reference.decomposedType())
     }
 
     @Test
     fun `decomposedType - returns type when reference present`() {
-        val reference = Reference(reference = (FHIRString("Patient/123")))
+        val reference = Reference(reference = FHIRString("Patient/123"))
         assertEquals("Patient", reference.decomposedType())
     }
 
     @Test
-    fun `decomposedType - returns null when reference present but no type`() {
-        val reference = Reference(reference = (FHIRString("123")))
+    fun `decomposedType - returns null when reference has no type`() {
+        val reference = Reference(reference = FHIRString("123"))
         assertNull(reference.decomposedType())
     }
 
     @Test
     fun `decomposedType - returns null when reference is bad`() {
-        val reference = Reference(reference = (FHIRString("HotGarbage!")))
+        val reference = Reference(reference = FHIRString("HotGarbage!"))
         assertNull(reference.decomposedType())
     }
 
