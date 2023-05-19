@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
@@ -59,4 +60,9 @@ interface Resource<T : Resource<T>> : Validatable<T> {
     var meta: Meta?
     val implicitRules: Uri?
     val language: Code?
+
+    /**
+     * Returns a hash code that is consistent across all instances of this resource regardless of underlying server.
+     */
+    fun consistentHashCode(): Int = JacksonManager.objectMapper.writeValueAsString(this).hashCode()
 }

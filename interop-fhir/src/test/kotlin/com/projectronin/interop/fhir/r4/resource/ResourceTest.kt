@@ -2,8 +2,12 @@ package com.projectronin.interop.fhir.r4.resource
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.element.BaseElementTest
 import io.github.classgraph.ClassGraph
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import kotlin.reflect.full.findAnnotation
@@ -49,5 +53,12 @@ class ResourceTest : BaseElementTest() {
                     .filterNot { c -> c == UnknownResource::class }
             }
         verifyElements(allElements, "resourceType")
+    }
+
+    @Test
+    fun `consistent hash uses serialized string`() {
+        val patient = Patient(id = Id("1234"))
+        assertEquals(JacksonManager.objectMapper.writeValueAsString(patient).hashCode(), patient.consistentHashCode())
+        assertNotEquals(patient.hashCode(), patient.consistentHashCode())
     }
 }
