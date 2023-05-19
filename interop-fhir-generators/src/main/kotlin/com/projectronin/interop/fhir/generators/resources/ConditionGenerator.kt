@@ -1,22 +1,29 @@
 package com.projectronin.interop.fhir.generators.resources
 
+import com.projectronin.interop.fhir.generators.datatypes.AnnotationGenerator
 import com.projectronin.interop.fhir.generators.datatypes.CodeableConceptGenerator
+import com.projectronin.interop.fhir.generators.datatypes.ConditionEvidenceGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ConditionStageGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
+import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
+import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.Narrative
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Condition
+import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
+import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
@@ -31,11 +38,22 @@ data class ConditionGenerator(
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val clinicalStatus: DataGenerator<CodeableConcept> = CodeableConceptGenerator(),
+    val clinicalStatus: DataGenerator<CodeableConcept> = CodeableConceptGenerator(ConditionClinicalStatusCodes::class),
+    val verificationStatus: DataGenerator<CodeableConcept?> = NullDataGenerator(),
     val category: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
-    val code: DataGenerator<CodeableConcept> = CodeableConceptGenerator(),
+    val severity: DataGenerator<CodeableConcept?> = NullDataGenerator(),
+    val code: DataGenerator<CodeableConcept?> = NullDataGenerator(),
+    val bodySite: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
-    val stage: ListDataGenerator<ConditionStage> = ListDataGenerator(0, ConditionStageGenerator())
+    val encounter: DataGenerator<Reference?> = NullDataGenerator(),
+    val onset: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
+    val abatement: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
+    val recordedDate: DataGenerator<DateTime?> = NullDataGenerator(),
+    val recorder: DataGenerator<Reference?> = NullDataGenerator(),
+    val asserter: DataGenerator<Reference?> = NullDataGenerator(),
+    val stage: ListDataGenerator<ConditionStage> = ListDataGenerator(0, ConditionStageGenerator()),
+    val evidence: ListDataGenerator<ConditionEvidence> = ListDataGenerator(0, ConditionEvidenceGenerator()),
+    val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator())
 ) : DomainResource<Condition> {
     override fun toFhir(): Condition =
         Condition(
@@ -48,11 +66,23 @@ data class ConditionGenerator(
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             identifier = identifier.generate(),
+            // By default, we will fill in a clinical status to CON-3 (clinical status must be populated when validation isn't)
             clinicalStatus = clinicalStatus.generate(),
+            verificationStatus = verificationStatus.generate(),
             category = category.generate(),
+            severity = severity.generate(),
             code = code.generate(),
+            bodySite = bodySite.generate(),
             subject = subject.generate(),
-            stage = stage.generate()
+            encounter = encounter.generate(),
+            onset = onset.generate(),
+            abatement = abatement.generate(),
+            recordedDate = recordedDate.generate(),
+            recorder = recorder.generate(),
+            asserter = asserter.generate(),
+            stage = stage.generate(),
+            evidence = evidence.generate(),
+            note = note.generate()
         )
 }
 
