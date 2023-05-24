@@ -1,5 +1,5 @@
 [libraries]
-classgraph = "io.github.classgraph:classgraph:4.8.158"
+classgraph = "io.github.classgraph:classgraph:4.8.160"
 interop-common = "com.projectronin.interop:interop-common:3.7.0"
 interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.7.0"
 
