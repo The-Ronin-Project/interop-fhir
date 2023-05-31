@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4.datatype.primitive
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.datatype.Extension
 
 /**
@@ -15,3 +16,5 @@ data class Code @JsonCreator constructor(
     @JsonCreator
     constructor(value: String) : this(value, null, emptyList())
 }
+
+inline fun <reified T> Code?.asEnum() where T : Enum<T>, T : CodedEnum<T> = this?.value?.let { CodedEnum.byCode<T>(it) }
