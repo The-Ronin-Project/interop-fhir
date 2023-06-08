@@ -13,6 +13,7 @@ import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
+import java.math.BigDecimal
 
 /**
  * Validator for the [R4 TimingRepeat](https://hl7.org/fhir/R4/datatypes-definitions.html#Timing.repeat).
@@ -127,11 +128,11 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
             )
             checkTrue((element.period == null || element.periodUnit != null), requiredPeriodUnitError, parentContext)
             checkTrue(
-                (element.duration?.value == null || element.duration.value >= 0),
+                (element.duration?.value == null || element.duration.value >= BigDecimal.ZERO),
                 negativeDurationError,
                 parentContext
             )
-            checkTrue((element.period?.value == null || element.period.value >= 0), negativePeriodError, parentContext)
+            checkTrue((element.period?.value == null || element.period.value >= BigDecimal.ZERO), negativePeriodError, parentContext)
             checkTrue((element.periodMax == null || element.period != null), requiredPeriodError, parentContext)
             checkTrue((element.durationMax == null || element.duration != null), requiredDurationError, parentContext)
             checkTrue((element.countMax == null || element.count != null), requiredCountError, parentContext)

@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class DurationGeneratorTest {
     @Test
@@ -23,10 +24,10 @@ class DurationGeneratorTest {
     @Test
     fun `function works with parameters`() {
         val duration = duration {
-            value of 12.5
+            value of BigDecimal(12.5)
             unit of "cm"
         }
-        assertEquals(Decimal(12.5), duration.value)
+        assertEquals(Decimal(BigDecimal(12.5)), duration.value)
         assertEquals(FHIRString("cm"), duration.unit)
     }
 }

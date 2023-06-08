@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class DecimalGeneratorTest {
     @Test
@@ -16,15 +17,22 @@ class DecimalGeneratorTest {
     @Test
     fun `supports infix extension for Decimal`() {
         val decimal = DecimalGenerator()
+        decimal of BigDecimal(3407.5)
+        assertEquals(BigDecimal(3407.5), decimal.generate()?.value)
+    }
+
+    @Test
+    fun `supports infix extension for Decimal Double`() {
+        val decimal = DecimalGenerator()
         decimal of 3407.5
-        assertEquals(3407.5, decimal.generate()?.value)
+        assertEquals(BigDecimal(3407.5), decimal.generate()?.value)
     }
 
     @Test
     fun `supports infix setter for Decimal`() {
         val generator = DecimalGenerator()
-        generator of Decimal(150.932)
+        generator of Decimal(BigDecimal(150.932))
         val decimal = generator.generate()
-        assertEquals(Decimal(150.932), decimal)
+        assertEquals(Decimal(BigDecimal(150.932)), decimal)
     }
 }

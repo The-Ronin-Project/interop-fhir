@@ -6,6 +6,7 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
+import java.math.BigDecimal
 
 /**
  * Validator for the [R4 Age](http://hl7.org/fhir/R4/datatypes.html#Age)
@@ -38,7 +39,7 @@ object R4AgeValidator : BaseR4QuantityValidator<Age>() {
                 invalidSystemError,
                 parentContext
             )
-            checkTrue((quantity.value?.value == null || quantity.value.value > 0), positiveValueError, parentContext)
+            checkTrue((quantity.value?.value == null || quantity.value.value > BigDecimal.ZERO), positiveValueError, parentContext)
         }
     }
 }

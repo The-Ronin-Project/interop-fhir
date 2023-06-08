@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class LocationGeneratorTest {
     @Test
@@ -100,9 +101,9 @@ class LocationGeneratorTest {
                 text of "textC"
             }
             position of locationPosition {
-                longitude of 1.45
-                latitude of 3.78
-                altitude of 6.02
+                longitude of BigDecimal(1.45)
+                latitude of BigDecimal(3.78)
+                altitude of BigDecimal(6.02)
             }
             managingOrganization of reference("Organization", "123")
             partOf of reference("Location", "999")
@@ -143,9 +144,9 @@ class LocationGeneratorTest {
         assertEquals("systemC", location.physicalType?.coding!!.first().system?.value)
         assertEquals("codeC", location.physicalType?.coding!!.first().code?.value)
         assertEquals("textC", location.physicalType?.text?.value)
-        assertEquals(1.45, location.position?.longitude?.value)
-        assertEquals(3.78, location.position?.latitude?.value)
-        assertEquals(6.02, location.position?.altitude?.value)
+        assertEquals(BigDecimal(1.45), location.position?.longitude?.value)
+        assertEquals(BigDecimal(3.78), location.position?.latitude?.value)
+        assertEquals(BigDecimal(6.02), location.position?.altitude?.value)
         assertEquals("Organization/123", location.managingOrganization?.reference?.value)
         assertEquals("Location/999", location.partOf?.reference?.value)
         assertEquals(

@@ -6,8 +6,7 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
-import kotlin.math.ceil
-import kotlin.math.floor
+import java.math.RoundingMode
 
 /**
  * Validator for the [R4 Count](http://hl7.org/fhir/R4/datatypes.html#Count)
@@ -45,7 +44,7 @@ object R4CountValidator : BaseR4QuantityValidator<Count>() {
                 parentContext
             )
             checkTrue(
-                (quantity.value?.value == null || ceil(quantity.value.value) == floor(quantity.value.value)),
+                (quantity.value?.value == null || quantity.value.value.setScale(0, RoundingMode.CEILING) == quantity.value.value.setScale(0, RoundingMode.FLOOR)),
                 invalidNumberError,
                 parentContext
             )

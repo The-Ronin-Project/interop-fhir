@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype.primitive
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.projectronin.interop.fhir.r4.datatype.Extension
+import java.math.BigDecimal
 
 /**
  * 	Rational numbers that have a decimal representation.
@@ -9,13 +10,18 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
  * See [FHIR documentation](http://hl7.org/fhir/R4/datatypes.html#decimal)
  */
 data class Decimal(
-    override val value: Double?,
+    override val value: BigDecimal?,
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf()
-) : Primitive<Double, Decimal> {
+) : Primitive<BigDecimal, Decimal> {
     @JsonCreator
-    constructor(value: Double) : this(value, null, emptyList())
+    @Deprecated("Please use BigDecimal")
+    constructor(value: Double?) : this(value?.toBigDecimal(), null, emptyList())
 
     @JsonCreator
-    constructor(value: Number) : this(value.toDouble(), null, emptyList())
+    @Deprecated("Please use BigDecimal")
+    constructor(value: Number?) : this(value?.toDouble()?.toBigDecimal(), null, emptyList())
+
+    @JsonCreator
+    constructor(value: BigDecimal) : this(value, null, emptyList())
 }
