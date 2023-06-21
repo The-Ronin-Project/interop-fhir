@@ -61,6 +61,9 @@ import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
 import com.projectronin.interop.fhir.r4.resource.EncounterStatusHistory
+import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
+import com.projectronin.interop.fhir.r4.resource.ImmunizationPerformer
+import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.resource.LocationPosition
@@ -73,6 +76,9 @@ import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.resource.Qualification
+import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
+import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
+import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
 import com.projectronin.interop.fhir.r4.resource.Substitution
 import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
 import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
@@ -140,6 +146,9 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistor
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterStatusHistoryValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationEducationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationPerformerValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocolAppliedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationHoursOfOperationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationPositionValidator
@@ -151,6 +160,9 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunication
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupConditionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupRelatedActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetComposeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetConceptValidator
@@ -575,6 +587,48 @@ class R4ElementsTest {
     }
 
     @Test
+    fun `can validate ImmunizationEducation`() {
+        val immunizationEducation = mockk<ImmunizationEducation>()
+        every {
+            immunizationEducation.validate(
+                R4ImmunizationEducationValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(immunizationEducation, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ImmunizationPerformer`() {
+        val immunizationPerformer = mockk<ImmunizationPerformer>()
+        every {
+            immunizationPerformer.validate(
+                R4ImmunizationPerformerValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(immunizationPerformer, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ImmunizationProtocolApplied`() {
+        val immunizationProtocolApplied = mockk<ImmunizationProtocolApplied>()
+        every {
+            immunizationProtocolApplied.validate(
+                R4ImmunizationProtocolAppliedValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(immunizationProtocolApplied, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
     fun `can validate Ingredient`() {
         val ingredient = mockk<Ingredient>()
         every { ingredient.validate(R4IngredientValidator, locationContext) } returns failedValidation
@@ -771,6 +825,43 @@ class R4ElementsTest {
         every { relatedArtifact.validate(R4RelatedArtifactValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(relatedArtifact, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate RequestGroupAction`() {
+        val requestGroupAction = mockk<RequestGroupAction>()
+        every { requestGroupAction.validate(R4RequestGroupActionValidator, locationContext) } returns failedValidation
+
+        val validation = validateElement(requestGroupAction, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate RequestGroupCondition`() {
+        val requestGroupCondition = mockk<RequestGroupCondition>()
+        every {
+            requestGroupCondition.validate(
+                R4RequestGroupConditionValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(requestGroupCondition, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate RequestGroupRelatedAction`() {
+        val requestGroupRelatedAction = mockk<RequestGroupRelatedAction>()
+        every {
+            requestGroupRelatedAction.validate(
+                R4RequestGroupRelatedActionValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(requestGroupRelatedAction, locationContext)
         assertEquals(1, validation.issues().size)
     }
 

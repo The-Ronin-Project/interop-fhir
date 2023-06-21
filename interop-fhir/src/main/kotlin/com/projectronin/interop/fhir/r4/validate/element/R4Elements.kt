@@ -58,6 +58,9 @@ import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
 import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
 import com.projectronin.interop.fhir.r4.resource.EncounterStatusHistory
+import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
+import com.projectronin.interop.fhir.r4.resource.ImmunizationPerformer
+import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.resource.LocationPosition
@@ -138,6 +141,9 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistor
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterStatusHistoryValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationEducationValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationPerformerValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocolAppliedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationHoursOfOperationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationPositionValidator
@@ -231,6 +237,9 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is EncounterDiagnosis -> element.validate(R4EncounterDiagnosisValidator, parentContext)
         is EncounterLocation -> element.validate(R4EncounterLocationValidator, parentContext)
         is EncounterStatusHistory -> element.validate(R4EncounterStatusHistoryValidator, parentContext)
+        is ImmunizationEducation -> element.validate(R4ImmunizationEducationValidator, parentContext)
+        is ImmunizationPerformer -> element.validate(R4ImmunizationPerformerValidator, parentContext)
+        is ImmunizationProtocolApplied -> element.validate(R4ImmunizationProtocolAppliedValidator, parentContext)
         is Ingredient -> element.validate(R4IngredientValidator, parentContext)
         is LocationHoursOfOperation -> element.validate(R4LocationHoursOfOperationValidator, parentContext)
         is LocationPosition -> element.validate(R4LocationPositionValidator, parentContext)
