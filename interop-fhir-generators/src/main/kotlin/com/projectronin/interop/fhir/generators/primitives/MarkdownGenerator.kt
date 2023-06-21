@@ -23,3 +23,5 @@ fun markdown(block: MarkdownGenerator.() -> Unit): Markdown {
     markdown.apply(block)
     return markdown.generate()
 }
+
+infix fun DataGenerator<Markdown?>.of(value: String) = of(Markdown(value))

@@ -2,11 +2,12 @@ package com.projectronin.interop.fhir.generators.primitives
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.test.data.generator.DataGenerator
+import com.projectronin.test.data.generator.faker.FakerDataGenerator
 
-class UriGenerator : DataGenerator<Uri>() {
-    private val generator = StringGenerator()
+class UriGenerator : FakerDataGenerator<Uri>() {
+    private val generator = faker.internet()
     override fun generateInternal(): Uri {
-        return Uri(generator.generate())
+        return Uri(generator.url())
     }
 
     infix fun of(value: String) {
