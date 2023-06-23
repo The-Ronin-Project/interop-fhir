@@ -74,7 +74,6 @@ class ObservationGeneratorTest {
         assertNotNull(observation.code)
 
         assertEquals(DynamicValueType.DATE_TIME, observation.effective?.type)
-        println(observation.effective?.value)
         val effective = observation.effective?.value as DateTime
         assertTrue(effective.value?.startsWith("1990") ?: false)
     }

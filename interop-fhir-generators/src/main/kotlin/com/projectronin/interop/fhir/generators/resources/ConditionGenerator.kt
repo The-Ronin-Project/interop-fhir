@@ -2,11 +2,10 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.AnnotationGenerator
 import com.projectronin.interop.fhir.generators.datatypes.CodeableConceptGenerator
-import com.projectronin.interop.fhir.generators.datatypes.ConditionEvidenceGenerator
-import com.projectronin.interop.fhir.generators.datatypes.ConditionStageGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
+import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -86,8 +85,54 @@ data class ConditionGenerator(
         )
 }
 
+class ConditionEvidenceGenerator : DataGenerator<ConditionEvidence>() {
+    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val code: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
+    val detail: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+
+    override fun generateInternal() = ConditionEvidence(
+        id = id.generate(),
+        extension = extension.generate(),
+        modifierExtension = modifierExtension.generate(),
+        code = code.generate(),
+        detail = detail.generate()
+    )
+}
+
+class ConditionStageGenerator : DataGenerator<ConditionStage>() {
+    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val summary: DataGenerator<CodeableConcept?> = NullDataGenerator()
+    val assessment: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+    val type: DataGenerator<CodeableConcept?> = NullDataGenerator()
+
+    override fun generateInternal() = ConditionStage(
+        id = id.generate(),
+        extension = extension.generate(),
+        modifierExtension = modifierExtension.generate(),
+        summary = summary.generate(),
+        assessment = assessment.generate(),
+        type = type.generate()
+    )
+}
+
 fun condition(block: ConditionGenerator.() -> Unit): Condition {
     val condition = ConditionGenerator()
     condition.apply(block)
     return condition.toFhir()
+}
+
+fun conditionEvidence(block: ConditionEvidenceGenerator.() -> Unit): ConditionEvidence {
+    val conditionEvidence = ConditionEvidenceGenerator()
+    conditionEvidence.apply(block)
+    return conditionEvidence.generate()
+}
+
+fun conditionStage(block: ConditionStageGenerator.() -> Unit): ConditionStage {
+    val conditionStage = ConditionStageGenerator()
+    conditionStage.apply(block)
+    return conditionStage.generate()
 }

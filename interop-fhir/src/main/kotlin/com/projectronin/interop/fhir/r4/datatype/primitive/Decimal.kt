@@ -15,11 +15,11 @@ data class Decimal(
     override val extension: List<Extension> = listOf()
 ) : Primitive<BigDecimal, Decimal> {
     @JsonCreator
-    @Deprecated("Please use BigDecimal")
+    @Deprecated("Use Decimal(BigDecimal) instead")
     constructor(value: Double?) : this(value?.toBigDecimal(), null, emptyList())
 
     @JsonCreator
-    @Deprecated("Please use BigDecimal")
+    @Deprecated("Use Decimal(BigDecimal) instead")
     constructor(value: Number?) : this(value?.toDouble()?.toBigDecimal(), null, emptyList())
 
     @JsonCreator

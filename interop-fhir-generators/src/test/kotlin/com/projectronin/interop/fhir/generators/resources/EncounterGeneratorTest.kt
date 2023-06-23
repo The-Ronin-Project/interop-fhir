@@ -2,7 +2,6 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.codeableConcept
 import com.projectronin.interop.fhir.generators.datatypes.coding
-import com.projectronin.interop.fhir.generators.datatypes.encounterParticipant
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.period
 import com.projectronin.interop.fhir.generators.datatypes.reference
@@ -105,6 +104,31 @@ class EncounterClassHistoryGeneratorTest {
             `class` of "my-class"
         }
         assertEquals(Code("my-class"), encounterClassHistory.`class`)
+    }
+}
+
+class EncounterParticipantGeneratorTest {
+    @Test
+    fun `participant function works with default`() {
+        val participant = encounterParticipant {}
+        assertNull(participant.id)
+        assertEquals(0, participant.extension.size)
+        assertEquals(0, participant.modifierExtension.size)
+        assertEquals(0, participant.type.size)
+        assertNull(participant.period)
+        assertNotNull(participant.individual)
+    }
+
+    @Test
+    fun `participant function works with parameters`() {
+        val participant = encounterParticipant {
+            type of listOf(codeableConcept { })
+            individual of reference("Patient", "123")
+            period of period { }
+        }
+        assertEquals(1, participant.type.size)
+        assertEquals("Patient/123", participant.individual?.reference?.value)
+        assertNotNull(participant.period)
     }
 }
 

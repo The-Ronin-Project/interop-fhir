@@ -4,15 +4,15 @@ import com.projectronin.interop.common.jackson.JacksonManager
 import com.projectronin.interop.fhir.generators.datatypes.annotation
 import com.projectronin.interop.fhir.generators.datatypes.codeableConcept
 import com.projectronin.interop.fhir.generators.datatypes.coding
-import com.projectronin.interop.fhir.generators.datatypes.conditionEvidence
-import com.projectronin.interop.fhir.generators.datatypes.conditionStage
 import com.projectronin.interop.fhir.generators.datatypes.identifier
 import com.projectronin.interop.fhir.generators.datatypes.reference
 import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.CodeSystem
+import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
+import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -131,5 +131,84 @@ class ConditionGeneratorTest {
         assertEquals(1, condition.stage.size)
         assertEquals(1, condition.evidence.size)
         assertEquals(1, condition.note.size)
+    }
+}
+
+class ConditionEvidenceGeneratorTest {
+    @Test
+    fun `evidence function works with defaults`() {
+        val conditionEvidence = conditionEvidence { }
+        assertTrue(conditionEvidence.code.isEmpty())
+        assertTrue(conditionEvidence.detail.isEmpty())
+    }
+
+    @Test
+    fun `evidence function works with parameters`() {
+        val conditionEvidence = conditionEvidence {
+            code of listOf(
+                codeableConcept {
+                    coding of listOf(
+                        coding {
+                            system of "system"
+                            code of "code"
+                        }
+                    )
+                }
+            )
+            detail of listOf(
+                reference("Patient", "1234")
+            )
+        }
+
+        assertEquals(1, conditionEvidence.code.size)
+        assertEquals(
+            listOf(Coding(code = Code("code"), system = Uri("system"))),
+            conditionEvidence.code.firstOrNull()?.coding
+        )
+        assertEquals(1, conditionEvidence.detail.size)
+        val actualReference = conditionEvidence.detail.first()
+        assertEquals("Patient/1234", actualReference.reference?.value)
+    }
+}
+
+class ConditionStageGeneratorTest {
+    @Test
+    fun `stage function works with defaults`() {
+        val conditionStage = conditionStage {}
+        assertTrue(conditionStage.assessment.isEmpty())
+        assertTrue(conditionStage.summary == null)
+        assertTrue(conditionStage.type == null)
+    }
+
+    @Test
+    fun `stage function works with parameters`() {
+        val conditionStage = conditionStage {
+            assessment of listOf(reference("Patient", "123"))
+            type of codeableConcept {
+                coding of listOf(
+                    coding {
+                        system of "system"
+                        code of "code"
+                    }
+                )
+            }
+            summary of codeableConcept {
+                coding of listOf(
+                    coding {
+                        system of "summarySystem"
+                        code of "summaryCode"
+                    }
+                )
+            }
+        }
+        assertEquals(1, conditionStage.assessment.size)
+        assertEquals(
+            Coding(system = Uri("system"), code = Code("code")),
+            conditionStage.type?.coding?.firstOrNull()
+        )
+        assertEquals(
+            Coding(system = Uri("summarySystem"), code = Code("summaryCode")),
+            conditionStage.summary?.coding?.firstOrNull()
+        )
     }
 }

@@ -90,7 +90,7 @@ data class CarePlanDetail(
     override val modifierExtension: List<Extension> = listOf(),
     val kind: Code? = null,
     val instantiatesCanonical: List<Canonical> = listOf(),
-    val instantiatesUri: Uri? = null,
+    val instantiatesUri: List<Uri> = listOf(),
     val code: CodeableConcept? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
     val reasonReference: List<Reference> = listOf(),

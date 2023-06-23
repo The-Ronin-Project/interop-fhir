@@ -2,12 +2,12 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.CodeableConceptGenerator
 import com.projectronin.interop.fhir.generators.datatypes.CodingGenerator
-import com.projectronin.interop.fhir.generators.datatypes.EncounterParticipantGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.PeriodGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
+import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -124,6 +124,25 @@ class EncounterClassHistoryGenerator : DataGenerator<EncounterClassHistory>() {
         )
 }
 
+class EncounterParticipantGenerator : DataGenerator<EncounterParticipant>() {
+    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+    val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
+    val period: NullDataGenerator<Period> = NullDataGenerator()
+    val individual: DataGenerator<Reference> = ReferenceGenerator()
+
+    override fun generateInternal(): EncounterParticipant =
+        EncounterParticipant(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            type = type.generate(),
+            period = period.generate(),
+            individual = individual.generate()
+        )
+}
+
 class EncounterDiagnosisGenerator : DataGenerator<EncounterDiagnosis>() {
     val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
@@ -222,6 +241,12 @@ fun encounterClassHistory(block: EncounterClassHistoryGenerator.() -> Unit): Enc
     val classHistory = EncounterClassHistoryGenerator()
     classHistory.apply(block)
     return classHistory.generate()
+}
+
+fun encounterParticipant(block: EncounterParticipantGenerator.() -> Unit): EncounterParticipant {
+    val participant = EncounterParticipantGenerator()
+    participant.apply(block)
+    return participant.generate()
 }
 
 fun encounterDiagnosis(block: EncounterDiagnosisGenerator.() -> Unit): EncounterDiagnosis {

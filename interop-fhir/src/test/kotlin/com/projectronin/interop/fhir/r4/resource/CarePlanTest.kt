@@ -50,12 +50,12 @@ class CarePlanTest {
                 )
             ),
             kind = Code("Appointment"),
-            instantiatesCanonical = listOf<Canonical>(
+            instantiatesCanonical = listOf(
                 Canonical(
                     value = "canonical"
                 )
             ),
-            instantiatesUri = Uri("uri"),
+            instantiatesUri = listOf(Uri("uri")),
             code = CodeableConcept(
                 coding = listOf(
                     Coding(
@@ -156,7 +156,7 @@ class CarePlanTest {
                 )
             ),
             identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf<Canonical>(
+            instantiatesCanonical = listOf(
                 Canonical(
                     value = "canonical"
                 )
@@ -319,7 +319,7 @@ class CarePlanTest {
                   } ],
                   "kind" : "Appointment",
                   "instantiatesCanonical" : [ "canonical" ],
-                  "instantiatesUri" : "uri",
+                  "instantiatesUri" : [ "uri" ],
                   "code" : {
                     "coding" : [ {
                       "system" : "http://terminology.hl7.org/CodeSystem/diagnosis-role",
@@ -462,12 +462,12 @@ class CarePlanActivityTest {
                 )
             ),
             kind = Code("Appointment"),
-            instantiatesCanonical = listOf<Canonical>(
+            instantiatesCanonical = listOf(
                 Canonical(
                     value = "canonical"
                 )
             ),
-            instantiatesUri = Uri("uri"),
+            instantiatesUri = listOf(Uri("uri")),
             code = CodeableConcept(
                 coding = listOf(
                     Coding(
@@ -581,7 +581,7 @@ class CarePlanActivityTest {
                 } ],
                 "kind" : "Appointment",
                 "instantiatesCanonical" : [ "canonical" ],
-                "instantiatesUri" : "uri",
+                "instantiatesUri" : [ "uri" ],
                 "code" : {
                   "coding" : [ {
                     "system" : "http://terminology.hl7.org/CodeSystem/diagnosis-role",
@@ -690,12 +690,12 @@ class CarePlanDetailTest {
                 )
             ),
             kind = Code("Appointment"),
-            instantiatesCanonical = listOf<Canonical>(
+            instantiatesCanonical = listOf(
                 Canonical(
                     value = "canonical"
                 )
             ),
-            instantiatesUri = Uri("uri"),
+            instantiatesUri = listOf(Uri("uri")),
             code = CodeableConcept(
                 coding = listOf(
                     Coding(
@@ -752,7 +752,7 @@ class CarePlanDetailTest {
               } ],
               "kind" : "Appointment",
               "instantiatesCanonical" : [ "canonical" ],
-              "instantiatesUri" : "uri",
+              "instantiatesUri" : [ "uri" ],
               "code" : {
                 "coding" : [ {
                   "system" : "http://terminology.hl7.org/CodeSystem/diagnosis-role",
@@ -832,7 +832,7 @@ class CarePlanDetailTest {
         assertEquals(listOf<Extension>(), carePlanDetail.modifierExtension)
         assertNull(carePlanDetail.kind)
         assertEquals(listOf<Canonical>(), carePlanDetail.instantiatesCanonical)
-        assertNull(carePlanDetail.instantiatesUri)
+        assertEquals(listOf<Uri>(), carePlanDetail.instantiatesUri)
         assertNull(carePlanDetail.code)
         assertEquals(listOf<CodeableConcept>(), carePlanDetail.reasonCode)
         assertEquals(listOf<Reference>(), carePlanDetail.reasonReference)
