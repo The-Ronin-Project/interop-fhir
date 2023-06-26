@@ -31,6 +31,7 @@ import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityStatus
 import com.projectronin.interop.fhir.r4.valueset.CarePlanIntent
+import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
@@ -50,7 +51,7 @@ data class CarePlanGenerator(
     val basedOn: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val replaces: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val partOf: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
-    val status: CodeGenerator = CodeGenerator(CarePlanActivityStatus::class),
+    val status: CodeGenerator = CodeGenerator(RequestStatus::class),
     val intent: CodeGenerator = CodeGenerator(CarePlanIntent::class),
     val category: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val title: DataGenerator<FHIRString?> = NullDataGenerator(),
