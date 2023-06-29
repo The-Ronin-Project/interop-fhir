@@ -25,7 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.element.BackboneElement
 
 /**
  * An order or request for both supply of the medication and the instructions for administration of the medication to a
@@ -71,7 +71,7 @@ data class MedicationRequest(
     val courseOfTherapyType: CodeableConcept? = null,
     val insurance: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
-    val dosageInformation: List<Dosage> = listOf(),
+    val dosageInstruction: List<Dosage> = listOf(),
     val dispenseRequest: DispenseRequest? = null,
     val substitution: Substitution? = null,
     val priorPrescription: Reference? = null,
@@ -92,6 +92,7 @@ class MedicationRequestDeserializer : BaseFHIRDeserializer<MedicationRequest>(Me
 data class DispenseRequest(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
     val initialFill: InitialFill? = null,
     val dispenseInterval: Duration? = null,
     val validityPeriod: Period? = null,
@@ -99,7 +100,7 @@ data class DispenseRequest(
     val quantity: SimpleQuantity? = null,
     val expectedSupplyDuration: Duration? = null,
     val performer: Reference? = null
-) : Element<DispenseRequest>
+) : BackboneElement<DispenseRequest>
 
 class DispenseRequestSerializer : BaseFHIRSerializer<DispenseRequest>(DispenseRequest::class.java)
 class DispenseRequestDeserializer : BaseFHIRDeserializer<DispenseRequest>(DispenseRequest::class.java)
@@ -112,9 +113,10 @@ class DispenseRequestDeserializer : BaseFHIRDeserializer<DispenseRequest>(Dispen
 data class InitialFill(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
     val quantity: SimpleQuantity? = null,
     val duration: Duration? = null
-) : Element<InitialFill>
+) : BackboneElement<InitialFill>
 
 class InitialFillSerializer : BaseFHIRSerializer<InitialFill>(InitialFill::class.java)
 class InitialFillDeserializer : BaseFHIRDeserializer<InitialFill>(InitialFill::class.java)
@@ -127,9 +129,10 @@ class InitialFillDeserializer : BaseFHIRDeserializer<InitialFill>(InitialFill::c
 data class Substitution(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    override val modifierExtension: List<Extension> = listOf(),
     val allowed: DynamicValue<Any>?,
     val reason: CodeableConcept? = null
-) : Element<Substitution>
+) : BackboneElement<Substitution>
 
 class SubstitutionSerializer : BaseFHIRSerializer<Substitution>(Substitution::class.java)
 class SubstitutionDeserializer : BaseFHIRDeserializer<Substitution>(Substitution::class.java)

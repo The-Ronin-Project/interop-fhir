@@ -89,7 +89,7 @@ class MedicationRequestTest {
             courseOfTherapyType = CodeableConcept(text = FHIRString("therapy")),
             insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
             note = listOf(Annotation(text = Markdown("note"))),
-            dosageInformation = listOf(Dosage(text = FHIRString("dosage"))),
+            dosageInstruction = listOf(Dosage(text = FHIRString("dosage"))),
             dispenseRequest = DispenseRequest(numberOfRepeatsAllowed = UnsignedInt(2)),
             substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)),
             priorPrescription = Reference(reference = FHIRString("MedicationRequest/1234")),
@@ -182,7 +182,7 @@ class MedicationRequestTest {
               "note" : [ {
                 "text" : "note"
               } ],
-              "dosageInformation" : [ {
+              "dosageInstruction" : [ {
                 "text" : "dosage"
               } ],
               "dispenseRequest" : {
@@ -291,7 +291,7 @@ class MedicationRequestTest {
         assertNull(medicationRequest.courseOfTherapyType)
         assertEquals(listOf<Reference>(), medicationRequest.insurance)
         assertEquals(listOf<Annotation>(), medicationRequest.note)
-        assertEquals(listOf<Dosage>(), medicationRequest.dosageInformation)
+        assertEquals(listOf<Dosage>(), medicationRequest.dosageInstruction)
         assertNull(medicationRequest.dispenseRequest)
         assertNull(medicationRequest.substitution)
         assertNull(medicationRequest.priorPrescription)
