@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
 import com.projectronin.interop.fhir.generators.datatypes.RelatedArtifactGenerator
 import com.projectronin.interop.fhir.generators.primitives.CanonicalGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
+import com.projectronin.interop.fhir.generators.primitives.IdGenerator
 import com.projectronin.interop.fhir.generators.primitives.UriGenerator
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -58,7 +59,7 @@ data class RequestGroupGenerator(
     val intent: DataGenerator<Code?> = CodeGenerator(RequestGroupIntent::class),
     val priority: DataGenerator<Code?> = CodeGenerator(RequestGroupPriority::class),
     val code: DataGenerator<CodeableConcept?> = NullDataGenerator(),
-    val subject: DataGenerator<Reference?> = NullDataGenerator(),
+    val subject: DataGenerator<Reference> = ReferenceGenerator(),
     val encounter: DataGenerator<Reference?> = NullDataGenerator(),
     val authoredOn: DataGenerator<DateTime?> = NullDataGenerator(),
     val author: DataGenerator<Reference?> = NullDataGenerator(),
@@ -172,7 +173,7 @@ data class RequestGroupRelatedActionGenerator(
     val id: DataGenerator<FHIRString?> = NullDataGenerator(),
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
-    val actionId: DataGenerator<Id?> = NullDataGenerator(),
+    val actionId: DataGenerator<Id> = IdGenerator(),
     val relationship: DataGenerator<Code?> = CodeGenerator(RequestGroupRelatedActionRelationship::class),
     val offset: DataGenerator<DynamicValue<Any>?> = NullDataGenerator()
 ) : DataGenerator<RequestGroupRelatedAction>() {

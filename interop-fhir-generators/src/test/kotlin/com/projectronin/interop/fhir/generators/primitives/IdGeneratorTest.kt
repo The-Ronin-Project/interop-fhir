@@ -27,9 +27,17 @@ class IdGeneratorTest {
     }
 
     @Test
-    fun `generic Id String-based infix setter`() {
+    fun `nullable Id using String-based infix setter`() {
         val generator: DataGenerator<Id?> = NullDataGenerator()
         generator of "id"
+        val string = generator.generate()
+        assertEquals(Id("id"), string)
+    }
+
+    @Test
+    fun `non-nullable Id`() {
+        val generator: DataGenerator<Id> = IdGenerator()
+        generator of Id("id")
         val string = generator.generate()
         assertEquals(Id("id"), string)
     }

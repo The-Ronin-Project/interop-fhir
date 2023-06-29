@@ -34,7 +34,7 @@ class RequestGroupGeneratorTest {
         assertNotNull(requestGroup.intent)
         assertNotNull(requestGroup.priority)
         assertNull(requestGroup.code)
-        assertNull(requestGroup.subject)
+        assertNotNull(requestGroup.subject)
         assertNull(requestGroup.encounter)
         assertNull(requestGroup.authoredOn)
         assertNull(requestGroup.author)
@@ -121,7 +121,7 @@ class RequestGroupRelatedActionGeneratorTest {
         val requestGroupRelatedAction = requestGroupRelatedAction {}
         assertNull(requestGroupRelatedAction.id)
         assertEquals(0, requestGroupRelatedAction.extension.size)
-        assertNull(requestGroupRelatedAction.actionId)
+        assertNotNull(requestGroupRelatedAction.actionId)
         assertNotNull(requestGroupRelatedAction.relationship)
         assertNull(requestGroupRelatedAction.offset)
     }
@@ -129,7 +129,7 @@ class RequestGroupRelatedActionGeneratorTest {
     @Test
     fun `function works with parameters`() {
         val requestGroupRelatedAction = requestGroupRelatedAction {
-            actionId of "action123"
+            actionId of Id("action123")
         }
         assertEquals(Id("action123"), requestGroupRelatedAction.actionId)
     }
