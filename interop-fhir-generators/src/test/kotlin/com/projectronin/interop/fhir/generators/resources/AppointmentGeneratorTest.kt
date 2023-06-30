@@ -44,7 +44,7 @@ class AppointmentGeneratorTest {
         assertNull(appt.comment)
         assertNull(appt.patientInstruction)
         assertEquals(0, appt.basedOn.size)
-        assertEquals(0, appt.participant.size)
+        assertEquals(1, appt.participant.size)
         assertEquals(0, appt.requestedPeriod.size)
     }
 
