@@ -42,22 +42,22 @@ class DosageGeneratorTest {
             sequence of FHIRInteger(3)
             text of "instruction".asFHIR()
             additionalInstruction of listOf(
-                codeableConcept { text of "additional" }
+                codeableConcept { text of "additional".asFHIR() }
             )
             patientInstruction of "patient step".asFHIR()
             timing of timing {
-                code of codeableConcept { text of "code" }
+                code of codeableConcept { text of "code".asFHIR() }
             }
             asNeeded of DynamicValues.boolean(true)
-            site of codeableConcept { text of "site" }
-            route of codeableConcept { text of "route" }
-            method of codeableConcept { text of "method" }
+            site of codeableConcept { text of "site".asFHIR() }
+            route of codeableConcept { text of "route".asFHIR() }
+            method of codeableConcept { text of "method".asFHIR() }
             doseAndRate of listOf(
                 doseAndRate {
-                    type of codeableConcept { text of "type 1" }
+                    type of codeableConcept { text of "type 1".asFHIR() }
                 },
                 doseAndRate {
-                    type of codeableConcept { text of "type 2" }
+                    type of codeableConcept { text of "type 2".asFHIR() }
                 }
             )
             maxDosePerPeriod of Ratio(
@@ -136,7 +136,7 @@ class DoseAndRateGeneratorTest {
     @Test
     fun `function works with parameters`() {
         val doseAndRate = doseAndRate {
-            type of codeableConcept { text of "type" }
+            type of codeableConcept { text of "type".asFHIR() }
             dose of DynamicValues.range(
                 Range(
                     low = SimpleQuantity(

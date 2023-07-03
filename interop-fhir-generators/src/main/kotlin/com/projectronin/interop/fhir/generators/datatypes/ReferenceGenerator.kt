@@ -1,19 +1,19 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
 
 class ReferenceGenerator : DataGenerator<Reference>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
-    val reference: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val reference: DataGenerator<FHIRString?> = NullDataGenerator()
     val type: DataGenerator<Uri?> = NullDataGenerator()
     val identifier: DataGenerator<Identifier?> = NullDataGenerator()
     val display: DataGenerator<FHIRString?> = NullDataGenerator()
@@ -31,6 +31,6 @@ class ReferenceGenerator : DataGenerator<Reference>() {
 
 fun reference(type: String, id: String): Reference {
     val reference = ReferenceGenerator()
-    reference.reference of "$type/$id"
+    reference.reference of "$type/$id".asFHIR()
     return reference.generate()
 }

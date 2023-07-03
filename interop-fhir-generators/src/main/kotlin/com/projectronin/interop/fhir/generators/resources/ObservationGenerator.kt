@@ -6,7 +6,6 @@ import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
@@ -18,6 +17,7 @@ import com.projectronin.interop.fhir.r4.datatype.Range
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -105,7 +105,7 @@ data class ObservationGenerator(
 }
 
 class ObservationComponentGenerator : DataGenerator<ObservationComponent>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val code: DataGenerator<CodeableConcept> = CodeableConceptGenerator()
@@ -128,7 +128,7 @@ class ObservationComponentGenerator : DataGenerator<ObservationComponent>() {
 }
 
 class ObservationReferenceRangeGenerator : DataGenerator<ObservationReferenceRange>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val low: DataGenerator<SimpleQuantity?> = NullDataGenerator()
@@ -136,7 +136,7 @@ class ObservationReferenceRangeGenerator : DataGenerator<ObservationReferenceRan
     val type: DataGenerator<CodeableConcept?> = NullDataGenerator()
     val appliesTo: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
     val age: DataGenerator<Range?> = NullDataGenerator()
-    val text: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val text: DataGenerator<FHIRString?> = NullDataGenerator()
 
     override fun generateInternal() = ObservationReferenceRange(
         id = id.generate(),

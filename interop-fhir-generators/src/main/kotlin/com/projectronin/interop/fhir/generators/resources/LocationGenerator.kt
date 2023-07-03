@@ -6,7 +6,6 @@ import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
 import com.projectronin.interop.fhir.generators.primitives.DecimalGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
@@ -19,6 +18,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -47,7 +47,7 @@ class LocationGenerator(
     val operationalStatus: DataGenerator<Coding?> = NullDataGenerator(),
     val name: DataGenerator<String> = LocationNameGenerator(),
     val alias: ListDataGenerator<String> = ListDataGenerator(0, LocationNameGenerator()),
-    val description: DataGenerator<String?> = NullDataGenerator(),
+    val description: DataGenerator<FHIRString?> = NullDataGenerator(),
     val mode: DataGenerator<Code?> = NullDataGenerator(),
     val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val telecom: ListDataGenerator<ContactPoint> = ListDataGenerator(0, ContactPointGenerator()),
@@ -60,7 +60,7 @@ class LocationGenerator(
         0,
         LocationHoursOfOperationGenerator()
     ),
-    val availabilityExceptions: DataGenerator<String?> = NullDataGenerator(),
+    val availabilityExceptions: DataGenerator<FHIRString?> = NullDataGenerator(),
     val endpoint: ListDataGenerator<Reference?> = ListDataGenerator(0, NullDataGenerator())
 ) : DomainResource<Location> {
     override fun toFhir(): Location =
@@ -78,7 +78,7 @@ class LocationGenerator(
             operationalStatus = operationalStatus.generate(),
             name = name.generate().asFHIR(),
             alias = alias.generate().map { it.asFHIR() },
-            description = description.generate()?.asFHIR(),
+            description = description.generate(),
             mode = mode.generate(),
             type = type.generate(),
             telecom = telecom.generate(),
@@ -88,7 +88,7 @@ class LocationGenerator(
             managingOrganization = managingOrganization.generate(),
             partOf = partOf.generate(),
             hoursOfOperation = hoursOfOperation.generate(),
-            availabilityExceptions = availabilityExceptions.generate()?.asFHIR(),
+            availabilityExceptions = availabilityExceptions.generate(),
             endpoint = endpoint.generate().filterNotNull()
         )
 
@@ -98,7 +98,7 @@ class LocationGenerator(
 }
 
 class LocationPositionGenerator : DataGenerator<LocationPosition>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val longitude: DataGenerator<Decimal?> = DecimalGenerator()
@@ -117,7 +117,7 @@ class LocationPositionGenerator : DataGenerator<LocationPosition>() {
 }
 
 class LocationHoursOfOperationGenerator : DataGenerator<LocationHoursOfOperation>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val daysOfWeek: ListDataGenerator<Code?> = ListDataGenerator(0, CodeGenerator(DayOfWeek::class))

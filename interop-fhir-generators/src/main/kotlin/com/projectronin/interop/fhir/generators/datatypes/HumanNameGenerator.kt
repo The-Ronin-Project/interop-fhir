@@ -1,9 +1,9 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Period
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
@@ -13,7 +13,7 @@ import net.datafaker.providers.base.Name
 
 class HumanNameGenerator : DataGenerator<HumanName>() {
     val use: CodeGenerator = CodeGenerator()
-    val text: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val text: DataGenerator<FHIRString?> = NullDataGenerator()
     val family: DataGenerator<String> = NameGenerator(Name::lastName)
     val given: ListDataGenerator<String> = ListDataGenerator(1, NameGenerator(Name::firstName))
     val prefix: ListDataGenerator<String> = ListDataGenerator(0, NameGenerator(Name::prefix))

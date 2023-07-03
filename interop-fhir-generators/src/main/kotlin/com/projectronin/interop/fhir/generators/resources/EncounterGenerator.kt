@@ -7,7 +7,6 @@ import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.PeriodGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -125,7 +124,7 @@ class EncounterClassHistoryGenerator : DataGenerator<EncounterClassHistory>() {
 }
 
 class EncounterParticipantGenerator : DataGenerator<EncounterParticipant>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())

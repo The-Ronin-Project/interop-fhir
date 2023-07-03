@@ -7,8 +7,6 @@ import com.projectronin.interop.fhir.generators.datatypes.ParticipantGenerator
 import com.projectronin.interop.fhir.generators.datatypes.PeriodGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
-import com.projectronin.interop.fhir.generators.primitives.PositiveIntGenerator
 import com.projectronin.interop.fhir.generators.primitives.UnsignedIntGenerator
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -22,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
+import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Appointment
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
@@ -50,15 +49,15 @@ data class AppointmentGenerator(
     val reasonCode: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val reasonReference: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val priority: UnsignedIntGenerator = UnsignedIntGenerator(),
-    val description: DataGenerator<FHIRString?> = FHIRStringDataGenerator(),
+    val description: DataGenerator<FHIRString?> = NullDataGenerator(),
     val supportingInformation: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val start: DataGenerator<Instant?> = NullDataGenerator(),
     val end: DataGenerator<Instant?> = NullDataGenerator(),
-    val minutesDuration: PositiveIntGenerator = PositiveIntGenerator(),
+    val minutesDuration: DataGenerator<PositiveInt?> = NullDataGenerator(),
     val slot: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val created: DataGenerator<DateTime?> = NullDataGenerator(),
-    val comment: DataGenerator<FHIRString?> = FHIRStringDataGenerator(),
-    val patientInstruction: DataGenerator<FHIRString?> = FHIRStringDataGenerator(),
+    val comment: DataGenerator<FHIRString?> = NullDataGenerator(),
+    val patientInstruction: DataGenerator<FHIRString?> = NullDataGenerator(),
     val basedOn: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val participant: ListDataGenerator<Participant> = ListDataGenerator(1, ParticipantGenerator()),
     val requestedPeriod: ListDataGenerator<Period> = ListDataGenerator(0, PeriodGenerator())

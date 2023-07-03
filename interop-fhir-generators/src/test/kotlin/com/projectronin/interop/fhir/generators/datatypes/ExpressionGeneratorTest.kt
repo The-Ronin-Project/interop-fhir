@@ -1,7 +1,7 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
+import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -23,7 +23,7 @@ class ExpressionGeneratorTest {
     @Test
     fun `function works with parameters`() {
         val expression = expression {
-            expression of "example expression"
+            expression of "example expression".asFHIR()
         }
         assertEquals(FHIRString("example expression"), expression.expression)
     }

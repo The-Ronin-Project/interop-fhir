@@ -2,13 +2,13 @@ package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.generators.primitives.UriGenerator
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.test.data.generator.DataGenerator
+import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
 import kotlin.reflect.KClass
 
@@ -20,7 +20,7 @@ class CodeableConceptGenerator(
     constructor(enumClass: KClass<out CodedEnum<*>>) : this(enumClass.java.enumConstants.map { it.code })
 
     val coding: ListDataGenerator<Coding> = ListDataGenerator(0, CodingGenerator())
-    val text: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val text: DataGenerator<FHIRString?> = NullDataGenerator()
 
     override fun generateInternal(): CodeableConcept =
         if (possibleValues.isEmpty()) {

@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
+import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -40,7 +41,7 @@ class IdentifierGeneratorTest {
     @Test
     fun `external identifier works`() {
         val identifier = externalIdentifier {
-            type of codeableConcept { text of "overridden" }
+            type of codeableConcept { text of "overridden".asFHIR() }
         }
         assertEquals("External", identifier.type?.text?.value)
     }
@@ -48,7 +49,7 @@ class IdentifierGeneratorTest {
     @Test
     fun `internal identifier works`() {
         val identifier = internalIdentifier {
-            type of codeableConcept { text of "overridden" }
+            type of codeableConcept { text of "overridden".asFHIR() }
         }
         assertEquals("Internal", identifier.type?.text?.value)
     }

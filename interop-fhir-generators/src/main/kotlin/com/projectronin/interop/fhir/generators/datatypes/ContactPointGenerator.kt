@@ -1,7 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Period
@@ -15,10 +14,10 @@ import com.projectronin.test.data.generator.collection.ListDataGenerator
 import net.datafaker.Faker
 
 class ContactPointGenerator : DataGenerator<ContactPoint>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val system: CodeGenerator = CodeGenerator(ContactPointSystem::class)
-    val value: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val value: DataGenerator<FHIRString?> = NullDataGenerator()
     val use: CodeGenerator = CodeGenerator(ContactPointUse::class)
     val rank: DataGenerator<PositiveInt?> = NullDataGenerator()
     val period: DataGenerator<Period?> = NullDataGenerator()

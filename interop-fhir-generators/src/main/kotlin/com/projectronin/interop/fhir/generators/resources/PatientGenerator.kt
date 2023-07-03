@@ -10,7 +10,6 @@ import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
 import com.projectronin.interop.fhir.generators.primitives.DateGenerator
 import com.projectronin.interop.fhir.generators.primitives.FHIRBooleanDataGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -26,6 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Date
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ContainedResource
@@ -96,7 +96,7 @@ data class PatientGenerator(
 }
 
 class PatientContactGenerator : DataGenerator<PatientContact>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val relationship: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
@@ -122,7 +122,7 @@ class PatientContactGenerator : DataGenerator<PatientContact>() {
 }
 
 class PatientCommunicationGenerator : DataGenerator<PatientCommunication>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val language: DataGenerator<CodeableConcept> = CodeableConceptGenerator()
@@ -138,7 +138,7 @@ class PatientCommunicationGenerator : DataGenerator<PatientCommunication>() {
 }
 
 class PatientLinkGenerator : DataGenerator<PatientLink>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val other: DataGenerator<Reference?> = NullDataGenerator()

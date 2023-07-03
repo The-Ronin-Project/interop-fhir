@@ -1,18 +1,18 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.generators.primitives.UriGenerator
 import com.projectronin.interop.fhir.r4.datatype.Coding
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
+import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 
 class CodingGenerator : DataGenerator<Coding>() {
     val system: UriGenerator = UriGenerator()
-    val version: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val version: DataGenerator<FHIRString?> = NullDataGenerator()
     val code: CodeGenerator = CodeGenerator()
-    val display: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val display: DataGenerator<FHIRString?> = NullDataGenerator()
     val userSelected: DataGenerator<FHIRBoolean?> = NullDataGenerator()
 
     override fun generateInternal(): Coding =

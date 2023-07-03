@@ -1,7 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.FHIRStringDataGenerator
 import com.projectronin.interop.fhir.generators.primitives.FHIRStringFakerDataGenerator
 import com.projectronin.interop.fhir.r4.datatype.Address
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -17,14 +16,14 @@ import kotlin.reflect.KFunction1
 import net.datafaker.providers.base.Address as FakerAddress
 
 class AddressGenerator : DataGenerator<Address>() {
-    val id: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val use: CodeGenerator = CodeGenerator(AddressUse::class)
     val type: CodeGenerator = CodeGenerator(AddressType::class)
-    val text: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val text: DataGenerator<FHIRString?> = NullDataGenerator()
     val line: DataGenerator<List<FHIRString>> = AddressLineGenerator()
     val city: FHIRStringFakerDataGenerator = AddressPartGenerator(FakerAddress::city)
-    val district: FHIRStringDataGenerator = FHIRStringDataGenerator()
+    val district: DataGenerator<FHIRString?> = NullDataGenerator()
     val state: FHIRStringFakerDataGenerator = AddressPartGenerator(FakerAddress::state)
     val postalCode: FHIRStringFakerDataGenerator = AddressPartGenerator(FakerAddress::postcode)
     val country: FHIRStringFakerDataGenerator = AddressPartGenerator(FakerAddress::country)
