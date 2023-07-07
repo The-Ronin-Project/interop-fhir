@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.IdentifierStringGenerator
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Reference
@@ -29,8 +30,13 @@ class ReferenceGenerator : DataGenerator<Reference>() {
         )
 }
 
-fun reference(type: String, id: String): Reference {
+fun reference(type: String, id: String? = null): Reference {
     val reference = ReferenceGenerator()
-    reference.reference of "$type/$id".asFHIR()
+    reference.reference of when {
+        id.isNullOrEmpty() ->
+            "$type/${IdentifierStringGenerator(5).generate()}".asFHIR()
+        else ->
+            "$type/$id".asFHIR()
+    }
     return reference.generate()
 }

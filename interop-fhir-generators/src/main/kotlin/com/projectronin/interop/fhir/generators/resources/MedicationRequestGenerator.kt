@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.generators.datatypes.DynamicValues
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
 import com.projectronin.interop.fhir.generators.datatypes.ReferenceGenerator
+import com.projectronin.interop.fhir.generators.datatypes.reference
 import com.projectronin.interop.fhir.generators.primitives.CanonicalGenerator
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
 import com.projectronin.interop.fhir.generators.primitives.FHIRBooleanDataGenerator
@@ -131,7 +132,7 @@ data class MedicationRequestGenerator(
 
 class MedicationRequestMedicationGenerator : DataGenerator<DynamicValue<Any>>() {
     override fun generateInternal(): DynamicValue<Any> {
-        return DynamicValues.reference(ReferenceGenerator().generate())
+        return DynamicValues.reference(reference("Medication"))
     }
 }
 
@@ -201,7 +202,7 @@ class MedicationRequestSubstitutionGenerator : DataGenerator<Substitution>() {
 
 class MedicationRequestSubstitutionAllowedGenerator : DataGenerator<DynamicValue<Any>>() {
     override fun generateInternal(): DynamicValue<Any> {
-        return DynamicValues.boolean(FHIRBooleanDataGenerator().generate() ?: FHIRBoolean(true))
+        return DynamicValues.boolean(FHIRBooleanDataGenerator().generateRequired())
     }
 }
 

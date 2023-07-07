@@ -45,4 +45,37 @@ class ReferenceGeneratorTest {
         assertNull(reference.identifier)
         assertNull(reference.display)
     }
+
+    @Test
+    fun `fun reference works with type and input id`() {
+        val reference = reference("Medication", "5678")
+        assertEquals("Medication", reference.decomposedType())
+        assertEquals("5678", reference.decomposedId())
+        assertEquals(
+            "Medication/5678",
+            reference.reference?.value
+        )
+    }
+
+    @Test
+    fun `fun reference works with type and generated id`() {
+        val reference = reference("Medication")
+        assertEquals("Medication", reference.decomposedType())
+        assertEquals(5, reference.decomposedId()?.length)
+        assertEquals(
+            "Medication/${reference.decomposedId()}",
+            reference.reference?.value
+        )
+    }
+
+    @Test
+    fun `fun reference works with type and empty id`() {
+        val reference = reference("Medication", "")
+        assertEquals("Medication", reference.decomposedType())
+        assertEquals(5, reference.decomposedId()?.length)
+        assertEquals(
+            "Medication/${reference.decomposedId()}",
+            reference.reference?.value
+        )
+    }
 }
