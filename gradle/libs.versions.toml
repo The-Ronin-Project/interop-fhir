@@ -1,12 +1,33 @@
-[libraries]
-classgraph = "io.github.classgraph:classgraph:4.8.160"
-interop-common = "com.projectronin.interop:interop-common:3.9.1"
-interop-commonJackson = "com.projectronin.interop:interop-common-jackson:3.9.1"
+[versions]
+classgraph = "4.8.160"
+interop-common = "3.9.1"
 
-jackson-core = "com.fasterxml.jackson.core:jackson-core:2.15.2"
-jackson-databind = "com.fasterxml.jackson.core:jackson-databind:2.15.2"
-jackson-module-kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2"
-# Cannot upgrade until we move to JDK 17
-datafaker = "net.datafaker:datafaker:1.9.0"
-mockk = "io.mockk:mockk:1.13.5"
-ronin-test-data-generator = "com.projectronin.test:ronin-test-data-generator:0.0.2"
+interop-gradle = "3.2.0"
+
+jackson = "2.15.2"
+
+# @pin until JDK 17 implemented
+datafaker = "1.9.0"
+mockk = "1.13.5"
+ronin-test = "0.0.2"
+
+[libraries]
+classgraph = {  module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+interop-common = { module = "com.projectronin.interop:interop-common", version.ref = "interop-common" }
+interop-commonJackson = { module = "com.projectronin.interop:interop-common-jackson", version.ref = "interop-common" }
+
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+ronin-test-data-generator = { module = "com.projectronin.test:ronin-test-data-generator", version.ref = "ronin-test" }
+
+[plugins]
+interop-gradle-base = { id = "com.projectronin.interop.gradle.base", version.ref = "interop-gradle" }
+interop-gradle-junit = { id = "com.projectronin.interop.gradle.junit", version.ref = "interop-gradle" }
+interop-gradle-publish = { id = "com.projectronin.interop.gradle.publish", version.ref = "interop-gradle" }
+interop-gradle-spring = { id = "com.projectronin.interop.gradle.spring", version.ref = "interop-gradle" }
+interop-gradle-version = { id = "com.projectronin.interop.gradle.version", version.ref = "interop-gradle" }
+interop-version-catalog = { id = "com.projectronin.interop.gradle.version-catalog-update", version.ref = "interop-gradle" }
