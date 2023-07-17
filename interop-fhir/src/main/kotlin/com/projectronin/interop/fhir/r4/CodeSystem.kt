@@ -16,6 +16,7 @@ enum class CodeSystem(uriString: String) {
     HL7_IDENTIFIER_TYPE("http://terminology.hl7.org/CodeSystem/v2-0203"),
     LOINC("http://loinc.org"),
     NPI("http://hl7.org/fhir/sid/us-npi"),
+    NULL_FLAVOR("http://terminology.hl7.org/CodeSystem/v3-NullFlavor"),
     OBSERVATION_CATEGORY("http://terminology.hl7.org/CodeSystem/observation-category"),
     RONIN_TENANT("http://projectronin.com/id/tenantId"),
     RONIN_MRN("http://projectronin.com/id/mrn"),
