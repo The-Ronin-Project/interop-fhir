@@ -1,31 +1,25 @@
 [versions]
-classgraph = "4.8.160"
-interop-common = "3.9.1"
-
-interop-gradle = "3.2.0"
-
-jackson = "2.15.2"
-
+classgraph = "4.8.161"
 # @pin until JDK 17 implemented
 datafaker = "1.9.0"
+interop-common = "3.9.1"
+interop-gradle = "3.2.0"
+jackson = "2.15.2"
 mockk = "1.13.5"
 ronin-test = "0.0.2"
 
 [libraries]
-classgraph = {  module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 interop-common = { module = "com.projectronin.interop:interop-common", version.ref = "interop-common" }
 interop-commonJackson = { module = "com.projectronin.interop:interop-common-jackson", version.ref = "interop-common" }
-
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
-
-datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 ronin-test-data-generator = { module = "com.projectronin.test:ronin-test-data-generator", version.ref = "ronin-test" }
 
 [plugins]
-interop-gradle-base = { id = "com.projectronin.interop.gradle.base", version.ref = "interop-gradle" }
 interop-gradle-junit = { id = "com.projectronin.interop.gradle.junit", version.ref = "interop-gradle" }
 interop-gradle-publish = { id = "com.projectronin.interop.gradle.publish", version.ref = "interop-gradle" }
 interop-gradle-spring = { id = "com.projectronin.interop.gradle.spring", version.ref = "interop-gradle" }
