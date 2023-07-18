@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.generators.primitives.IdentifierStringGenerator
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Reference
@@ -10,6 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
+import com.projectronin.test.data.generator.util.IdentifierStringGenerator
 
 class ReferenceGenerator : DataGenerator<Reference>() {
     val id: DataGenerator<FHIRString?> = NullDataGenerator()

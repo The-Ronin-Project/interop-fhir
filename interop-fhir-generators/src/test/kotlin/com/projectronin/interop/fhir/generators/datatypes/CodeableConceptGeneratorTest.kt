@@ -1,6 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
-import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
+import com.projectronin.interop.fhir.generators.primitives.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -22,7 +22,7 @@ class CodeableConceptGeneratorTest {
             coding of listOf(
                 coding { }
             )
-            text of "text".asFHIR()
+            text of "text"
         }
         val coding = codeableConcept.coding
         assertNotNull(codeableConcept.coding)

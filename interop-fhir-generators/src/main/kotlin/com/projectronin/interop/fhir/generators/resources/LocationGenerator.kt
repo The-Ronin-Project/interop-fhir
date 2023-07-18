@@ -31,7 +31,7 @@ import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
-import net.datafaker.Faker
+import com.projectronin.test.data.generator.util.HospitalNameGenerator
 
 class LocationGenerator(
     override val id: DataGenerator<Id?> = NullDataGenerator(),
@@ -45,8 +45,8 @@ class LocationGenerator(
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
     val status: DataGenerator<Code?> = NullDataGenerator(),
     val operationalStatus: DataGenerator<Coding?> = NullDataGenerator(),
-    val name: DataGenerator<String> = LocationNameGenerator(),
-    val alias: ListDataGenerator<String> = ListDataGenerator(0, LocationNameGenerator()),
+    val name: DataGenerator<String> = HospitalNameGenerator(),
+    val alias: ListDataGenerator<String> = ListDataGenerator(0, HospitalNameGenerator()),
     val description: DataGenerator<FHIRString?> = NullDataGenerator(),
     val mode: DataGenerator<Code?> = NullDataGenerator(),
     val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
@@ -91,10 +91,6 @@ class LocationGenerator(
             availabilityExceptions = availabilityExceptions.generate(),
             endpoint = endpoint.generate().filterNotNull()
         )
-
-    private class LocationNameGenerator : DataGenerator<String>() {
-        override fun generateInternal(): String = Faker().medical().hospitalName()
-    }
 }
 
 class LocationPositionGenerator : DataGenerator<LocationPosition>() {

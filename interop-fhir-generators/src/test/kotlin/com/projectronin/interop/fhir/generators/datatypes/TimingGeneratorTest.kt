@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.dateTime
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
@@ -9,7 +10,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
-import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -36,7 +36,7 @@ class TimingGeneratorTest {
                 dateTime { year of 1993 }
             )
             repeat of timingRepeat {}
-            code of codeableConcept { text of "code".asFHIR() }
+            code of codeableConcept { text of "code" }
         }
         assertEquals(2, timing.event.size)
         assertTrue(timing.event[0].value?.startsWith("1990")!!)

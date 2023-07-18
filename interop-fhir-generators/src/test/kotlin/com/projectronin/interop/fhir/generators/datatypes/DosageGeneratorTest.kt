@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Quantity
 import com.projectronin.interop.fhir.r4.datatype.Range
@@ -40,24 +41,24 @@ class DosageGeneratorTest {
     fun `function works with parameters`() {
         val dosage = dosage {
             sequence of FHIRInteger(3)
-            text of "instruction".asFHIR()
+            text of "instruction"
             additionalInstruction of listOf(
-                codeableConcept { text of "additional".asFHIR() }
+                codeableConcept { text of "additional" }
             )
-            patientInstruction of "patient step".asFHIR()
+            patientInstruction of "patient step"
             timing of timing {
-                code of codeableConcept { text of "code".asFHIR() }
+                code of codeableConcept { text of "code" }
             }
             asNeeded of DynamicValues.boolean(true)
-            site of codeableConcept { text of "site".asFHIR() }
-            route of codeableConcept { text of "route".asFHIR() }
-            method of codeableConcept { text of "method".asFHIR() }
+            site of codeableConcept { text of "site" }
+            route of codeableConcept { text of "route" }
+            method of codeableConcept { text of "method" }
             doseAndRate of listOf(
                 doseAndRate {
-                    type of codeableConcept { text of "type 1".asFHIR() }
+                    type of codeableConcept { text of "type 1" }
                 },
                 doseAndRate {
-                    type of codeableConcept { text of "type 2".asFHIR() }
+                    type of codeableConcept { text of "type 2" }
                 }
             )
             maxDosePerPeriod of Ratio(
@@ -136,7 +137,7 @@ class DoseAndRateGeneratorTest {
     @Test
     fun `function works with parameters`() {
         val doseAndRate = doseAndRate {
-            type of codeableConcept { text of "type".asFHIR() }
+            type of codeableConcept { text of "type" }
             dose of DynamicValues.range(
                 Range(
                     low = SimpleQuantity(

@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.generators.primitives
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
@@ -11,6 +12,14 @@ class FHIRBooleanDataGeneratorTest {
         val generator = FHIRBooleanDataGenerator()
         val boolean = generator.generate()
         assertNull(boolean)
+    }
+
+    @Test
+    fun `generates value when required`() {
+        val generator = FHIRBooleanDataGenerator()
+        val boolean = generator.generateRequired()
+        assertNotNull(boolean)
+        assertNotNull(boolean.value)
     }
 
     @Test

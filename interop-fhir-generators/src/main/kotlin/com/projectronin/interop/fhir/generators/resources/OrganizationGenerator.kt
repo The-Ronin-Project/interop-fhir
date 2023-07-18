@@ -2,7 +2,6 @@ package com.projectronin.interop.fhir.generators.resources
 
 import com.projectronin.interop.fhir.generators.datatypes.ExtensionGenerator
 import com.projectronin.interop.fhir.generators.datatypes.IdentifierGenerator
-import com.projectronin.interop.fhir.generators.primitives.StringGenerator
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -16,6 +15,7 @@ import com.projectronin.interop.fhir.r4.resource.Organization
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
+import com.projectronin.test.data.generator.util.HospitalNameGenerator
 
 data class OrganizationGenerator(
     override val id: DataGenerator<Id?> = NullDataGenerator(),
@@ -27,7 +27,7 @@ data class OrganizationGenerator(
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val name: DataGenerator<String> = StringGenerator()
+    val name: DataGenerator<String> = HospitalNameGenerator()
 
 ) : DomainResource<Organization> {
 

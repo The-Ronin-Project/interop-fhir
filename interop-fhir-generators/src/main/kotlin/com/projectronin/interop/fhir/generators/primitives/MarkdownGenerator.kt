@@ -7,9 +7,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
+import com.projectronin.test.data.generator.faker.SentenceGenerator
 
 class MarkdownGenerator : DataGenerator<Markdown>() {
-    val value: DataGenerator<String> = StringGenerator()
+    val value: DataGenerator<String> = SentenceGenerator()
     val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
 

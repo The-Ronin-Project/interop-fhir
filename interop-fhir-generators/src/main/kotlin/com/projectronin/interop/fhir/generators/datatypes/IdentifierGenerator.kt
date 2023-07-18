@@ -1,8 +1,8 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
 import com.projectronin.interop.fhir.generators.primitives.CodeGenerator
-import com.projectronin.interop.fhir.generators.primitives.IdentifierStringGenerator
 import com.projectronin.interop.fhir.generators.primitives.UriGenerator
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Period
@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
+import com.projectronin.test.data.generator.util.IdentifierStringGenerator
 
 class IdentifierGenerator : DataGenerator<Identifier>() {
     val use: CodeGenerator = CodeGenerator()
@@ -40,7 +41,7 @@ fun externalIdentifier(block: IdentifierGenerator.() -> Unit): Identifier {
     val identifier = IdentifierGenerator()
     identifier.apply(block)
     identifier.type of codeableConcept {
-        text of "External".asFHIR()
+        text of "External"
     }
     return identifier.generate()
 }
@@ -49,7 +50,7 @@ fun internalIdentifier(block: IdentifierGenerator.() -> Unit): Identifier {
     val identifier = IdentifierGenerator()
     identifier.apply(block)
     identifier.type of codeableConcept {
-        text of "Internal".asFHIR()
+        text of "Internal"
     }
     return identifier.generate()
 }

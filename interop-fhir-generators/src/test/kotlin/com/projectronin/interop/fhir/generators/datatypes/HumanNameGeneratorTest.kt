@@ -1,8 +1,8 @@
 package com.projectronin.interop.fhir.generators.datatypes
 
+import com.projectronin.interop.fhir.generators.primitives.of
 import com.projectronin.interop.fhir.r4.datatype.Period
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -26,7 +26,7 @@ class HumanNameGeneratorTest {
     fun `function works with parameters`() {
         val name = name {
             use of Code("use")
-            text of "text".asFHIR()
+            text of "text"
             family of "Felt"
             given of listOf("Sam")
             prefix of listOf("Dr")
