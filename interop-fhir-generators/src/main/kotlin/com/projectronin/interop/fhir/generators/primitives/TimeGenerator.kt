@@ -2,11 +2,11 @@ package com.projectronin.interop.fhir.generators.primitives
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.test.data.generator.DataGenerator
-import com.projectronin.test.data.generator.faker.IntGenerator
+import com.projectronin.test.data.generator.temporal.TimeGenerator as BaseTimeGenerator
 
 class TimeGenerator : DataGenerator<Time?>() {
-    var hour: DataGenerator<Int> = IntGenerator(0, 23)
-    var minute: DataGenerator<Int> = IntGenerator(0, 59)
+    var hour: DataGenerator<Int> = BaseTimeGenerator().hour
+    var minute: DataGenerator<Int> = BaseTimeGenerator().minute
 
     override fun generateInternal(): Time =
         Time("%02d:%02d".format(hour.generate(), minute.generate()))

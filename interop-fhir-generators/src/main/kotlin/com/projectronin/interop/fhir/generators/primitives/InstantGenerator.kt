@@ -2,16 +2,17 @@ package com.projectronin.interop.fhir.generators.primitives
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.test.data.generator.DataGenerator
-import com.projectronin.test.data.generator.faker.IntGenerator
 import java.time.LocalDate
+import com.projectronin.test.data.generator.temporal.DateGenerator as BaseDateGenerator
+import com.projectronin.test.data.generator.temporal.TimeGenerator as BaseTimeGenerator
 
 class InstantGenerator : DataGenerator<Instant>() {
-    val year: DataGenerator<Int> = IntGenerator(1920, 2015)
-    val month: DataGenerator<Int> = IntGenerator(1, 12)
-    val day: DataGenerator<Int> = IntGenerator(1, 28) // To prevent invalid dates
-    val hour: DataGenerator<Int> = IntGenerator(0, 23)
-    val minute: DataGenerator<Int> = IntGenerator(0, 59)
-    val second: DataGenerator<Int> = IntGenerator(0, 59)
+    val year: DataGenerator<Int> = BaseDateGenerator().year
+    val month: DataGenerator<Int> = BaseDateGenerator().month
+    val day: DataGenerator<Int> = BaseDateGenerator().day
+    val hour: DataGenerator<Int> = BaseTimeGenerator().hour
+    val minute: DataGenerator<Int> = BaseTimeGenerator().minute
+    val second: DataGenerator<Int> = BaseTimeGenerator().second
 
     override fun generateInternal(): Instant =
         Instant(

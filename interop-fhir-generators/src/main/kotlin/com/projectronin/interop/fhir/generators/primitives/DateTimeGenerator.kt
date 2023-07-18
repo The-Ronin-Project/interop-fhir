@@ -2,12 +2,12 @@ package com.projectronin.interop.fhir.generators.primitives
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.test.data.generator.DataGenerator
-import com.projectronin.test.data.generator.faker.IntGenerator
+import com.projectronin.test.data.generator.temporal.DateGenerator as BaseDateGenerator
 
 class DateTimeGenerator : DataGenerator<DateTime>() {
-    val year: DataGenerator<Int> = IntGenerator(1920, 2015)
-    val month: DataGenerator<Int> = IntGenerator(1, 12)
-    val day: DataGenerator<Int> = IntGenerator(1, 28) // To prevent invalid dates
+    val year: DataGenerator<Int> = BaseDateGenerator().year
+    val month: DataGenerator<Int> = BaseDateGenerator().month
+    val day: DataGenerator<Int> = BaseDateGenerator().day
 
     override fun generateInternal(): DateTime =
         DateTime("%d-%02d-%02d".format(year.generate(), month.generate(), day.generate()))
