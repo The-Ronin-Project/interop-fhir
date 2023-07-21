@@ -31,7 +31,7 @@ enum class MedicationRequestIntent(override val code: String) : CodedEnum<Medica
      * The request represents an automatically generated supplemental authorization for action based on a parent
      * authorization together with initial results of the action taken against that parent authorization.
      */
-    REFLEX_ORDER("reflext-order"),
+    REFLEX_ORDER("reflex-order"),
 
     /**
      * The request represents the view of an authorization instantiated by a fulfilling system representing the details
