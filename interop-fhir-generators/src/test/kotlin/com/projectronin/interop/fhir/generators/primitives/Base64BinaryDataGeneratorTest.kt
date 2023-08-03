@@ -37,7 +37,8 @@ class Base64BinaryDataGeneratorTest {
         val generator: DataGenerator<Base64Binary?> = NullDataGenerator()
         generator ofLength 123
         val base64 = generator.generate()
-        val stringLen = base64?.value?.length
+
+        val stringLen = String(Base64.getDecoder().decode(base64!!.value)).length
         assertEquals(123, stringLen)
     }
 }

@@ -44,6 +44,6 @@ class BinaryGeneratorTest {
             binary.securityContent?.reference?.value
         )
         assertEquals(Base64.getEncoder().encodeToString("base64string".toByteArray()), binary.data?.value)
-        assertEquals(3063, binary2.data?.value?.length)
+        assertEquals(3063, String(Base64.getDecoder().decode(binary2.data!!.value)).length)
     }
 }
