@@ -13,7 +13,8 @@ open class FHIRError(
     val code: String,
     val severity: ValidationIssueSeverity,
     val description: String,
-    val location: LocationContext?
+    val location: LocationContext?,
+    val metadata: List<IssueMetadata>? = listOf<IssueMetadata>()
 ) {
     /**
      * Creates a [ValidationIssue] based off this error.
@@ -25,7 +26,8 @@ open class FHIRError(
             code = code,
             severity = severity,
             description = overriddenDescription ?: description,
-            location = location?.let { parentContext.append(it) } ?: parentContext
+            location = location?.let { parentContext.append(it) } ?: parentContext,
+            metadata = metadata
         )
 }
 
