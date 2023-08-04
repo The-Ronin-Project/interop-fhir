@@ -35,7 +35,7 @@ import com.projectronin.interop.fhir.r4.resource.Resource as R4Resource
 interface STU3Resource<T : STU3Resource<T>> : Validatable<T> {
     val resourceType: String
     val id: Id?
-    val meta: Meta?
+    var meta: Meta?
     val implicitRules: Uri?
     val language: Code?
 
