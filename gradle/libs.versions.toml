@@ -1,5 +1,5 @@
 [versions]
-classgraph = "4.8.161"
+classgraph = "4.8.162"
 # @pin until JDK 17 implemented
 datafaker = "1.9.0"
 interop-common = "3.10.0"
