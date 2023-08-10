@@ -39,6 +39,7 @@ import com.projectronin.test.data.generator.DataGenerator
 import com.projectronin.test.data.generator.NullDataGenerator
 import com.projectronin.test.data.generator.collection.EmptyListDataGenerator
 import com.projectronin.test.data.generator.collection.ListDataGenerator
+import java.time.LocalDate
 
 data class PatientGenerator(
     override val id: DataGenerator<Id?> = NullDataGenerator(),
@@ -54,7 +55,7 @@ data class PatientGenerator(
     val name: ListDataGenerator<HumanName> = ListDataGenerator(1, HumanNameGenerator()),
     val telecom: ListDataGenerator<ContactPoint> = ListDataGenerator(1, ContactPointGenerator()),
     val gender: CodeGenerator = CodeGenerator(AdministrativeGender::class),
-    val birthDate: DataGenerator<Date> = DateGenerator(),
+    val birthDate: DataGenerator<Date> = DateGenerator(maximumYear = LocalDate.now().year - 1),
     val deceased: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
     val address: ListDataGenerator<Address> = ListDataGenerator(1, AddressGenerator()),
     val maritalStatus: DataGenerator<CodeableConcept?> = NullDataGenerator(),

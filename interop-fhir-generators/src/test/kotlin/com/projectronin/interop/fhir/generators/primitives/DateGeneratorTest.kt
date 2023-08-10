@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
 class DateGeneratorTest {
-
     @Test
     fun `function works with default`() {
         val date = date {}
@@ -21,5 +20,16 @@ class DateGeneratorTest {
         }
         assertNotNull(date)
         assertEquals("1990-01-03", date.value)
+    }
+
+    @Test
+    fun `function works with invalid dates`() {
+        val date = date {
+            year of 2019
+            day of 30
+            month of 2
+        }
+        assertNotNull(date)
+        assertEquals("2019-02-28", date.value)
     }
 }
