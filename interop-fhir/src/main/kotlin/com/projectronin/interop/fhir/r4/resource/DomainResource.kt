@@ -13,7 +13,7 @@ import com.projectronin.interop.fhir.r4.datatype.Narrative
  */
 interface DomainResource<T : DomainResource<T>> : Resource<T> {
     val text: Narrative?
-    val contained: List<ContainedResource>
+    val contained: List<Resource<*>>
     val extension: List<Extension>
     val modifierExtension: List<Extension>
 }

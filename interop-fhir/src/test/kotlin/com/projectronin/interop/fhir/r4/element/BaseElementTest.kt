@@ -3,7 +3,6 @@ package com.projectronin.interop.fhir.r4.element
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.Resource
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.fail
@@ -36,7 +35,6 @@ abstract class BaseElementTest {
 
                     val valid = when {
                         typeToCheck == DynamicValue::class -> true
-                        typeToCheck == ContainedResource::class -> true
                         typeToCheck.isSubclassOf(Element::class) -> true
                         typeToCheck.isSubclassOf(Resource::class) -> true
                         else -> false

@@ -26,6 +26,7 @@ import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
@@ -43,7 +44,7 @@ class AppointmentTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -99,7 +100,11 @@ class AppointmentTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -267,6 +272,25 @@ class AppointmentTest {
         assertNull(appointment.patientInstruction)
         assertEquals(listOf<Reference>(), appointment.basedOn)
         assertEquals(listOf<Period>(), appointment.requestedPeriod)
+    }
+
+    @Test
+    fun `can deserialize Appointment with contained unsupported resources`() {
+        // This is a real example from Cerner Code Sandbox, but this is technically the post-transform, but our models should still handle it.
+        val json =
+            """{"resourceType":"Appointment","id":"ejh3j95h-4892263","meta":{"versionId":"3-1","lastUpdated":"2023-08-01T17:14:42Z","source":"https://objectstorage.us-phoenix-1.oraclecloud.com/n/idoll6i6jmjd/b/dev-data-lake-bronze/o/raw_data_response/tenant_id=ejh3j95h/transaction_id/80fa5abf-c596-47f0-a0ba-ba65caf4497d","profile":["http://projectronin.io/fhir/StructureDefinition/ronin-appointment"]},"text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Appointment</b></p><p><b>Status</b>: Cancelled</p><p><b>Service Type</b>: Video Visit</p><p><b>Start</b>: Sep  7, 2023 10:00 P.M. UTC</p><p><b>End</b>: Sep  7, 2023 10:15 P.M. UTC</p><p><b>Participants</b>:</p><dl><dd><b>Location</b>: MX Clinic 1</dd><dd><b>Practitioner</b>: Grossnickle, Luke</dd><dd><b>Patient</b>: Smart II, Nancy</dd></dl><p><b>Video Visit</b>: Yes</p></div>"},"contained":[{"resourceType":"HealthcareService","id":"5674962","type":[{"text":"Patient Virtual Meeting Room"}],"telecom":[{"system":"url","value":"http://patientlink.vmr.net"}]},{"resourceType":"HealthcareService","id":"5674965","type":[{"text":"Provider Virtual Meeting Room"}],"telecom":[{"system":"url","value":"http://providerlink.vmr.net"}]}],"extension":[{"url":"https://fhir-ehr.cerner.com/r4/StructureDefinition/is-cancelable","valueBoolean":false},{"url":"https://fhir-ehr.cerner.com/r4/StructureDefinition/is-reschedulable","valueBoolean":false},{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/tenant-sourceAppointmentStatus","valueCoding":{"system":"http://projectronin.io/fhir/CodeSystem/ejh3j95h/AppointmentStatus","code":"cancelled"}}],"identifier":[{"type":{"coding":[{"system":"http://projectronin.com/id/fhir","code":"FHIR ID","display":"FHIR Identifier"}],"text":"FHIR Identifier"},"system":"http://projectronin.com/id/fhir","value":"4892263"},{"type":{"coding":[{"system":"http://projectronin.com/id/tenantId","code":"TID","display":"Ronin-specified Tenant Identifier"}],"text":"Ronin-specified Tenant Identifier"},"system":"http://projectronin.com/id/tenantId","value":"ejh3j95h"},{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}],"status":"cancelled","cancelationReason":{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/codeSet/14229","code":"0","userSelected":true}]},"serviceType":[{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/codeSet/14249","code":"2572307911","display":"Video Visit","userSelected":true},{"system":"http://snomed.info/sct","code":"394581000","display":"Community medicine (qualifier value)","userSelected":false}],"text":"Video Visit"}],"reasonCode":[{"text":"I have a cramp"}],"description":"Video Visit","start":"2023-09-07T22:00:00Z","end":"2023-09-07T22:15:00Z","minutesDuration":15,"participant":[{"actor":{"reference":"Location/ejh3j95h-21304876","type":"Location","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]},"display":"MX Clinic 1"},"required":"required","status":"accepted"},{"type":[{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/codeSet/14250","code":"0","userSelected":true}]},{"coding":[{"system":"http://terminology.hl7.org/CodeSystem/v3-ParticipationType","code":"PPRF","display":"primary performer"}],"text":"primary performer"}],"actor":{"reference":"Practitioner/ejh3j95h-12825702","type":"Practitioner","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]},"display":"Grossnickle, Luke"},"required":"required","status":"accepted"},{"type":[{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/codeSet/14250","code":"4572","display":"Patient","userSelected":true}],"text":"Patient"}],"actor":{"reference":"Patient/ejh3j95h-12724066","type":"Patient","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]},"display":"Smart II, Nancy"},"required":"required","status":"accepted"},{"type":[{"text":"Patient Virtual Meeting Room"}],"actor":{"reference":"#5674962"},"status":"accepted"},{"type":[{"text":"Provider Virtual Meeting Room"}],"actor":{"reference":"#5674965"},"status":"accepted"}],"requestedPeriod":[{"start":"2023-09-07T22:00:00Z","end":"2023-09-07T22:15:00Z"}]}"""
+        val appointment = JacksonManager.objectMapper.readValue<Appointment>(json)
+
+        assertEquals(2, appointment.contained.size)
+        val contained1 = appointment.contained[0]
+        assertInstanceOf(UnknownResource::class.java, contained1)
+        assertEquals("HealthcareService", contained1.resourceType)
+        assertEquals("5674962", contained1.id!!.value)
+
+        val contained2 = appointment.contained[1]
+        assertInstanceOf(UnknownResource::class.java, contained2)
+        assertEquals("HealthcareService", contained2.resourceType)
+        assertEquals("5674965", contained2.id!!.value)
     }
 }
 

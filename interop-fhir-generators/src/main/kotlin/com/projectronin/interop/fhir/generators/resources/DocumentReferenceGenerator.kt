@@ -20,11 +20,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.DocumentReference
 import com.projectronin.interop.fhir.r4.resource.DocumentReferenceContent
 import com.projectronin.interop.fhir.r4.resource.DocumentReferenceContext
 import com.projectronin.interop.fhir.r4.resource.DocumentReferenceRelatesTo
+import com.projectronin.interop.fhir.r4.resource.Resource
 import com.projectronin.interop.fhir.r4.valueset.DocumentReferenceStatus
 import com.projectronin.interop.fhir.r4.valueset.DocumentRelationshipType
 import com.projectronin.test.data.generator.DataGenerator
@@ -37,7 +37,7 @@ data class DocumentReferenceGenerator(
     override val implicitRules: DataGenerator<Uri?> = NullDataGenerator(),
     override val language: DataGenerator<Code?> = NullDataGenerator(),
     override val text: DataGenerator<Narrative?> = NullDataGenerator(),
-    override val contained: ListDataGenerator<ContainedResource?> = ListDataGenerator(0, NullDataGenerator()),
+    override val contained: ListDataGenerator<Resource<*>?> = ListDataGenerator(0, NullDataGenerator()),
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val masterIdentifier: DataGenerator<Identifier?> = NullDataGenerator(),

@@ -41,7 +41,7 @@ class OrganizationTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -110,7 +110,11 @@ class OrganizationTest {
               "status" : "generated",
               "div" : "div"
             },
-            "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+            "contained" : [ {
+              "resourceType" : "Location",
+              "id" : "1234",
+              "name" : "Contained Location"
+            } ],
             "extension" : [ {
               "url" : "http://localhost/extension",
               "valueString" : "Value"

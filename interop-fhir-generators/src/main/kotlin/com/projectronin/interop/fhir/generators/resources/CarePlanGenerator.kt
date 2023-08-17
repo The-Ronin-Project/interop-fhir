@@ -28,7 +28,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.CarePlan
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
 import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
+import com.projectronin.interop.fhir.r4.resource.Resource
 import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityStatus
 import com.projectronin.interop.fhir.r4.valueset.CarePlanIntent
 import com.projectronin.interop.fhir.r4.valueset.RequestStatus
@@ -42,7 +42,7 @@ data class CarePlanGenerator(
     override val implicitRules: DataGenerator<Uri?> = NullDataGenerator(),
     override val language: DataGenerator<Code?> = NullDataGenerator(),
     override val text: DataGenerator<Narrative?> = NullDataGenerator(),
-    override val contained: ListDataGenerator<ContainedResource?> = ListDataGenerator(0, NullDataGenerator()),
+    override val contained: ListDataGenerator<Resource<*>?> = ListDataGenerator(0, NullDataGenerator()),
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),

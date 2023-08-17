@@ -42,7 +42,7 @@ class RequestGroupTest {
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -90,7 +90,11 @@ class RequestGroupTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -187,7 +191,7 @@ class RequestGroupTest {
         assertNull(requestGroup.implicitRules)
         assertNull(requestGroup.language)
         assertNull(requestGroup.text)
-        assertEquals(listOf<ContainedResource>(), requestGroup.contained)
+        assertEquals(listOf<Resource<*>>(), requestGroup.contained)
         assertEquals(listOf<Extension>(), requestGroup.extension)
         assertEquals(listOf<Extension>(), requestGroup.modifierExtension)
         assertEquals(listOf<Identifier>(), requestGroup.identifier)

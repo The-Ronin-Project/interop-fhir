@@ -20,7 +20,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
@@ -42,7 +41,13 @@ class STU3AppointmentTest {
             status = NarrativeStatus.GENERATED.asCode(),
             div = FHIRString("div")
         ),
-        contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+        contained = listOf(
+            STU3Appointment(
+                id = Id("1234"),
+                status = AppointmentStatus.BOOKED.asCode(),
+                participant = listOf()
+            )
+        ),
         extension = listOf(
             Extension(
                 url = Uri("http://localhost/extension"),
@@ -99,7 +104,11 @@ class STU3AppointmentTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Appointment",
+                "id" : "1234",
+                "status" : "booked"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"

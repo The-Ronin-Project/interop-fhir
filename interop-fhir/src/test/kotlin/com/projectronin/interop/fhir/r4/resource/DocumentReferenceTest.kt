@@ -43,7 +43,7 @@ class DocumentReferenceTest {
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -93,7 +93,11 @@ class DocumentReferenceTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -187,7 +191,7 @@ class DocumentReferenceTest {
         assertNull(documentReference.implicitRules)
         assertNull(documentReference.language)
         assertNull(documentReference.text)
-        assertEquals(listOf<ContainedResource>(), documentReference.contained)
+        assertEquals(listOf<Resource<*>>(), documentReference.contained)
         assertEquals(listOf<Extension>(), documentReference.extension)
         assertEquals(listOf<Extension>(), documentReference.modifierExtension)
         assertNull(documentReference.masterIdentifier)

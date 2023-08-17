@@ -30,6 +30,7 @@ import com.projectronin.interop.fhir.r4.valueset.MedicationRequestStatus
 import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
@@ -47,7 +48,7 @@ class MedicationRequestTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -111,7 +112,11 @@ class MedicationRequestTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -297,6 +302,21 @@ class MedicationRequestTest {
         assertNull(medicationRequest.priorPrescription)
         assertEquals(listOf<Reference>(), medicationRequest.detectedIssue)
         assertEquals(listOf<Reference>(), medicationRequest.eventHistory)
+    }
+
+    @Test
+    fun `can deserialize MedicationRequest with contained Medication`() {
+        // This is a real example from Cerner Code Sandbox, but this is technically the post-transform, but our models should still handle it.
+        val json =
+            """{"resourceType":"MedicationRequest","id":"ejh3j95h-306923901","meta":{"versionId":"0","lastUpdated":"2019-12-26T20:37:08Z","source":"https://objectstorage.us-phoenix-1.oraclecloud.com/n/idoll6i6jmjd/b/dev-data-lake-bronze/o/raw_data_response/tenant_id=ejh3j95h/transaction_id/75fc98f0-ed43-457f-8143-42e2809168d2","profile":["http://projectronin.io/fhir/StructureDefinition/ronin-medicationRequest"]},"text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Medication Request</b></p><p><b>Status</b>: Stopped</p><p><b>Intent</b>: Order</p><p><b>Medication</b>: insulin regular (human) IV additive 100 units [1 units/hr] + sodium chloride 0.9% drip 100 mL</p><p><b>Dosage Instructions</b>: 1 mL/hr, IV</p><p><b>Patient</b>: Wolf, Big</p><p><b>Authored On</b>: Dec 26, 2019  8:34 P.M. UTC</p></div>"},"contained":[{"resourceType":"Medication","id":"25023091","code":{"text":"insulin regular (human) IV additive 100 units [1 units/hr] + sodium chloride 0.9% drip 100 mL"},"ingredient":[{"itemCodeableConcept":{"coding":[{"system":"http://www.nlm.nih.gov/research/umls/rxnorm","code":"311034","display":"Regular Insulin, Human 100 UNT/ML Injectable Solution","userSelected":false},{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/synonym","code":"273286231","display":"insulin regular (human) IV additive","userSelected":true}],"text":"insulin regular (human) IV additive"},"strength":{"numerator":{"value":100.0,"unit":"units","system":"http://unitsofmeasure.org","code":"U"},"denominator":{"value":100.0,"unit":"mL","system":"http://unitsofmeasure.org","code":"mL"}}},{"itemCodeableConcept":{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/synonym","code":"273249901","display":"sodium chloride 0.9% drip","userSelected":true}],"text":"sodium chloride 0.9% drip"},"strength":{"numerator":{"value":100.0,"unit":"mL","system":"http://unitsofmeasure.org","code":"mL"},"denominator":{"value":100.0,"unit":"mL","system":"http://unitsofmeasure.org","code":"mL"}}}]}],"extension":[{"url":"http://electronichealth.se/fhir/StructureDefinition/NLLPrescriptionFormat","valueCoding":{"system":"http://electronichealth.se/fhir/ValueSet/prescription-format","code":"ELECTRONIC","display":"Electronic"}},{"url":"http://electronichealth.se/fhir/StructureDefinition/NLLRegistrationBasis","valueCoding":{"system":"http://ehalsomyndigheten.se/fhir/ValueSet/registration-basis-codes","code":"ELECTRONIC","display":"Electronic"}},{"url":"https://fhir-ehr.cerner.com/r4/StructureDefinition/pharmacy-verification-status","valueCodeableConcept":{"text":"Needs pharmacy verification"}}],"identifier":[{"type":{"coding":[{"system":"http://projectronin.com/id/fhir","code":"FHIR ID","display":"FHIR Identifier"}],"text":"FHIR Identifier"},"system":"http://projectronin.com/id/fhir","value":"306923901"},{"type":{"coding":[{"system":"http://projectronin.com/id/tenantId","code":"TID","display":"Ronin-specified Tenant Identifier"}],"text":"Ronin-specified Tenant Identifier"},"system":"http://projectronin.com/id/tenantId","value":"ejh3j95h"},{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}],"status":"stopped","intent":"order","category":[{"coding":[{"system":"http://terminology.hl7.org/CodeSystem/medicationrequest-category","code":"inpatient","display":"Inpatient","userSelected":false}],"text":"Inpatient"}],"reportedBoolean":false,"medicationReference":{"reference":"#25023091","display":"insulin regular (human) IV additive 100 units [1 units/hr] + sodium chloride 0.9% drip 100 mL"},"subject":{"reference":"Patient/ejh3j95h-12724070","type":"Patient","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]},"display":"Wolf, Big"},"encounter":{"reference":"Encounter/ejh3j95h-97939530","type":"Encounter","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]}},"authoredOn":"2019-12-26T20:34:30Z","requester":{"reference":"Practitioner/ejh3j95h-4122622","type":"Practitioner","_type":{"extension":[{"url":"http://projectronin.io/fhir/StructureDefinition/Extension/ronin-dataAuthorityIdentifier","valueIdentifier":{"type":{"coding":[{"system":"http://projectronin.com/id/dataAuthorityId","code":"DAID","display":"Data Authority Identifier"}],"text":"Data Authority Identifier"},"system":"http://projectronin.com/id/dataAuthorityId","value":"EHR Data Authority"}}]},"display":"Cerner Test, Physician - Hospitalist Cerner"},"dosageInstruction":[{"extension":[{"url":"https://fhir-ehr.cerner.com/r4/StructureDefinition/clinical-instruction","valueString":"Total Volume (mL): 100, IV, 1 mL/hr, Start Date: 12/26/19 14:34:00 CST, Titration range: 1 - 50 units/hr, Populate Charting Weight From Order"}],"text":"1 mL/hr, IV","patientInstruction":"1 Milliliters/hour Intravenous. Refills: 0.","timing":{"repeat":{"boundsPeriod":{"start":"2019-12-26T20:34:00Z"},"duration":100.0,"durationUnit":"h"}},"route":{"coding":[{"system":"https://fhir.cerner.com/ec2458f2-1e24-41c8-b71b-0e701af7583d/codeSet/4001","code":"318170","display":"IV","userSelected":true},{"system":"http://snomed.info/sct","code":"47625008","display":"Intravenous route (qualifier value)","userSelected":false}],"text":"IV"},"doseAndRate":[{"doseQuantity":{"value":100.0,"unit":"mL","system":"http://unitsofmeasure.org","code":"mL"},"rateQuantity":{"value":1.0,"unit":"mL/hr","system":"http://unitsofmeasure.org","code":"mL/h"}}]}],"dispenseRequest":{"extension":[{"url":"http://electronichealth.se/fhir/StructureDefinition/NLLDosePackaging","valueBoolean":false}],"validityPeriod":{"start":"2019-12-26T20:34:30Z"}}}"""
+        val appointment = JacksonManager.objectMapper.readValue<MedicationRequest>(json)
+
+        assertEquals(1, appointment.contained.size)
+        val contained1 = appointment.contained[0]
+        assertInstanceOf(Medication::class.java, contained1)
+        assertEquals("Medication", contained1.resourceType)
+        assertEquals("25023091", contained1.id!!.value)
+        assertEquals(2, (contained1 as Medication).ingredient.size)
     }
 }
 

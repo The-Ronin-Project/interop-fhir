@@ -45,7 +45,7 @@ class EncounterTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -276,7 +276,11 @@ class EncounterTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -562,7 +566,8 @@ class EncounterClassHistoryTest {
                 end = DateTime(value = "2021-11-17T09:00:00Z")
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
 
         val expectedJson = """
             {
@@ -597,7 +602,8 @@ class EncounterClassHistoryTest {
                 end = DateTime(value = "2021-11-17T09:00:00Z")
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
 
         val expectedJson = """
             {
@@ -827,7 +833,8 @@ class EncounterHospitalizationTest {
                 )
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
 
         val expectedJson = """
             {
@@ -894,7 +901,8 @@ class EncounterHospitalizationTest {
                 )
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
 
         val expectedJson = """
             {
@@ -1237,7 +1245,8 @@ class EncounterStatusHistoryTest {
                 end = DateTime(value = "2021-11-17T09:00:00Z")
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
 
         val expectedJson = """
             {
@@ -1272,7 +1281,8 @@ class EncounterStatusHistoryTest {
                 end = DateTime(value = "2021-11-17T09:00:00Z")
             )
         )
-        val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
+        val json =
+            JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
 
         val expectedJson = """
             {

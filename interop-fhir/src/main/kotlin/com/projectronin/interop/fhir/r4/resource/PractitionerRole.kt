@@ -33,7 +33,7 @@ data class PractitionerRole(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,
-    override val contained: List<ContainedResource> = listOf(),
+    override val contained: List<Resource<*>> = listOf(),
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),

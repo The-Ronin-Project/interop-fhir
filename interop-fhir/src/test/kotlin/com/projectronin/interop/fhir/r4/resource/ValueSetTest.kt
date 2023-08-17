@@ -262,7 +262,7 @@ class ValueSetTest {
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -330,7 +330,11 @@ class ValueSetTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -642,7 +646,7 @@ class ValueSetTest {
             assertNull(implicitRules)
             assertNull(language)
             assertNull(text)
-            assertEquals(listOf<ContainedResource>(), contained)
+            assertEquals(listOf<Resource<*>>(), contained)
             assertEquals(listOf<Extension>(), extension)
             assertEquals(listOf<Extension>(), modifierExtension)
             assertNull(url)
@@ -681,7 +685,7 @@ class ValueSetTest {
             assertNull(implicitRules)
             assertNull(language)
             assertNull(text)
-            assertEquals(listOf<ContainedResource>(), contained)
+            assertEquals(listOf<Resource<*>>(), contained)
             assertEquals(listOf<Extension>(), extension)
             assertEquals(listOf<Extension>(), modifierExtension)
             assertNull(url)

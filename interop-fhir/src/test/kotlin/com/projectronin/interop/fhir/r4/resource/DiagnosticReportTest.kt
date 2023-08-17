@@ -38,7 +38,7 @@ class DiagnosticReportTest {
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -85,7 +85,11 @@ class DiagnosticReportTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -191,7 +195,7 @@ class DiagnosticReportTest {
         assertNull(diagnosticReport.implicitRules)
         assertNull(diagnosticReport.language)
         assertNull(diagnosticReport.text)
-        assertEquals(listOf<ContainedResource>(), diagnosticReport.contained)
+        assertEquals(listOf<Resource<*>>(), diagnosticReport.contained)
         assertEquals(listOf<Extension>(), diagnosticReport.extension)
         assertEquals(listOf<Extension>(), diagnosticReport.modifierExtension)
         assertEquals(listOf<Identifier>(), diagnosticReport.identifier)

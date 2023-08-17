@@ -41,7 +41,7 @@ class MedicationTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -85,7 +85,11 @@ class MedicationTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -160,7 +164,7 @@ class MedicationTest {
         assertNull(medication.implicitRules)
         assertNull(medication.language)
         assertNull(medication.text)
-        assertEquals(listOf<ContainedResource>(), medication.contained)
+        assertEquals(listOf<Resource<*>>(), medication.contained)
         assertEquals(listOf<Extension>(), medication.extension)
         assertEquals(listOf<Extension>(), medication.modifierExtension)
         assertEquals(listOf<Identifier>(), medication.identifier)

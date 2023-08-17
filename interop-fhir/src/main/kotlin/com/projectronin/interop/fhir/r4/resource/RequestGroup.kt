@@ -32,7 +32,7 @@ data class RequestGroup(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,
-    override val contained: List<ContainedResource> = listOf(),
+    override val contained: List<Resource<*>> = listOf(),
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
@@ -56,6 +56,7 @@ data class RequestGroup(
 ) : DomainResource<RequestGroup> {
     override val resourceType: String = "RequestGroup"
 }
+
 class RequestGroupSerializer : BaseFHIRSerializer<RequestGroup>(RequestGroup::class.java)
 class RequestGroupDeserializer : BaseFHIRDeserializer<RequestGroup>(RequestGroup::class.java)
 
@@ -85,6 +86,7 @@ data class RequestGroupAction(
     val resource: Reference? = null,
     val action: List<RequestGroupAction> = emptyList()
 ) : BackboneElement<RequestGroupAction>
+
 class RequestGroupActionSerializer : BaseFHIRSerializer<RequestGroupAction>(RequestGroupAction::class.java)
 class RequestGroupActionDeserializer : BaseFHIRDeserializer<RequestGroupAction>(RequestGroupAction::class.java)
 
@@ -97,6 +99,7 @@ data class RequestGroupCondition(
     val kind: Code?,
     val expression: Expression? = null
 ) : BackboneElement<RequestGroupCondition>
+
 class RequestGroupConditionSerializer : BaseFHIRSerializer<RequestGroupCondition>(RequestGroupCondition::class.java)
 class RequestGroupConditionDeserializer : BaseFHIRDeserializer<RequestGroupCondition>(RequestGroupCondition::class.java)
 
@@ -110,5 +113,9 @@ data class RequestGroupRelatedAction(
     val relationship: Code?,
     val offset: DynamicValue<Any>? = null
 ) : BackboneElement<RequestGroupRelatedAction>
-class RequestGroupRelatedActionSerializer : BaseFHIRSerializer<RequestGroupRelatedAction>(RequestGroupRelatedAction::class.java)
-class RequestGroupRelatedActionDeserializer : BaseFHIRDeserializer<RequestGroupRelatedAction>(RequestGroupRelatedAction::class.java)
+
+class RequestGroupRelatedActionSerializer :
+    BaseFHIRSerializer<RequestGroupRelatedAction>(RequestGroupRelatedAction::class.java)
+
+class RequestGroupRelatedActionDeserializer :
+    BaseFHIRDeserializer<RequestGroupRelatedAction>(RequestGroupRelatedAction::class.java)

@@ -45,7 +45,7 @@ class ImmunizatioNTest {
                 status = NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -109,7 +109,11 @@ class ImmunizatioNTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -246,7 +250,7 @@ class ImmunizatioNTest {
         assertNull(immunization.implicitRules)
         assertNull(immunization.language)
         assertNull(immunization.text)
-        assertEquals(listOf<ContainedResource>(), immunization.contained)
+        assertEquals(listOf<Resource<*>>(), immunization.contained)
         assertEquals(listOf<Extension>(), immunization.extension)
         assertEquals(listOf<Extension>(), immunization.modifierExtension)
         assertEquals(listOf<Identifier>(), immunization.identifier)

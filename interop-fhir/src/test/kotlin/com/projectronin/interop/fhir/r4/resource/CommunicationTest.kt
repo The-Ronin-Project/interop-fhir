@@ -38,7 +38,7 @@ class CommunicationTest {
                 status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
                 div = FHIRString("div")
             ),
-            contained = listOf(ContainedResource("""{"resourceType":"Banana","field":"24680"}""")),
+            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
             extension = listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
@@ -98,7 +98,11 @@ class CommunicationTest {
                 "status" : "generated",
                 "div" : "div"
               },
-              "contained" : [ {"resourceType":"Banana","field":"24680"} ],
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
               "extension" : [ {
                 "url" : "http://localhost/extension",
                 "valueString" : "Value"
@@ -210,7 +214,7 @@ class CommunicationTest {
             assertNull(implicitRules)
             assertNull(language)
             assertNull(text)
-            assertEquals(listOf<ContainedResource>(), contained)
+            assertEquals(listOf<Resource<*>>(), contained)
             assertEquals(listOf<Extension>(), extension)
             assertEquals(listOf<Extension>(), modifierExtension)
             assertEquals(listOf<Identifier>(), identifier)

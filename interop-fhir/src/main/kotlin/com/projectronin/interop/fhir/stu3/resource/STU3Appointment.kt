@@ -20,7 +20,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
 import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.resource.Appointment as R4Appointment
 
@@ -39,7 +38,7 @@ data class STU3Appointment(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     override val text: Narrative? = null,
-    override val contained: List<ContainedResource> = listOf(),
+    override val contained: List<STU3Resource<*>> = listOf(),
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
@@ -73,7 +72,7 @@ data class STU3Appointment(
             implicitRules = implicitRules,
             language = language,
             text = text,
-            contained = contained,
+            contained = contained.map { it.transformToR4() },
             extension = extension,
             modifierExtension = modifierExtension,
             status = status,

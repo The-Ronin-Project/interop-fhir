@@ -2,7 +2,6 @@ package com.projectronin.interop.fhir.stu3.resource
 
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Narrative
-import com.projectronin.interop.fhir.r4.resource.ContainedResource
 
 /**
  * A domain resource is a resource that:
@@ -14,7 +13,7 @@ import com.projectronin.interop.fhir.r4.resource.ContainedResource
  */
 interface STU3DomainResource<T : STU3DomainResource<T>> : STU3Resource<T> {
     val text: Narrative?
-    val contained: List<ContainedResource>
+    val contained: List<STU3Resource<*>>
     val extension: List<Extension>
     val modifierExtension: List<Extension>
 }
