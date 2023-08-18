@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.projectronin.interop.common.jackson.JacksonManager
+import com.projectronin.interop.fhir.r4.CodeSystem
+import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
@@ -66,4 +68,19 @@ interface Resource<T : Resource<T>> : Validatable<T> {
      * Returns a hash code that is consistent across all instances of this resource regardless of underlying server.
      */
     fun consistentHashCode(): Int = JacksonManager.objectMapper.writeValueAsString(this).hashCode()
+
+    /**
+     * Given a resource, return the FHIR ID, which may be either in the identifier, if the resource is localized
+     * or just the FHIR id if it isn't
+     */
+    fun findFhirId(): String? {
+        val field = this::class.java.getDeclaredField("identifier")
+        field.isAccessible = true
+        val identifiers = field.get(this) as List<Identifier>
+        val identifier = identifiers.firstOrNull { it.system?.value == CodeSystem.RONIN_FHIR_ID.uri.value }
+        identifier?.let { ident ->
+            return ident.value?.value
+        }
+        return this.id?.value
+    }
 }
