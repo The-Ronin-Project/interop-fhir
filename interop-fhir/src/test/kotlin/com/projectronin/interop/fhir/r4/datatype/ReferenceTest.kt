@@ -186,4 +186,11 @@ class ReferenceTest {
             Reference.getId("PractitionerRole/e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3")
         assertEquals("e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3", id)
     }
+
+    @Test
+    fun `static getId returns type from cerner reference with underscore`() {
+        val id =
+            Reference.getId("https://fhir-ehr.cerner.com/r4/nya9mWd9vqI_z1LcF5uLfCwewAGCVrY1/Communication/227220857.0.-4.prsnl")
+        assertEquals("227220857.0.-4.prsnl", id)
+    }
 }
