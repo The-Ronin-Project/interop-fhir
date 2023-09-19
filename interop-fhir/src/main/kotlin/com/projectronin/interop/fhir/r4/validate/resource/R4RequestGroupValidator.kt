@@ -12,10 +12,10 @@ import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionPrecheckBehav
 import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionRequiredBehavior
 import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionSelectionBehavior
 import com.projectronin.interop.fhir.r4.valueset.RequestGroupConditionKind
-import com.projectronin.interop.fhir.r4.valueset.RequestGroupIntent
-import com.projectronin.interop.fhir.r4.valueset.RequestGroupPriority
 import com.projectronin.interop.fhir.r4.valueset.RequestGroupRelatedActionRelationship
-import com.projectronin.interop.fhir.r4.valueset.RequestGroupStatus
+import com.projectronin.interop.fhir.r4.valueset.RequestIntent
+import com.projectronin.interop.fhir.r4.valueset.RequestPriority
+import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
@@ -33,7 +33,7 @@ object R4RequestGroupValidator : R4ElementContainingValidator<RequestGroup>() {
             // status
             checkNotNull(element.status, requiredStatusError, parentContext)
             ifNotNull(element.status) {
-                checkCodedEnum<RequestGroupStatus>(
+                checkCodedEnum<RequestStatus>(
                     element.status,
                     InvalidValueSetError(RequestGroup::status, element.status.value),
                     parentContext
@@ -43,7 +43,7 @@ object R4RequestGroupValidator : R4ElementContainingValidator<RequestGroup>() {
             // intent
             checkNotNull(element.intent, requiredIntentError, parentContext)
             ifNotNull(element.intent) {
-                checkCodedEnum<RequestGroupIntent>(
+                checkCodedEnum<RequestIntent>(
                     element.intent,
                     InvalidValueSetError(RequestGroup::status, element.intent.value),
                     parentContext
@@ -52,7 +52,7 @@ object R4RequestGroupValidator : R4ElementContainingValidator<RequestGroup>() {
 
             // priority
             element.priority?.let { code ->
-                checkCodedEnum<RequestGroupPriority>(
+                checkCodedEnum<RequestPriority>(
                     code,
                     InvalidValueSetError(RequestGroup::priority, code.value),
                     parentContext
@@ -78,11 +78,12 @@ object R4RequestGroupActionValidator : R4ElementContainingValidator<RequestGroup
         description = "Must have resource or action but not both",
         location = LocationContext(RequestGroupAction::class)
     )
+
     override fun validateElement(element: RequestGroupAction, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
             // priority
             element.priority?.let { code ->
-                checkCodedEnum<RequestGroupPriority>(
+                checkCodedEnum<RequestPriority>(
                     code,
                     InvalidValueSetError(RequestGroupAction::priority, code.value),
                     parentContext
@@ -146,7 +147,11 @@ object R4RequestGroupActionValidator : R4ElementContainingValidator<RequestGroup
 object R4RequestGroupConditionValidator : R4ElementContainingValidator<RequestGroupCondition>() {
     private val requiredKindError = RequiredFieldError(RequestGroupCondition::kind)
 
-    override fun validateElement(element: RequestGroupCondition, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: RequestGroupCondition,
+        parentContext: LocationContext?,
+        validation: Validation
+    ) {
         validation.apply {
             // kind
             checkNotNull(element.kind, requiredKindError, parentContext)
@@ -160,6 +165,7 @@ object R4RequestGroupConditionValidator : R4ElementContainingValidator<RequestGr
         }
     }
 }
+
 object R4RequestGroupRelatedActionValidator : R4ElementContainingValidator<RequestGroupRelatedAction>() {
     private val requiredActionIdError = RequiredFieldError(RequestGroupRelatedAction::actionId)
     private val requiredRelationshipError = RequiredFieldError(RequestGroupRelatedAction::relationship)
@@ -169,7 +175,11 @@ object R4RequestGroupRelatedActionValidator : R4ElementContainingValidator<Reque
     )
     private val invalidOffsetError = InvalidDynamicValueError(RequestGroupRelatedAction::offset, acceptedOffsetTypes)
 
-    override fun validateElement(element: RequestGroupRelatedAction, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: RequestGroupRelatedAction,
+        parentContext: LocationContext?,
+        validation: Validation
+    ) {
         validation.apply {
             // actionId
             checkNotNull(element.actionId, requiredActionIdError, parentContext)

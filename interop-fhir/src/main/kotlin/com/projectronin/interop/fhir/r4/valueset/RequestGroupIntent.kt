@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.valueset
 import com.fasterxml.jackson.annotation.JsonValue
 import com.projectronin.interop.common.enums.CodedEnum
 
+@Deprecated("Use RequestIntent")
 enum class RequestGroupIntent(@JsonValue override val code: String) : CodedEnum<RequestGroupIntent> {
     PROPOSAL("proposal"),
     PLAN("plan"),
