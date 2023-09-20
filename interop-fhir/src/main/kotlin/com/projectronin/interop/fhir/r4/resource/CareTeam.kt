@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -19,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonTypeName("CareTeam")
 @JsonSerialize(using = CareTeamSerializer::class)
@@ -36,12 +38,16 @@ data class CareTeam(
     val status: Code? = null,
     val category: List<CodeableConcept> = listOf(),
     val name: FHIRString? = null,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val period: Period? = null,
     val participant: List<CareTeamParticipant> = emptyList(),
     val reasonCode: List<CodeableConcept> = emptyList(),
+    @SupportedReferenceTypes(ResourceType.Condition)
     val reasonReference: List<Reference> = emptyList(),
+    @SupportedReferenceTypes(ResourceType.Organization)
     val managingOrganization: List<Reference> = emptyList(),
     val telecom: List<ContactPoint> = emptyList(),
     val note: List<Annotation> = emptyList()
@@ -59,7 +65,16 @@ data class CareTeamParticipant(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val role: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Patient,
+        ResourceType.Organization,
+        ResourceType.CareTeam
+    )
     val member: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val onBehalfOf: Reference? = null,
     val period: Period? = null
 ) : BackboneElement<CareTeamParticipant>

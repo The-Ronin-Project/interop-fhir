@@ -16,6 +16,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.CarePlan
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
 import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -26,7 +27,7 @@ class R4CarePlanValidatorTest {
         val carePlan = CarePlan(
             status = Code("active"),
             intent = Code("plan"),
-            subject = Reference(reference = FHIRString("XYZ123"))
+            subject = Reference(reference = FHIRString("Patient/XYZ123"))
         )
         R4CarePlanValidator.validate(carePlan).alertIfErrors()
     }
@@ -37,7 +38,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("active"),
                 intent = null,
-                subject = Reference(reference = FHIRString("XYZ123"))
+                subject = Reference(reference = FHIRString("Patient/XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -54,7 +55,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = null,
                 intent = Code("plan"),
-                subject = Reference(reference = FHIRString("XYZ123"))
+                subject = Reference(reference = FHIRString("Patient/XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -88,7 +89,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("active"),
                 intent = Code("potato"),
-                subject = Reference(reference = FHIRString("XYZ123"))
+                subject = Reference(reference = FHIRString("Patient/XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -105,7 +106,7 @@ class R4CarePlanValidatorTest {
             val carePlan = CarePlan(
                 status = Code("potato"),
                 intent = Code("plan"),
-                subject = Reference(reference = FHIRString("XYZ123"))
+                subject = Reference(reference = FHIRString("Patient/XYZ123"))
             )
             R4CarePlanValidator.validate(carePlan).alertIfErrors()
         }
@@ -114,6 +115,35 @@ class R4CarePlanValidatorTest {
                 "ERROR INV_VALUE_SET: 'potato' is outside of required value set @ CarePlan.status",
             exception.message
         )
+    }
+
+    @Test
+    fun `warns if subject is not a supported type`() {
+        val validation = R4CarePlanValidator.validate(
+            CarePlan(
+                status = Code("active"),
+                intent = Code("plan"),
+                subject = Reference(reference = FHIRString("Practitioner/XYZ123"))
+            )
+        )
+        assertEquals(1, validation.issues().size)
+        val issue = validation.issues().first()
+        assertEquals(
+            "WARNING INV_REF_TYPE: reference can only be one of the following: Patient, Group @ CarePlan.subject.reference",
+            issue.toString()
+        )
+    }
+
+    @Test
+    fun `validates if subject is a supported type`() {
+        val validation = R4CarePlanValidator.validate(
+            CarePlan(
+                status = Code("active"),
+                intent = Code("plan"),
+                subject = Reference(reference = FHIRString("Patient/XYZ123"))
+            )
+        )
+        Assertions.assertFalse(validation.hasIssues())
     }
 }
 

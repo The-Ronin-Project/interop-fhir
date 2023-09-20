@@ -1,8 +1,10 @@
 package com.projectronin.interop.fhir.r4.validate.element
 
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.HumanName
+import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Patient
@@ -12,6 +14,7 @@ import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validatable
 import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 import com.projectronin.interop.fhir.validate.validation
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -20,6 +23,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.lang.NonNull
 
 /**
  * These tests are focused on the core elements of the [R4ElementContainingValidator] and not the extending uses.
@@ -183,6 +187,14 @@ class R4ElementContainingValidatorTest {
         assertEquals(2, validation.issues().size)
     }
 
+    @Test
+    fun `validates SupportedReferenceTypes annotated property`() {
+        val element = AnnotatedReferenceValidatable(Reference(reference = FHIRString("Condition/1234")))
+        val instance = object : NoElementValidationValidator<AnnotatedReferenceValidatable>() {}
+        val validation = instance.validate(element, parentContext)
+        assertEquals(1, validation.issues().size)
+    }
+
     data class NoValidatableTypesValidatable(val name: String) : Validatable<NoValidatableTypesValidatable>
     data class PrimitiveValidatable(val name: Code?) : Validatable<PrimitiveValidatable>
     data class ElementValidatable(val name: HumanName?) : Validatable<ElementValidatable>
@@ -191,6 +203,16 @@ class R4ElementContainingValidatorTest {
     data class ElementCollectionValidatable(val name: List<HumanName>) : Validatable<ElementCollectionValidatable>
     data class DynamicValueCollectionValidatable(val name: List<DynamicValue<*>>) :
         Validatable<DynamicValueCollectionValidatable>
+
+    data class UnknownAnnotationValidatable(
+        @NonNull
+        val reference: Reference
+    ) : Validatable<UnknownAnnotationValidatable>
+
+    data class AnnotatedReferenceValidatable(
+        @SupportedReferenceTypes(ResourceType.Patient)
+        val reference: Reference?
+    ) : Validatable<AnnotatedReferenceValidatable>
 
     abstract class NoElementValidationValidator<T : Validatable<T>> : R4ElementContainingValidator<T>() {
         override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {}

@@ -2,12 +2,14 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A numeric or alphanumeric string that is associated with a single object or entity within a given system. Typically,
@@ -24,6 +26,7 @@ data class Identifier(
     val system: Uri? = null,
     val value: FHIRString? = null,
     val period: Period? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val assigner: Reference? = null
 ) : Element<Identifier>
 

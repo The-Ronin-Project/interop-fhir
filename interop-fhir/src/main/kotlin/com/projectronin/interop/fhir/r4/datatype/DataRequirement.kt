@@ -2,6 +2,7 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
@@ -9,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * The DataRequirement structure defines a general data requirement for a knowledge asset such as a decision support rule or quality measure.
@@ -20,6 +22,7 @@ data class DataRequirement(
     override val extension: List<Extension> = listOf(),
     val type: Code?,
     val profile: List<Canonical> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Group)
     val subject: DynamicValue<Any>? = null,
     val mustSupport: List<FHIRString> = listOf(),
     val codeFilter: List<CodeFilter> = listOf(),

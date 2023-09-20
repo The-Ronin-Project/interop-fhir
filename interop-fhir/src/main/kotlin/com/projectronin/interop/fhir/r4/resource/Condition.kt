@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -19,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a level of concern.
@@ -42,12 +44,26 @@ data class Condition(
     val severity: CodeableConcept? = null,
     val code: CodeableConcept? = null,
     val bodySite: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference?,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val onset: DynamicValue<Any>? = null,
     val abatement: DynamicValue<Any>? = null,
     val recordedDate: DateTime? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Patient,
+        ResourceType.RelatedPerson
+    )
     val recorder: Reference? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Patient,
+        ResourceType.RelatedPerson
+    )
     val asserter: Reference? = null,
     val stage: List<ConditionStage> = listOf(),
     val evidence: List<ConditionEvidence> = listOf(),
@@ -85,6 +101,7 @@ data class ConditionStage(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val summary: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.ClinicalImpression, ResourceType.DiagnosticReport, ResourceType.Observation)
     val assessment: List<Reference> = listOf(),
     val type: CodeableConcept? = null
 ) : BackboneElement<ConditionStage>

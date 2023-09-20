@@ -6,15 +6,16 @@ plugins {
 dependencies {
     implementation(libs.interop.common)
     implementation(libs.interop.commonJackson)
+    // Used for ResourceType enum
+    implementation(libs.event.interop.resource.internal)
+
+    implementation(libs.classgraph)
 
     implementation(libs.jackson.core)
     implementation(libs.jackson.databind)
 
     testImplementation(libs.jackson.module.kotlin)
     testImplementation(libs.mockk)
-
-    // Used for some tests utilizing classpath inspection to verify configuration
-    testImplementation(libs.classgraph)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

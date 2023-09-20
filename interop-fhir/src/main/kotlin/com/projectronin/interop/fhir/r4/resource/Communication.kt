@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = CommunicationSerializer::class)
 @JsonDeserialize(using = CommunicationDeserializer::class)
@@ -38,21 +40,50 @@ data class Communication(
     val instantiatesUri: List<Uri> = listOf(),
     val basedOn: List<Reference> = listOf(),
     val partOf: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Communication)
     val inResponseTo: List<Reference> = listOf(),
     val status: Code?,
     val statusReason: CodeableConcept? = null,
     val category: List<CodeableConcept> = listOf(),
     val priority: Code? = null,
     val medium: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
     val topic: CodeableConcept? = null,
     val about: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val sent: DateTime? = null,
     val received: DateTime? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Device,
+        ResourceType.Organization,
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Group,
+        ResourceType.CareTeam,
+        ResourceType.HealthcareService
+    )
     val recipient: List<Reference> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Device,
+        ResourceType.Organization,
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.HealthcareService
+    )
     val sender: Reference? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Condition,
+        ResourceType.Observation,
+        ResourceType.DiagnosticReport,
+        ResourceType.DocumentReference
+    )
     val reasonReference: List<Reference> = listOf(),
     val payload: List<CommunicationPayload> = listOf(),
     val note: List<Annotation> = listOf()

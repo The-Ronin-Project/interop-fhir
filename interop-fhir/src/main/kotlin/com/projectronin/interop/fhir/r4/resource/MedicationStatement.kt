@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -18,6 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationStatementDeserializer::class)
 @JsonSerialize(using = MedicationStatementSerializer::class)
@@ -32,19 +34,38 @@ data class MedicationStatement(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @SupportedReferenceTypes(ResourceType.MedicationRequest, ResourceType.CarePlan, ResourceType.ServiceRequest)
     val basedOn: List<Reference> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.MedicationAdministration,
+        ResourceType.MedicationDispense,
+        ResourceType.MedicationStatement,
+        ResourceType.Procedure,
+        ResourceType.Observation
+    )
     val partOf: List<Reference> = listOf(),
     val status: Code? = null,
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)
     val context: Reference? = null,
     val effective: DynamicValue<Any>? = null,
     val dateAsserted: DateTime? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Organization
+    )
     val informationSource: Reference? = null,
     val derivedFrom: List<Reference> = listOf(),
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Observation, ResourceType.DiagnosticReport)
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
     val dosage: List<Dosage> = listOf()

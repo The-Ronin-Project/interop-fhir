@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * This resource is primarily used for the identification and definition of a medication for the purposes of
@@ -42,6 +44,7 @@ data class Medication(
     val identifier: List<Identifier> = listOf(),
     val code: CodeableConcept? = null,
     val status: Code? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val manufacturer: Reference? = null,
     val form: CodeableConcept? = null,
     val amount: Ratio? = null,
@@ -83,6 +86,7 @@ data class Ingredient(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Substance, ResourceType.Medication)
     val item: DynamicValue<Any>? = null,
     val isActive: FHIRBoolean? = null,
     val strength: Ratio? = null

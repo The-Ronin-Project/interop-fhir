@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
@@ -23,6 +24,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
@@ -70,6 +72,7 @@ data class Qualification(
     val identifier: List<Identifier> = listOf(),
     val code: CodeableConcept?,
     val period: Period? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val issuer: Reference? = null
 ) : BackboneElement<Qualification>
 

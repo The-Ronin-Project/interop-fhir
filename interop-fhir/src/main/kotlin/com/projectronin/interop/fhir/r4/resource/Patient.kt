@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
@@ -24,6 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * Demographics and other administrative information about an individual or animal receiving care or other
@@ -54,7 +56,9 @@ data class Patient(
     val photo: List<Attachment> = listOf(),
     val contact: List<PatientContact> = listOf(),
     val communication: List<PatientCommunication> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Organization, ResourceType.Practitioner, ResourceType.PractitionerRole)
     val generalPractitioner: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Organization)
     val managingOrganization: Reference? = null,
     val link: List<PatientLink> = listOf()
 ) : DomainResource<Patient> {
@@ -95,6 +99,7 @@ data class PatientContact(
     val telecom: List<ContactPoint> = listOf(),
     val address: Address? = null,
     val gender: Code? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val organization: Reference? = null,
     val period: Period? = null
 ) : BackboneElement<PatientContact>
@@ -111,6 +116,7 @@ data class PatientLink(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.RelatedPerson)
     val other: Reference?,
     val type: Code?
 ) : BackboneElement<PatientLink>

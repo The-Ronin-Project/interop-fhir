@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Attachment
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can
@@ -44,10 +46,21 @@ data class DocumentReference(
     val docStatus: Code? = null,
     val type: CodeableConcept? = null,
     val category: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Practitioner, ResourceType.Group, ResourceType.Device)
     val subject: Reference? = null,
     val date: Instant? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Organization,
+        ResourceType.Device,
+        ResourceType.Patient,
+        ResourceType.RelatedPerson
+    )
     val author: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.Organization)
     val authenticator: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val custodian: Reference? = null,
     val relatesTo: List<DocumentReferenceRelatesTo> = listOf(),
     val description: FHIRString? = null,
@@ -71,6 +84,7 @@ data class DocumentReferenceRelatesTo(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val code: Code?,
+    @SupportedReferenceTypes(ResourceType.DocumentReference)
     val target: Reference?
 ) : BackboneElement<DocumentReferenceRelatesTo>
 
@@ -108,11 +122,13 @@ data class DocumentReferenceContext(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)
     val encounter: List<Reference> = listOf(),
     val event: List<CodeableConcept> = listOf(),
     val period: Period? = null,
     val facilityType: CodeableConcept? = null,
     val practiceSetting: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Patient)
     val sourcePatientInfo: Reference? = null,
     val related: List<Reference> = listOf()
 ) : BackboneElement<DocumentReferenceContext>

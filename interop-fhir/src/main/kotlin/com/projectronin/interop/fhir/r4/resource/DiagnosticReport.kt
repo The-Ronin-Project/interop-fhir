@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Attachment
@@ -19,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * The findings and interpretation of diagnostic tests performed on patients, groups of patients, devices, and locations,
@@ -41,18 +43,42 @@ data class DiagnosticReport(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.CarePlan,
+        ResourceType.ImmunizationRecommendation,
+        ResourceType.MedicationRequest,
+        ResourceType.NutritionOrder,
+        ResourceType.ServiceRequest
+    )
     val basedOn: List<Reference> = listOf(),
     val status: Code?,
     val category: List<CodeableConcept> = listOf(),
     val code: CodeableConcept?,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group, ResourceType.Device, ResourceType.Location)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val effective: DynamicValue<Any>? = null,
     val issued: Instant? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Organization,
+        ResourceType.CareTeam
+    )
     val performer: List<Reference> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Organization,
+        ResourceType.CareTeam
+    )
     val resultsInterpreter: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Specimen)
     val specimen: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Observation)
     val result: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.ImagingStudy)
     val imagingStudy: List<Reference> = listOf(),
     val media: List<DiagnosticReportMedia> = listOf(),
     val conclusion: FHIRString? = null,
@@ -75,6 +101,7 @@ data class DiagnosticReportMedia(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val comment: FHIRString? = null,
+    @SupportedReferenceTypes(ResourceType.Media)
     val link: Reference?
 ) : BackboneElement<DiagnosticReportMedia>
 

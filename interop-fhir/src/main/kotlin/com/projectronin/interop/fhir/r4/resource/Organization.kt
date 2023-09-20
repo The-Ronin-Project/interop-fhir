@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Address
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A formally or informally recognized grouping of people or organizations formed for the purpose of achieving some
@@ -47,8 +49,10 @@ data class Organization(
     val alias: List<FHIRString> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
     val address: List<Address> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Organization)
     val partOf: Reference? = null,
     val contact: List<OrganizationContact> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Endpoint)
     val endpoint: List<Reference> = listOf()
 ) : DomainResource<Organization> {
     override val resourceType: String = "Organization"

@@ -14,6 +14,7 @@ import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
 import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -195,6 +196,45 @@ class R4AppointmentValidatorTest {
     }
 
     @Test
+    fun `warns if reasonReference is not a supported type`() {
+        val validation = R4AppointmentValidator.validate(
+            Appointment(
+                status = AppointmentStatus.CANCELLED.asCode(),
+                participant = listOf(
+                    Participant(
+                        type = listOf(CodeableConcept(FHIRString("123"))),
+                        status = ParticipationStatus.ACCEPTED.asCode()
+                    )
+                ),
+                reasonReference = listOf(Reference(reference = FHIRString("Patient/1234")))
+            )
+        )
+        assertEquals(1, validation.issues().size)
+        val issue = validation.issues().first()
+        assertEquals(
+            "WARNING INV_REF_TYPE: reference can only be one of the following: Condition, Procedure, Observation, ImmunizationRecommendation @ Appointment.reasonReference[0].reference",
+            issue.toString()
+        )
+    }
+
+    @Test
+    fun `validates if reasonReference is a supported type`() {
+        val validation = R4AppointmentValidator.validate(
+            Appointment(
+                status = AppointmentStatus.CANCELLED.asCode(),
+                participant = listOf(
+                    Participant(
+                        type = listOf(CodeableConcept(FHIRString("123"))),
+                        status = ParticipationStatus.ACCEPTED.asCode()
+                    )
+                ),
+                reasonReference = listOf(Reference(reference = FHIRString("Condition/1234")))
+            )
+        )
+        assertFalse(validation.hasIssues())
+    }
+
+    @Test
     fun `validates successfully`() {
         R4AppointmentValidator.validate(
             Appointment(
@@ -261,7 +301,7 @@ class R4ParticipantValidatorTest {
     }
 
     @Test
-    fun `fails if nither the type nor actor is on the participant`() {
+    fun `fails if neither the type nor actor is on the participant`() {
         val exception = assertThrows<IllegalArgumentException> {
             val participant = Participant(
                 status = ParticipationStatus.ACCEPTED.asCode()

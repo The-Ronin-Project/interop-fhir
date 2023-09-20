@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -21,6 +22,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific
@@ -48,6 +50,12 @@ data class Appointment(
     val specialty: List<CodeableConcept> = listOf(),
     val appointmentType: CodeableConcept? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Condition,
+        ResourceType.Procedure,
+        ResourceType.Observation,
+        ResourceType.ImmunizationRecommendation
+    )
     val reasonReference: List<Reference> = listOf(),
     val priority: UnsignedInt? = null,
     val description: FHIRString? = null,
@@ -55,10 +63,12 @@ data class Appointment(
     val start: Instant? = null,
     val end: Instant? = null,
     val minutesDuration: PositiveInt? = null,
+    @SupportedReferenceTypes(ResourceType.Slot)
     val slot: List<Reference> = listOf(),
     val created: DateTime? = null,
     val comment: FHIRString? = null,
     val patientInstruction: FHIRString? = null,
+    @SupportedReferenceTypes(ResourceType.ServiceRequest)
     val basedOn: List<Reference> = listOf(),
     val participant: List<Participant>,
     val requestedPeriod: List<Period> = listOf()
@@ -79,6 +89,15 @@ data class Participant(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val type: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Device,
+        ResourceType.HealthcareService,
+        ResourceType.Location
+    )
     val actor: Reference? = null,
     val required: Code? = null,
     val status: Code?,

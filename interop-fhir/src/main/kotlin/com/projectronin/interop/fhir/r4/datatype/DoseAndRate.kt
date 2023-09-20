@@ -11,7 +11,6 @@ import com.projectronin.interop.fhir.r4.element.Element
  * The DoseAndRate structure supports Dosage, which is typically represented in medication requests,
  * medication dispenses and medication statements.
  */
-
 @JsonDeserialize(using = DoseAndRateDeserializer::class)
 @JsonSerialize(using = DoseAndRateSerializer::class)
 data class DoseAndRate(

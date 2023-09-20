@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -26,6 +27,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * An order or request for both supply of the medication and the instructions for administration of the medication to a
@@ -52,30 +54,69 @@ data class MedicationRequest(
     val category: List<CodeableConcept> = listOf(),
     val priority: Code? = null,
     val doNotPerform: FHIRBoolean? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Organization
+    )
     val reported: DynamicValue<Any>? = null,
+    @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>?,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference?,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val supportingInformation: List<Reference> = listOf(),
     val authoredOn: DateTime? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Organization,
+        ResourceType.Patient,
+        ResourceType.RelatedPerson,
+        ResourceType.Device
+    )
     val requester: Reference? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Organization,
+        ResourceType.Patient,
+        ResourceType.Device,
+        ResourceType.RelatedPerson,
+        ResourceType.CareTeam
+    )
     val performer: Reference? = null,
     val performerType: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole)
     val recorder: Reference? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Observation)
     val reasonReference: List<Reference> = listOf(),
     val instantiatesCanonical: List<Canonical> = listOf(),
     val instantiatesUri: List<Uri> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.CarePlan,
+        ResourceType.MedicationRequest,
+        ResourceType.ServiceRequest,
+        ResourceType.ImmunizationRecommendation
+    )
     val basedOn: List<Reference> = listOf(),
     val groupIdentifier: Identifier? = null,
     val courseOfTherapyType: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Coverage, ResourceType.ClaimResponse)
     val insurance: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
     val dosageInstruction: List<Dosage> = listOf(),
     val dispenseRequest: DispenseRequest? = null,
     val substitution: Substitution? = null,
+    @SupportedReferenceTypes(ResourceType.MedicationRequest)
     val priorPrescription: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.DetectedIssue)
     val detectedIssue: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Provenance)
     val eventHistory: List<Reference> = listOf()
 ) : DomainResource<MedicationRequest> {
     override val resourceType: String = "MedicationRequest"
@@ -99,6 +140,7 @@ data class DispenseRequest(
     val numberOfRepeatsAllowed: UnsignedInt? = null,
     val quantity: SimpleQuantity? = null,
     val expectedSupplyDuration: Duration? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val performer: Reference? = null
 ) : BackboneElement<DispenseRequest>
 

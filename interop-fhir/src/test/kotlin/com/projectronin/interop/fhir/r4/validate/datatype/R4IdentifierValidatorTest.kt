@@ -4,7 +4,6 @@ import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
-import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.IdentifierUse
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,17 +28,17 @@ class R4IdentifierValidatorTest {
 
     @Test
     fun `fails if assigner is not an Organization`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val identifier = Identifier(
-                use = IdentifierUse.OFFICIAL.asCode(),
-                assigner = Reference(type = Uri("Patient"), reference = FHIRString("reference"))
-            )
-            R4IdentifierValidator.validate(identifier).alertIfErrors()
-        }
+        val identifier = Identifier(
+            use = IdentifierUse.OFFICIAL.asCode(),
+            assigner = Reference(reference = FHIRString("Patient/reference"))
+        )
+        val validation = R4IdentifierValidator.validate(identifier)
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
         assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR R4_IDENT_001: Identifier assigner reference must be to an Organization @ Identifier.assigner.type",
-            exception.message
+            "WARNING INV_REF_TYPE: reference can only be one of the following: Organization @ Identifier.assigner.reference",
+            issues.first().toString()
         )
     }
 

@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -22,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = RequestGroupSerializer::class)
 @JsonDeserialize(using = RequestGroupDeserializer::class)
@@ -45,11 +47,20 @@ data class RequestGroup(
     val intent: Code?,
     val priority: Code? = null,
     val code: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val authoredOn: DateTime? = null,
+    @SupportedReferenceTypes(ResourceType.Device, ResourceType.Practitioner, ResourceType.PractitionerRole)
     val author: Reference? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Condition,
+        ResourceType.Observation,
+        ResourceType.DiagnosticReport,
+        ResourceType.DocumentReference
+    )
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
     val action: List<RequestGroupAction> = listOf()
@@ -76,6 +87,13 @@ data class RequestGroupAction(
     val condition: List<RequestGroupCondition> = listOf(),
     val relatedAction: List<RequestGroupRelatedAction> = listOf(),
     val timing: DynamicValue<Any>? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Patient,
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.RelatedPerson,
+        ResourceType.Device
+    )
     val participant: List<Reference> = listOf(),
     val type: CodeableConcept? = null,
     val groupingBehavior: Code? = null,

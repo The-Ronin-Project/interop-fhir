@@ -2,11 +2,13 @@ package com.projectronin.interop.fhir.r4.datatype
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * The TriggerDefinition structure defines when a knowledge artifact is expected to be evaluated. The structure can
@@ -36,6 +38,7 @@ data class TriggerDefinition(
     override val extension: List<Extension> = listOf(),
     val type: Code?,
     val name: FHIRString? = null,
+    @SupportedReferenceTypes(ResourceType.Schedule)
     val timing: DynamicValue<Any>? = null,
     val data: List<DataRequirement> = listOf(),
     val condition: Expression? = null

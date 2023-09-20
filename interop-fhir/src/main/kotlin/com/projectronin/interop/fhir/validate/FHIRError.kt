@@ -1,5 +1,6 @@
 package com.projectronin.interop.fhir.validate
 
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.primitive.Primitive
@@ -101,4 +102,22 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String) : FHI
         LocationContext(actualLocation),
         value ?: "null"
     )
+}
+
+/**
+ * Defines an error for a Reference type outside a supported set.
+ */
+class InvalidReferenceType(actualLocation: LocationContext, validTypes: List<ResourceType>) : FHIRError(
+    "INV_REF_TYPE",
+    ValidationIssueSeverity.WARNING,
+    "${actualLocation.field} can only be one of the following: ${validTypes.joinToString { it.name }}",
+    actualLocation
+) {
+    /**
+     * Creates an InvalidReferenceType based off an explicit property.
+     */
+    constructor(
+        actualLocation: KProperty1<*, *>,
+        validTypes: List<ResourceType>
+    ) : this(LocationContext(actualLocation), validTypes)
 }

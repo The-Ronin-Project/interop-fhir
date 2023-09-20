@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s)
@@ -48,20 +50,33 @@ data class Encounter(
     val type: List<CodeableConcept> = listOf(),
     val serviceType: CodeableConcept? = null,
     val priority: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.EpisodeOfCare)
     val episodeOfCare: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.ServiceRequest)
     val basedOn: List<Reference> = listOf(),
     val participant: List<EncounterParticipant> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Appointment)
     val appointment: List<Reference> = listOf(),
     val period: Period? = null,
     val length: Duration? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(
+        ResourceType.Condition,
+        ResourceType.Procedure,
+        ResourceType.Observation,
+        ResourceType.ImmunizationRecommendation
+    )
     val reasonReference: List<Reference> = listOf(),
     val diagnosis: List<EncounterDiagnosis> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Account)
     val account: List<Reference> = listOf(),
     val hospitalization: EncounterHospitalization? = null,
     val location: List<EncounterLocation> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Organization)
     val serviceProvider: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val partOf: Reference? = null
 ) : DomainResource<Encounter> {
     override val resourceType: String = "Encounter"
@@ -97,6 +112,7 @@ data class EncounterDiagnosis(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Procedure)
     val condition: Reference?,
     val use: CodeableConcept? = null,
     val rank: PositiveInt? = null
@@ -116,12 +132,14 @@ data class EncounterHospitalization(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val preAdmissionIdentifier: Identifier? = null,
+    @SupportedReferenceTypes(ResourceType.Location, ResourceType.Organization)
     val origin: Reference? = null,
     val admitSource: CodeableConcept? = null,
     val reAdmission: CodeableConcept? = null,
     val dietPreference: List<CodeableConcept> = listOf(),
     val specialCourtesy: List<CodeableConcept> = listOf(),
     val specialArrangement: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Location, ResourceType.Organization)
     val destination: Reference? = null,
     val dischargeDisposition: CodeableConcept? = null
 ) : BackboneElement<EncounterHospitalization>
@@ -142,6 +160,7 @@ data class EncounterLocation(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Location)
     val location: Reference?,
     val status: Code? = null,
     val physicalType: CodeableConcept? = null,
@@ -163,6 +182,7 @@ data class EncounterParticipant(
     override val modifierExtension: List<Extension> = listOf(),
     val type: List<CodeableConcept> = listOf(),
     val period: Period? = null,
+    @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.RelatedPerson)
     val individual: Reference? = null
 ) : BackboneElement<EncounterParticipant>
 

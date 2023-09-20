@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -19,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationAdministrationDeserializer::class)
 @JsonSerialize(using = MedicationAdministrationSerializer::class)
@@ -34,29 +36,40 @@ data class MedicationAdministration(
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
     val instantiates: List<Uri> = listOf(),
+    @SupportedReferenceTypes(ResourceType.MedicationAdministration, ResourceType.Procedure)
     val partOf: List<Reference> = listOf(),
     val status: Code? = null,
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
+    @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)
     val context: Reference? = null,
     val supportingInformation: List<Reference> = listOf(),
     val effective: DynamicValue<Any>? = null,
     val performer: List<MedicationAdministrationPerformer> = listOf(),
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Observation, ResourceType.DiagnosticReport)
     val reasonReference: List<Reference> = listOf(),
+    @SupportedReferenceTypes(ResourceType.MedicationRequest)
     val request: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Device)
     val device: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
     val dosage: MedicationAdministrationDosage? = null,
+    @SupportedReferenceTypes(ResourceType.Provenance)
     val eventHistory: List<Reference> = listOf()
 ) : DomainResource<MedicationAdministration> {
     override val resourceType: String = "MedicationAdministration"
 }
 
-class MedicationAdministrationDeserializer : BaseFHIRDeserializer<MedicationAdministration>(MedicationAdministration::class.java)
-class MedicationAdministrationSerializer : BaseFHIRSerializer<MedicationAdministration>(MedicationAdministration::class.java)
+class MedicationAdministrationDeserializer :
+    BaseFHIRDeserializer<MedicationAdministration>(MedicationAdministration::class.java)
+
+class MedicationAdministrationSerializer :
+    BaseFHIRSerializer<MedicationAdministration>(MedicationAdministration::class.java)
 
 @JsonDeserialize(using = MedicationAdministrationPerformerDeserializer::class)
 @JsonSerialize(using = MedicationAdministrationPerformerSerializer::class)
@@ -65,11 +78,21 @@ data class MedicationAdministrationPerformer(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val function: CodeableConcept? = null,
+    @SupportedReferenceTypes(
+        ResourceType.Practitioner,
+        ResourceType.PractitionerRole,
+        ResourceType.Patient,
+        ResourceType.RelatedPerson,
+        ResourceType.Device
+    )
     val actor: Reference? = null
 ) : BackboneElement<MedicationAdministrationPerformer>
 
-class MedicationAdministrationPerformerDeserializer : BaseFHIRDeserializer<MedicationAdministrationPerformer>(MedicationAdministrationPerformer::class.java)
-class MedicationAdministrationPerformerSerializer : BaseFHIRSerializer<MedicationAdministrationPerformer>(MedicationAdministrationPerformer::class.java)
+class MedicationAdministrationPerformerDeserializer :
+    BaseFHIRDeserializer<MedicationAdministrationPerformer>(MedicationAdministrationPerformer::class.java)
+
+class MedicationAdministrationPerformerSerializer :
+    BaseFHIRSerializer<MedicationAdministrationPerformer>(MedicationAdministrationPerformer::class.java)
 
 @JsonDeserialize(using = MedicationAdministrationDosageDeserializer::class)
 @JsonSerialize(using = MedicationAdministrationDosageSerializer::class)
@@ -84,5 +107,9 @@ data class MedicationAdministrationDosage(
     val dose: Quantity? = null,
     val rate: DynamicValue<Any>? = null
 ) : BackboneElement<MedicationAdministrationDosage>
-class MedicationAdministrationDosageDeserializer : BaseFHIRDeserializer<MedicationAdministrationDosage>(MedicationAdministrationDosage::class.java)
-class MedicationAdministrationDosageSerializer : BaseFHIRSerializer<MedicationAdministrationDosage>(MedicationAdministrationDosage::class.java)
+
+class MedicationAdministrationDosageDeserializer :
+    BaseFHIRDeserializer<MedicationAdministrationDosage>(MedicationAdministrationDosage::class.java)
+
+class MedicationAdministrationDosageSerializer :
+    BaseFHIRSerializer<MedicationAdministrationDosage>(MedicationAdministrationDosage::class.java)

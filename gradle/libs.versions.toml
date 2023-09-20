@@ -3,6 +3,7 @@ classgraph = "4.8.162"
 # @pin until JDK 17 implemented
 datafaker = "1.9.0"
 interop-common = "3.11.0"
+interop-event-resource-internal = "1.1.0"
 interop-gradle = "3.2.0"
 jackson = "2.15.2"
 mockk = "1.13.7"
@@ -11,6 +12,7 @@ ronin-test = "0.2.0"
 [libraries]
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+event-interop-resource-internal = { module = "com.projectronin.contract.event:event-interop-resource-internal", version.ref = "interop-event-resource-internal" }
 interop-common = { module = "com.projectronin.interop:interop-common", version.ref = "interop-common" }
 interop-commonJackson = { module = "com.projectronin.interop:interop-common-jackson", version.ref = "interop-common" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }

@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.r4.resource
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.projectronin.event.interop.internal.v1.ResourceType
 import com.projectronin.interop.fhir.jackson.inbound.r4.BaseFHIRDeserializer
 import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
@@ -22,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
  * Describes the event of a patient being administered a vaccine or a record of an immunization as reported by a patient, a clinician or another party.
@@ -42,13 +44,17 @@ data class Immunization(
     val status: Code?,
     val statusReason: CodeableConcept? = null,
     val vaccineCode: CodeableConcept?,
+    @SupportedReferenceTypes(ResourceType.Patient)
     val patient: Reference?,
+    @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
     val occurrence: DynamicValue<Any>?,
     val recorded: DateTime? = null,
     val primarySource: FHIRBoolean? = null,
     val reportOrigin: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Location)
     val location: Reference? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val manufacturer: Reference? = null,
     val lotNumber: FHIRString? = null,
     val expirationDate: Date? = null,
@@ -58,6 +64,7 @@ data class Immunization(
     val performer: List<ImmunizationPerformer> = listOf(),
     val note: List<Annotation> = listOf(),
     val reasonCode: List<CodeableConcept> = listOf(),
+    @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Observation, ResourceType.DiagnosticReport)
     val reasonReference: List<Reference> = listOf(),
     val isSubpotent: FHIRBoolean? = null,
     val subpotentReason: List<CodeableConcept> = listOf(),
@@ -80,6 +87,7 @@ data class ImmunizationPerformer(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val function: CodeableConcept? = null,
+    @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.Organization)
     val actor: Reference?
 ) : BackboneElement<ImmunizationPerformer>
 
@@ -108,6 +116,7 @@ data class ImmunizationReaction(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val date: DateTime? = null,
+    @SupportedReferenceTypes(ResourceType.Observation)
     val detail: Reference? = null,
     val reported: FHIRBoolean? = null
 ) : BackboneElement<ImmunizationReaction>
@@ -122,6 +131,7 @@ data class ImmunizationProtocolApplied(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val series: FHIRString? = null,
+    @SupportedReferenceTypes(ResourceType.Organization)
     val authority: Reference? = null,
     val targetDisease: List<CodeableConcept> = listOf(),
     val doseNumber: DynamicValue<Any>?,
