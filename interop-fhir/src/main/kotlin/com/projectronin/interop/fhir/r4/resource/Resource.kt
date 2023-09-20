@@ -29,9 +29,7 @@ import com.projectronin.interop.fhir.validate.Validatable
     defaultImpl = UnknownResource::class,
     visible = true
 )
-/**
- * This is the list of FHIR resources that Ronin product code can use.
- */
+// This is the list of FHIR resources that Ronin product code can use.
 @JsonSubTypes(
     JsonSubTypes.Type(Appointment::class),
     JsonSubTypes.Type(Bundle::class),
@@ -57,6 +55,7 @@ import com.projectronin.interop.fhir.validate.Validatable
     JsonSubTypes.Type(RequestGroup::class),
     JsonSubTypes.Type(Immunization::class),
     JsonSubTypes.Type(MedicationAdministration::class),
+    JsonSubTypes.Type(Procedure::class),
     JsonSubTypes.Type(ServiceRequest::class)
 )
 interface Resource<T : Resource<T>> : Validatable<T> {

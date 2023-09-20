@@ -29,9 +29,11 @@ object DynamicValues {
     fun codeableConcept(codeableConceptGenerator: DataGenerator<CodeableConcept>) =
         codeableConcept(codeableConceptGenerator.generate())
 
+    fun dateTime(dateTime: String) = dateTime(DateTime(dateTime))
     fun dateTime(dateTime: DateTime) = DynamicValue(DynamicValueType.DATE_TIME, dateTime)
     fun dateTime(dateTimeGenerator: DataGenerator<DateTime>) = dateTime(dateTimeGenerator.generate())
 
+    fun instant(instant: String) = instant(Instant(instant))
     fun instant(instant: Instant) = DynamicValue(DynamicValueType.INSTANT, instant)
     fun instant(instantGenerator: DataGenerator<Instant>) = instant(instantGenerator.generate())
 
@@ -61,6 +63,7 @@ object DynamicValues {
     fun string(string: String) = string(FHIRString(string))
     fun string(stringGenerator: DataGenerator<FHIRString>) = string(stringGenerator.generate())
 
+    fun time(time: String) = time(Time(time))
     fun time(time: Time) = DynamicValue(DynamicValueType.TIME, time)
     fun time(timeGenerator: DataGenerator<Time>) = time(timeGenerator.generate())
 

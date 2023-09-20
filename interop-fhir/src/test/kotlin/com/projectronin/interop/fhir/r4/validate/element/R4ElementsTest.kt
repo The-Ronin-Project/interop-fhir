@@ -67,6 +67,8 @@ import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.resource.LocationPosition
+import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
+import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationPerformer
 import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
@@ -75,6 +77,8 @@ import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
+import com.projectronin.interop.fhir.r4.resource.ProcedureFocalDevice
+import com.projectronin.interop.fhir.r4.resource.ProcedurePerformer
 import com.projectronin.interop.fhir.r4.resource.Qualification
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
 import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
@@ -152,6 +156,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocol
 import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationHoursOfOperationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationPositionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminDosageValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminPerformerValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4NotAvailableValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationComponentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationReferenceRangeValidator
@@ -159,6 +165,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ParticipantValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunicationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedureFocalDeviceValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedurePerformerValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupConditionValidator
@@ -661,6 +669,34 @@ class R4ElementsTest {
     }
 
     @Test
+    fun `can validate MedicationAdministrationDosage`() {
+        val medicationAdministrationDosage = mockk<MedicationAdministrationDosage>()
+        every {
+            medicationAdministrationDosage.validate(
+                R4MedAdminDosageValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(medicationAdministrationDosage, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate MedicationAdministrationPerformer`() {
+        val medicationAdministrationPerformer = mockk<MedicationAdministrationPerformer>()
+        every {
+            medicationAdministrationPerformer.validate(
+                R4MedAdminPerformerValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(medicationAdministrationPerformer, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
     fun `can validate MoneyQuantity`() {
         val moneyQuantity = mockk<MoneyQuantity>()
         every { moneyQuantity.validate(R4MoneyQuantityValidator, locationContext) } returns failedValidation
@@ -762,6 +798,29 @@ class R4ElementsTest {
         every { patientLink.validate(R4PatientLinkValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(patientLink, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ProcedureFocalDevice`() {
+        val procedureFocalDevice = mockk<ProcedureFocalDevice>()
+        every {
+            procedureFocalDevice.validate(
+                R4ProcedureFocalDeviceValidator,
+                locationContext
+            )
+        } returns failedValidation
+
+        val validation = validateElement(procedureFocalDevice, locationContext)
+        assertEquals(1, validation.issues().size)
+    }
+
+    @Test
+    fun `can validate ProcedurePerformer`() {
+        val procedurePerformer = mockk<ProcedurePerformer>()
+        every { procedurePerformer.validate(R4ProcedurePerformerValidator, locationContext) } returns failedValidation
+
+        val validation = validateElement(procedurePerformer, locationContext)
         assertEquals(1, validation.issues().size)
     }
 

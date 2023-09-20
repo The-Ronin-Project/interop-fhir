@@ -64,6 +64,8 @@ import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
 import com.projectronin.interop.fhir.r4.resource.LocationPosition
+import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
+import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationPerformer
 import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
@@ -71,6 +73,8 @@ import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
+import com.projectronin.interop.fhir.r4.resource.ProcedureFocalDevice
+import com.projectronin.interop.fhir.r4.resource.ProcedurePerformer
 import com.projectronin.interop.fhir.r4.resource.Qualification
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
 import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
@@ -147,6 +151,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocol
 import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationHoursOfOperationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationPositionValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminDosageValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminPerformerValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4NotAvailableValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationComponentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationReferenceRangeValidator
@@ -154,6 +160,8 @@ import com.projectronin.interop.fhir.r4.validate.resource.R4ParticipantValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunicationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedureFocalDeviceValidator
+import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedurePerformerValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupConditionValidator
@@ -243,6 +251,8 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is Ingredient -> element.validate(R4IngredientValidator, parentContext)
         is LocationHoursOfOperation -> element.validate(R4LocationHoursOfOperationValidator, parentContext)
         is LocationPosition -> element.validate(R4LocationPositionValidator, parentContext)
+        is MedicationAdministrationDosage -> element.validate(R4MedAdminDosageValidator, parentContext)
+        is MedicationAdministrationPerformer -> element.validate(R4MedAdminPerformerValidator, parentContext)
         is NotAvailable -> element.validate(R4NotAvailableValidator, parentContext)
         is ObservationComponent -> element.validate(R4ObservationComponentValidator, parentContext)
         is ObservationReferenceRange -> element.validate(R4ObservationReferenceRangeValidator, parentContext)
@@ -250,6 +260,8 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is PatientCommunication -> element.validate(R4PatientCommunicationValidator, parentContext)
         is PatientContact -> element.validate(R4PatientContactValidator, parentContext)
         is PatientLink -> element.validate(R4PatientLinkValidator, parentContext)
+        is ProcedureFocalDevice -> element.validate(R4ProcedureFocalDeviceValidator, parentContext)
+        is ProcedurePerformer -> element.validate(R4ProcedurePerformerValidator, parentContext)
         is Qualification -> element.validate(R4QualificationValidator, parentContext)
         is RequestGroupAction -> element.validate(R4RequestGroupActionValidator, parentContext)
         is RequestGroupCondition -> element.validate(R4RequestGroupConditionValidator, parentContext)

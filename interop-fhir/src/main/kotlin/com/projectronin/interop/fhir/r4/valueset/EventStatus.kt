@@ -30,7 +30,6 @@ enum class EventStatus(@JsonValue override val code: String) : CodedEnum<EventSt
      * The event was terminated prior to the full completion of the intended activity but after at least some of
      * the 'main' activity (beyond preparation) has occurred.
      */
-
     STOPPED("stopped"),
 
     /**

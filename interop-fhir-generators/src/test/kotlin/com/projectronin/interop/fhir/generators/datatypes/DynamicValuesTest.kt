@@ -69,6 +69,14 @@ class DynamicValuesTest {
     }
 
     @Test
+    fun `can create DateTime DynamicValue from String`() {
+        val dateTime = "2017-01-01T00:00:00.000Z"
+        val value = DynamicValues.dateTime(dateTime)
+        assertEquals(DynamicValueType.DATE_TIME, value.type)
+        assertEquals(dateTime, value.value.value)
+    }
+
+    @Test
     fun `can create DateTime DynamicValue from DateTime`() {
         val dateTime = DateTime("2017-01-01T00:00:00.000Z")
         val value = DynamicValues.dateTime(dateTime)
@@ -86,6 +94,14 @@ class DynamicValuesTest {
         val value = DynamicValues.dateTime(generator)
         assertEquals(DynamicValueType.DATE_TIME, value.type)
         assertEquals(dateTime, value.value)
+    }
+
+    @Test
+    fun `can create Instant DynamicValue from String`() {
+        val instant = "2015-02-07T13:28:17.239+02:00"
+        val value = DynamicValues.instant(instant)
+        assertEquals(DynamicValueType.INSTANT, value.type)
+        assertEquals(instant, value.value.value)
     }
 
     @Test
@@ -275,6 +291,14 @@ class DynamicValuesTest {
         val value = DynamicValues.string(generator)
         assertEquals(DynamicValueType.STRING, value.type)
         assertEquals(FHIRString("generated"), value.value)
+    }
+
+    @Test
+    fun `can create Time DynamicValue from String`() {
+        val time = "12:51:00"
+        val value = DynamicValues.time(time)
+        assertEquals(DynamicValueType.TIME, value.type)
+        assertEquals(time, value.value.value)
     }
 
     @Test
