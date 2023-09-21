@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 /**
  * Contributor information
@@ -16,7 +17,9 @@ import com.projectronin.interop.fhir.r4.element.Element
 data class Contributor(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredField
     val type: Code?,
+    @RequiredField
     val name: FHIRString?,
     val contact: List<ContactDetail> = listOf()
 ) : Element<Contributor>

@@ -20,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -44,6 +45,7 @@ data class Condition(
     val severity: CodeableConcept? = null,
     val code: CodeableConcept? = null,
     val bodySite: List<CodeableConcept> = listOf(),
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference?,
     @SupportedReferenceTypes(ResourceType.Encounter)

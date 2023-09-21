@@ -122,7 +122,7 @@ class R4AppointmentValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR R4_APPT_006: At least one participant must be provided @ Appointment.participant",
+                "ERROR REQ_FIELD: participant is a required element @ Appointment.participant",
             exception.message
         )
     }

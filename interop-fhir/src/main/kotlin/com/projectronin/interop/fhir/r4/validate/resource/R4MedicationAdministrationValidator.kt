@@ -3,14 +3,12 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministration
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
-import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationPerformer
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.MedicationAdministrationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -21,15 +19,10 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
     private val acceptedEffectiveTypes = listOf(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD)
     private val acceptedMedicationTypes = listOf(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
 
-    private val requiredStatusError = RequiredFieldError(MedicationAdministration::status)
-
-    private val requiredMedicationError = RequiredFieldError(MedicationAdministration::medication)
     private val invalidMedicationError =
         InvalidDynamicValueError(MedicationAdministration::medication, acceptedMedicationTypes)
     private val invalidEffectiveError =
         InvalidDynamicValueError(MedicationAdministration::effective, acceptedEffectiveTypes)
-    private val requiredSubjectError = RequiredFieldError(MedicationAdministration::subject)
-    private val requiredEffectiveError = RequiredFieldError(MedicationAdministration::effective)
 
     override fun validateElement(
         element: MedicationAdministration,
@@ -37,8 +30,7 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<MedicationAdministrationStatus>(
                     element.status,
                     InvalidValueSetError(MedicationAdministration::status, element.status.value),
@@ -46,8 +38,7 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
                 )
             }
 
-            checkNotNull(element.effective, requiredEffectiveError, parentContext)
-            ifNotNull(element.effective) {
+            element.effective?.let {
                 checkTrue(
                     acceptedEffectiveTypes.contains(element.effective.type),
                     invalidEffectiveError,
@@ -55,30 +46,13 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
                 )
             }
 
-            checkNotNull(element.medication, requiredMedicationError, parentContext)
-            ifNotNull(element.medication) {
+            element.medication?.let {
                 checkTrue(
                     acceptedMedicationTypes.contains(element.medication.type),
                     invalidMedicationError,
                     parentContext
                 )
             }
-
-            checkNotNull(element.subject, requiredSubjectError, parentContext)
-        }
-    }
-}
-
-object R4MedAdminPerformerValidator : R4ElementContainingValidator<MedicationAdministrationPerformer>() {
-    private val requiredActorError = RequiredFieldError(MedicationAdministrationPerformer::actor)
-
-    override fun validateElement(
-        element: MedicationAdministrationPerformer,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkNotNull(element.actor, requiredActorError, parentContext)
         }
     }
 }

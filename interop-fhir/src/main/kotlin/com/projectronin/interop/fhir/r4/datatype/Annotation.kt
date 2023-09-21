@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -27,6 +28,7 @@ data class Annotation(
     )
     val author: DynamicValue<Any>? = null,
     val time: DateTime? = null,
+    @RequiredField
     val text: Markdown?
 ) : Element<Annotation>
 

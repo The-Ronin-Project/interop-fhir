@@ -2,7 +2,6 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Patient
-import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
@@ -12,7 +11,6 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -42,23 +40,6 @@ object R4PatientValidator : R4ElementContainingValidator<Patient>() {
             element.multipleBirth?.let { data ->
                 checkTrue(acceptedMultipleBirthTypes.contains(data.type), invalidMultipleBirthError, parentContext)
             }
-        }
-    }
-}
-
-/**
- * Validator for the [R4 Patient.Communication](http://hl7.org/fhir/R4/patient-definitions.html#Patient.communication).
- */
-object R4PatientCommunicationValidator : R4ElementContainingValidator<PatientCommunication>() {
-    private val requiredLanguageError = RequiredFieldError(PatientCommunication::language)
-
-    override fun validateElement(
-        element: PatientCommunication,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkNotNull(element.language, requiredLanguageError, parentContext)
         }
     }
 }
@@ -97,15 +78,9 @@ object R4PatientContactValidator : R4ElementContainingValidator<PatientContact>(
  * Validator for the [R4 PatientLink](http://hl7.org/fhir/R4/patient-definitions.html#Patient.link).
  */
 object R4PatientLinkValidator : R4ElementContainingValidator<PatientLink>() {
-    private val requiredOtherError = RequiredFieldError(PatientLink::other)
-    private val requiredTypeError = RequiredFieldError(PatientLink::type)
-
     override fun validateElement(element: PatientLink, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.other, requiredOtherError, parentContext)
-            checkNotNull(element.type, requiredTypeError, parentContext)
-
-            ifNotNull(element.type) {
+            element.type?.let {
                 checkCodedEnum<LinkType>(
                     element.type,
                     InvalidValueSetError(PatientLink::type, element.type.value),

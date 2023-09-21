@@ -41,7 +41,6 @@ class SupportedReferenceTypesValidator :
                 val dynamicValue = property.get(element) as? DynamicValue<*>
                 dynamicValue?.let {
                     if (it.type == DynamicValueType.REFERENCE) {
-                        val value = it.value as? Reference
                         validateRequiredReferenceTypes(
                             it.value as? Reference,
                             supportedTypes,

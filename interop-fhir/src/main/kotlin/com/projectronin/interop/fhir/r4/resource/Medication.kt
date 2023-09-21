@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -86,6 +87,7 @@ data class Ingredient(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Substance, ResourceType.Medication)
     val item: DynamicValue<Any>? = null,
     val isActive: FHIRBoolean? = null,

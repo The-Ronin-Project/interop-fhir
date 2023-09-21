@@ -20,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationAdministrationDeserializer::class)
@@ -38,16 +39,20 @@ data class MedicationAdministration(
     val instantiates: List<Uri> = listOf(),
     @SupportedReferenceTypes(ResourceType.MedicationAdministration, ResourceType.Procedure)
     val partOf: List<Reference> = listOf(),
+    @RequiredField
     val status: Code? = null,
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
+    @RequiredField
     val subject: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)
     val context: Reference? = null,
     val supportingInformation: List<Reference> = listOf(),
+    @RequiredField
     val effective: DynamicValue<Any>? = null,
     val performer: List<MedicationAdministrationPerformer> = listOf(),
     val reasonCode: List<CodeableConcept> = listOf(),
@@ -78,6 +83,7 @@ data class MedicationAdministrationPerformer(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val function: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,

@@ -25,6 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -77,6 +78,7 @@ data class PatientCommunication(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val language: CodeableConcept?,
     val preferred: FHIRBoolean? = null
 ) : BackboneElement<PatientCommunication>
@@ -116,8 +118,10 @@ data class PatientLink(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.RelatedPerson)
     val other: Reference?,
+    @RequiredField
     val type: Code?
 ) : BackboneElement<PatientLink>
 

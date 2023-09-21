@@ -93,7 +93,7 @@ class R4DocumentReferenceValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR R4_DOCREF_001: At least one content item is required @ DocumentReference.content",
+                "ERROR REQ_FIELD: content is a required element @ DocumentReference.content",
             exception.message
         )
     }
@@ -172,33 +172,6 @@ class R4DocumentReferenceRelatesToValidatorTest {
             DocumentReferenceRelatesTo(
                 code = DocumentRelationshipType.APPENDS.asCode(),
                 target = Reference(display = FHIRString("target"))
-            )
-        ).alertIfErrors()
-    }
-}
-
-class R4DocumentReferenceContentValidatorTest {
-    @Test
-    fun `fails if no attachment`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DocumentReferenceContentValidator.validate(
-                DocumentReferenceContent(
-                    attachment = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: attachment is a required element @ DocumentReferenceContent.attachment",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        R4DocumentReferenceContentValidator.validate(
-            DocumentReferenceContent(
-                attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text"))
             )
         ).alertIfErrors()
     }

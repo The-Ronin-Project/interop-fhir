@@ -12,7 +12,6 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -40,7 +39,6 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
         ConditionClinicalStatusCodes.RESOLVED
     )
 
-    private val requiredSubjectError = RequiredFieldError(Condition::subject)
     private val invalidOnsetError = InvalidDynamicValueError(Condition::onset, acceptedOnsetTypes)
     private val invalidAbatementError = InvalidDynamicValueError(Condition::abatement, acceptedAbatementTypes)
 
@@ -59,8 +57,6 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
 
     override fun validateElement(element: Condition, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.subject, requiredSubjectError, parentContext)
-
             element.onset?.let {
                 checkTrue(acceptedOnsetTypes.contains(it.type), invalidOnsetError, parentContext)
             }

@@ -8,7 +8,6 @@ import com.projectronin.interop.fhir.r4.valueset.MedicationStatus
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 
 /**
@@ -34,13 +33,11 @@ object R4MedicationValidator : R4ElementContainingValidator<Medication>() {
 object R4IngredientValidator : R4ElementContainingValidator<Ingredient>() {
     private val acceptedItem = listOf(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
 
-    private val requiredItemError = RequiredFieldError(Ingredient::item)
     private val invalidItemError = InvalidDynamicValueError(Ingredient::item, acceptedItem)
 
     override fun validateElement(element: Ingredient, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.item, requiredItemError, parentContext)
-            ifNotNull(element.item) {
+            element.item?.let {
                 checkTrue(acceptedItem.contains(element.item.type), invalidItemError, parentContext)
             }
         }

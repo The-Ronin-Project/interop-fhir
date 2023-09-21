@@ -3,11 +3,9 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
-import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.DiagnosticReport
-import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
 import com.projectronin.interop.fhir.r4.valueset.DiagnosticReportStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -90,33 +88,6 @@ class R4DiagnosticReportValidatorTest {
             DiagnosticReport(
                 status = DiagnosticReportStatus.CANCELLED.asCode(),
                 code = CodeableConcept(text = FHIRString("code"))
-            )
-        ).alertIfErrors()
-    }
-}
-
-class R4DiagnosticReportMediaValidatorTest {
-    @Test
-    fun `fails if no link`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DiagnosticReportMediaValidator.validate(
-                DiagnosticReportMedia(
-                    link = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: link is a required element @ DiagnosticReportMedia.link",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        R4DiagnosticReportMediaValidator.validate(
-            DiagnosticReportMedia(
-                link = Reference(display = FHIRString("link"))
             )
         ).alertIfErrors()
     }

@@ -2,13 +2,11 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.resource.AvailableTime
-import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.PractitionerRole
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 
 /**
@@ -35,19 +33,6 @@ object R4AvailableTimeValidator : R4ElementContainingValidator<AvailableTime>() 
                     parentContext
                 )
             }
-        }
-    }
-}
-
-/**
- * Validator for the [R4 NotAvailable](http://hl7.org/fhir/R4/practitionerrole-definitions.html#PractitionerRole.notAvailable).
- */
-object R4NotAvailableValidator : R4ElementContainingValidator<NotAvailable>() {
-    private val requiredNotAvailableError = RequiredFieldError(NotAvailable::description)
-
-    override fun validateElement(element: NotAvailable, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            checkNotNull(element.description, requiredNotAvailableError, parentContext)
         }
     }
 }

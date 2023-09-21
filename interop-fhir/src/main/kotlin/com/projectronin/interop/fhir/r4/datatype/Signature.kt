@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -22,8 +23,11 @@ import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 data class Signature(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredField
     val type: List<Coding>,
+    @RequiredField
     val `when`: Instant?,
+    @RequiredField
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,

@@ -5,7 +5,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.resource.AvailableTime
-import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.PractitionerRole
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -58,30 +57,5 @@ class R4AvailableTimeValidatorTest {
             availableStartTime = Time("08:00:00")
         )
         R4AvailableTimeValidator.validate(availableTime).alertIfErrors()
-    }
-}
-
-class R4NotAvailableValidatorTest {
-    @Test
-    fun `fails if no description provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val notAvailable = NotAvailable(
-                description = null
-            )
-            R4NotAvailableValidator.validate(notAvailable).alertIfErrors()
-        }
-        Assertions.assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: description is a required element @ NotAvailable.description",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val notAvailable = NotAvailable(
-            description = FHIRString("Vacation")
-        )
-        R4NotAvailableValidator.validate(notAvailable).alertIfErrors()
     }
 }

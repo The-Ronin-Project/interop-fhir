@@ -13,20 +13,14 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
 object R4CarePlanValidator : R4ElementContainingValidator<CarePlan>() {
 
-    private val requiredIntentError = RequiredFieldError(CarePlan::intent)
-    private val requiredStatusError = RequiredFieldError(CarePlan::status)
-    private val requiredSubjectError = RequiredFieldError(CarePlan::subject)
-
     override fun validateElement(element: CarePlan, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.intent, requiredIntentError, parentContext)
-            ifNotNull(element.intent) {
+            element.intent?.let {
                 checkCodedEnum<CarePlanIntent>(
                     element.intent,
                     InvalidValueSetError(CarePlan::intent, element.intent.value),
@@ -34,16 +28,13 @@ object R4CarePlanValidator : R4ElementContainingValidator<CarePlan>() {
                 )
             }
 
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<RequestStatus>(
                     element.status,
                     InvalidValueSetError(CarePlan::status, element.status.value),
                     parentContext
                 )
             }
-
-            checkNotNull(element.subject, requiredSubjectError, parentContext)
         }
     }
 }
@@ -56,6 +47,7 @@ object R4CarePlanActivityValidator : R4ElementContainingValidator<CarePlanActivi
         description = "Provide a reference or detail, not both",
         location = LocationContext(CarePlanActivity::class)
     )
+
     override fun validateElement(
         element: CarePlanActivity,
         parentContext: LocationContext?,
@@ -81,9 +73,9 @@ object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>(
         DynamicValueType.CODEABLE_CONCEPT,
         DynamicValueType.REFERENCE
     )
-    private val invalidScheduledValueError = InvalidDynamicValueError(CarePlanDetail::scheduled, acceptedScheduledValues)
+    private val invalidScheduledValueError =
+        InvalidDynamicValueError(CarePlanDetail::scheduled, acceptedScheduledValues)
     private val invalidProductValueError = InvalidDynamicValueError(CarePlanDetail::product, acceptedProductValues)
-    private val requiredStatusError = RequiredFieldError(CarePlanDetail::status)
 
     override fun validateElement(
         element: CarePlanDetail,
@@ -107,8 +99,7 @@ object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>(
                 )
             }
 
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<CarePlanActivityStatus>(
                     element.status,
                     InvalidValueSetError(CarePlanDetail::status, element.status.value),

@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -46,7 +47,9 @@ data class ServiceRequest(
     @SupportedReferenceTypes(ResourceType.ServiceRequest)
     val replaces: List<Reference> = listOf(),
     val requisition: Identifier? = null,
+    @RequiredField
     val status: Code?,
+    @RequiredField
     val intent: Code?,
     val category: List<CodeableConcept> = listOf(),
     val priority: Code? = null,
@@ -54,6 +57,7 @@ data class ServiceRequest(
     val code: CodeableConcept? = null,
     val orderDetail: List<CodeableConcept> = listOf(),
     val quantity: DynamicValue<Any>? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group, ResourceType.Location, ResourceType.Device)
     val subject: Reference?,
     @SupportedReferenceTypes(ResourceType.Encounter)

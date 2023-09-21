@@ -14,6 +14,7 @@ import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validatable
 import com.projectronin.interop.fhir.validate.Validation
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 import com.projectronin.interop.fhir.validate.validation
 import io.mockk.clearAllMocks
@@ -23,7 +24,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.lang.NonNull
 
 /**
  * These tests are focused on the core elements of the [R4ElementContainingValidator] and not the extending uses.
@@ -195,6 +195,14 @@ class R4ElementContainingValidatorTest {
         assertEquals(1, validation.issues().size)
     }
 
+    @Test
+    fun `validates RequiredField annotated property`() {
+        val element = RequiredFieldValidatable(value = null)
+        val instance = object : NoElementValidationValidator<RequiredFieldValidatable>() {}
+        val validation = instance.validate(element, parentContext)
+        assertEquals(1, validation.issues().size)
+    }
+
     data class NoValidatableTypesValidatable(val name: String) : Validatable<NoValidatableTypesValidatable>
     data class PrimitiveValidatable(val name: Code?) : Validatable<PrimitiveValidatable>
     data class ElementValidatable(val name: HumanName?) : Validatable<ElementValidatable>
@@ -204,15 +212,15 @@ class R4ElementContainingValidatorTest {
     data class DynamicValueCollectionValidatable(val name: List<DynamicValue<*>>) :
         Validatable<DynamicValueCollectionValidatable>
 
-    data class UnknownAnnotationValidatable(
-        @NonNull
-        val reference: Reference
-    ) : Validatable<UnknownAnnotationValidatable>
-
     data class AnnotatedReferenceValidatable(
         @SupportedReferenceTypes(ResourceType.Patient)
         val reference: Reference?
     ) : Validatable<AnnotatedReferenceValidatable>
+
+    data class RequiredFieldValidatable(
+        @RequiredField
+        val value: FHIRString?
+    ) : Validatable<RequiredFieldValidatable>
 
     abstract class NoElementValidationValidator<T : Validatable<T>> : R4ElementContainingValidator<T>() {
         override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {}

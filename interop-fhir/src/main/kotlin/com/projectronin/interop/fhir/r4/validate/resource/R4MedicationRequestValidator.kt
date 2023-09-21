@@ -10,7 +10,6 @@ import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 
 /**
@@ -20,18 +19,13 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
     private val acceptedReportedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.REFERENCE)
     private val acceptedMedicationTypes = listOf(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
 
-    private val requiredStatusError = RequiredFieldError(MedicationRequest::status)
-    private val requiredIntentError = RequiredFieldError(MedicationRequest::intent)
     private val invalidReportedError = InvalidDynamicValueError(MedicationRequest::reported, acceptedReportedTypes)
-    private val requiredMedicationError = RequiredFieldError(MedicationRequest::medication)
     private val invalidMedicationError =
         InvalidDynamicValueError(MedicationRequest::medication, acceptedMedicationTypes)
-    private val requiredSubjectError = RequiredFieldError(MedicationRequest::subject)
 
     override fun validateElement(element: MedicationRequest, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<MedicationRequestStatus>(
                     element.status,
                     InvalidValueSetError(MedicationRequest::status, element.status.value),
@@ -39,8 +33,7 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
                 )
             }
 
-            checkNotNull(element.intent, requiredIntentError, parentContext)
-            ifNotNull(element.intent) {
+            element.intent?.let {
                 checkCodedEnum<MedicationRequestIntent>(
                     element.intent,
                     InvalidValueSetError(MedicationRequest::intent, element.intent.value),
@@ -60,16 +53,13 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
                 checkTrue(acceptedReportedTypes.contains(it.type), invalidReportedError, parentContext)
             }
 
-            checkNotNull(element.medication, requiredMedicationError, parentContext)
-            ifNotNull(element.medication) {
+            element.medication?.let {
                 checkTrue(
                     acceptedMedicationTypes.contains(element.medication.type),
                     invalidMedicationError,
                     parentContext
                 )
             }
-
-            checkNotNull(element.subject, requiredSubjectError, parentContext)
         }
     }
 }
@@ -80,13 +70,11 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
 object R4SubstitutionValidator : R4ElementContainingValidator<Substitution>() {
     private val acceptedAllowedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.CODEABLE_CONCEPT)
 
-    private val requiredAllowedError = RequiredFieldError(Substitution::allowed)
     private val invalidAllowedError = InvalidDynamicValueError(Substitution::allowed, acceptedAllowedTypes)
 
     override fun validateElement(element: Substitution, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.allowed, requiredAllowedError, parentContext)
-            ifNotNull(element.allowed) {
+            element.allowed?.let {
                 checkTrue(acceptedAllowedTypes.contains(element.allowed.type), invalidAllowedError, parentContext)
             }
         }

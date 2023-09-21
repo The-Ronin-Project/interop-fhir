@@ -22,6 +22,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 @JsonDeserialize(using = ConceptMapDeserializer::class)
 @JsonSerialize(using = ConceptMapSerializer::class)
@@ -39,6 +40,7 @@ data class ConceptMap(
     val identifier: Identifier? = null,
     val version: FHIRString? = null,
     val name: FHIRString? = null,
+    @RequiredField
     val status: Code? = null,
     val experimental: FHIRBoolean? = null,
     val date: DateTime? = null,
@@ -70,6 +72,7 @@ data class ConceptMapGroup(
     val sourceVersion: FHIRString? = null,
     val target: Uri? = null,
     val targetVersion: FHIRString? = null,
+    @RequiredField
     val element: List<ConceptMapElement>? = listOf(),
     val unmapped: ConceptMapUnmapped? = null
 ) : BackboneElement<ConceptMapGroup>
@@ -99,6 +102,7 @@ data class ConceptMapTarget(
     override val modifierExtension: List<Extension> = listOf(),
     val code: Code? = null,
     val display: FHIRString? = null,
+    @RequiredField
     val equivalence: Code?,
     val comment: FHIRString? = null,
     val dependsOn: List<ConceptMapDependsOn> = listOf()
@@ -113,8 +117,10 @@ data class ConceptMapDependsOn(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val property: Uri?,
     val system: Canonical? = null,
+    @RequiredField
     val value: FHIRString?,
     val display: FHIRString? = null
 ) : BackboneElement<ConceptMapDependsOn>
@@ -128,6 +134,7 @@ data class ConceptMapUnmapped(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val mode: Code?,
     val code: Code? = null,
     val display: FHIRString? = null,

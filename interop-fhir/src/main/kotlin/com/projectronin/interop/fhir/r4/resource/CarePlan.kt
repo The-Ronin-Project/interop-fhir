@@ -24,6 +24,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = CarePlanDeserializer::class)
@@ -47,11 +48,14 @@ data class CarePlan(
     val replaces: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.CarePlan)
     val partOf: List<Reference> = listOf(),
+    @RequiredField
     val status: Code? = null,
+    @RequiredField
     val intent: Code? = null,
     val category: List<CodeableConcept> = listOf(),
     val title: FHIRString? = null,
     val description: FHIRString? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Encounter)
@@ -141,6 +145,7 @@ data class CarePlanDetail(
     val reasonReference: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Goal)
     val goal: List<Reference> = listOf(),
+    @RequiredField
     val status: Code? = null,
     val statusReason: CodeableConcept? = null,
     val doNotPerform: FHIRBoolean? = null,

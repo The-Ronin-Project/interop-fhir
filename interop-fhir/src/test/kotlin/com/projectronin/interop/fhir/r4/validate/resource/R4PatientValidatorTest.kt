@@ -1,6 +1,5 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
@@ -9,7 +8,6 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Patient
-import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
@@ -104,29 +102,6 @@ class R4PatientValidatorTest {
             gender = AdministrativeGender.FEMALE.asCode()
         )
         R4PatientValidator.validate(patient).alertIfErrors()
-    }
-}
-
-class R4PatientCommunicationValidatorTest {
-    @Test
-    fun `fails if no language provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val patientCommunication = PatientCommunication(
-                language = null
-            )
-            R4PatientCommunicationValidator.validate(patientCommunication).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: language is a required element @ PatientCommunication.language",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val patientCommunication = PatientCommunication(language = CodeableConcept(text = FHIRString("English")))
-        R4PatientCommunicationValidator.validate(patientCommunication).alertIfErrors()
     }
 }
 

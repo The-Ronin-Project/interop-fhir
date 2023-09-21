@@ -19,6 +19,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationStatementDeserializer::class)
@@ -44,11 +45,14 @@ data class MedicationStatement(
         ResourceType.Observation
     )
     val partOf: List<Reference> = listOf(),
+    @RequiredField
     val status: Code? = null,
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)

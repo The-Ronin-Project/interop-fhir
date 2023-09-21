@@ -20,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -51,8 +52,10 @@ data class DiagnosticReport(
         ResourceType.ServiceRequest
     )
     val basedOn: List<Reference> = listOf(),
+    @RequiredField
     val status: Code?,
     val category: List<CodeableConcept> = listOf(),
+    @RequiredField
     val code: CodeableConcept?,
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group, ResourceType.Device, ResourceType.Location)
     val subject: Reference? = null,
@@ -101,6 +104,7 @@ data class DiagnosticReportMedia(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val comment: FHIRString? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Media)
     val link: Reference?
 ) : BackboneElement<DiagnosticReportMedia>

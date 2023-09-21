@@ -27,8 +27,6 @@ import com.projectronin.interop.fhir.r4.datatype.Range
 import com.projectronin.interop.fhir.r4.datatype.Ratio
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.RelatedArtifact
-import com.projectronin.interop.fhir.r4.datatype.SampledData
-import com.projectronin.interop.fhir.r4.datatype.Signature
 import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.Sort
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
@@ -36,55 +34,34 @@ import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.r4.resource.AvailableTime
-import com.projectronin.interop.fhir.r4.resource.BundleLink
 import com.projectronin.interop.fhir.r4.resource.BundleRequest
-import com.projectronin.interop.fhir.r4.resource.BundleResponse
 import com.projectronin.interop.fhir.r4.resource.BundleSearch
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
 import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.resource.CareTeamParticipant
 import com.projectronin.interop.fhir.r4.resource.CommunicationPayload
-import com.projectronin.interop.fhir.r4.resource.ConceptMapDependsOn
-import com.projectronin.interop.fhir.r4.resource.ConceptMapElement
-import com.projectronin.interop.fhir.r4.resource.ConceptMapGroup
 import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
-import com.projectronin.interop.fhir.r4.resource.DiagnosticReportMedia
-import com.projectronin.interop.fhir.r4.resource.DocumentReferenceContent
 import com.projectronin.interop.fhir.r4.resource.DocumentReferenceRelatesTo
-import com.projectronin.interop.fhir.r4.resource.EncounterClassHistory
-import com.projectronin.interop.fhir.r4.resource.EncounterDiagnosis
 import com.projectronin.interop.fhir.r4.resource.EncounterLocation
 import com.projectronin.interop.fhir.r4.resource.EncounterStatusHistory
 import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
-import com.projectronin.interop.fhir.r4.resource.ImmunizationPerformer
 import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
-import com.projectronin.interop.fhir.r4.resource.LocationPosition
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
-import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationPerformer
-import com.projectronin.interop.fhir.r4.resource.NotAvailable
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
 import com.projectronin.interop.fhir.r4.resource.Participant
-import com.projectronin.interop.fhir.r4.resource.PatientCommunication
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.PatientLink
-import com.projectronin.interop.fhir.r4.resource.ProcedureFocalDevice
-import com.projectronin.interop.fhir.r4.resource.ProcedurePerformer
-import com.projectronin.interop.fhir.r4.resource.Qualification
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
 import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
 import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
 import com.projectronin.interop.fhir.r4.resource.Substitution
-import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
-import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
 import com.projectronin.interop.fhir.r4.resource.ValueSetContains
-import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
-import com.projectronin.interop.fhir.r4.resource.ValueSetExpansion
 import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
 import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
@@ -115,63 +92,40 @@ import com.projectronin.interop.fhir.r4.validate.datatype.R4RangeValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4RatioValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4ReferenceValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4RelatedArtifactValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4SampledDataValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4SignatureValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4SimpleQuantityValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4SortValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4TimingRepeatValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4TriggerDefinitionValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4UsageContextValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4AvailableTimeValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4BundleLinkValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4BundleRequestValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4BundleResponseValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4BundleSearchValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanActivityValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanDetailValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CareTeamParticipantValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CommunicationPayloadValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapDependsOnValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapElementValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapGroupValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapTargetValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4DiagnosticReportMediaValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceContentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4DocumentReferenceRelatesToValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterClassHistoryValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterDiagnosisValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterLocationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4EncounterStatusHistoryValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationEducationValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationPerformerValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocolAppliedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4LocationHoursOfOperationValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4LocationPositionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminDosageValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminPerformerValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4NotAvailableValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationComponentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationReferenceRangeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ParticipantValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4PatientCommunicationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientLinkValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedureFocalDeviceValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ProcedurePerformerValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4QualificationValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupConditionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupRelatedActionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetComposeValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetConceptValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetContainsValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetDesignationValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetExpansionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetFilterValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetIncludeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetParameterValidator
@@ -205,8 +159,6 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
         is Ratio -> element.validate(R4RatioValidator, parentContext)
         is Reference -> element.validate(R4ReferenceValidator, parentContext)
         is RelatedArtifact -> element.validate(R4RelatedArtifactValidator, parentContext)
-        is SampledData -> element.validate(R4SampledDataValidator, parentContext)
-        is Signature -> element.validate(R4SignatureValidator, parentContext)
         is Sort -> element.validate(R4SortValidator, parentContext)
         is TimingRepeat -> element.validate(R4TimingRepeatValidator, parentContext)
         is TriggerDefinition -> element.validate(R4TriggerDefinitionValidator, parentContext)
@@ -223,55 +175,34 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
 
         // r4.resource
         is AvailableTime -> element.validate(R4AvailableTimeValidator, parentContext)
-        is BundleLink -> element.validate(R4BundleLinkValidator, parentContext)
         is BundleRequest -> element.validate(R4BundleRequestValidator, parentContext)
-        is BundleResponse -> element.validate(R4BundleResponseValidator, parentContext)
         is BundleSearch -> element.validate(R4BundleSearchValidator, parentContext)
         is CarePlanActivity -> element.validate(R4CarePlanActivityValidator, parentContext)
         is CarePlanDetail -> element.validate(R4CarePlanDetailValidator, parentContext)
         is CareTeamParticipant -> element.validate(R4CareTeamParticipantValidator, parentContext)
         is CommunicationPayload -> element.validate(R4CommunicationPayloadValidator, parentContext)
-        is ConceptMapDependsOn -> element.validate(R4ConceptMapDependsOnValidator, parentContext)
-        is ConceptMapElement -> element.validate(R4ConceptMapElementValidator, parentContext)
-        is ConceptMapGroup -> element.validate(R4ConceptMapGroupValidator, parentContext)
         is ConceptMapTarget -> element.validate(R4ConceptMapTargetValidator, parentContext)
         is ConceptMapUnmapped -> element.validate(R4ConceptMapUnmappedValidator, parentContext)
         is ConditionEvidence -> element.validate(R4ConditionEvidenceValidator, parentContext)
         is ConditionStage -> element.validate(R4ConditionStageValidator, parentContext)
-        is DiagnosticReportMedia -> element.validate(R4DiagnosticReportMediaValidator, parentContext)
-        is DocumentReferenceContent -> element.validate(R4DocumentReferenceContentValidator, parentContext)
         is DocumentReferenceRelatesTo -> element.validate(R4DocumentReferenceRelatesToValidator, parentContext)
-        is EncounterClassHistory -> element.validate(R4EncounterClassHistoryValidator, parentContext)
-        is EncounterDiagnosis -> element.validate(R4EncounterDiagnosisValidator, parentContext)
         is EncounterLocation -> element.validate(R4EncounterLocationValidator, parentContext)
         is EncounterStatusHistory -> element.validate(R4EncounterStatusHistoryValidator, parentContext)
         is ImmunizationEducation -> element.validate(R4ImmunizationEducationValidator, parentContext)
-        is ImmunizationPerformer -> element.validate(R4ImmunizationPerformerValidator, parentContext)
         is ImmunizationProtocolApplied -> element.validate(R4ImmunizationProtocolAppliedValidator, parentContext)
         is Ingredient -> element.validate(R4IngredientValidator, parentContext)
         is LocationHoursOfOperation -> element.validate(R4LocationHoursOfOperationValidator, parentContext)
-        is LocationPosition -> element.validate(R4LocationPositionValidator, parentContext)
         is MedicationAdministrationDosage -> element.validate(R4MedAdminDosageValidator, parentContext)
-        is MedicationAdministrationPerformer -> element.validate(R4MedAdminPerformerValidator, parentContext)
-        is NotAvailable -> element.validate(R4NotAvailableValidator, parentContext)
         is ObservationComponent -> element.validate(R4ObservationComponentValidator, parentContext)
         is ObservationReferenceRange -> element.validate(R4ObservationReferenceRangeValidator, parentContext)
         is Participant -> element.validate(R4ParticipantValidator, parentContext)
-        is PatientCommunication -> element.validate(R4PatientCommunicationValidator, parentContext)
         is PatientContact -> element.validate(R4PatientContactValidator, parentContext)
         is PatientLink -> element.validate(R4PatientLinkValidator, parentContext)
-        is ProcedureFocalDevice -> element.validate(R4ProcedureFocalDeviceValidator, parentContext)
-        is ProcedurePerformer -> element.validate(R4ProcedurePerformerValidator, parentContext)
-        is Qualification -> element.validate(R4QualificationValidator, parentContext)
         is RequestGroupAction -> element.validate(R4RequestGroupActionValidator, parentContext)
         is RequestGroupCondition -> element.validate(R4RequestGroupConditionValidator, parentContext)
         is RequestGroupRelatedAction -> element.validate(R4RequestGroupRelatedActionValidator, parentContext)
         is Substitution -> element.validate(R4SubstitutionValidator, parentContext)
-        is ValueSetCompose -> element.validate(R4ValueSetComposeValidator, parentContext)
-        is ValueSetConcept -> element.validate(R4ValueSetConceptValidator, parentContext)
         is ValueSetContains -> element.validate(R4ValueSetContainsValidator, parentContext)
-        is ValueSetDesignation -> element.validate(R4ValueSetDesignationValidator, parentContext)
-        is ValueSetExpansion -> element.validate(R4ValueSetExpansionValidator, parentContext)
         is ValueSetFilter -> element.validate(R4ValueSetFilterValidator, parentContext)
         is ValueSetInclude -> element.validate(R4ValueSetIncludeValidator, parentContext)
         is ValueSetParameter -> element.validate(R4ValueSetParameterValidator, parentContext)

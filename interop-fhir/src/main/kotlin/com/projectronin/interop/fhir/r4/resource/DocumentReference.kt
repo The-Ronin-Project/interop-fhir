@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -42,6 +43,7 @@ data class DocumentReference(
     override val modifierExtension: List<Extension> = listOf(),
     val masterIdentifier: Identifier? = null,
     val identifier: List<Identifier> = listOf(),
+    @RequiredField
     val status: Code?,
     val docStatus: Code? = null,
     val type: CodeableConcept? = null,
@@ -65,6 +67,7 @@ data class DocumentReference(
     val relatesTo: List<DocumentReferenceRelatesTo> = listOf(),
     val description: FHIRString? = null,
     val securityLabel: List<CodeableConcept> = listOf(),
+    @RequiredField
     val content: List<DocumentReferenceContent> = listOf(),
     val context: DocumentReferenceContext? = null
 ) : DomainResource<DocumentReference> {
@@ -83,7 +86,9 @@ data class DocumentReferenceRelatesTo(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val code: Code?,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.DocumentReference)
     val target: Reference?
 ) : BackboneElement<DocumentReferenceRelatesTo>
@@ -103,6 +108,7 @@ data class DocumentReferenceContent(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val attachment: Attachment?,
     val format: Coding? = null
 ) : BackboneElement<DocumentReferenceContent>

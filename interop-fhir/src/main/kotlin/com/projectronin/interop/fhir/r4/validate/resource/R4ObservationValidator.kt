@@ -10,7 +10,6 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -25,8 +24,6 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
         DynamicValueType.INSTANT
     )
 
-    private val requiredStatusError = RequiredFieldError(Observation::status)
-    private val requiredCodeError = RequiredFieldError(Observation::code)
     private val invalidEffectiveError = InvalidDynamicValueError(Observation::effective, acceptedEffectives)
 
     private val dataAbsentReasonOrValueError = FHIRError(
@@ -44,17 +41,13 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
 
     override fun validateElement(element: Observation, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<ObservationStatus>(
                     element.status,
                     InvalidValueSetError(Observation::status, element.status.value),
                     parentContext
                 )
             }
-
-            checkNotNull(element.code, requiredCodeError, parentContext)
 
             // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
             element.effective?.let { data ->
@@ -96,7 +89,6 @@ object R4ObservationComponentValidator : R4ElementContainingValidator<Observatio
         DynamicValueType.PERIOD
     )
 
-    private val requiredCodeError = RequiredFieldError(ObservationComponent::code)
     private val invalidValueError = InvalidDynamicValueError(ObservationComponent::value, acceptedValues)
     private val valueOrDataAbsentReasonError = FHIRError(
         code = "R4_OBSCOM_001",
@@ -111,8 +103,6 @@ object R4ObservationComponentValidator : R4ElementContainingValidator<Observatio
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(element.code, requiredCodeError, parentContext)
-
             element.value?.let { value ->
                 checkTrue(acceptedValues.contains(value.type), invalidValueError, parentContext)
             }

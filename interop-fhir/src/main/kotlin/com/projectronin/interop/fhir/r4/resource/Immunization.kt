@@ -23,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -41,13 +42,17 @@ data class Immunization(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @RequiredField
     val status: Code?,
     val statusReason: CodeableConcept? = null,
+    @RequiredField
     val vaccineCode: CodeableConcept?,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient)
     val patient: Reference?,
     @SupportedReferenceTypes(ResourceType.Encounter)
     val encounter: Reference? = null,
+    @RequiredField
     val occurrence: DynamicValue<Any>?,
     val recorded: DateTime? = null,
     val primarySource: FHIRBoolean? = null,
@@ -87,6 +92,7 @@ data class ImmunizationPerformer(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val function: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.Organization)
     val actor: Reference?
 ) : BackboneElement<ImmunizationPerformer>
@@ -134,6 +140,7 @@ data class ImmunizationProtocolApplied(
     @SupportedReferenceTypes(ResourceType.Organization)
     val authority: Reference? = null,
     val targetDisease: List<CodeableConcept> = listOf(),
+    @RequiredField
     val doseNumber: DynamicValue<Any>?,
     val seriesDoses: DynamicValue<Any>? = null
 ) : BackboneElement<ImmunizationProtocolApplied>

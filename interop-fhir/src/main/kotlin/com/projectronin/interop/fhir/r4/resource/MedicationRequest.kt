@@ -27,6 +27,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -48,8 +49,10 @@ data class MedicationRequest(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @RequiredField
     val status: Code?,
     val statusReason: CodeableConcept? = null,
+    @RequiredField
     val intent: Code?,
     val category: List<CodeableConcept> = listOf(),
     val priority: Code? = null,
@@ -62,8 +65,10 @@ data class MedicationRequest(
         ResourceType.Organization
     )
     val reported: DynamicValue<Any>? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>?,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference?,
     @SupportedReferenceTypes(ResourceType.Encounter)
@@ -172,6 +177,7 @@ data class Substitution(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val allowed: DynamicValue<Any>?,
     val reason: CodeableConcept? = null
 ) : BackboneElement<Substitution>

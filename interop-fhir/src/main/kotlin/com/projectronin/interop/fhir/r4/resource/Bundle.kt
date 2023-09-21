@@ -16,6 +16,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 /**
  * A container for a collection of resources.
@@ -28,6 +29,7 @@ data class Bundle(
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
     val identifier: Identifier? = null,
+    @RequiredField
     val type: Code?,
     val timestamp: Instant? = null,
     val total: UnsignedInt? = null,
@@ -70,7 +72,9 @@ data class BundleLink(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val relation: FHIRString?,
+    @RequiredField
     val url: Uri?
 ) : BackboneElement<BundleLink>
 
@@ -86,7 +90,9 @@ data class BundleRequest(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val method: Code?,
+    @RequiredField
     val url: Uri?,
     val ifNoneMatch: FHIRString? = null,
     val ifModifiedSince: Instant? = null,
@@ -106,6 +112,7 @@ data class BundleResponse(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val status: FHIRString?,
     val location: Uri? = null,
     val etag: FHIRString? = null,

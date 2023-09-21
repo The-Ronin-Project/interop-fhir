@@ -9,11 +9,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ValueSet
-import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
 import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
 import com.projectronin.interop.fhir.r4.resource.ValueSetContains
 import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
-import com.projectronin.interop.fhir.r4.resource.ValueSetExpansion
 import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
 import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
@@ -65,49 +63,6 @@ class R4ValueSetValidatorTest {
                 status = PublicationStatus.ACTIVE.asCode()
             )
         )
-    }
-}
-
-class R4ValueSetComposeValidatorTest {
-    @Test
-    fun `fails if no include`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetComposeValidator.validate(
-                ValueSetCompose(
-                    include = listOf()
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: include is a required element @ ValueSetCompose.include",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates succesfully with an include`() {
-        R4ValueSetComposeValidator.validate(
-            ValueSetCompose(
-                include = listOf(
-                    ValueSetInclude(
-                        system = Uri("http://localhost/valueset-include"),
-                        filter = listOf(
-                            ValueSetFilter(
-                                property = Code("property"),
-                                op = FilterOperator.REGULAR_EXPRESSION.asCode(),
-                                value = FHIRString("value")
-                            )
-                        ),
-                        valueSet = listOf(
-                            Canonical(
-                                value = "canonical"
-                            )
-                        )
-                    )
-                )
-            )
-        ).alertIfErrors()
     }
 }
 
@@ -327,60 +282,6 @@ class R4ValueSetIncludeValidatorTest {
     }
 }
 
-class ValueSetConceptValidatorTest {
-    @Test
-    fun `fails if no code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetConceptValidator.validate(
-                ValueSetConcept(
-                    code = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: code is a required element @ ValueSetConcept.code",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully with code`() {
-        R4ValueSetConceptValidator.validate(
-            ValueSetConcept(
-                code = Code("code")
-            )
-        ).alertIfErrors()
-    }
-}
-
-class R4ValueSetDesignationValidatorTest {
-    @Test
-    fun `fails if no value`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetDesignationValidator.validate(
-                ValueSetDesignation(
-                    value = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: value is a required element @ ValueSetDesignation.value",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully with value`() {
-        R4ValueSetDesignationValidator.validate(
-            ValueSetDesignation(
-                value = FHIRString("value")
-            )
-        ).alertIfErrors()
-    }
-}
-
 class R4ValueSetFilterValidatorTest {
     @Test
     fun `fails if no property`() {
@@ -443,33 +344,6 @@ class R4ValueSetFilterValidatorTest {
                 property = Code("code"),
                 op = FilterOperator.IN_SET.asCode(),
                 value = FHIRString("value")
-            )
-        ).alertIfErrors()
-    }
-}
-
-class R4ValueSetExpansionValidatorTest {
-    @Test
-    fun `fails if no timestamp`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetExpansionValidator.validate(
-                ValueSetExpansion(
-                    timestamp = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: timestamp is a required element @ ValueSetExpansion.timestamp",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully with timestamp`() {
-        R4ValueSetExpansionValidator.validate(
-            ValueSetExpansion(
-                timestamp = DateTime("1993-06-12")
             )
         ).alertIfErrors()
     }

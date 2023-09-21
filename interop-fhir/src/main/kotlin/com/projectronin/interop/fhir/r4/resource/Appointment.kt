@@ -22,6 +22,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -43,6 +44,7 @@ data class Appointment(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @RequiredField
     val status: Code?,
     val cancelationReason: CodeableConcept? = null,
     val serviceCategory: List<CodeableConcept> = listOf(),
@@ -70,6 +72,7 @@ data class Appointment(
     val patientInstruction: FHIRString? = null,
     @SupportedReferenceTypes(ResourceType.ServiceRequest)
     val basedOn: List<Reference> = listOf(),
+    @RequiredField
     val participant: List<Participant>,
     val requestedPeriod: List<Period> = listOf()
 ) : DomainResource<Appointment> {
@@ -100,6 +103,7 @@ data class Participant(
     )
     val actor: Reference? = null,
     val required: Code? = null,
+    @RequiredField
     val status: Code?,
     val period: Period? = null
 ) : BackboneElement<Participant>

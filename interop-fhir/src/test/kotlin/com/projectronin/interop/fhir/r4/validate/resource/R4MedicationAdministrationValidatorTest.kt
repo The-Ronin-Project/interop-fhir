@@ -11,7 +11,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministration
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
-import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationPerformer
 import com.projectronin.interop.fhir.r4.valueset.MedicationAdministrationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -192,29 +191,6 @@ class R4MedicationAdministrationValidatorTest {
             subject = Reference(reference = FHIRString("Patient/1234"))
         )
         R4MedicationAdministrationValidator.validate(medicationAdministration).alertIfErrors()
-    }
-}
-
-class R4MedAdminPerformerValidatorTest {
-
-    @Test
-    fun `fails if no actor provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val performer = MedicationAdministrationPerformer()
-            R4MedAdminPerformerValidator.validate(performer).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: actor is a required element @ MedicationAdministrationPerformer.actor",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val performer =
-            MedicationAdministrationPerformer(actor = Reference(reference = FHIRString("Practitioner/12345")))
-        R4MedAdminPerformerValidator.validate(performer).alertIfErrors()
     }
 }
 

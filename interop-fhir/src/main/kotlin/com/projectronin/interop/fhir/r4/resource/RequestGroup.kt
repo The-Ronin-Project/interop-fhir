@@ -23,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = RequestGroupSerializer::class)
@@ -43,7 +44,9 @@ data class RequestGroup(
     val basedOn: List<Reference> = listOf(),
     val replaces: List<Reference> = listOf(),
     val groupIdentifier: Identifier? = null,
+    @RequiredField
     val status: Code?,
+    @RequiredField
     val intent: Code?,
     val priority: Code? = null,
     val code: CodeableConcept? = null,
@@ -114,6 +117,7 @@ data class RequestGroupCondition(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val kind: Code?,
     val expression: Expression? = null
 ) : BackboneElement<RequestGroupCondition>
@@ -127,7 +131,9 @@ data class RequestGroupRelatedAction(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val actionId: Id?,
+    @RequiredField
     val relationship: Code?,
     val offset: DynamicValue<Any>? = null
 ) : BackboneElement<RequestGroupRelatedAction>

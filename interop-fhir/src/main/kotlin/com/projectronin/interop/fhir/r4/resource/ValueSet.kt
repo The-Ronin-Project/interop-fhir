@@ -25,6 +25,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 @JsonDeserialize(using = ValueSetDeserializer::class)
 @JsonSerialize(using = ValueSetSerializer::class)
@@ -43,6 +44,7 @@ data class ValueSet(
     val version: FHIRString? = null,
     val name: FHIRString? = null,
     val title: FHIRString? = null,
+    @RequiredField
     val status: Code?,
     val experimental: FHIRBoolean? = null,
     val date: DateTime? = null,
@@ -71,6 +73,7 @@ data class ValueSetCompose(
     override val modifierExtension: List<Extension> = listOf(),
     val lockedDate: Date? = null,
     val inactive: FHIRBoolean? = null,
+    @RequiredField
     val include: List<ValueSetInclude> = listOf(),
     val exclude: List<ValueSetInclude> = listOf()
 ) : BackboneElement<ValueSetCompose>
@@ -100,6 +103,7 @@ data class ValueSetConcept(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val code: Code?,
     val display: FHIRString? = null,
     val designation: List<ValueSetDesignation> = listOf()
@@ -116,6 +120,7 @@ data class ValueSetDesignation(
     override val modifierExtension: List<Extension> = listOf(),
     val language: Code? = null,
     val use: Coding? = null,
+    @RequiredField
     val value: FHIRString?
 ) : BackboneElement<ValueSetDesignation>
 
@@ -128,8 +133,11 @@ data class ValueSetFilter(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val property: Code?,
+    @RequiredField
     val op: Code?,
+    @RequiredField
     val value: FHIRString?
 ) : BackboneElement<ValueSetFilter>
 
@@ -143,6 +151,7 @@ data class ValueSetExpansion(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: Uri? = null,
+    @RequiredField
     val timestamp: DateTime?,
     val total: FHIRInteger? = null,
     val offset: FHIRInteger? = null,
@@ -159,6 +168,7 @@ data class ValueSetParameter(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val name: FHIRString?,
     val value: DynamicValue<Any>? = null
 ) : BackboneElement<ValueSetParameter>

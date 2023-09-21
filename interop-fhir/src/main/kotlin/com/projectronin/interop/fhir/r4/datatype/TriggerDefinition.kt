@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -36,6 +37,7 @@ import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 data class TriggerDefinition(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredField
     val type: Code?,
     val name: FHIRString? = null,
     @SupportedReferenceTypes(ResourceType.Schedule)

@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 /**
  * The Expression structure defines an expression that generates a value. The expression is provided in a specified
@@ -22,6 +23,7 @@ data class Expression(
     override val extension: List<Extension> = listOf(),
     val description: FHIRString? = null,
     val name: Id? = null,
+    @RequiredField
     val language: Code?,
     val expression: FHIRString? = null,
     val reference: Uri? = null

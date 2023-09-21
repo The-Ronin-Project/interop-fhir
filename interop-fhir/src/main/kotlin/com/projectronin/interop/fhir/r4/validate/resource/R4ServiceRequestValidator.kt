@@ -10,7 +10,6 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -24,10 +23,7 @@ object R4ServiceRequestValidator : R4ElementContainingValidator<ServiceRequest>(
         listOf(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD, DynamicValueType.TIMING)
     private val acceptedAsNeededTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.CODEABLE_CONCEPT)
 
-    private val requiredStatusError = RequiredFieldError(ServiceRequest::status)
-    private val requiredIntentError = RequiredFieldError(ServiceRequest::intent)
     private val invalidQuantityError = InvalidDynamicValueError(ServiceRequest::quantity, acceptedQuantityTypes)
-    private val requiredSubjectError = RequiredFieldError(ServiceRequest::subject)
     private val invalidOccurrenceError = InvalidDynamicValueError(ServiceRequest::occurrence, acceptedOccurrenceTypes)
     private val invalidAsNeededError = InvalidDynamicValueError(ServiceRequest::asNeeded, acceptedAsNeededTypes)
 
@@ -40,8 +36,7 @@ object R4ServiceRequestValidator : R4ElementContainingValidator<ServiceRequest>(
 
     override fun validateElement(element: ServiceRequest, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<RequestStatus>(
                     element.status,
                     InvalidValueSetError(ServiceRequest::status, element.status.value),
@@ -49,8 +44,7 @@ object R4ServiceRequestValidator : R4ElementContainingValidator<ServiceRequest>(
                 )
             }
 
-            checkNotNull(element.intent, requiredIntentError, parentContext)
-            ifNotNull(element.intent) {
+            element.intent?.let {
                 checkCodedEnum<RequestIntent>(
                     element.intent,
                     InvalidValueSetError(ServiceRequest::intent, element.intent.value),
@@ -69,8 +63,6 @@ object R4ServiceRequestValidator : R4ElementContainingValidator<ServiceRequest>(
             element.quantity?.let { quantity ->
                 checkTrue(acceptedQuantityTypes.contains(quantity.type), invalidQuantityError, parentContext)
             }
-
-            checkNotNull(element.subject, requiredSubjectError, parentContext)
 
             element.occurrence?.let { occurrence ->
                 checkTrue(acceptedOccurrenceTypes.contains(occurrence.type), invalidOccurrenceError, parentContext)

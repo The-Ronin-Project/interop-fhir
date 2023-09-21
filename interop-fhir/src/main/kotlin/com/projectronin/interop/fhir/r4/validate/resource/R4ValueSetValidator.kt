@@ -2,11 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.ValueSet
-import com.projectronin.interop.fhir.r4.resource.ValueSetCompose
-import com.projectronin.interop.fhir.r4.resource.ValueSetConcept
 import com.projectronin.interop.fhir.r4.resource.ValueSetContains
-import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
-import com.projectronin.interop.fhir.r4.resource.ValueSetExpansion
 import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
 import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
@@ -17,41 +13,23 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
 object R4ValueSetValidator : R4ElementContainingValidator<ValueSet>() {
-    private val requiredStatusError = RequiredFieldError(ValueSet::status)
-
     override fun validateElement(
         element: ValueSet,
         parentContext: LocationContext?,
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<PublicationStatus>(
                     element.status,
                     InvalidValueSetError(ValueSet::status, element.status.value),
                     parentContext
                 )
             }
-        }
-    }
-}
-
-object R4ValueSetComposeValidator : R4ElementContainingValidator<ValueSetCompose>() {
-    private val requiredIncludeError = RequiredFieldError(ValueSetCompose::include)
-
-    override fun validateElement(
-        element: ValueSetCompose,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkTrue(element.include.isNotEmpty(), requiredIncludeError, parentContext)
         }
     }
 }
@@ -101,76 +79,25 @@ object R4ValueSetIncludeValidator : R4ElementContainingValidator<ValueSetInclude
     }
 }
 
-object R4ValueSetConceptValidator : R4ElementContainingValidator<ValueSetConcept>() {
-    private val requiredCodeError = RequiredFieldError(ValueSetConcept::code)
-
-    override fun validateElement(
-        element: ValueSetConcept,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkNotNull(element.code, requiredCodeError, parentContext)
-        }
-    }
-}
-
-object R4ValueSetDesignationValidator : R4ElementContainingValidator<ValueSetDesignation>() {
-    private val requiredValueError = RequiredFieldError(ValueSetDesignation::value)
-
-    override fun validateElement(
-        element: ValueSetDesignation,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkNotNull(element.value, requiredValueError, parentContext)
-        }
-    }
-}
-
 object R4ValueSetFilterValidator : R4ElementContainingValidator<ValueSetFilter>() {
-    private val requiredPropertyError = RequiredFieldError(ValueSetFilter::property)
-    private val requiredOpError = RequiredFieldError(ValueSetFilter::op)
-    private val requiredValueError = RequiredFieldError(ValueSetFilter::value)
-
     override fun validateElement(
         element: ValueSetFilter,
         parentContext: LocationContext?,
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(element.property, requiredPropertyError, parentContext)
-            checkNotNull(element.op, requiredOpError, parentContext)
-            ifNotNull(element.op) {
+            element.op?.let {
                 checkCodedEnum<FilterOperator>(
                     element.op,
                     InvalidValueSetError(ValueSetFilter::op, element.op.value),
                     parentContext
                 )
             }
-            checkNotNull(element.value, requiredValueError, parentContext)
-        }
-    }
-}
-
-object R4ValueSetExpansionValidator : R4ElementContainingValidator<ValueSetExpansion>() {
-    private val requiredTimestampError = RequiredFieldError(ValueSetExpansion::timestamp)
-
-    override fun validateElement(
-        element: ValueSetExpansion,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            checkNotNull(element.timestamp, requiredTimestampError, parentContext)
         }
     }
 }
 
 object R4ValueSetParameterValidator : R4ElementContainingValidator<ValueSetParameter>() {
-    private val requiredNameError = RequiredFieldError(ValueSetParameter::name)
-
     private val acceptedValueTypes = listOf(
         DynamicValueType.STRING,
         DynamicValueType.BOOLEAN,
@@ -189,7 +116,6 @@ object R4ValueSetParameterValidator : R4ElementContainingValidator<ValueSetParam
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(element.name, requiredNameError, parentContext)
             ifNotNull(element.value) {
                 checkTrue(
                     acceptedValueTypes.contains(element.value?.type),
@@ -202,8 +128,6 @@ object R4ValueSetParameterValidator : R4ElementContainingValidator<ValueSetParam
 }
 
 object R4ValueSetContainsValidator : R4ElementContainingValidator<ValueSetContains>() {
-    private val requiredNameError = RequiredFieldError(ValueSetParameter::name)
-
     private val requiredCodeOrDisplayError = FHIRError(
         code = "R4_VALSTCON_001",
         severity = ValidationIssueSeverity.ERROR,

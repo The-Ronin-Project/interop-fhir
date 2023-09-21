@@ -11,6 +11,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Base64Binary
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 /**
  * A resource that represents the data of a single raw artifact as digital content accessible in its native format.
@@ -24,6 +25,7 @@ data class Binary(
     override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
+    @RequiredField
     val contentType: Code?,
     val securityContent: Reference? = null,
     val data: Base64Binary? = null

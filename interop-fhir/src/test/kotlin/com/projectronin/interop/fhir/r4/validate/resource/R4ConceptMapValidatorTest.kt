@@ -3,11 +3,7 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
-import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.ConceptMap
-import com.projectronin.interop.fhir.r4.resource.ConceptMapDependsOn
-import com.projectronin.interop.fhir.r4.resource.ConceptMapElement
-import com.projectronin.interop.fhir.r4.resource.ConceptMapGroup
 import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapEquivalence
@@ -133,38 +129,6 @@ class R4ConceptMapGroupValidatorsTest {
     }
 
     @Test
-    fun `dependsOn - property Required`() {
-        val ex = assertThrows<IllegalArgumentException> {
-            val dependsOn = ConceptMapDependsOn(
-                property = null,
-                value = FHIRString("value")
-            )
-            R4ConceptMapDependsOnValidator.validate(dependsOn).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: property is a required element @ ConceptMapDependsOn.property",
-            ex.message
-        )
-    }
-
-    @Test
-    fun `dependsOn - value Required`() {
-        val ex = assertThrows<IllegalArgumentException> {
-            val dependsOn = ConceptMapDependsOn(
-                property = Uri("google.com"),
-                value = null
-            )
-            R4ConceptMapDependsOnValidator.validate(dependsOn).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: value is a required element @ ConceptMapDependsOn.value",
-            ex.message
-        )
-    }
-
-    @Test
     fun `target - equivalence required`() {
         val ex = assertThrows<IllegalArgumentException> {
             val target = ConceptMapTarget(
@@ -235,49 +199,5 @@ class R4ConceptMapGroupValidatorsTest {
             comment = FHIRString("comments")
         )
         R4ConceptMapTargetValidator.validate(target).alertIfErrors()
-    }
-
-    @Test
-    fun `element - works`() {
-        val element = ConceptMapElement()
-        R4ConceptMapElementValidator.validate(element).alertIfErrors()
-    }
-
-    @Test
-    fun `group - element required`() {
-        val ex = assertThrows<IllegalArgumentException> {
-            val group = ConceptMapGroup(
-                element = null
-            )
-            R4ConceptMapGroupValidator.validate(group).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: element is a required element @ ConceptMapGroup.element",
-            ex.message
-        )
-    }
-
-    @Test
-    fun `group - element at least one`() {
-        val ex = assertThrows<IllegalArgumentException> {
-            val group = ConceptMapGroup(
-                element = emptyList()
-            )
-            R4ConceptMapGroupValidator.validate(group).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: element is a required element @ ConceptMapGroup.element",
-            ex.message
-        )
-    }
-
-    @Test
-    fun `group - works`() {
-        val group = ConceptMapGroup(
-            element = listOf(ConceptMapElement())
-        )
-        R4ConceptMapGroupValidator.validate(group).alertIfErrors()
     }
 }

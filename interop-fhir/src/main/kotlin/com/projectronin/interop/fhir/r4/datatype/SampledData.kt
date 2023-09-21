@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 
 /**
  * Data that comes from a series of measurements taken by a device, which may have upper and lower limits. The data type
@@ -21,11 +22,14 @@ import com.projectronin.interop.fhir.r4.element.Element
 data class SampledData(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredField
     val origin: SimpleQuantity?,
+    @RequiredField
     val period: Decimal?,
     val factor: Decimal? = null,
     val lowerLimit: Decimal? = null,
     val upperLimit: Decimal? = null,
+    @RequiredField
     val dimensions: PositiveInt?,
     val data: FHIRString? = null
 ) : Element<SampledData>

@@ -11,7 +11,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Immunization
 import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
-import com.projectronin.interop.fhir.r4.resource.ImmunizationPerformer
 import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.valueset.ImmunizationStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -137,31 +136,6 @@ class R4ImmunizationValidatorTest {
             occurrence = DynamicValue(DynamicValueType.STRING, FHIRString("yesterday"))
         )
         R4ImmunizationValidator.validate(immunization).alertIfErrors()
-    }
-}
-
-class R4ImmunizationPerformerTest {
-    @Test
-    fun `fails if no actor`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val performer = ImmunizationPerformer(
-                actor = null
-            )
-            R4ImmunizationPerformerValidator.validate(performer).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: actor is a required element @ ImmunizationPerformer.actor",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val performer = ImmunizationPerformer(
-            actor = Reference(display = FHIRString("actor"))
-        )
-        R4ImmunizationPerformerValidator.validate(performer).alertIfErrors()
     }
 }
 

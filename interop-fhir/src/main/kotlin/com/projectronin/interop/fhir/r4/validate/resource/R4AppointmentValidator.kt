@@ -9,7 +9,6 @@ import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -20,8 +19,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
     private val acceptedNullTimes =
         listOf(AppointmentStatus.PROPOSED, AppointmentStatus.CANCELLED, AppointmentStatus.WAITLIST)
     private val requiredCancelledReasons = listOf(AppointmentStatus.CANCELLED, AppointmentStatus.NOSHOW)
-
-    private val requiredStatusError = RequiredFieldError(Appointment::status)
 
     private val startAndEndOrNeitherError = FHIRError(
         code = "R4_APPT_001",
@@ -41,22 +38,13 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
         description = "cancelationReason is only used for appointments that have the following statuses: ${requiredCancelledReasons.joinToString { it.code }}",
         location = LocationContext(Appointment::class)
     )
-    private val requiredParticipantError = FHIRError(
-        code = "R4_APPT_006",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "At least one participant must be provided",
-        location = LocationContext(Appointment::participant)
-    )
 
     override fun validateElement(element: Appointment, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.status, requiredStatusError, parentContext)
-
             checkTrue(((element.start != null) == (element.end != null)), startAndEndOrNeitherError, parentContext)
 
-            var codifiedStatus: AppointmentStatus? = null
-            ifNotNull(element.status) {
-                codifiedStatus = checkCodedEnum<AppointmentStatus>(
+            val codifiedStatus = element.status?.let {
+                checkCodedEnum<AppointmentStatus>(
                     element.status,
                     InvalidValueSetError(Appointment::status, element.status.value),
                     parentContext
@@ -72,8 +60,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
                     checkTrue(requiredCancelledReasons.contains(codifiedStatus), cancelationReasonError, parentContext)
                 }
             }
-
-            checkTrue(element.participant.isNotEmpty(), requiredParticipantError, parentContext)
         }
     }
 }
@@ -82,7 +68,6 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
  * Validator for the [R4 Participant](http://hl7.org/fhir/R4/appointment-definitions.html#Appointment.participant).
  */
 object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
-    private val requiredStatusError = RequiredFieldError(Participant::status)
     private val typeOrActorError = FHIRError(
         code = "R4_PRTCPNT_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -100,9 +85,7 @@ object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
                 )
             }
 
-            checkNotNull(element.status, requiredStatusError, parentContext)
-
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<ParticipationStatus>(
                     element.status,
                     InvalidValueSetError(Participant::status, element.status.value),

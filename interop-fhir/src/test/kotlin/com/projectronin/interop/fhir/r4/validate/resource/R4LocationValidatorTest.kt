@@ -1,10 +1,8 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.resource.Location
 import com.projectronin.interop.fhir.r4.resource.LocationHoursOfOperation
-import com.projectronin.interop.fhir.r4.resource.LocationPosition
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.LocationStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -87,48 +85,5 @@ class R4LocationHoursOfOperationValidatorTest {
             daysOfWeek = listOf(DayOfWeek.FRIDAY.asCode())
         )
         R4LocationHoursOfOperationValidator.validate(hoursOfOperation).alertIfErrors()
-    }
-}
-
-class R4LocationPositionValidatorTest {
-    @Test
-    fun `fails if no longitude provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val position = LocationPosition(
-                longitude = null,
-                latitude = Decimal(66.077132)
-            )
-            R4LocationPositionValidator.validate(position).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: longitude is a required element @ LocationPosition.longitude",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if no latitude provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val position = LocationPosition(
-                longitude = Decimal(13.81531),
-                latitude = null
-            )
-            R4LocationPositionValidator.validate(position).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: latitude is a required element @ LocationPosition.latitude",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val position = LocationPosition(
-            longitude = Decimal(13.81531),
-            latitude = Decimal(66.077132)
-        )
-        R4LocationPositionValidator.validate(position).alertIfErrors()
     }
 }

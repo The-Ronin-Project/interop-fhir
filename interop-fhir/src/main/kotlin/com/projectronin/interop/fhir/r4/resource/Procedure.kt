@@ -20,6 +20,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -45,10 +46,12 @@ data class Procedure(
     val basedOn: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Procedure, ResourceType.Observation, ResourceType.MedicationAdministration)
     val partOf: List<Reference> = listOf(),
+    @RequiredField
     val status: Code?,
     val statusReason: CodeableConcept? = null,
     val category: CodeableConcept? = null,
     val code: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
     val subject: Reference?,
     @SupportedReferenceTypes(ResourceType.Encounter)
@@ -110,6 +113,7 @@ data class ProcedurePerformer(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val function: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
@@ -133,6 +137,7 @@ data class ProcedureFocalDevice(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val action: CodeableConcept? = null,
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Device)
     val manipulated: Reference?
 ) : BackboneElement<ProcedureFocalDevice>

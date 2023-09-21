@@ -7,8 +7,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.resource.Procedure
-import com.projectronin.interop.fhir.r4.resource.ProcedureFocalDevice
-import com.projectronin.interop.fhir.r4.resource.ProcedurePerformer
 import com.projectronin.interop.fhir.r4.valueset.EventStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -98,55 +96,5 @@ class R4ProcedureValidatorTest {
             subject = Reference(reference = FHIRString("Patient/1234"))
         )
         R4ProcedureValidator.validate(procedure).alertIfErrors()
-    }
-}
-
-class R4ProcedurePerformerValidatorTest {
-    @Test
-    fun `fails if no actor provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val procedurePerformer = ProcedurePerformer(
-                actor = null
-            )
-            R4ProcedurePerformerValidator.validate(procedurePerformer).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: actor is a required element @ ProcedurePerformer.actor",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val procedurePerformer = ProcedurePerformer(
-            actor = Reference(reference = FHIRString("Practitioner/1234"))
-        )
-        R4ProcedurePerformerValidator.validate(procedurePerformer).alertIfErrors()
-    }
-}
-
-class R4ProcedureFocalDeviceValidatorTest {
-    @Test
-    fun `fails if no manipulated provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val procedureFocalDevice = ProcedureFocalDevice(
-                manipulated = null
-            )
-            R4ProcedureFocalDeviceValidator.validate(procedureFocalDevice).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: manipulated is a required element @ ProcedureFocalDevice.manipulated",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val procedureFocalDevice = ProcedureFocalDevice(
-            manipulated = Reference(reference = FHIRString("Device/1234"))
-        )
-        R4ProcedureFocalDeviceValidator.validate(procedureFocalDevice).alertIfErrors()
     }
 }

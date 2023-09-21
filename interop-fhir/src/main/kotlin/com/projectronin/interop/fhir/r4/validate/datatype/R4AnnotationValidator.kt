@@ -5,7 +5,6 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 
 /**
@@ -14,13 +13,10 @@ import com.projectronin.interop.fhir.validate.Validation
 object R4AnnotationValidator : R4ElementContainingValidator<Annotation>() {
     private val acceptedAuthorTypes = listOf(DynamicValueType.REFERENCE, DynamicValueType.STRING)
 
-    private val requiredTextError = RequiredFieldError(Annotation::text)
     private val invalidAuthorError = InvalidDynamicValueError(Annotation::author, acceptedAuthorTypes)
 
     override fun validateElement(element: Annotation, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.text, requiredTextError, parentContext)
-
             element.author?.let { author ->
                 checkTrue(acceptedAuthorTypes.contains(author.type), invalidAuthorError, parentContext)
             }

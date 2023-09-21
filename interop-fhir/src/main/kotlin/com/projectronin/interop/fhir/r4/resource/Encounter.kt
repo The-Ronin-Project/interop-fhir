@@ -21,6 +21,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -43,8 +44,10 @@ data class Encounter(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @RequiredField
     val status: Code?,
     val statusHistory: List<EncounterStatusHistory> = listOf(),
+    @RequiredField
     val `class`: Coding?,
     val classHistory: List<EncounterClassHistory> = listOf(),
     val type: List<CodeableConcept> = listOf(),
@@ -95,7 +98,9 @@ data class EncounterClassHistory(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val `class`: Code?,
+    @RequiredField
     val period: Period?
 ) : BackboneElement<EncounterClassHistory>
 
@@ -112,6 +117,7 @@ data class EncounterDiagnosis(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Procedure)
     val condition: Reference?,
     val use: CodeableConcept? = null,
@@ -160,6 +166,7 @@ data class EncounterLocation(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     @SupportedReferenceTypes(ResourceType.Location)
     val location: Reference?,
     val status: Code? = null,
@@ -199,7 +206,9 @@ data class EncounterStatusHistory(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredField
     val status: Code?,
+    @RequiredField
     val period: Period?
 ) : BackboneElement<EncounterStatusHistory>
 

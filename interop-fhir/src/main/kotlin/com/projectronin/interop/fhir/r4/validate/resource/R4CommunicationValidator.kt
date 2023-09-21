@@ -9,14 +9,12 @@ import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 
 /**
  * Validator for the [R4 Communication](https://hl7.org/fhir/r4/communication.html)
  */
 object R4CommunicationValidator : R4ElementContainingValidator<Communication>() {
-    private val requiredStatusError = RequiredFieldError(Communication::status)
 
     override fun validateElement(
         element: Communication,
@@ -24,13 +22,7 @@ object R4CommunicationValidator : R4ElementContainingValidator<Communication>() 
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(
-                element.status,
-                requiredStatusError,
-                parentContext
-            )
-
-            ifNotNull(element.status) {
+            element.status?.let {
                 checkCodedEnum<EventStatus>(
                     element.status,
                     InvalidValueSetError(Communication::status, element.status.value),
@@ -38,9 +30,9 @@ object R4CommunicationValidator : R4ElementContainingValidator<Communication>() 
                 )
             }
 
-            ifNotNull(element.priority) {
+            element.priority?.let {
                 checkCodedEnum<RequestPriority>(
-                    element.priority!!,
+                    element.priority,
                     InvalidValueSetError(Communication::priority, element.priority.value),
                     parentContext
                 )
@@ -53,8 +45,6 @@ object R4CommunicationValidator : R4ElementContainingValidator<Communication>() 
  * Validator for the [R4 Communication.Payload](https://hl7.org/fhir/r4/communication-definitions.html#Communication.payload)
  */
 object R4CommunicationPayloadValidator : R4ElementContainingValidator<CommunicationPayload>() {
-    private val requiredContentError = RequiredFieldError(CommunicationPayload::content)
-
     private val acceptedContentTypes = listOf(
         DynamicValueType.STRING,
         DynamicValueType.ATTACHMENT,
@@ -68,13 +58,7 @@ object R4CommunicationPayloadValidator : R4ElementContainingValidator<Communicat
         validation: Validation
     ) {
         validation.apply {
-            checkNotNull(
-                element.content,
-                requiredContentError,
-                parentContext
-            )
-
-            ifNotNull(element.content) {
+            element.content?.let {
                 checkTrue(
                     acceptedContentTypes.contains(element.content.type),
                     invalidContentError,

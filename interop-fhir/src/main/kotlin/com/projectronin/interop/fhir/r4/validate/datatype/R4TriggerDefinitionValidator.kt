@@ -8,7 +8,6 @@ import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
-import com.projectronin.interop.fhir.validate.RequiredFieldError
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
@@ -23,7 +22,6 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
         DynamicValueType.DATE_TIME
     )
 
-    private val requiredTypeError = RequiredFieldError(TriggerDefinition::type)
     private val invalidTimingError = InvalidDynamicValueError(TriggerDefinition::timing, acceptedTimingTypes)
 
     private val timingOrDataError = FHIRError(
@@ -59,12 +57,10 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
 
     override fun validateElement(element: TriggerDefinition, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            checkNotNull(element.type, requiredTypeError, parentContext)
-
             checkTrue((element.data.isEmpty() xor (element.timing == null)), timingOrDataError, parentContext)
             checkTrue((element.condition == null || element.data.isNotEmpty()), requiredConditionError, parentContext)
 
-            ifNotNull(element.type) {
+            element.type?.let {
                 val codifiedType = checkCodedEnum<TriggerType>(
                     element.type,
                     InvalidValueSetError(TriggerDefinition::type, element.type.value),
