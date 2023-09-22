@@ -1,29 +1,20 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
+import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.resource.ConceptMap
 import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapEquivalence
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapMode
-import com.projectronin.interop.fhir.r4.valueset.ConceptMapStatus
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
 object R4ConceptMapValidator : R4ElementContainingValidator<ConceptMap>() {
     override fun validateElement(element: ConceptMap, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            element.status?.let {
-                checkCodedEnum<ConceptMapStatus>(
-                    element.status,
-                    InvalidValueSetError(ConceptMap::status, element.status.value),
-                    parentContext
-                )
-            }
-        }
+        // ConceptMap has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 
@@ -41,12 +32,8 @@ object R4ConceptMapTargetValidator : R4ElementContainingValidator<ConceptMapTarg
         validation: Validation
     ) {
         validation.apply {
-            element.equivalence?.let {
-                val codifiedEquivalence = checkCodedEnum<ConceptMapEquivalence>(
-                    element.equivalence,
-                    InvalidValueSetError(ConceptMapTarget::equivalence, element.equivalence.value),
-                    parentContext
-                )
+            element.equivalence?.value?.let {
+                val codifiedEquivalence = CodedEnum.byCode<ConceptMapEquivalence>(it)
                 checkTrue(
                     (
                         (codifiedEquivalence != ConceptMapEquivalence.NARROWER && codifiedEquivalence != ConceptMapEquivalence.INEXACT) ||
@@ -76,12 +63,8 @@ object R4ConceptMapUnmappedValidator : R4ElementContainingValidator<ConceptMapUn
 
     override fun validateElement(element: ConceptMapUnmapped, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.mode?.let {
-                val codifiedMode = checkCodedEnum<ConceptMapMode>(
-                    element.mode,
-                    InvalidValueSetError(ConceptMapUnmapped::mode, element.mode.value),
-                    parentContext
-                )
+            element.mode?.value?.let {
+                val codifiedMode = CodedEnum.byCode<ConceptMapMode>(it)
                 checkTrue(
                     (codifiedMode != ConceptMapMode.FIXED || element.code != null),
                     fixedAndCodeError,

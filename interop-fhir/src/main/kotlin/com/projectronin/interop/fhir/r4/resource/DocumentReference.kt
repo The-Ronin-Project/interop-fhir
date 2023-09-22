@@ -21,7 +21,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.CompositionStatus
+import com.projectronin.interop.fhir.r4.valueset.DocumentReferenceStatus
+import com.projectronin.interop.fhir.r4.valueset.DocumentRelationshipType
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -44,7 +48,9 @@ data class DocumentReference(
     val masterIdentifier: Identifier? = null,
     val identifier: List<Identifier> = listOf(),
     @RequiredField
+    @RequiredValueSet(DocumentReferenceStatus::class)
     val status: Code?,
+    @RequiredValueSet(CompositionStatus::class)
     val docStatus: Code? = null,
     val type: CodeableConcept? = null,
     val category: List<CodeableConcept> = listOf(),
@@ -87,6 +93,7 @@ data class DocumentReferenceRelatesTo(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(DocumentRelationshipType::class)
     val code: Code?,
     @RequiredField
     @SupportedReferenceTypes(ResourceType.DocumentReference)

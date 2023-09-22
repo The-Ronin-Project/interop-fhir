@@ -4,10 +4,8 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministration
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.MedicationAdministrationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -30,14 +28,6 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
         validation: Validation
     ) {
         validation.apply {
-            element.status?.let {
-                checkCodedEnum<MedicationAdministrationStatus>(
-                    element.status,
-                    InvalidValueSetError(MedicationAdministration::status, element.status.value),
-                    parentContext
-                )
-            }
-
             element.effective?.let {
                 checkTrue(
                     acceptedEffectiveTypes.contains(element.effective.type),

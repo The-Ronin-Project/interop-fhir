@@ -25,7 +25,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.FilterOperator
+import com.projectronin.interop.fhir.r4.valueset.PublicationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 @JsonDeserialize(using = ValueSetDeserializer::class)
 @JsonSerialize(using = ValueSetSerializer::class)
@@ -45,6 +48,7 @@ data class ValueSet(
     val name: FHIRString? = null,
     val title: FHIRString? = null,
     @RequiredField
+    @RequiredValueSet(PublicationStatus::class)
     val status: Code?,
     val experimental: FHIRBoolean? = null,
     val date: DateTime? = null,
@@ -136,6 +140,7 @@ data class ValueSetFilter(
     @RequiredField
     val property: Code?,
     @RequiredField
+    @RequiredValueSet(FilterOperator::class)
     val op: Code?,
     @RequiredField
     val value: FHIRString?

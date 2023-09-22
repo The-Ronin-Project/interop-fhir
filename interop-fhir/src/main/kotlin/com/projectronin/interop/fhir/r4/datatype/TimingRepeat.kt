@@ -11,6 +11,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.UnitOfTime
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * Supports the Timing datatype: When both event and a repeating
@@ -27,11 +29,13 @@ data class TimingRepeat(
     val countMax: PositiveInt? = null,
     val duration: Decimal? = null,
     val durationMax: Decimal? = null,
+    @RequiredValueSet(UnitOfTime::class)
     val durationUnit: Code? = null,
     val frequency: PositiveInt? = null,
     val frequencyMax: PositiveInt? = null,
     val period: Decimal? = null,
     val periodMax: Decimal? = null,
+    @RequiredValueSet(UnitOfTime::class)
     val periodUnit: Code? = null,
     val dayOfWeek: List<Code> = listOf(),
     val timeOfDay: List<Time> = listOf(),

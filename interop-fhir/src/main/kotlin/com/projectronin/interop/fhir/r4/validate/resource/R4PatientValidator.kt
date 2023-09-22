@@ -3,13 +3,9 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.resource.PatientContact
-import com.projectronin.interop.fhir.r4.resource.PatientLink
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
-import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -26,14 +22,6 @@ object R4PatientValidator : R4ElementContainingValidator<Patient>() {
 
     override fun validateElement(element: Patient, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.gender?.let { code ->
-                checkCodedEnum<AdministrativeGender>(
-                    code,
-                    InvalidValueSetError(Patient::gender, code.value),
-                    parentContext
-                )
-            }
-
             element.deceased?.let { data ->
                 checkTrue(acceptedDeceasedTypes.contains(data.type), invalidDeceasedError, parentContext)
             }
@@ -57,36 +45,11 @@ object R4PatientContactValidator : R4ElementContainingValidator<PatientContact>(
 
     override fun validateElement(element: PatientContact, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.gender?.let { code ->
-                checkCodedEnum<AdministrativeGender>(
-                    code,
-                    InvalidValueSetError(PatientContact::gender, code.value),
-                    parentContext
-                )
-            }
-
             checkTrue(
                 (element.name != null || element.telecom.isNotEmpty() || element.address != null || element.organization != null),
                 missingDetailsError,
                 parentContext
             )
-        }
-    }
-}
-
-/**
- * Validator for the [R4 PatientLink](http://hl7.org/fhir/R4/patient-definitions.html#Patient.link).
- */
-object R4PatientLinkValidator : R4ElementContainingValidator<PatientLink>() {
-    override fun validateElement(element: PatientLink, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            element.type?.let {
-                checkCodedEnum<LinkType>(
-                    element.type,
-                    InvalidValueSetError(PatientLink::type, element.type.value),
-                    parentContext
-                )
-            }
         }
     }
 }

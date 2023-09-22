@@ -3,34 +3,18 @@ package com.projectronin.interop.fhir.r4.validate.resource
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.ValueSet
 import com.projectronin.interop.fhir.r4.resource.ValueSetContains
-import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
 import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.FilterOperator
-import com.projectronin.interop.fhir.r4.valueset.PublicationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
 object R4ValueSetValidator : R4ElementContainingValidator<ValueSet>() {
-    override fun validateElement(
-        element: ValueSet,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            element.status?.let {
-                checkCodedEnum<PublicationStatus>(
-                    element.status,
-                    InvalidValueSetError(ValueSet::status, element.status.value),
-                    parentContext
-                )
-            }
-        }
+    override fun validateElement(element: ValueSet, parentContext: LocationContext?, validation: Validation) {
+        // ValueSet has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 
@@ -75,24 +59,6 @@ object R4ValueSetIncludeValidator : R4ElementContainingValidator<ValueSetInclude
                 conflictingPropertiesError,
                 parentContext
             )
-        }
-    }
-}
-
-object R4ValueSetFilterValidator : R4ElementContainingValidator<ValueSetFilter>() {
-    override fun validateElement(
-        element: ValueSetFilter,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            element.op?.let {
-                checkCodedEnum<FilterOperator>(
-                    element.op,
-                    InvalidValueSetError(ValueSetFilter::op, element.op.value),
-                    parentContext
-                )
-            }
         }
     }
 }

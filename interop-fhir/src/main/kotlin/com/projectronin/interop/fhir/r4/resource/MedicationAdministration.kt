@@ -20,7 +20,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.MedicationAdministrationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationAdministrationDeserializer::class)
@@ -40,6 +42,7 @@ data class MedicationAdministration(
     @SupportedReferenceTypes(ResourceType.MedicationAdministration, ResourceType.Procedure)
     val partOf: List<Reference> = listOf(),
     @RequiredField
+    @RequiredValueSet(MedicationAdministrationStatus::class)
     val status: Code? = null,
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,

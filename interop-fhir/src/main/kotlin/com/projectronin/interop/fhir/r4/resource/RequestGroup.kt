@@ -23,7 +23,18 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionCardinalityBehavior
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionGroupingBehavior
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionPrecheckBehavior
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionRequiredBehavior
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupActionSelectionBehavior
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupConditionKind
+import com.projectronin.interop.fhir.r4.valueset.RequestGroupRelatedActionRelationship
+import com.projectronin.interop.fhir.r4.valueset.RequestIntent
+import com.projectronin.interop.fhir.r4.valueset.RequestPriority
+import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = RequestGroupSerializer::class)
@@ -45,9 +56,12 @@ data class RequestGroup(
     val replaces: List<Reference> = listOf(),
     val groupIdentifier: Identifier? = null,
     @RequiredField
+    @RequiredValueSet(RequestStatus::class)
     val status: Code?,
     @RequiredField
+    @RequiredValueSet(RequestIntent::class)
     val intent: Code?,
+    @RequiredValueSet(RequestPriority::class)
     val priority: Code? = null,
     val code: CodeableConcept? = null,
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
@@ -84,6 +98,7 @@ data class RequestGroupAction(
     val title: FHIRString? = null,
     val description: FHIRString? = null,
     val textEquivalent: FHIRString? = null,
+    @RequiredValueSet(RequestPriority::class)
     val priority: Code? = null,
     val code: List<CodeableConcept> = listOf(),
     val documentation: List<RelatedArtifact> = listOf(),
@@ -99,10 +114,15 @@ data class RequestGroupAction(
     )
     val participant: List<Reference> = listOf(),
     val type: CodeableConcept? = null,
+    @RequiredValueSet(RequestGroupActionGroupingBehavior::class)
     val groupingBehavior: Code? = null,
+    @RequiredValueSet(RequestGroupActionSelectionBehavior::class)
     val selectionBehavior: Code? = null,
+    @RequiredValueSet(RequestGroupActionRequiredBehavior::class)
     val requiredBehavior: Code? = null,
+    @RequiredValueSet(RequestGroupActionPrecheckBehavior::class)
     val precheckBehavior: Code? = null,
+    @RequiredValueSet(RequestGroupActionCardinalityBehavior::class)
     val cardinalityBehavior: Code? = null,
     val resource: Reference? = null,
     val action: List<RequestGroupAction> = emptyList()
@@ -118,6 +138,7 @@ data class RequestGroupCondition(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(RequestGroupConditionKind::class)
     val kind: Code?,
     val expression: Expression? = null
 ) : BackboneElement<RequestGroupCondition>
@@ -134,6 +155,7 @@ data class RequestGroupRelatedAction(
     @RequiredField
     val actionId: Id?,
     @RequiredField
+    @RequiredValueSet(RequestGroupRelatedActionRelationship::class)
     val relationship: Code?,
     val offset: DynamicValue<Any>? = null
 ) : BackboneElement<RequestGroupRelatedAction>

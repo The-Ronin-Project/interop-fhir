@@ -11,7 +11,6 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.interop.fhir.r4.resource.RequestGroup
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
-import com.projectronin.interop.fhir.r4.resource.RequestGroupCondition
 import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -87,7 +86,7 @@ class R4RequestGroupValidatorTest {
         }
         assertEquals(
             "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: 'wrong' is outside of required value set @ RequestGroup.status",
+                "ERROR INV_VALUE_SET: 'wrong' is outside of required value set @ RequestGroup.intent",
             exception.message
         )
     }
@@ -274,46 +273,6 @@ class R4RequestGroupActionValidatorTest {
         )
 
         R4RequestGroupActionValidator.validate(action).alertIfErrors()
-    }
-}
-
-class R4RequestGroupConditionValidatorTest {
-    @Test
-    fun `validates successfully`() {
-        val condition = RequestGroupCondition(
-            kind = Code("start")
-        )
-        R4RequestGroupConditionValidator.validate(condition).alertIfErrors()
-    }
-
-    @Test
-    fun `fails if no kind`() {
-        val condition = RequestGroupCondition(
-            kind = null
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupConditionValidator.validate(condition).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: kind is a required element @ RequestGroupCondition.kind",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if kind is outside range`() {
-        val condition = RequestGroupCondition(
-            kind = Code("lol")
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupConditionValidator.validate(condition).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: 'lol' is outside of required value set @ RequestGroupCondition.kind",
-            exception.message
-        )
     }
 }
 

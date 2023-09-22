@@ -4,6 +4,7 @@ import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+import kotlin.reflect.KClass
 
 /**
  * Validation can be utilized to capture multiple failure conditions and report them in a single instance.
@@ -61,6 +62,24 @@ class Validation {
             val codified = runCatching { CodedEnum.byCode<T>(code.value) }.getOrNull()
             checkNotNull(codified, error, parentContext, lazyDescription)
             codified
+        }
+    }
+
+    /**
+     * Checks that the [code] is a valid code for enum [enumClass], returning the enum if valid.
+     * If not, null is returned, and the [error] is logged using an optional [lazyDescription].
+     */
+    fun checkCodedEnum(
+        code: Code,
+        enumClass: KClass<out CodedEnum<*>>,
+        error: InvalidValueSetError,
+        parentContext: LocationContext?,
+        lazyDescription: (() -> String)? = null
+    ) {
+        checkNotNull(code.value, error, parentContext, lazyDescription)
+        ifNotNull(code.value) {
+            val codified = runCatching { enumClass.java.enumConstants.find { it.code == code.value } }.getOrNull()
+            checkNotNull(codified, error, parentContext, lazyDescription)
         }
     }
 

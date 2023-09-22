@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4BinaryValidator : R4ElementContainingValidator<Binary>() {
     override fun validateElement(element: Binary, parentContext: LocationContext?, validation: Validation) {
+        // Binary has no special Validation logic, but it should still evaluate its annotations and contained elements.
         // Technically there is a required binding for contentType, but it is all MIME types which is not a
         // practical item for us to check and validate.
     }

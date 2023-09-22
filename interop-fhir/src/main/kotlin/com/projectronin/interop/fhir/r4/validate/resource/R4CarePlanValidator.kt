@@ -5,37 +5,15 @@ import com.projectronin.interop.fhir.r4.resource.CarePlan
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
 import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityKind
-import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityStatus
-import com.projectronin.interop.fhir.r4.valueset.CarePlanIntent
-import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
 
 object R4CarePlanValidator : R4ElementContainingValidator<CarePlan>() {
-
     override fun validateElement(element: CarePlan, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            element.intent?.let {
-                checkCodedEnum<CarePlanIntent>(
-                    element.intent,
-                    InvalidValueSetError(CarePlan::intent, element.intent.value),
-                    parentContext
-                )
-            }
-
-            element.status?.let {
-                checkCodedEnum<RequestStatus>(
-                    element.status,
-                    InvalidValueSetError(CarePlan::status, element.status.value),
-                    parentContext
-                )
-            }
-        }
+        // CarePlan has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 
@@ -89,22 +67,6 @@ object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>(
 
             element.product?.let { value ->
                 checkTrue(acceptedProductValues.contains(value.type), invalidProductValueError, parentContext)
-            }
-
-            element.kind?.let { code ->
-                checkCodedEnum<CarePlanActivityKind>(
-                    code,
-                    InvalidValueSetError(CarePlanDetail::kind, code.value),
-                    parentContext
-                )
-            }
-
-            element.status?.let {
-                checkCodedEnum<CarePlanActivityStatus>(
-                    element.status,
-                    InvalidValueSetError(CarePlanDetail::status, element.status.value),
-                    parentContext
-                )
             }
         }
     }

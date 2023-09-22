@@ -4,9 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.Medication
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.MedicationStatus
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 
@@ -15,15 +13,7 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 object R4MedicationValidator : R4ElementContainingValidator<Medication>() {
     override fun validateElement(element: Medication, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            element.status?.let { code ->
-                checkCodedEnum<MedicationStatus>(
-                    code,
-                    InvalidValueSetError(Medication::status, code.value),
-                    parentContext
-                )
-            }
-        }
+        // Medication has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 

@@ -23,7 +23,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Time
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
+import com.projectronin.interop.fhir.r4.valueset.LocationMode
+import com.projectronin.interop.fhir.r4.valueset.LocationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -43,11 +47,13 @@ data class Location(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
+    @RequiredValueSet(LocationStatus::class)
     val status: Code? = null,
     val operationalStatus: Coding? = null,
     val name: FHIRString? = null,
     val alias: List<FHIRString> = listOf(),
     val description: FHIRString? = null,
+    @RequiredValueSet(LocationMode::class)
     val mode: Code? = null,
     val type: List<CodeableConcept> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
@@ -78,6 +84,7 @@ data class LocationHoursOfOperation(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredValueSet(DayOfWeek::class)
     val daysOfWeek: List<Code> = listOf(),
     val allDay: FHIRBoolean? = null,
     val openingTime: Time? = null,

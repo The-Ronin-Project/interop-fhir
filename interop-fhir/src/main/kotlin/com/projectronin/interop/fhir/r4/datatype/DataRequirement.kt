@@ -10,7 +10,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.SortDirection
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -71,6 +73,7 @@ data class Sort(
     @RequiredField
     val path: FHIRString?,
     @RequiredField
+    @RequiredValueSet(SortDirection::class)
     val direction: Code?
 ) : Element<Sort>
 

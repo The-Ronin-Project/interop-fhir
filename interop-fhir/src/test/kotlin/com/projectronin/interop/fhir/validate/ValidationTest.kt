@@ -45,7 +45,6 @@ class ValidationTest {
         validation.checkTrue(true, error, null)
 
         val issues = validation.issues()
-        assertEquals(listOf<Exception>(), issues)
         assertEquals(listOf<ValidationIssue>(), issues)
     }
 
@@ -60,7 +59,7 @@ class ValidationTest {
     }
 
     @Test
-    fun `checkCodedEnum with valid code value passes`() {
+    fun `reified checkCodedEnum with valid code value passes`() {
         val validation = Validation()
         val gender = AdministrativeGender.FEMALE.asCode()
         validation.checkCodedEnum<AdministrativeGender>(
@@ -74,7 +73,7 @@ class ValidationTest {
     }
 
     @Test
-    fun `checkCodedEnum with invalid code value creates an InvalidValueSetError`() {
+    fun `reified checkCodedEnum with invalid code value creates an InvalidValueSetError`() {
         val validation = Validation()
         val gender = Code("I do not know")
         val message = "ERROR INV_VALUE_SET: 'I do not know' is outside of required value set @ Patient.gender"
@@ -90,13 +89,45 @@ class ValidationTest {
     }
 
     @Test
-    fun `checkCodedEnum with null code creates an InvalidValueSetError`() {
+    fun `reified checkCodedEnum with null code value creates an InvalidValueSetError`() {
         val validation = Validation()
-        val gender = null
-        val message = "ERROR INV_VALUE_SET: 'null' is outside of required value set @ Patient.gender"
-        validation.checkNotNull(
+        val gender = Code(null)
+        val message = "ERROR INV_VALUE_SET: NULL is outside of required value set @ Patient.gender"
+        validation.checkCodedEnum<AdministrativeGender>(
             gender,
-            InvalidValueSetError(Patient::gender, gender),
+            InvalidValueSetError(Patient::gender, gender.value),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(1, issues.size)
+        assertEquals(message, issues[0].toString())
+    }
+
+    @Test
+    fun `checkCodedEnum with valid code value passes`() {
+        val validation = Validation()
+        val gender = AdministrativeGender.FEMALE.asCode()
+        validation.checkCodedEnum(
+            gender,
+            AdministrativeGender::class,
+            InvalidValueSetError(Patient::gender, gender.value),
+            LocationContext("Patient", "")
+        )
+
+        val issues = validation.issues()
+        assertEquals(0, issues.size)
+    }
+
+    @Test
+    fun `checkCodedEnum with invalid code value creates an InvalidValueSetError`() {
+        val validation = Validation()
+        val gender = Code("I do not know")
+        val message = "ERROR INV_VALUE_SET: 'I do not know' is outside of required value set @ Patient.gender"
+        validation.checkCodedEnum(
+            gender,
+            AdministrativeGender::class,
+            InvalidValueSetError(Patient::gender, gender.value),
             LocationContext("Patient", "")
         )
 
@@ -109,9 +140,10 @@ class ValidationTest {
     fun `checkCodedEnum with null code value creates an InvalidValueSetError`() {
         val validation = Validation()
         val gender = Code(null)
-        val message = "ERROR INV_VALUE_SET: 'null' is outside of required value set @ Patient.gender"
-        validation.checkCodedEnum<AdministrativeGender>(
+        val message = "ERROR INV_VALUE_SET: NULL is outside of required value set @ Patient.gender"
+        validation.checkCodedEnum(
             gender,
+            AdministrativeGender::class,
             InvalidValueSetError(Patient::gender, gender.value),
             LocationContext("Patient", "")
         )

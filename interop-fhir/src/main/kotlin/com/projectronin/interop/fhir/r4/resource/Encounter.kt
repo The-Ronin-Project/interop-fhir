@@ -21,7 +21,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.EncounterLocationStatus
+import com.projectronin.interop.fhir.r4.valueset.EncounterStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -45,6 +48,7 @@ data class Encounter(
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
     @RequiredField
+    @RequiredValueSet(EncounterStatus::class)
     val status: Code?,
     val statusHistory: List<EncounterStatusHistory> = listOf(),
     @RequiredField
@@ -169,6 +173,7 @@ data class EncounterLocation(
     @RequiredField
     @SupportedReferenceTypes(ResourceType.Location)
     val location: Reference?,
+    @RequiredValueSet(EncounterLocationStatus::class)
     val status: Code? = null,
     val physicalType: CodeableConcept? = null,
     val period: Period? = null
@@ -207,6 +212,7 @@ data class EncounterStatusHistory(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(EncounterStatus::class)
     val status: Code?,
     @RequiredField
     val period: Period?

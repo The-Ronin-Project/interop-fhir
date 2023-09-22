@@ -7,6 +7,8 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.NameUse
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * A name of a human with text, parts and usage information. Names may be changed or repudiated. People may have different
@@ -20,6 +22,7 @@ import com.projectronin.interop.fhir.r4.element.Element
 data class HumanName(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredValueSet(NameUse::class)
     val use: Code? = null,
     val text: FHIRString? = null,
     val family: FHIRString? = null,

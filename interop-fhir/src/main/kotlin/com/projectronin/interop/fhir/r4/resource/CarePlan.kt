@@ -24,7 +24,12 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityKind
+import com.projectronin.interop.fhir.r4.valueset.CarePlanActivityStatus
+import com.projectronin.interop.fhir.r4.valueset.CarePlanIntent
+import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = CarePlanDeserializer::class)
@@ -49,8 +54,10 @@ data class CarePlan(
     @SupportedReferenceTypes(ResourceType.CarePlan)
     val partOf: List<Reference> = listOf(),
     @RequiredField
+    @RequiredValueSet(RequestStatus::class)
     val status: Code? = null,
     @RequiredField
+    @RequiredValueSet(CarePlanIntent::class)
     val intent: Code? = null,
     val category: List<CodeableConcept> = listOf(),
     val title: FHIRString? = null,
@@ -131,6 +138,7 @@ data class CarePlanDetail(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
+    @RequiredValueSet(CarePlanActivityKind::class)
     val kind: Code? = null,
     val instantiatesCanonical: List<Canonical> = listOf(),
     val instantiatesUri: List<Uri> = listOf(),
@@ -146,6 +154,7 @@ data class CarePlanDetail(
     @SupportedReferenceTypes(ResourceType.Goal)
     val goal: List<Reference> = listOf(),
     @RequiredField
+    @RequiredValueSet(CarePlanActivityStatus::class)
     val status: Code? = null,
     val statusReason: CodeableConcept? = null,
     val doNotPerform: FHIRBoolean? = null,

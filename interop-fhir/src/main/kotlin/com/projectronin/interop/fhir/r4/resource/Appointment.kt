@@ -22,7 +22,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
+import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
+import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -45,6 +49,7 @@ data class Appointment(
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
     @RequiredField
+    @RequiredValueSet(AppointmentStatus::class)
     val status: Code?,
     val cancelationReason: CodeableConcept? = null,
     val serviceCategory: List<CodeableConcept> = listOf(),
@@ -102,8 +107,10 @@ data class Participant(
         ResourceType.Location
     )
     val actor: Reference? = null,
+    @RequiredValueSet(ParticipantRequired::class)
     val required: Code? = null,
     @RequiredField
+    @RequiredValueSet(ParticipationStatus::class)
     val status: Code?,
     val period: Period? = null
 ) : BackboneElement<Participant>

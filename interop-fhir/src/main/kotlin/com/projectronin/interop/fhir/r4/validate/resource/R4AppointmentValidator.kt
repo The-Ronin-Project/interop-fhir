@@ -1,13 +1,11 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
+import com.projectronin.interop.common.enums.CodedEnum
 import com.projectronin.interop.fhir.r4.resource.Appointment
 import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.AppointmentStatus
-import com.projectronin.interop.fhir.r4.valueset.ParticipantRequired
-import com.projectronin.interop.fhir.r4.valueset.ParticipationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -43,13 +41,7 @@ object R4AppointmentValidator : R4ElementContainingValidator<Appointment>() {
         validation.apply {
             checkTrue(((element.start != null) == (element.end != null)), startAndEndOrNeitherError, parentContext)
 
-            val codifiedStatus = element.status?.let {
-                checkCodedEnum<AppointmentStatus>(
-                    element.status,
-                    InvalidValueSetError(Appointment::status, element.status.value),
-                    parentContext
-                )
-            }
+            val codifiedStatus = element.status?.value?.let { CodedEnum.byCode<AppointmentStatus>(it) }
 
             ifNotNull(codifiedStatus) {
                 if ((element.start == null) || (element.end == null)) {
@@ -77,22 +69,6 @@ object R4ParticipantValidator : R4ElementContainingValidator<Participant>() {
 
     override fun validateElement(element: Participant, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.required?.let { code ->
-                checkCodedEnum<ParticipantRequired>(
-                    code,
-                    InvalidValueSetError(Participant::required, code.value),
-                    parentContext
-                )
-            }
-
-            element.status?.let {
-                checkCodedEnum<ParticipationStatus>(
-                    element.status,
-                    InvalidValueSetError(Participant::status, element.status.value),
-                    parentContext
-                )
-            }
-
             checkTrue((element.type.isNotEmpty() || element.actor != null), typeOrActorError, parentContext)
         }
     }

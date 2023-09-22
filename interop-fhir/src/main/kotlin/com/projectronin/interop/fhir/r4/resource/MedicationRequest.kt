@@ -27,7 +27,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.MedicationRequestIntent
+import com.projectronin.interop.fhir.r4.valueset.MedicationRequestStatus
+import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -50,11 +54,14 @@ data class MedicationRequest(
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
     @RequiredField
+    @RequiredValueSet(MedicationRequestStatus::class)
     val status: Code?,
     val statusReason: CodeableConcept? = null,
     @RequiredField
+    @RequiredValueSet(MedicationRequestIntent::class)
     val intent: Code?,
     val category: List<CodeableConcept> = listOf(),
+    @RequiredValueSet(RequestPriority::class)
     val priority: Code? = null,
     val doNotPerform: FHIRBoolean? = null,
     @SupportedReferenceTypes(

@@ -4,11 +4,7 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.MedicationRequest
 import com.projectronin.interop.fhir.r4.resource.Substitution
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.MedicationRequestIntent
-import com.projectronin.interop.fhir.r4.valueset.MedicationRequestStatus
-import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 
@@ -25,30 +21,6 @@ object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationReq
 
     override fun validateElement(element: MedicationRequest, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.status?.let {
-                checkCodedEnum<MedicationRequestStatus>(
-                    element.status,
-                    InvalidValueSetError(MedicationRequest::status, element.status.value),
-                    parentContext
-                )
-            }
-
-            element.intent?.let {
-                checkCodedEnum<MedicationRequestIntent>(
-                    element.intent,
-                    InvalidValueSetError(MedicationRequest::intent, element.intent.value),
-                    parentContext
-                )
-            }
-
-            element.priority?.let { code ->
-                checkCodedEnum<RequestPriority>(
-                    code,
-                    InvalidValueSetError(MedicationRequest::priority, code.value),
-                    parentContext
-                )
-            }
-
             element.reported?.let {
                 checkTrue(acceptedReportedTypes.contains(it.type), invalidReportedError, parentContext)
             }

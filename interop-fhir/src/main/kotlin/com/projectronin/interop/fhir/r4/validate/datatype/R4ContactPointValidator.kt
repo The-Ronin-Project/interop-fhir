@@ -2,10 +2,7 @@ package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.ContactPointSystem
-import com.projectronin.interop.fhir.r4.valueset.ContactPointUse
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -23,22 +20,6 @@ object R4ContactPointValidator : R4ElementContainingValidator<ContactPoint>() {
 
     override fun validateElement(element: ContactPoint, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.system?.let { code ->
-                checkCodedEnum<ContactPointSystem>(
-                    code,
-                    InvalidValueSetError(ContactPoint::system, code.value),
-                    parentContext
-                )
-            }
-
-            element.use?.let { code ->
-                checkCodedEnum<ContactPointUse>(
-                    code,
-                    InvalidValueSetError(ContactPoint::use, code.value),
-                    parentContext
-                )
-            }
-
             checkTrue((element.system != null || element.value == null), requiredSystemError, parentContext)
         }
     }

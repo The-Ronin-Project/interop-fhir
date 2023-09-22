@@ -21,7 +21,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.RequestIntent
+import com.projectronin.interop.fhir.r4.valueset.RequestPriority
+import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -48,10 +52,13 @@ data class ServiceRequest(
     val replaces: List<Reference> = listOf(),
     val requisition: Identifier? = null,
     @RequiredField
+    @RequiredValueSet(RequestStatus::class)
     val status: Code?,
     @RequiredField
+    @RequiredValueSet(RequestIntent::class)
     val intent: Code?,
     val category: List<CodeableConcept> = listOf(),
+    @RequiredValueSet(RequestPriority::class)
     val priority: Code? = null,
     val doNotPerform: FHIRBoolean? = null,
     val code: CodeableConcept? = null,

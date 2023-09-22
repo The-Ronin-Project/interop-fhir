@@ -10,7 +10,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Url
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.RelatedArtifactType
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * The RelatedArtifact structure defines resources related to a module such as previous and next versions of documents,
@@ -24,6 +26,7 @@ data class RelatedArtifact(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(RelatedArtifactType::class)
     val type: Code?,
     val label: FHIRString? = null,
     val display: FHIRString? = null,

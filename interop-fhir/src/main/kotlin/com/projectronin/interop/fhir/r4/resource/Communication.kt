@@ -21,7 +21,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.EventStatus
+import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = CommunicationSerializer::class)
@@ -44,9 +47,11 @@ data class Communication(
     @SupportedReferenceTypes(ResourceType.Communication)
     val inResponseTo: List<Reference> = listOf(),
     @RequiredField
+    @RequiredValueSet(EventStatus::class)
     val status: Code?,
     val statusReason: CodeableConcept? = null,
     val category: List<CodeableConcept> = listOf(),
+    @RequiredValueSet(RequestPriority::class)
     val priority: Code? = null,
     val medium: List<CodeableConcept> = listOf(),
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)

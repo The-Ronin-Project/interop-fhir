@@ -21,7 +21,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.MedicationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -44,6 +46,7 @@ data class Medication(
     override val modifierExtension: List<Extension> = listOf(),
     val identifier: List<Identifier> = listOf(),
     val code: CodeableConcept? = null,
+    @RequiredValueSet(MedicationStatus::class)
     val status: Code? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
     val manufacturer: Reference? = null,

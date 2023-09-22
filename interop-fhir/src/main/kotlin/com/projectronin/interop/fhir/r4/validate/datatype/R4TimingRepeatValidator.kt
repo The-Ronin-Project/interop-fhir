@@ -6,7 +6,6 @@ import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.EventTiming
-import com.projectronin.interop.fhir.r4.valueset.UnitOfTime
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
@@ -83,21 +82,6 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
 
     override fun validateElement(element: TimingRepeat, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.durationUnit?.let { code ->
-                checkCodedEnum<UnitOfTime>(
-                    code,
-                    InvalidValueSetError(TimingRepeat::durationUnit, code.value),
-                    parentContext
-                )
-            }
-            element.periodUnit?.let { code ->
-                checkCodedEnum<UnitOfTime>(
-                    code,
-                    InvalidValueSetError(TimingRepeat::periodUnit, code.value),
-                    parentContext
-                )
-            }
-
             element.dayOfWeek.let {
                 val invalidDayOfWeekCodes =
                     element.dayOfWeek.filter { runCatching { it.value?.let { it1 -> CodedEnum.byCode<DayOfWeek>(it1) } }.getOrNull() == null }
@@ -132,7 +116,11 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
                 negativeDurationError,
                 parentContext
             )
-            checkTrue((element.period?.value == null || element.period.value >= BigDecimal.ZERO), negativePeriodError, parentContext)
+            checkTrue(
+                (element.period?.value == null || element.period.value >= BigDecimal.ZERO),
+                negativePeriodError,
+                parentContext
+            )
             checkTrue((element.periodMax == null || element.period != null), requiredPeriodError, parentContext)
             checkTrue((element.durationMax == null || element.duration != null), requiredDurationError, parentContext)
             checkTrue((element.countMax == null || element.count != null), requiredCountError, parentContext)

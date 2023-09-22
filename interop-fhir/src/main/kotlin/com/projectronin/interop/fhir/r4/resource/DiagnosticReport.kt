@@ -20,7 +20,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Instant
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.DiagnosticReportStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -53,6 +55,7 @@ data class DiagnosticReport(
     )
     val basedOn: List<Reference> = listOf(),
     @RequiredField
+    @RequiredValueSet(DiagnosticReportStatus::class)
     val status: Code?,
     val category: List<CodeableConcept> = listOf(),
     @RequiredField

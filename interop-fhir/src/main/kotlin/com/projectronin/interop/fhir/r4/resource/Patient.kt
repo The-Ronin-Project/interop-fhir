@@ -25,7 +25,10 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
+import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -48,6 +51,7 @@ data class Patient(
     val active: FHIRBoolean? = null,
     val name: List<HumanName> = listOf(),
     val telecom: List<ContactPoint> = listOf(),
+    @RequiredValueSet(AdministrativeGender::class)
     val gender: Code? = null,
     val birthDate: Date? = null,
     val deceased: DynamicValue<Any>? = null,
@@ -100,6 +104,7 @@ data class PatientContact(
     val name: HumanName? = null,
     val telecom: List<ContactPoint> = listOf(),
     val address: Address? = null,
+    @RequiredValueSet(AdministrativeGender::class)
     val gender: Code? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
     val organization: Reference? = null,
@@ -122,6 +127,7 @@ data class PatientLink(
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.RelatedPerson)
     val other: Reference?,
     @RequiredField
+    @RequiredValueSet(LinkType::class)
     val type: Code?
 ) : BackboneElement<PatientLink>
 

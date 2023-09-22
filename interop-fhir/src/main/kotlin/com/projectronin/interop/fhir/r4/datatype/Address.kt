@@ -7,6 +7,9 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.AddressType
+import com.projectronin.interop.fhir.r4.valueset.AddressUse
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * An address expressed using postal conventions (as opposed to GPS or other location definition formats). This data type
@@ -18,7 +21,9 @@ import com.projectronin.interop.fhir.r4.element.Element
 data class Address(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @RequiredValueSet(AddressUse::class)
     val use: Code? = null,
+    @RequiredValueSet(AddressType::class)
     val type: Code? = null,
     val text: FHIRString? = null,
     val line: List<FHIRString> = listOf(),

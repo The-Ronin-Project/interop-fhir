@@ -8,6 +8,8 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.Decimal
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
+import com.projectronin.interop.fhir.r4.valueset.QuantityComparator
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * A measured amount (or an amount that can potentially be measured).
@@ -18,6 +20,7 @@ data class Quantity(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     override val value: Decimal? = null,
+    @RequiredValueSet(QuantityComparator::class)
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,

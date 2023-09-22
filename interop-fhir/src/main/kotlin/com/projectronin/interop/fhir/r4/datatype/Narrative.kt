@@ -7,7 +7,9 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.NarrativeStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * Any resource that is a DomainResource (all resources except Bundle, Parameters and Binary) may include a human-readable
@@ -19,6 +21,7 @@ data class Narrative(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(NarrativeStatus::class)
     val status: Code?,
     @RequiredField
     val div: FHIRString?

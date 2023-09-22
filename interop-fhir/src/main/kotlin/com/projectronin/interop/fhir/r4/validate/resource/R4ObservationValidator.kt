@@ -5,10 +5,8 @@ import com.projectronin.interop.fhir.r4.resource.Observation
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
-import com.projectronin.interop.fhir.r4.valueset.ObservationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
 import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
-import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -41,14 +39,6 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
 
     override fun validateElement(element: Observation, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.status?.let {
-                checkCodedEnum<ObservationStatus>(
-                    element.status,
-                    InvalidValueSetError(Observation::status, element.status.value),
-                    parentContext
-                )
-            }
-
             // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
             element.effective?.let { data ->
                 checkTrue(acceptedEffectives.contains(data.type), invalidEffectiveError, parentContext)

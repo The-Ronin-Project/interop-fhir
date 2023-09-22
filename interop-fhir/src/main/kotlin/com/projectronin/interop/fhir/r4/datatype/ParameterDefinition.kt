@@ -9,7 +9,9 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
+import com.projectronin.interop.fhir.r4.valueset.OperationParameterUse
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 /**
  * The ParameterDefinition structure defines a parameter to a knowledge asset such as a decision support rule or quality
@@ -24,6 +26,7 @@ data class ParameterDefinition(
     override val extension: List<Extension> = listOf(),
     val name: Code? = null,
     @RequiredField
+    @RequiredValueSet(OperationParameterUse::class)
     val use: Code?,
     val min: FHIRInteger? = null,
     val max: FHIRString? = null,

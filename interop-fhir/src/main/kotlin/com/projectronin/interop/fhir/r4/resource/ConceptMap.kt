@@ -22,7 +22,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.r4.valueset.ConceptMapEquivalence
+import com.projectronin.interop.fhir.r4.valueset.ConceptMapMode
+import com.projectronin.interop.fhir.r4.valueset.ConceptMapStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 
 @JsonDeserialize(using = ConceptMapDeserializer::class)
 @JsonSerialize(using = ConceptMapSerializer::class)
@@ -41,6 +45,7 @@ data class ConceptMap(
     val version: FHIRString? = null,
     val name: FHIRString? = null,
     @RequiredField
+    @RequiredValueSet(ConceptMapStatus::class)
     val status: Code? = null,
     val experimental: FHIRBoolean? = null,
     val date: DateTime? = null,
@@ -103,6 +108,7 @@ data class ConceptMapTarget(
     val code: Code? = null,
     val display: FHIRString? = null,
     @RequiredField
+    @RequiredValueSet(ConceptMapEquivalence::class)
     val equivalence: Code?,
     val comment: FHIRString? = null,
     val dependsOn: List<ConceptMapDependsOn> = listOf()
@@ -135,6 +141,7 @@ data class ConceptMapUnmapped(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
+    @RequiredValueSet(ConceptMapMode::class)
     val mode: Code?,
     val code: Code? = null,
     val display: FHIRString? = null,
