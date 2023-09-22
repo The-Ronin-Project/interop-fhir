@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.fail
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.jvm.jvmName
@@ -112,6 +111,40 @@ class ResourceTest : BaseElementTest() {
     @Test
     fun `find fhir id fails for example non-domain resource`() {
         val bundle = Bundle(type = Code("example"))
-        assertThrows<NullPointerException> { bundle.findFhirId() }
+        assertNull(bundle.findFhirId())
+    }
+
+    @Test
+    fun `findTenantID works`() {
+        val patient = Patient(
+            id = Id("localized"),
+            identifier = listOf(
+                Identifier(system = CodeSystem.RONIN_TENANT.uri, value = "tenant".asFHIR())
+            )
+        )
+        val tenantID = patient.findTenantId()
+        assertEquals("tenant", tenantID)
+    }
+
+    @Test
+    fun `findTenantID fails null 1`() {
+        val patient = Patient(
+            id = Id("localized"),
+            identifier = listOf(
+                Identifier(system = CodeSystem.RONIN_TENANT.uri, value = null)
+            )
+        )
+        val tenantID = patient.findTenantId()
+        assertEquals(null, tenantID)
+    }
+
+    @Test
+    fun `findTenantID fails null 2`() {
+        val patient = Patient(
+            id = Id("localized"),
+            identifier = listOf()
+        )
+        val tenantID = patient.findTenantId()
+        assertEquals(null, tenantID)
     }
 }

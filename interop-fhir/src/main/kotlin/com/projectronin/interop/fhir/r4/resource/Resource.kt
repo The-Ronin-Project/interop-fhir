@@ -75,13 +75,26 @@ interface Resource<T : Resource<T>> : Validatable<T> {
      * or just the FHIR id if it isn't
      */
     fun findFhirId(): String? {
-        val field = this::class.java.getDeclaredField("identifier")
-        field.isAccessible = true
-        val identifiers = field.get(this) as List<Identifier>
-        val identifier = identifiers.firstOrNull { it.system?.value == CodeSystem.RONIN_FHIR_ID.uri.value }
+        val identifier = getIdentifiers().firstOrNull { it.system?.value == CodeSystem.RONIN_FHIR_ID.uri.value }
         identifier?.let { ident ->
             return ident.value?.value
         }
         return this.id?.value
+    }
+
+    /**
+     * Given a resource, return the Tenant ID, which may be either in the identifier if it's been transformed, or null if not
+     */
+    fun findTenantId(): String? {
+        return getIdentifiers().firstOrNull { it.system?.value == CodeSystem.RONIN_TENANT.uri.value }?.value?.value
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getIdentifiers(): List<Identifier> {
+        return runCatching {
+            val field = this::class.java.getDeclaredField("identifier")
+            field.isAccessible = true
+            field.get(this) as List<Identifier>
+        }.getOrDefault(emptyList())
     }
 }
