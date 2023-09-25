@@ -13,6 +13,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.UnsignedInt
 import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.r4.valueset.UnitOfTime
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 
 /**
  * Supports the Timing datatype: When both event and a repeating
@@ -24,6 +25,7 @@ import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
 data class TimingRepeat(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @SupportedDynamicValueTypes(DynamicValueType.DURATION, DynamicValueType.RANGE, DynamicValueType.PERIOD)
     val bounds: DynamicValue<Any>? = null,
     val count: PositiveInt? = null,
     val countMax: PositiveInt? = null,

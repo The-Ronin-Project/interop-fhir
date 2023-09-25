@@ -11,6 +11,7 @@ import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.HumanName
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -29,6 +30,7 @@ import com.projectronin.interop.fhir.r4.valueset.AdministrativeGender
 import com.projectronin.interop.fhir.r4.valueset.LinkType
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -54,9 +56,11 @@ data class Patient(
     @RequiredValueSet(AdministrativeGender::class)
     val gender: Code? = null,
     val birthDate: Date? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.BOOLEAN, DynamicValueType.DATE_TIME)
     val deceased: DynamicValue<Any>? = null,
     val address: List<Address> = listOf(),
     val maritalStatus: CodeableConcept? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
     val multipleBirth: DynamicValue<Any>? = null,
     val photo: List<Attachment> = listOf(),
     val contact: List<PatientContact> = listOf(),

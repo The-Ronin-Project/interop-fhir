@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
@@ -35,6 +36,7 @@ import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = RequestGroupSerializer::class)
@@ -104,6 +106,14 @@ data class RequestGroupAction(
     val documentation: List<RelatedArtifact> = listOf(),
     val condition: List<RequestGroupCondition> = listOf(),
     val relatedAction: List<RequestGroupRelatedAction> = listOf(),
+    @SupportedDynamicValueTypes(
+        DynamicValueType.DATE_TIME,
+        DynamicValueType.AGE,
+        DynamicValueType.PERIOD,
+        DynamicValueType.DURATION,
+        DynamicValueType.RANGE,
+        DynamicValueType.TIMING
+    )
     val timing: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(
         ResourceType.Patient,
@@ -157,6 +167,7 @@ data class RequestGroupRelatedAction(
     @RequiredField
     @RequiredValueSet(RequestGroupRelatedActionRelationship::class)
     val relationship: Code?,
+    @SupportedDynamicValueTypes(DynamicValueType.DURATION, DynamicValueType.RANGE)
     val offset: DynamicValue<Any>? = null
 ) : BackboneElement<RequestGroupRelatedAction>
 

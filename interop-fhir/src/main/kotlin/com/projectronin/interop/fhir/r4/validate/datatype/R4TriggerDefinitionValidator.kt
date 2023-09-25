@@ -1,12 +1,10 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.common.enums.CodedEnum
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.TriggerType
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -15,15 +13,6 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 TriggerDefinition](https://hl7.org/fhir/R4/metadatatypes.html#TriggerDefinition).
  */
 object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefinition>() {
-    private val acceptedTimingTypes = listOf(
-        DynamicValueType.TIMING,
-        DynamicValueType.REFERENCE,
-        DynamicValueType.DATE,
-        DynamicValueType.DATE_TIME
-    )
-
-    private val invalidTimingError = InvalidDynamicValueError(TriggerDefinition::timing, acceptedTimingTypes)
-
     private val timingOrDataError = FHIRError(
         code = "R4_TRGDEF_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -79,10 +68,6 @@ object R4TriggerDefinitionValidator : R4ElementContainingValidator<TriggerDefini
                         )
                     }
                 }
-            }
-
-            element.timing?.let { timing ->
-                checkTrue(acceptedTimingTypes.contains(timing.type), invalidTimingError, parentContext)
             }
         }
     }

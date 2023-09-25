@@ -1,12 +1,9 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.CarePlan
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
-import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -37,37 +34,6 @@ object R4CarePlanActivityValidator : R4ElementContainingValidator<CarePlanActivi
                 referenceOrDetailError,
                 parentContext
             )
-        }
-    }
-}
-
-object R4CarePlanDetailValidator : R4ElementContainingValidator<CarePlanDetail>() {
-    private val acceptedScheduledValues = listOf(
-        DynamicValueType.TIMING,
-        DynamicValueType.PERIOD,
-        DynamicValueType.STRING
-    )
-    private val acceptedProductValues = listOf(
-        DynamicValueType.CODEABLE_CONCEPT,
-        DynamicValueType.REFERENCE
-    )
-    private val invalidScheduledValueError =
-        InvalidDynamicValueError(CarePlanDetail::scheduled, acceptedScheduledValues)
-    private val invalidProductValueError = InvalidDynamicValueError(CarePlanDetail::product, acceptedProductValues)
-
-    override fun validateElement(
-        element: CarePlanDetail,
-        parentContext: LocationContext?,
-        validation: Validation
-    ) {
-        validation.apply {
-            element.scheduled?.let { value ->
-                checkTrue(acceptedScheduledValues.contains(value.type), invalidScheduledValueError, parentContext)
-            }
-
-            element.product?.let { value ->
-                checkTrue(acceptedProductValues.contains(value.type), invalidProductValueError, parentContext)
-            }
         }
     }
 }

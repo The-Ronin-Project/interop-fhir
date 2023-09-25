@@ -13,6 +13,7 @@ import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.r4.valueset.SortDirection
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -26,6 +27,7 @@ data class DataRequirement(
     @RequiredField
     val type: Code?,
     val profile: List<Canonical> = listOf(),
+    @SupportedDynamicValueTypes(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
     @SupportedReferenceTypes(ResourceType.Group)
     val subject: DynamicValue<Any>? = null,
     val mustSupport: List<FHIRString> = listOf(),
@@ -59,6 +61,7 @@ data class DateFilter(
     override val extension: List<Extension> = listOf(),
     val path: FHIRString? = null,
     val searchParam: FHIRString? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD, DynamicValueType.DURATION)
     val value: DynamicValue<Any>? = null
 ) : Element<DateFilter>
 

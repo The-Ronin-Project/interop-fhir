@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Markdown
 import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -20,6 +21,7 @@ import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 data class Annotation(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
+    @SupportedDynamicValueTypes(DynamicValueType.REFERENCE, DynamicValueType.STRING)
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.Patient,

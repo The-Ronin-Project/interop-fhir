@@ -7,6 +7,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRInteger
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.BackboneElement
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 
 /**
  * The Dosage structure defines general dosage instruction information typically represented in medication requests,
@@ -23,6 +24,7 @@ data class Dosage(
     val additionalInstruction: List<CodeableConcept> = listOf(),
     val patientInstruction: FHIRString? = null,
     val timing: Timing? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.BOOLEAN, DynamicValueType.CODEABLE_CONCEPT)
     val asNeeded: DynamicValue<Any>? = null,
     val site: CodeableConcept? = null,
     val route: CodeableConcept? = null,

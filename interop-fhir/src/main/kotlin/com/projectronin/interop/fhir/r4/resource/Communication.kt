@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -25,6 +26,7 @@ import com.projectronin.interop.fhir.r4.valueset.EventStatus
 import com.projectronin.interop.fhir.r4.valueset.RequestPriority
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonSerialize(using = CommunicationSerializer::class)
@@ -108,6 +110,7 @@ data class CommunicationPayload(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
+    @SupportedDynamicValueTypes(DynamicValueType.STRING, DynamicValueType.ATTACHMENT, DynamicValueType.REFERENCE)
     val content: DynamicValue<Any>?
 ) : BackboneElement<CommunicationPayload>
 

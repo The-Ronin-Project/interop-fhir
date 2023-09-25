@@ -21,6 +21,17 @@ validation also exists which will be auto-enforced by the resource and datatype 
 
 ### Annotations
 
+* RequiredField
+    * Can be used on any datatype.
+    * For single valued types, it will require they be non-null.
+    * For Collection types, it will require they are both non-null and non-empty.
+* RequiredValueSet
+    * Can be used on a `Code` or `List<Code>`
+    * Ensures that the Code, when non-null, belongs to the provided ValueSet enum.
+* SupportedDynamicValueTypes
+    * Can be used on a `DyanmicValue`
+    * Ensures that the DynamicValue, when non-null, is of one of the provided types.
 * SupportedReferenceTypes
-    * Can be used on a `Reference`, `List<Reference` or `DynamicValue` that supports References.
-    * Ensures that any provided values with discrete types match one of the listed required types.
+    * Can be used on a `Reference`, `List<Reference>` or `DynamicValue` that supports References.
+    * Ensures that any provided values with discrete types match one of the listed required types, returning a
+      Validation Warning for any items that do not.

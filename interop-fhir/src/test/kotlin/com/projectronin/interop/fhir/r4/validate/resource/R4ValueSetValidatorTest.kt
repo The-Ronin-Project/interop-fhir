@@ -1,10 +1,7 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.DynamicValue
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.primitive.Canonical
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
-import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
@@ -14,7 +11,6 @@ import com.projectronin.interop.fhir.r4.resource.ValueSetContains
 import com.projectronin.interop.fhir.r4.resource.ValueSetDesignation
 import com.projectronin.interop.fhir.r4.resource.ValueSetFilter
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
-import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
 import com.projectronin.interop.fhir.r4.valueset.FilterOperator
 import com.projectronin.interop.fhir.r4.valueset.PublicationStatus
 import com.projectronin.interop.fhir.util.asCode
@@ -276,66 +272,6 @@ class R4ValueSetIncludeValidatorTest {
                     Canonical(
                         value = "canonical"
                     )
-                )
-            )
-        ).alertIfErrors()
-    }
-}
-
-class R4ValueSetParameterValidatorTest {
-    @Test
-    fun `fails if no name`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetParameterValidator.validate(
-                ValueSetParameter(
-                    name = null
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: name is a required element @ ValueSetParameter.name",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if value outside of available types`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetParameterValidator.validate(
-                ValueSetParameter(
-                    name = FHIRString("name"),
-                    value = DynamicValue(
-                        DynamicValueType.CANONICAL,
-                        Canonical("canonical")
-                    )
-                )
-            ).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_DYN_VAL: value can only be one of the following: String, Boolean, Integer, Decimal, Uri, Code, DateTime @ ValueSetParameter.value",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully with name`() {
-        R4ValueSetParameterValidator.validate(
-            ValueSetParameter(
-                name = FHIRString("name")
-            )
-        ).alertIfErrors()
-    }
-
-    @Test
-    fun `validates successfully with name and value of correct type`() {
-        R4ValueSetParameterValidator.validate(
-            ValueSetParameter(
-                name = FHIRString("name"),
-                value = DynamicValue(
-                    DynamicValueType.DATE_TIME,
-                    DateTime("2014-02-04")
                 )
             )
         ).alertIfErrors()

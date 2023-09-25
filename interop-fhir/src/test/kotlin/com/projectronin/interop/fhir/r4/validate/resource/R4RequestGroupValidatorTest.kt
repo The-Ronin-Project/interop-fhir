@@ -1,17 +1,13 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.Age
-import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.DateTime
-import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.datatype.primitive.asFHIR
 import com.projectronin.interop.fhir.r4.resource.RequestGroup
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
-import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -273,82 +269,5 @@ class R4RequestGroupActionValidatorTest {
         )
 
         R4RequestGroupActionValidator.validate(action).alertIfErrors()
-    }
-}
-
-class R4RequestGroupRelatedActionTest {
-    @Test
-    fun `validates successfully`() {
-        val relatedAction = RequestGroupRelatedAction(
-            actionId = Id("actionId"),
-            relationship = Code("before"),
-            offset = DynamicValue(type = DynamicValueType.DURATION, value = Duration())
-        )
-        R4RequestGroupRelatedActionValidator.validate(relatedAction).alertIfErrors()
-    }
-
-    @Test
-    fun `fails if no actionId`() {
-        val relatedAction = RequestGroupRelatedAction(
-            actionId = null,
-            relationship = Code("before")
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupRelatedActionValidator.validate(relatedAction).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: actionId is a required element @ RequestGroupRelatedAction.actionId",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if no relationship`() {
-        val relatedAction = RequestGroupRelatedAction(
-            actionId = Id("actionId"),
-            relationship = null
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupRelatedActionValidator.validate(relatedAction).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: relationship is a required element @ RequestGroupRelatedAction.relationship",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if relationship is outside range`() {
-        val relatedAction = RequestGroupRelatedAction(
-            actionId = Id("actionId"),
-            relationship = Code("its-complicated")
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupRelatedActionValidator.validate(relatedAction).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_VALUE_SET: 'its-complicated' is outside of required value set @ RequestGroupRelatedAction.relationship",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if offset is wrong type`() {
-        val relatedAction = RequestGroupRelatedAction(
-            actionId = Id("actionId"),
-            relationship = Code("before"),
-            offset = DynamicValue(type = DynamicValueType.AGE, value = Age())
-        )
-        val exception = assertThrows<IllegalArgumentException> {
-            R4RequestGroupRelatedActionValidator.validate(relatedAction).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_DYN_VAL: offset can only be one of the following: Duration, Range @ RequestGroupRelatedAction.offset",
-            exception.message
-        )
     }
 }

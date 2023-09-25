@@ -1,12 +1,10 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Observation
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -15,14 +13,6 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Observation](http://hl7.org/fhir/R4/observation.html)
  */
 object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
-    private val acceptedEffectives = listOf(
-        DynamicValueType.DATE_TIME,
-        DynamicValueType.PERIOD,
-        DynamicValueType.TIMING,
-        DynamicValueType.INSTANT
-    )
-
-    private val invalidEffectiveError = InvalidDynamicValueError(Observation::effective, acceptedEffectives)
 
     private val dataAbsentReasonOrValueError = FHIRError(
         code = "R4_OBS_001",
@@ -39,11 +29,6 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
 
     override fun validateElement(element: Observation, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            // R4 Observation.value[x] data types are constrained by the ObservationStatus enum type, so no validation needed.
-            element.effective?.let { data ->
-                checkTrue(acceptedEffectives.contains(data.type), invalidEffectiveError, parentContext)
-            }
-
             checkTrue(
                 (element.value == null || element.dataAbsentReason == null),
                 dataAbsentReasonOrValueError,
@@ -65,21 +50,6 @@ object R4ObservationValidator : R4ElementContainingValidator<Observation>() {
  * Validator for the [R4 ObservationComponent](http://hl7.org/fhir/R4/observation-definitions.html#Observation.component)
  */
 object R4ObservationComponentValidator : R4ElementContainingValidator<ObservationComponent>() {
-    private val acceptedValues = listOf(
-        DynamicValueType.QUANTITY,
-        DynamicValueType.CODEABLE_CONCEPT,
-        DynamicValueType.STRING,
-        DynamicValueType.BOOLEAN,
-        DynamicValueType.INTEGER,
-        DynamicValueType.RANGE,
-        DynamicValueType.RATIO,
-        DynamicValueType.SAMPLED_DATA,
-        DynamicValueType.TIME,
-        DynamicValueType.DATE_TIME,
-        DynamicValueType.PERIOD
-    )
-
-    private val invalidValueError = InvalidDynamicValueError(ObservationComponent::value, acceptedValues)
     private val valueOrDataAbsentReasonError = FHIRError(
         code = "R4_OBSCOM_001",
         severity = ValidationIssueSeverity.ERROR,
@@ -93,10 +63,6 @@ object R4ObservationComponentValidator : R4ElementContainingValidator<Observatio
         validation: Validation
     ) {
         validation.apply {
-            element.value?.let { value ->
-                checkTrue(acceptedValues.contains(value.type), invalidValueError, parentContext)
-            }
-
             checkTrue(
                 (element.value == null || element.dataAbsentReason == null),
                 valueOrDataAbsentReasonError,

@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.ContactDetail
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -27,6 +28,7 @@ import com.projectronin.interop.fhir.r4.valueset.ConceptMapMode
 import com.projectronin.interop.fhir.r4.valueset.ConceptMapStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 
 @JsonDeserialize(using = ConceptMapDeserializer::class)
 @JsonSerialize(using = ConceptMapSerializer::class)
@@ -56,7 +58,9 @@ data class ConceptMap(
     val jurisdiction: List<CodeableConcept> = listOf(),
     val purpose: Markdown? = null,
     val copyright: Markdown? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.URI, DynamicValueType.CANONICAL)
     val source: DynamicValue<Any>? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.URI, DynamicValueType.CANONICAL)
     val target: DynamicValue<Any>? = null,
     val group: List<ConceptMapGroup> = listOf()
 ) : DomainResource<ConceptMap> {

@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -30,6 +31,7 @@ import com.projectronin.interop.fhir.r4.valueset.CarePlanIntent
 import com.projectronin.interop.fhir.r4.valueset.RequestStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = CarePlanDeserializer::class)
@@ -158,6 +160,7 @@ data class CarePlanDetail(
     val status: Code? = null,
     val statusReason: CodeableConcept? = null,
     val doNotPerform: FHIRBoolean? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.TIMING, DynamicValueType.PERIOD, DynamicValueType.STRING)
     val scheduled: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(ResourceType.Location)
     val location: Reference? = null,
@@ -172,6 +175,7 @@ data class CarePlanDetail(
         ResourceType.Device
     )
     val performer: List<Reference> = listOf(),
+    @SupportedDynamicValueTypes(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
     @SupportedReferenceTypes(ResourceType.Medication, ResourceType.Substance)
     val product: DynamicValue<Any>? = null,
     val dailyAmount: SimpleQuantity? = null,

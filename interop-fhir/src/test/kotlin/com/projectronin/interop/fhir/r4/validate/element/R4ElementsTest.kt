@@ -1,16 +1,12 @@
 package com.projectronin.interop.fhir.r4.validate.element
 
 import com.projectronin.interop.fhir.r4.datatype.Age
-import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.Attachment
 import com.projectronin.interop.fhir.r4.datatype.CodeFilter
 import com.projectronin.interop.fhir.r4.datatype.ContactPoint
 import com.projectronin.interop.fhir.r4.datatype.Count
-import com.projectronin.interop.fhir.r4.datatype.DataRequirement
 import com.projectronin.interop.fhir.r4.datatype.DateFilter
 import com.projectronin.interop.fhir.r4.datatype.Distance
-import com.projectronin.interop.fhir.r4.datatype.Dosage
-import com.projectronin.interop.fhir.r4.datatype.DoseAndRate
 import com.projectronin.interop.fhir.r4.datatype.Duration
 import com.projectronin.interop.fhir.r4.datatype.Expression
 import com.projectronin.interop.fhir.r4.datatype.Extension
@@ -24,21 +20,16 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.SimpleQuantity
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.datatype.TriggerDefinition
-import com.projectronin.interop.fhir.r4.datatype.UsageContext
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.r4.resource.CarePlanActivity
-import com.projectronin.interop.fhir.r4.resource.CarePlanDetail
 import com.projectronin.interop.fhir.r4.resource.CareTeamParticipant
-import com.projectronin.interop.fhir.r4.resource.CommunicationPayload
 import com.projectronin.interop.fhir.r4.resource.ConceptMapTarget
 import com.projectronin.interop.fhir.r4.resource.ConceptMapUnmapped
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
 import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
-import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
-import com.projectronin.interop.fhir.r4.resource.Ingredient
 import com.projectronin.interop.fhir.r4.resource.MedicationAdministrationDosage
 import com.projectronin.interop.fhir.r4.resource.ObservationComponent
 import com.projectronin.interop.fhir.r4.resource.ObservationReferenceRange
@@ -46,22 +37,15 @@ import com.projectronin.interop.fhir.r4.resource.Participant
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.resource.RequestGroupAction
-import com.projectronin.interop.fhir.r4.resource.RequestGroupRelatedAction
-import com.projectronin.interop.fhir.r4.resource.Substitution
 import com.projectronin.interop.fhir.r4.resource.ValueSetContains
 import com.projectronin.interop.fhir.r4.resource.ValueSetInclude
-import com.projectronin.interop.fhir.r4.resource.ValueSetParameter
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AgeValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4AnnotationValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4AttachmentValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4CodeFilterValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4ContactPointValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4CountValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4DataRequirementValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4DateFilterValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4DistanceValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4DosageValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4DoseAndRateValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4DurationValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4ExpressionValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4ExtensionValidator
@@ -74,30 +58,22 @@ import com.projectronin.interop.fhir.r4.validate.datatype.R4ReferenceValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4SimpleQuantityValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4TimingRepeatValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.R4TriggerDefinitionValidator
-import com.projectronin.interop.fhir.r4.validate.datatype.R4UsageContextValidator
 import com.projectronin.interop.fhir.r4.validate.datatype.primitive.validatePrimitive
 import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanActivityValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4CarePlanDetailValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4CareTeamParticipantValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4CommunicationPayloadValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapTargetValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConceptMapUnmappedValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionEvidenceValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ConditionStageValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationEducationValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ImmunizationProtocolAppliedValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4IngredientValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4MedAdminDosageValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationComponentValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ObservationReferenceRangeValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ParticipantValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4PatientContactValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupActionValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4RequestGroupRelatedActionValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4SubstitutionValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetContainsValidator
 import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetIncludeValidator
-import com.projectronin.interop.fhir.r4.validate.resource.R4ValueSetParameterValidator
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.ProfileValidator
 import com.projectronin.interop.fhir.validate.RequiredFieldError
@@ -133,15 +109,6 @@ class R4ElementsTest {
     }
 
     @Test
-    fun `can validate Annotation`() {
-        val annotation = mockk<Annotation>()
-        every { annotation.validate(R4AnnotationValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(annotation, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
     fun `can validate Attachment`() {
         val attachment = mockk<Attachment>()
         every { attachment.validate(R4AttachmentValidator, locationContext) } returns failedValidation
@@ -160,15 +127,6 @@ class R4ElementsTest {
     }
 
     @Test
-    fun `can validate CarePlanDetail`() {
-        val carePlanDetail = mockk<CarePlanDetail>()
-        every { carePlanDetail.validate(R4CarePlanDetailValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(carePlanDetail, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
     fun `can validate CareTeamParticipant`() {
         val careTeamParticipant = mockk<CareTeamParticipant>()
         every { careTeamParticipant.validate(R4CareTeamParticipantValidator, locationContext) } returns failedValidation
@@ -183,20 +141,6 @@ class R4ElementsTest {
         every { codeFilter.validate(R4CodeFilterValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(codeFilter, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate CommunicationPayload`() {
-        val communicationPayload = mockk<CommunicationPayload>()
-        every {
-            communicationPayload.validate(
-                R4CommunicationPayloadValidator,
-                locationContext
-            )
-        } returns failedValidation
-
-        val validation = validateElement(communicationPayload, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
@@ -255,15 +199,6 @@ class R4ElementsTest {
     }
 
     @Test
-    fun `can validate DataRequirement`() {
-        val dataRequirement = mockk<DataRequirement>()
-        every { dataRequirement.validate(R4DataRequirementValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(dataRequirement, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
     fun `can validate DateFilter`() {
         val dateFilter = mockk<DateFilter>()
         every { dateFilter.validate(R4DateFilterValidator, locationContext) } returns failedValidation
@@ -278,24 +213,6 @@ class R4ElementsTest {
         every { distance.validate(R4DistanceValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(distance, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate Dosage`() {
-        val dosage = mockk<Dosage>()
-        every { dosage.validate(R4DosageValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(dosage, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate DoseAndRate`() {
-        val doseAndRate = mockk<DoseAndRate>()
-        every { doseAndRate.validate(R4DoseAndRateValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(doseAndRate, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
@@ -337,29 +254,6 @@ class R4ElementsTest {
         } returns failedValidation
 
         val validation = validateElement(immunizationEducation, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate ImmunizationProtocolApplied`() {
-        val immunizationProtocolApplied = mockk<ImmunizationProtocolApplied>()
-        every {
-            immunizationProtocolApplied.validate(
-                R4ImmunizationProtocolAppliedValidator,
-                locationContext
-            )
-        } returns failedValidation
-
-        val validation = validateElement(immunizationProtocolApplied, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate Ingredient`() {
-        val ingredient = mockk<Ingredient>()
-        every { ingredient.validate(R4IngredientValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(ingredient, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
@@ -487,34 +381,11 @@ class R4ElementsTest {
     }
 
     @Test
-    fun `can validate RequestGroupRelatedAction`() {
-        val requestGroupRelatedAction = mockk<RequestGroupRelatedAction>()
-        every {
-            requestGroupRelatedAction.validate(
-                R4RequestGroupRelatedActionValidator,
-                locationContext
-            )
-        } returns failedValidation
-
-        val validation = validateElement(requestGroupRelatedAction, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
     fun `can validate SimpleQuantity`() {
         val simpleQuantity = mockk<SimpleQuantity>()
         every { simpleQuantity.validate(R4SimpleQuantityValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(simpleQuantity, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate Substitution`() {
-        val substitution = mockk<Substitution>()
-        every { substitution.validate(R4SubstitutionValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(substitution, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
@@ -533,15 +404,6 @@ class R4ElementsTest {
         every { triggerDefinition.validate(R4TriggerDefinitionValidator, locationContext) } returns failedValidation
 
         val validation = validateElement(triggerDefinition, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate UsageContext`() {
-        val usageContext = mockk<UsageContext>()
-        every { usageContext.validate(R4UsageContextValidator, locationContext) } returns failedValidation
-
-        val validation = validateElement(usageContext, locationContext)
         assertEquals(1, validation.issues().size)
     }
 
@@ -570,20 +432,6 @@ class R4ElementsTest {
         } returns failedValidation
 
         val validation = validateElement(valueSetInclude, locationContext)
-        assertEquals(1, validation.issues().size)
-    }
-
-    @Test
-    fun `can validate ValueSetParameter`() {
-        val valueSetParameter = mockk<ValueSetParameter>()
-        every {
-            valueSetParameter.validate(
-                R4ValueSetParameterValidator,
-                locationContext
-            )
-        } returns failedValidation
-
-        val validation = validateElement(valueSetParameter, locationContext)
         assertEquals(1, validation.issues().size)
     }
 

@@ -1,7 +1,6 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
 import com.projectronin.interop.common.enums.CodedEnum
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Condition
 import com.projectronin.interop.fhir.r4.resource.ConditionEvidence
 import com.projectronin.interop.fhir.r4.resource.ConditionStage
@@ -9,7 +8,6 @@ import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingVali
 import com.projectronin.interop.fhir.r4.valueset.ConditionClinicalStatusCodes
 import com.projectronin.interop.fhir.r4.valueset.ConditionVerificationStatus
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
@@ -19,28 +17,11 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Condition](http://hl7.org/fhir/R4/condition.html)
  */
 object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
-    private val acceptedOnsetTypes = listOf(
-        DynamicValueType.DATE_TIME,
-        DynamicValueType.AGE,
-        DynamicValueType.PERIOD,
-        DynamicValueType.RANGE,
-        DynamicValueType.STRING
-    )
-    private val acceptedAbatementTypes = listOf(
-        DynamicValueType.DATE_TIME,
-        DynamicValueType.AGE,
-        DynamicValueType.PERIOD,
-        DynamicValueType.RANGE,
-        DynamicValueType.STRING
-    )
     private val acceptedAbatementClinicalCodes = listOf(
         ConditionClinicalStatusCodes.INACTIVE,
         ConditionClinicalStatusCodes.REMISSION,
         ConditionClinicalStatusCodes.RESOLVED
     )
-
-    private val invalidOnsetError = InvalidDynamicValueError(Condition::onset, acceptedOnsetTypes)
-    private val invalidAbatementError = InvalidDynamicValueError(Condition::abatement, acceptedAbatementTypes)
 
     private val invalidClinicalStatusForAbatementError = FHIRError(
         code = "R4_CND_001",
@@ -57,10 +38,6 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
 
     override fun validateElement(element: Condition, parentContext: LocationContext?, validation: Validation) {
         validation.apply {
-            element.onset?.let {
-                checkTrue(acceptedOnsetTypes.contains(it.type), invalidOnsetError, parentContext)
-            }
-
             val clinicalStatusCodes = element.clinicalStatus?.let { clinicalStatus ->
                 clinicalStatus.coding.mapNotNull { coding ->
                     coding.code?.let { code ->
@@ -85,7 +62,6 @@ object R4ConditionValidator : R4ElementContainingValidator<Condition>() {
             }
 
             element.abatement?.let { data ->
-                checkTrue(acceptedAbatementTypes.contains(data.type), invalidAbatementError, parentContext)
                 checkTrue(
                     acceptedAbatementClinicalCodes.contains(clinicalStatusCodes.firstOrNull()),
                     invalidClinicalStatusForAbatementError,

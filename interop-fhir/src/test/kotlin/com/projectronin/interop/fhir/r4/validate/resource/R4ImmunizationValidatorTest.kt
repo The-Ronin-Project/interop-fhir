@@ -7,11 +7,9 @@ import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.Code
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRBoolean
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
-import com.projectronin.interop.fhir.r4.datatype.primitive.PositiveInt
 import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.resource.Immunization
 import com.projectronin.interop.fhir.r4.resource.ImmunizationEducation
-import com.projectronin.interop.fhir.r4.resource.ImmunizationProtocolApplied
 import com.projectronin.interop.fhir.r4.valueset.ImmunizationStatus
 import com.projectronin.interop.fhir.util.asCode
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -170,61 +168,5 @@ class R4ImmunizationEducationTest {
             reference = Uri("reference")
         )
         R4ImmunizationEducationValidator.validate(education).alertIfErrors()
-    }
-}
-
-class R4ImmunizationProtocolAppliedTest {
-    @Test
-    fun `fails if no dose number`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val protocolApplied = ImmunizationProtocolApplied(
-                doseNumber = null
-            )
-            R4ImmunizationProtocolAppliedValidator.validate(protocolApplied).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR REQ_FIELD: doseNumber is a required element @ ImmunizationProtocolApplied.doseNumber",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if dose number outside of accepted types`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val protocolApplied = ImmunizationProtocolApplied(
-                doseNumber = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
-            )
-            R4ImmunizationProtocolAppliedValidator.validate(protocolApplied).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_DYN_VAL: doseNumber can only be one of the following: PositiveInt, String @ ImmunizationProtocolApplied.doseNumber",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `fails if series doses outside of accepted types`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val protocolApplied = ImmunizationProtocolApplied(
-                doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(1)),
-                seriesDoses = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)
-            )
-            R4ImmunizationProtocolAppliedValidator.validate(protocolApplied).alertIfErrors()
-        }
-        assertEquals(
-            "Encountered validation error(s):\n" +
-                "ERROR INV_DYN_VAL: seriesDoses can only be one of the following: PositiveInt, String @ ImmunizationProtocolApplied.seriesDoses",
-            exception.message
-        )
-    }
-
-    @Test
-    fun `validates successfully`() {
-        val protocolApplied = ImmunizationProtocolApplied(
-            doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(1))
-        )
-        R4ImmunizationProtocolAppliedValidator.validate(protocolApplied).alertIfErrors()
     }
 }

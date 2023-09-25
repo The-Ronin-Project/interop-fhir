@@ -8,6 +8,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -21,6 +22,12 @@ data class UsageContext(
     @RequiredField
     val code: Coding?,
     @RequiredField
+    @SupportedDynamicValueTypes(
+        DynamicValueType.CODEABLE_CONCEPT,
+        DynamicValueType.QUANTITY,
+        DynamicValueType.RANGE,
+        DynamicValueType.REFERENCE
+    )
     @SupportedReferenceTypes(
         ResourceType.PlanDefinition,
         ResourceType.ResearchStudy,

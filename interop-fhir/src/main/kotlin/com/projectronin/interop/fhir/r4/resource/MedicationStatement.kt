@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.Dosage
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -22,6 +23,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import com.projectronin.interop.fhir.r4.valueset.MedicationStatementStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationStatementDeserializer::class)
@@ -53,6 +55,7 @@ data class MedicationStatement(
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
     @RequiredField
+    @SupportedDynamicValueTypes(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
     @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
     @RequiredField
@@ -60,6 +63,7 @@ data class MedicationStatement(
     val subject: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Encounter, ResourceType.EpisodeOfCare)
     val context: Reference? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD)
     val effective: DynamicValue<Any>? = null,
     val dateAsserted: DateTime? = null,
     @SupportedReferenceTypes(

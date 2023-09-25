@@ -1,13 +1,11 @@
 package com.projectronin.interop.fhir.r4.validate.datatype
 
 import com.projectronin.interop.common.enums.CodedEnum
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.TimingRepeat
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.r4.valueset.DayOfWeek
 import com.projectronin.interop.fhir.r4.valueset.EventTiming
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.InvalidValueSetError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
@@ -18,12 +16,8 @@ import java.math.BigDecimal
  * Validator for the [R4 TimingRepeat](https://hl7.org/fhir/R4/datatypes-definitions.html#Timing.repeat).
  */
 object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
-    private val acceptedBoundTypes =
-        listOf(DynamicValueType.DURATION, DynamicValueType.RANGE, DynamicValueType.PERIOD)
     private val invalidWhens =
         listOf(EventTiming.MEAL.code, EventTiming.BREAKFAST.code, EventTiming.LUNCH.code, EventTiming.DINNER.code)
-
-    private val invalidBoundsError = InvalidDynamicValueError(TimingRepeat::bounds, acceptedBoundTypes)
 
     private val requiredDurationUnitError = FHIRError(
         code = "R4_TMRPT_001",
@@ -99,10 +93,6 @@ object R4TimingRepeatValidator : R4ElementContainingValidator<TimingRepeat>() {
                     InvalidValueSetError(TimingRepeat::`when`, invalidWhenCodes.joinToString { it.value!! }),
                     parentContext
                 )
-            }
-
-            element.bounds?.let { bounds ->
-                checkTrue(acceptedBoundTypes.contains(bounds.type), invalidBoundsError, parentContext)
             }
 
             checkTrue(

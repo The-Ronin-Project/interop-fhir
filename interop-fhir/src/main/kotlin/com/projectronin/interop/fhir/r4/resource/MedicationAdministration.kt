@@ -9,6 +9,7 @@ import com.projectronin.interop.fhir.jackson.outbound.r4.BaseFHIRSerializer
 import com.projectronin.interop.fhir.r4.datatype.Annotation
 import com.projectronin.interop.fhir.r4.datatype.CodeableConcept
 import com.projectronin.interop.fhir.r4.datatype.DynamicValue
+import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
 import com.projectronin.interop.fhir.r4.datatype.Meta
@@ -23,6 +24,7 @@ import com.projectronin.interop.fhir.r4.element.BackboneElement
 import com.projectronin.interop.fhir.r4.valueset.MedicationAdministrationStatus
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 @JsonDeserialize(using = MedicationAdministrationDeserializer::class)
@@ -47,6 +49,7 @@ data class MedicationAdministration(
     val statusReason: List<CodeableConcept> = listOf(),
     val category: CodeableConcept? = null,
     @RequiredField
+    @SupportedDynamicValueTypes(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
     @SupportedReferenceTypes(ResourceType.Medication)
     val medication: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(ResourceType.Patient, ResourceType.Group)
@@ -56,6 +59,7 @@ data class MedicationAdministration(
     val context: Reference? = null,
     val supportingInformation: List<Reference> = listOf(),
     @RequiredField
+    @SupportedDynamicValueTypes(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD)
     val effective: DynamicValue<Any>? = null,
     val performer: List<MedicationAdministrationPerformer> = listOf(),
     val reasonCode: List<CodeableConcept> = listOf(),
@@ -114,6 +118,7 @@ data class MedicationAdministrationDosage(
     val route: CodeableConcept? = null,
     val method: CodeableConcept? = null,
     val dose: Quantity? = null,
+    @SupportedDynamicValueTypes(DynamicValueType.RATIO, DynamicValueType.QUANTITY)
     val rate: DynamicValue<Any>? = null
 ) : BackboneElement<MedicationAdministrationDosage>
 

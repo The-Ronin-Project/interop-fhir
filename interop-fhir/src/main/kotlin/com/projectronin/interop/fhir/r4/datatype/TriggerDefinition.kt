@@ -11,6 +11,7 @@ import com.projectronin.interop.fhir.r4.element.Element
 import com.projectronin.interop.fhir.r4.valueset.TriggerType
 import com.projectronin.interop.fhir.validate.annotation.RequiredField
 import com.projectronin.interop.fhir.validate.annotation.RequiredValueSet
+import com.projectronin.interop.fhir.validate.annotation.SupportedDynamicValueTypes
 import com.projectronin.interop.fhir.validate.annotation.SupportedReferenceTypes
 
 /**
@@ -43,6 +44,12 @@ data class TriggerDefinition(
     @RequiredValueSet(TriggerType::class)
     val type: Code?,
     val name: FHIRString? = null,
+    @SupportedDynamicValueTypes(
+        DynamicValueType.TIMING,
+        DynamicValueType.REFERENCE,
+        DynamicValueType.DATE,
+        DynamicValueType.DATE_TIME
+    )
     @SupportedReferenceTypes(ResourceType.Schedule)
     val timing: DynamicValue<Any>? = null,
     val data: List<DataRequirement> = listOf(),

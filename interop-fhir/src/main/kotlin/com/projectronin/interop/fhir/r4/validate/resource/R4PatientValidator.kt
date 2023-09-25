@@ -1,11 +1,9 @@
 package com.projectronin.interop.fhir.r4.validate.resource
 
-import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 import com.projectronin.interop.fhir.r4.resource.Patient
 import com.projectronin.interop.fhir.r4.resource.PatientContact
 import com.projectronin.interop.fhir.r4.validate.element.R4ElementContainingValidator
 import com.projectronin.interop.fhir.validate.FHIRError
-import com.projectronin.interop.fhir.validate.InvalidDynamicValueError
 import com.projectronin.interop.fhir.validate.LocationContext
 import com.projectronin.interop.fhir.validate.Validation
 import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
@@ -14,21 +12,8 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Patient](http://hl7.org/fhir/R4/patient.html)
  */
 object R4PatientValidator : R4ElementContainingValidator<Patient>() {
-    private val acceptedDeceasedTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.DATE_TIME)
-    private val acceptedMultipleBirthTypes = listOf(DynamicValueType.BOOLEAN, DynamicValueType.INTEGER)
-
-    private val invalidDeceasedError = InvalidDynamicValueError(Patient::deceased, acceptedDeceasedTypes)
-    private val invalidMultipleBirthError = InvalidDynamicValueError(Patient::multipleBirth, acceptedMultipleBirthTypes)
-
     override fun validateElement(element: Patient, parentContext: LocationContext?, validation: Validation) {
-        validation.apply {
-            element.deceased?.let { data ->
-                checkTrue(acceptedDeceasedTypes.contains(data.type), invalidDeceasedError, parentContext)
-            }
-            element.multipleBirth?.let { data ->
-                checkTrue(acceptedMultipleBirthTypes.contains(data.type), invalidMultipleBirthError, parentContext)
-            }
-        }
+        // Patient has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 
