@@ -10,6 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class STU3UnknownResourceTest {
     @Test
@@ -25,7 +26,7 @@ class STU3UnknownResourceTest {
             otherData = mapOf(
                 "field1" to "value1",
                 "field2" to 2,
-                "field3" to 3.0,
+                "field3" to BigDecimal.valueOf(3.0),
                 "field4" to false,
                 "field5" to listOf("val1", "val2")
             )
