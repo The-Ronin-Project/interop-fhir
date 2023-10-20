@@ -117,7 +117,7 @@ class R4CarePlanValidatorTest {
     }
 
     @Test
-    fun `warns if subject is not a supported type`() {
+    fun `errors if subject is not a supported type`() {
         val validation = R4CarePlanValidator.validate(
             CarePlan(
                 status = Code("active"),
@@ -128,7 +128,7 @@ class R4CarePlanValidatorTest {
         assertEquals(1, validation.issues().size)
         val issue = validation.issues().first()
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Patient, Group @ CarePlan.subject.reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Patient, Group @ CarePlan.subject.reference",
             issue.toString()
         )
     }

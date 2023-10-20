@@ -111,7 +111,7 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String?) : FH
  */
 class InvalidReferenceType(actualLocation: LocationContext, validTypes: List<ResourceType>) : FHIRError(
     "INV_REF_TYPE",
-    ValidationIssueSeverity.WARNING,
+    ValidationIssueSeverity.ERROR,
     "${actualLocation.field} can only be one of the following: ${validTypes.joinToString { it.name }}",
     actualLocation
 ) {

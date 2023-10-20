@@ -72,7 +72,7 @@ class SupportedReferenceTypesValidatorTest {
     }
 
     @Test
-    fun `warns when provided Reference property with unsupported resource type`() {
+    fun `errors when provided Reference property with unsupported resource type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = SingleReferenceElement(Reference(reference = FHIRString("Observation/1234")))
         val validation = Validation().apply {
@@ -91,7 +91,7 @@ class SupportedReferenceTypesValidatorTest {
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Group, Patient @ SingleReferenceElement.reference.reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ SingleReferenceElement.reference.reference",
             issues.first().toString()
         )
     }
@@ -187,7 +187,7 @@ class SupportedReferenceTypesValidatorTest {
     }
 
     @Test
-    fun `warns when provided DynamicValue Reference property with unsupported reference type`() {
+    fun `errors when provided DynamicValue Reference property with unsupported reference type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element =
             DynamicValueElement(
@@ -212,7 +212,7 @@ class SupportedReferenceTypesValidatorTest {
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Group, Patient @ DynamicValueElement.value.reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ DynamicValueElement.value.reference",
             issues.first().toString()
         )
     }
@@ -241,7 +241,7 @@ class SupportedReferenceTypesValidatorTest {
     }
 
     @Test
-    fun `warns when provided List of Reference property with single unsupported resource type`() {
+    fun `errors when provided List of Reference property with single unsupported resource type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = ListReferenceElement(
             listOf(
@@ -265,13 +265,13 @@ class SupportedReferenceTypesValidatorTest {
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
             issues.first().toString()
         )
     }
 
     @Test
-    fun `warns when provided List of Reference property with multiple unsupported resource types`() {
+    fun `errors when provided List of Reference property with multiple unsupported resource types`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = ListReferenceElement(
             listOf(
@@ -295,11 +295,11 @@ class SupportedReferenceTypesValidatorTest {
         val issues = validation.issues()
         assertEquals(2, issues.size)
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
             issues[0].toString()
         )
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[1].reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[1].reference",
             issues[1].toString()
         )
     }

@@ -196,7 +196,7 @@ class R4AppointmentValidatorTest {
     }
 
     @Test
-    fun `warns if reasonReference is not a supported type`() {
+    fun `errors if reasonReference is not a supported type`() {
         val validation = R4AppointmentValidator.validate(
             Appointment(
                 status = AppointmentStatus.CANCELLED.asCode(),
@@ -212,7 +212,7 @@ class R4AppointmentValidatorTest {
         assertEquals(1, validation.issues().size)
         val issue = validation.issues().first()
         assertEquals(
-            "WARNING INV_REF_TYPE: reference can only be one of the following: Condition, Procedure, Observation, ImmunizationRecommendation @ Appointment.reasonReference[0].reference",
+            "ERROR INV_REF_TYPE: reference can only be one of the following: Condition, Procedure, Observation, ImmunizationRecommendation @ Appointment.reasonReference[0].reference",
             issue.toString()
         )
     }
