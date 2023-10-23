@@ -2,7 +2,7 @@
 classgraph = "4.8.163"
 # @pin until JDK 17 implemented
 datafaker = "1.9.0"
-interop-common = "3.13.2"
+interop-common = "3.13.3"
 interop-event-resource-internal = "1.2.1"
 interop-gradle = "3.2.0"
 jackson = "2.15.3"
