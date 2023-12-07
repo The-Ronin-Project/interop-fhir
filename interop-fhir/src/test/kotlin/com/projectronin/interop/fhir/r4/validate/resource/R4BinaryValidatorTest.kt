@@ -9,17 +9,18 @@ import org.junit.jupiter.api.assertThrows
 class R4BinaryValidatorTest {
     @Test
     fun `fails if no contentType`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4BinaryValidator.validate(
-                Binary(
-                    contentType = null
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4BinaryValidator.validate(
+                    Binary(
+                        contentType = null,
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: contentType is a required element @ Binary.contentType",
-            exception.message
+            exception.message,
         )
     }
 
@@ -27,8 +28,8 @@ class R4BinaryValidatorTest {
     fun `validates successfully`() {
         R4BinaryValidator.validate(
             Binary(
-                contentType = Code("text/html")
-            )
+                contentType = Code("text/html"),
+            ),
         ).alertIfErrors()
     }
 }

@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/R4/valueset-contributor-type.html)
  */
-enum class ContributorType(@JsonValue override val code: String) : CodedEnum<ContributorType> {
+enum class ContributorType(
+    @JsonValue override val code: String,
+) : CodedEnum<ContributorType> {
     /**
      * An author of the content of the module.
      */
@@ -25,5 +27,5 @@ enum class ContributorType(@JsonValue override val code: String) : CodedEnum<Con
     /**
      * An endorser of the content of the module.
      */
-    ENDORSER("endorser")
+    ENDORSER("endorser"),
 }

@@ -67,7 +67,7 @@ data class CarePlanGenerator(
     val supportingInfo: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val goal: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val activity: ListDataGenerator<CarePlanActivity> = ListDataGenerator(0, CarePlanActivityGenerator()),
-    val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator())
+    val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
 ) : DomainResource<CarePlan> {
     override fun toFhir(): CarePlan =
         CarePlan(
@@ -101,7 +101,7 @@ data class CarePlanGenerator(
             supportingInfo = supportingInfo.generate(),
             goal = goal.generate(),
             activity = activity.generate(),
-            note = note.generate()
+            note = note.generate(),
         )
 }
 
@@ -124,7 +124,7 @@ class CarePlanActivityGenerator : DataGenerator<CarePlanActivity>() {
             outcomeReference = outcomeReference.generate(),
             progress = progress.generate(),
             reference = reference.generate(),
-            detail = detail.generate()
+            detail = detail.generate(),
         )
     }
 }
@@ -151,28 +151,29 @@ class CarePlanDetailGenerator : DataGenerator<CarePlanDetail?>() {
     val quantity: DataGenerator<SimpleQuantity?> = NullDataGenerator()
     val description: DataGenerator<FHIRString?> = NullDataGenerator()
 
-    override fun generateInternal() = CarePlanDetail(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        kind = kind.generate(),
-        instantiatesCanonical = instantiatesCanonical.generate(),
-        instantiatesUri = instantiatesUri.generate(),
-        code = code.generate(),
-        reasonCode = reasonCode.generate(),
-        reasonReference = reasonReference.generate(),
-        goal = goal.generate(),
-        status = status.generate(),
-        statusReason = statusReason.generate(),
-        doNotPerform = doNotPerform.generate(),
-        scheduled = scheduled.generate(),
-        location = location.generate(),
-        performer = performer.generate(),
-        product = product.generate(),
-        dailyAmount = dailyAmount.generate(),
-        quantity = quantity.generate(),
-        description = description.generate()
-    )
+    override fun generateInternal() =
+        CarePlanDetail(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            kind = kind.generate(),
+            instantiatesCanonical = instantiatesCanonical.generate(),
+            instantiatesUri = instantiatesUri.generate(),
+            code = code.generate(),
+            reasonCode = reasonCode.generate(),
+            reasonReference = reasonReference.generate(),
+            goal = goal.generate(),
+            status = status.generate(),
+            statusReason = statusReason.generate(),
+            doNotPerform = doNotPerform.generate(),
+            scheduled = scheduled.generate(),
+            location = location.generate(),
+            performer = performer.generate(),
+            product = product.generate(),
+            dailyAmount = dailyAmount.generate(),
+            quantity = quantity.generate(),
+            description = description.generate(),
+        )
 }
 
 fun carePlan(block: CarePlanGenerator.() -> Unit): CarePlan {

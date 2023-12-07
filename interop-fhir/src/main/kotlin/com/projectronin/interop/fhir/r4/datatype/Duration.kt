@@ -21,8 +21,9 @@ data class Duration(
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<Duration>(id, extension, value, comparator, unit, system, code)
 
 class DurationSerializer : BaseFHIRSerializer<Duration>(Duration::class.java)
+
 class DurationDeserializer : BaseFHIRDeserializer<Duration>(Duration::class.java)

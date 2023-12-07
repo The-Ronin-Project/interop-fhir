@@ -18,12 +18,13 @@ class SimpleQuantityGenerator : DataGenerator<SimpleQuantity>() {
     val system: DataGenerator<Uri?> = NullDataGenerator()
     val code: DataGenerator<Code?> = NullDataGenerator()
 
-    override fun generateInternal() = SimpleQuantity(
-        value = value.generate(),
-        unit = unit.generate(),
-        system = system.generate(),
-        code = code.generate()
-    )
+    override fun generateInternal() =
+        SimpleQuantity(
+            value = value.generate(),
+            unit = unit.generate(),
+            system = system.generate(),
+            code = code.generate(),
+        )
 }
 
 fun simpleQuantity(block: SimpleQuantityGenerator.() -> Unit): SimpleQuantity {

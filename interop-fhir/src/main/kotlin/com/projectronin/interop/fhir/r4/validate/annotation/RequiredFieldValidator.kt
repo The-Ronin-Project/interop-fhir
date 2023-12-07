@@ -20,7 +20,7 @@ class RequiredFieldValidator : BaseValidationAnnotationValidator<RequiredField>(
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         val error = RequiredFieldError(LocationContext(elementName, property.name))
         validation.apply {

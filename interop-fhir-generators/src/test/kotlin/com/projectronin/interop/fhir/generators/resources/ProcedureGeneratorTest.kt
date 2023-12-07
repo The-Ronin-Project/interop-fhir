@@ -55,41 +55,52 @@ class ProcedureGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val procedure = procedure {
-            category of codeableConcept {
-                coding plus coding {
-                    system of "http://snomed.info/sct"
-                    code of "103693007"
-                    display of "Diagnostic procedure (procedure)"
-                }
+        val procedure =
+            procedure {
+                category of
+                    codeableConcept {
+                        coding plus
+                            coding {
+                                system of "http://snomed.info/sct"
+                                code of "103693007"
+                                display of "Diagnostic procedure (procedure)"
+                            }
+                    }
+                code of
+                    codeableConcept {
+                        coding plus
+                            coding {
+                                system of "http://snomed.info/sct"
+                                code of "90105005"
+                                display of "Biopsy of soft tissue of forearm (Procedure)"
+                            }
+                    }
+                performed of dateTime("2014-02-03")
+                reasonCode plus
+                    codeableConcept {
+                        text of "Dark lesion l) forearm. getting darker last 3 months."
+                    }
+                bodySite plus
+                    codeableConcept {
+                        coding plus
+                            coding {
+                                system of "http://snomed.info/sct"
+                                code of "368225008"
+                                display of "Entire Left Forearm"
+                            }
+                    }
+                followUp plus
+                    codeableConcept {
+                        text of "Review in clinic"
+                    }
+                note plus
+                    annotation {
+                        text of
+                            markdown {
+                                value of "Standard Biopsy"
+                            }
+                    }
             }
-            code of codeableConcept {
-                coding plus coding {
-                    system of "http://snomed.info/sct"
-                    code of "90105005"
-                    display of "Biopsy of soft tissue of forearm (Procedure)"
-                }
-            }
-            performed of dateTime("2014-02-03")
-            reasonCode plus codeableConcept {
-                text of "Dark lesion l) forearm. getting darker last 3 months."
-            }
-            bodySite plus codeableConcept {
-                coding plus coding {
-                    system of "http://snomed.info/sct"
-                    code of "368225008"
-                    display of "Entire Left Forearm"
-                }
-            }
-            followUp plus codeableConcept {
-                text of "Review in clinic"
-            }
-            note plus annotation {
-                text of markdown {
-                    value of "Standard Biopsy"
-                }
-            }
-        }
 
         assertNull(procedure.id)
         assertNull(procedure.meta)
@@ -144,9 +155,10 @@ class ProcedurePerformerGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val performer = procedurePerformer {
-            function of codeableConcept { }
-        }
+        val performer =
+            procedurePerformer {
+                function of codeableConcept { }
+            }
 
         assertNull(performer.id)
         assertEquals(0, performer.extension.size)
@@ -170,9 +182,10 @@ class ProcedureFocalDeviceGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val focalDevice = procedureFocalDevice {
-            action of codeableConcept { }
-        }
+        val focalDevice =
+            procedureFocalDevice {
+                action of codeableConcept { }
+            }
 
         assertNull(focalDevice.id)
         assertEquals(0, focalDevice.extension.size)

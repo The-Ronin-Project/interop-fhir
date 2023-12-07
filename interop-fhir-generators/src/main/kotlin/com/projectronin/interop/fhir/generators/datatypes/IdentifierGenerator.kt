@@ -27,7 +27,7 @@ class IdentifierGenerator : DataGenerator<Identifier>() {
             system = system.generate(),
             value = value.generate().asFHIR(),
             period = period.generate(),
-            assigner = assigner.generate()
+            assigner = assigner.generate(),
         )
 }
 
@@ -40,17 +40,19 @@ fun identifier(block: IdentifierGenerator.() -> Unit): Identifier {
 fun externalIdentifier(block: IdentifierGenerator.() -> Unit): Identifier {
     val identifier = IdentifierGenerator()
     identifier.apply(block)
-    identifier.type of codeableConcept {
-        text of "External"
-    }
+    identifier.type of
+        codeableConcept {
+            text of "External"
+        }
     return identifier.generate()
 }
 
 fun internalIdentifier(block: IdentifierGenerator.() -> Unit): Identifier {
     val identifier = IdentifierGenerator()
     identifier.apply(block)
-    identifier.type of codeableConcept {
-        text of "Internal"
-    }
+    identifier.type of
+        codeableConcept {
+            text of "Internal"
+        }
     return identifier.generate()
 }

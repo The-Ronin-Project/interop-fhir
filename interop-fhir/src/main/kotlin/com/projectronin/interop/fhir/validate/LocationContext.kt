@@ -11,7 +11,7 @@ import kotlin.reflect.KProperty1
  */
 data class LocationContext constructor(
     val element: String,
-    val field: String?
+    val field: String?,
 ) {
     /**
      * Creates a LocationContext based off the [clazz]. No [field] will be included.
@@ -23,7 +23,7 @@ data class LocationContext constructor(
      */
     constructor(method: KProperty1<*, *>) : this(
         ((method as CallableReference).owner as KClass<*>).simpleName!!,
-        method.name
+        method.name,
     )
 
     override fun toString(): String = field?.let { "$element.$it" } ?: element

@@ -11,7 +11,7 @@ class STU3UnknownResourceSerializer : BaseSTU3ResourceSerializer<STU3UnknownReso
     override fun serializeSpecificElement(
         value: STU3UnknownResource,
         gen: JsonGenerator,
-        provider: SerializerProvider
+        provider: SerializerProvider,
     ) {
         value.otherData.entries.forEach { (key, value) ->
             value?.let {

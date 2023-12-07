@@ -14,7 +14,10 @@ class DynamicValueResolver(private val jsonParser: JsonParser) {
     /**
      * Resolves a [DynamicValue] from the supplied [node] based off the [typeString].
      */
-    fun resolveDynamicValue(node: JsonNode, typeString: String): DynamicValue<Any> {
+    fun resolveDynamicValue(
+        node: JsonNode,
+        typeString: String,
+    ): DynamicValue<Any> {
         if (typeString.isEmpty()) {
             return resolveNestedDynamicValue(node)
         }
@@ -22,7 +25,10 @@ class DynamicValueResolver(private val jsonParser: JsonParser) {
         return resolveNonNestedDynamicValue(node, typeString)
     }
 
-    private fun resolveNonNestedDynamicValue(node: JsonNode, typeString: String): DynamicValue<Any> {
+    private fun resolveNonNestedDynamicValue(
+        node: JsonNode,
+        typeString: String,
+    ): DynamicValue<Any> {
         val type = getDynamicValueType(typeString)
         val value = type.readValue(node, jsonParser)
 
@@ -34,7 +40,7 @@ class DynamicValueResolver(private val jsonParser: JsonParser) {
         if (fieldNames.size != 1) {
             throw JsonParseException(
                 jsonParser,
-                "Encountered a nested dynamic value with an invalid number (${fieldNames.size}) of elements"
+                "Encountered a nested dynamic value with an invalid number (${fieldNames.size}) of elements",
             )
         }
 
@@ -45,6 +51,7 @@ class DynamicValueResolver(private val jsonParser: JsonParser) {
         return DynamicValue(type, value)
     }
 
-    private fun getDynamicValueType(typeString: String) = CodedEnum.byCode<DynamicValueType>(typeString)
-        ?: throw JsonParseException(jsonParser, "Unknown type for a dynamic value: $typeString")
+    private fun getDynamicValueType(typeString: String) =
+        CodedEnum.byCode<DynamicValueType>(typeString)
+            ?: throw JsonParseException(jsonParser, "Unknown type for a dynamic value: $typeString")
 }

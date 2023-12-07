@@ -55,12 +55,13 @@ data class Medication(
     val form: CodeableConcept? = null,
     val amount: Ratio? = null,
     val ingredient: List<Ingredient> = listOf(),
-    val batch: Batch? = null
+    val batch: Batch? = null,
 ) : DomainResource<Medication> {
     override val resourceType: String = "Medication"
 }
 
 class MedicationSerializer : BaseFHIRSerializer<Medication>(Medication::class.java)
+
 class MedicationDeserializer : BaseFHIRDeserializer<Medication>(Medication::class.java)
 
 /**
@@ -75,10 +76,11 @@ data class Batch(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val lotNumber: FHIRString? = null,
-    val expirationDate: DateTime? = null
+    val expirationDate: DateTime? = null,
 ) : BackboneElement<Batch>
 
 class BatchSerializer : BaseFHIRSerializer<Batch>(Batch::class.java)
+
 class BatchDeserializer : BaseFHIRDeserializer<Batch>(Batch::class.java)
 
 /**
@@ -97,8 +99,9 @@ data class Ingredient(
     @SupportedReferenceTypes(ResourceType.Substance, ResourceType.Medication)
     val item: DynamicValue<Any>? = null,
     val isActive: FHIRBoolean? = null,
-    val strength: Ratio? = null
+    val strength: Ratio? = null,
 ) : BackboneElement<Ingredient>
 
 class IngredientDeserializer : BaseFHIRDeserializer<Ingredient>(Ingredient::class.java)
+
 class IngredientSerializer : BaseFHIRSerializer<Ingredient>(Ingredient::class.java)

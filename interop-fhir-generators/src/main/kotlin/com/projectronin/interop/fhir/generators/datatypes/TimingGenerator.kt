@@ -25,8 +25,7 @@ data class TimingGenerator(
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val event: ListDataGenerator<DateTime> = ListDataGenerator(0, DateTimeGenerator()),
     val repeat: DataGenerator<TimingRepeat?> = NullDataGenerator(),
-    val code: DataGenerator<CodeableConcept?> = NullDataGenerator()
-
+    val code: DataGenerator<CodeableConcept?> = NullDataGenerator(),
 ) : DataGenerator<Timing>() {
     override fun generateInternal() =
         Timing(
@@ -35,7 +34,7 @@ data class TimingGenerator(
             modifierExtension = modifierExtension.generate(),
             event = event.generate(),
             repeat = repeat.generate(),
-            code = code.generate()
+            code = code.generate(),
         )
 }
 
@@ -55,6 +54,8 @@ class TimingRepeatGenerator : DataGenerator<TimingRepeat>() {
     val periodUnit: DataGenerator<Code?> = NullDataGenerator()
     val dayOfWeek: ListDataGenerator<Code?> = ListDataGenerator(0, CodeGenerator())
     val timeOfDay: ListDataGenerator<Time?> = ListDataGenerator(0, TimeGenerator())
+
+    @Suppress("ktlint:standard:property-naming")
     val `when`: ListDataGenerator<Code?> = ListDataGenerator(0, CodeGenerator())
     val offset: DataGenerator<UnsignedInt?> = NullDataGenerator()
 
@@ -76,7 +77,7 @@ class TimingRepeatGenerator : DataGenerator<TimingRepeat>() {
             dayOfWeek = dayOfWeek.generate().filterNotNull(),
             timeOfDay = timeOfDay.generate().filterNotNull(),
             `when` = `when`.generate().filterNotNull(),
-            offset = offset.generate()
+            offset = offset.generate(),
         )
     }
 }

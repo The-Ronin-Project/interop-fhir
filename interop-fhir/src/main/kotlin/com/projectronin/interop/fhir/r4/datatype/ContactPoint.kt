@@ -26,8 +26,9 @@ data class ContactPoint(
     @RequiredValueSet(ContactPointUse::class)
     val use: Code? = null,
     val rank: PositiveInt? = null,
-    val period: Period? = null
+    val period: Period? = null,
 ) : Element<ContactPoint>
 
 class ContactPointDeserializer : BaseFHIRDeserializer<ContactPoint>(ContactPoint::class.java)
+
 class ContactPointSerializer : BaseFHIRSerializer<ContactPoint>(ContactPoint::class.java)

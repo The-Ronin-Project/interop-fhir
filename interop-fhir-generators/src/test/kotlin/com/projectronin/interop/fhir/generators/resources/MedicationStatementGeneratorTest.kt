@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class MedicationStatementGeneratorTest {
-
     @Test
     fun `function works with defaults`() {
         val medicationStatement = medicationStatement {}
@@ -40,7 +39,7 @@ class MedicationStatementGeneratorTest {
         assertNotNull(medicationStatement.status)
         medicationStatement.status?.value?.let { status ->
             assertNotNull(
-                MedicationStatementStatus.values().firstOrNull { status == it.code }
+                MedicationStatementStatus.values().firstOrNull { status == it.code },
             )
         }
         assertTrue(medicationStatement.statusReason.isEmpty())
@@ -60,57 +59,70 @@ class MedicationStatementGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val medicationStatement = medicationStatement {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            basedOn of listOf(
-                reference("CarePlan", "1234")
-            )
-            partOf of listOf(
-                reference("CarePlan", "5678")
-            )
-            status of "status"
-            statusReason of listOf(
-                codeableConcept { text of "statusReason" }
-            )
-            category of codeableConcept { text of "category" }
-            medication of DynamicValues.reference(reference("Medication", "1234"))
-            subject of reference("Patient", "123")
-            context of reference("Encounter", "1234")
-            effective of DynamicValues.period(
-                period {
-                    start of dateTime {
-                        year of 1990
-                        day of 9
-                        month of 4
-                    }
-                    end of dateTime {
-                        year of 1990
-                        day of 10
-                        month of 4
-                    }
-                }
-            )
-            dateAsserted of dateTime { year of 2001 }
-            informationSource of reference("Practitioner", "1234")
-            derivedFrom of listOf(
-                reference("MedicationStatement", "5678")
-            )
-            reasonCode of listOf(
-                codeableConcept { text of "reasonCode" }
-            )
-            reasonReference of listOf(
-                reference("Condition", "1234")
-            )
-            note of listOf(
-                annotation { text of Markdown("note") }
-            )
-            dosage of listOf(
-                dosage { text of "dosage" }
-            )
-        }
+        val medicationStatement =
+            medicationStatement {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                basedOn of
+                    listOf(
+                        reference("CarePlan", "1234"),
+                    )
+                partOf of
+                    listOf(
+                        reference("CarePlan", "5678"),
+                    )
+                status of "status"
+                statusReason of
+                    listOf(
+                        codeableConcept { text of "statusReason" },
+                    )
+                category of codeableConcept { text of "category" }
+                medication of DynamicValues.reference(reference("Medication", "1234"))
+                subject of reference("Patient", "123")
+                context of reference("Encounter", "1234")
+                effective of
+                    DynamicValues.period(
+                        period {
+                            start of
+                                dateTime {
+                                    year of 1990
+                                    day of 9
+                                    month of 4
+                                }
+                            end of
+                                dateTime {
+                                    year of 1990
+                                    day of 10
+                                    month of 4
+                                }
+                        },
+                    )
+                dateAsserted of dateTime { year of 2001 }
+                informationSource of reference("Practitioner", "1234")
+                derivedFrom of
+                    listOf(
+                        reference("MedicationStatement", "5678"),
+                    )
+                reasonCode of
+                    listOf(
+                        codeableConcept { text of "reasonCode" },
+                    )
+                reasonReference of
+                    listOf(
+                        reference("Condition", "1234"),
+                    )
+                note of
+                    listOf(
+                        annotation { text of Markdown("note") },
+                    )
+                dosage of
+                    listOf(
+                        dosage { text of "dosage" },
+                    )
+            }
         assertEquals("id", medicationStatement.id?.value)
         assertEquals(1, medicationStatement.identifier.size)
         assertEquals("CarePlan/1234", medicationStatement.basedOn.first().reference?.value)
@@ -118,7 +130,7 @@ class MedicationStatementGeneratorTest {
         assertEquals("status", medicationStatement.status?.value)
         assertEquals(
             "statusReason",
-            medicationStatement.statusReason.first().text?.value
+            medicationStatement.statusReason.first().text?.value,
         )
         assertEquals("category", medicationStatement.category?.text?.value)
         assertEquals(DynamicValueType.REFERENCE, medicationStatement.medication?.type)
@@ -137,11 +149,11 @@ class MedicationStatementGeneratorTest {
         assertEquals("Condition/1234", medicationStatement.reasonReference.first().reference?.value)
         assertEquals(
             "note",
-            medicationStatement.note.first().text?.value
+            medicationStatement.note.first().text?.value,
         )
         assertEquals(
             "dosage",
-            medicationStatement.dosage.first().text?.value
+            medicationStatement.dosage.first().text?.value,
         )
     }
 }

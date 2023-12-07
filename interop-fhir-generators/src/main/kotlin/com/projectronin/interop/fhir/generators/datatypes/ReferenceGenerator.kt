@@ -26,17 +26,21 @@ class ReferenceGenerator : DataGenerator<Reference>() {
             reference = reference.generate(),
             type = type.generate(),
             identifier = identifier.generate(),
-            display = display.generate()
+            display = display.generate(),
         )
 }
 
-fun reference(type: String, id: String? = null): Reference {
+fun reference(
+    type: String,
+    id: String? = null,
+): Reference {
     val reference = ReferenceGenerator()
-    reference.reference of when {
-        id.isNullOrEmpty() ->
-            "$type/${IdentifierStringGenerator(5).generate()}".asFHIR()
-        else ->
-            "$type/$id".asFHIR()
-    }
+    reference.reference of
+        when {
+            id.isNullOrEmpty() ->
+                "$type/${IdentifierStringGenerator(5).generate()}".asFHIR()
+            else ->
+                "$type/$id".asFHIR()
+        }
     return reference.generate()
 }

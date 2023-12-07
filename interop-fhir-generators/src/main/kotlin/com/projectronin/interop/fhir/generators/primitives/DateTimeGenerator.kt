@@ -5,8 +5,7 @@ import com.projectronin.test.data.generator.temporal.BaseDateGenerator
 import java.time.LocalDate
 
 class DateTimeGenerator : BaseDateGenerator<DateTime>() {
-    override fun convert(localDate: LocalDate): DateTime =
-        DateTime(localDate.toString())
+    override fun convert(localDate: LocalDate): DateTime = DateTime(localDate.toString())
 }
 
 fun dateTime(block: DateTimeGenerator.() -> Unit): DateTime {

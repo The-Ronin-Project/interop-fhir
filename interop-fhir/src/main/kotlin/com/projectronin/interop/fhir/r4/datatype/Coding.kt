@@ -22,8 +22,9 @@ data class Coding(
     val version: FHIRString? = null,
     val code: Code? = null,
     val display: FHIRString? = null,
-    val userSelected: FHIRBoolean? = null
+    val userSelected: FHIRBoolean? = null,
 ) : Element<Coding>
 
 class CodingSerializer : BaseFHIRSerializer<Coding>(Coding::class.java)
+
 class CodingDeserializer : BaseFHIRDeserializer<Coding>(Coding::class.java)

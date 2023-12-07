@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://www.hl7.org/fhir/valueset-bundle-type.html)
  */
-enum class BundleType(@JsonValue override val code: String) : CodedEnum<BundleType> {
+enum class BundleType(
+    @JsonValue override val code: String,
+) : CodedEnum<BundleType> {
     /**
      * The bundle is a document. The first resource is a Composition.
      */
@@ -50,5 +52,5 @@ enum class BundleType(@JsonValue override val code: String) : CodedEnum<BundleTy
     /**
      * The bundle is a set of resources collected into a single package for ease of distribution that imposes no processing obligations or behavioral rules beyond persistence.
      */
-    COLLECTION("collection")
+    COLLECTION("collection"),
 }

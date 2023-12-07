@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/R4/valueset-related-artifact-type.html)
  */
-enum class RelatedArtifactType(@JsonValue override val code: String) : CodedEnum<RelatedArtifactType> {
+enum class RelatedArtifactType(
+    @JsonValue override val code: String,
+) : CodedEnum<RelatedArtifactType> {
     /**
      * Additional documentation for the knowledge resource. This would include additional instructions on usage as well
      * as additional information on clinical context or appropriateness.
@@ -53,5 +55,5 @@ enum class RelatedArtifactType(@JsonValue override val code: String) : CodedEnum
     /**
      * The knowledge resource is composed of the given related artifact.
      */
-    COMPOSED_OF("composed-of")
+    COMPOSED_OF("composed-of"),
 }

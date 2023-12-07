@@ -83,7 +83,7 @@ data class MedicationRequestGenerator(
     val substitution: DataGenerator<Substitution?> = NullDataGenerator(),
     val priorPrescription: DataGenerator<Reference?> = NullDataGenerator(),
     val detectedIssue: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
-    val eventHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+    val eventHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
 ) : DomainResource<MedicationRequest> {
     override fun toFhir(): MedicationRequest =
         MedicationRequest(
@@ -126,7 +126,7 @@ data class MedicationRequestGenerator(
             substitution = substitution.generate(),
             priorPrescription = priorPrescription.generate(),
             detectedIssue = detectedIssue.generate(),
-            eventHistory = eventHistory.generate()
+            eventHistory = eventHistory.generate(),
         )
 }
 
@@ -159,7 +159,7 @@ class MedicationRequestDispenseRequestGenerator : DataGenerator<DispenseRequest>
             numberOfRepeatsAllowed = numberOfRepeatsAllowed.generate(),
             quantity = quantity.generate(),
             expectedSupplyDuration = expectedSupplyDuration.generate(),
-            performer = performer.generate()
+            performer = performer.generate(),
         )
     }
 }
@@ -177,7 +177,7 @@ class MedicationRequestInitialFillGenerator : DataGenerator<InitialFill>() {
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             quantity = quantity.generate(),
-            duration = duration.generate()
+            duration = duration.generate(),
         )
     }
 }
@@ -195,7 +195,7 @@ class MedicationRequestSubstitutionGenerator : DataGenerator<Substitution>() {
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             allowed = allowed.generate(),
-            reason = reason.generate()
+            reason = reason.generate(),
         )
     }
 }

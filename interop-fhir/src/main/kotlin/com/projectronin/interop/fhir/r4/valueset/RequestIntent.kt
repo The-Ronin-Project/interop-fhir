@@ -3,7 +3,9 @@ package com.projectronin.interop.fhir.r4.valueset
 import com.fasterxml.jackson.annotation.JsonValue
 import com.projectronin.interop.common.enums.CodedEnum
 
-enum class RequestIntent(@JsonValue override val code: String) : CodedEnum<RequestIntent> {
+enum class RequestIntent(
+    @JsonValue override val code: String,
+) : CodedEnum<RequestIntent> {
     /**
      * The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and
      * without providing an authorization to act.
@@ -54,5 +56,5 @@ enum class RequestIntent(@JsonValue override val code: String) : CodedEnum<Reque
      * 	other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this
      * 	status is used.
      */
-    OPTION("option")
+    OPTION("option"),
 }

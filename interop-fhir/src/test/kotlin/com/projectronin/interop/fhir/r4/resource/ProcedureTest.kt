@@ -26,63 +26,69 @@ import org.junit.jupiter.api.Test
 class ProcedureTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val procedure = Procedure(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninProcedure"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf(Canonical("instantiates-canonical")),
-            instantiatesUri = listOf(Uri("instantiates-uri")),
-            basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
-            partOf = listOf(Reference(reference = FHIRString("Observation/1234"))),
-            status = EventStatus.COMPLETED.asCode(),
-            statusReason = CodeableConcept(text = FHIRString("status-reason")),
-            category = CodeableConcept(text = FHIRString("category")),
-            code = CodeableConcept(text = FHIRString("code")),
-            subject = Reference(reference = FHIRString("Patient/1234")),
-            encounter = Reference(reference = FHIRString("Encounter/1234")),
-            performed = DynamicValue(DynamicValueType.STRING, FHIRString("performed")),
-            recorder = Reference(reference = FHIRString("Patient/1234")),
-            asserter = Reference(reference = FHIRString("Patient/5678")),
-            performer = listOf(ProcedurePerformer(actor = Reference(reference = FHIRString("Practitioner/1234")))),
-            location = Reference(reference = FHIRString("Location/1234")),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason-code"))),
-            reasonReference = listOf(Reference(reference = FHIRString("Condition/1234"))),
-            bodySite = listOf(CodeableConcept(text = FHIRString("body-site"))),
-            outcome = CodeableConcept(text = FHIRString("outcome")),
-            report = listOf(Reference(reference = FHIRString("DiagnosticReport/1234"))),
-            complication = listOf(CodeableConcept(text = FHIRString("complication"))),
-            complicationDetail = listOf(Reference(reference = FHIRString("Condition/5678"))),
-            followUp = listOf(CodeableConcept(text = FHIRString("follow-up"))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            focalDevice = listOf(ProcedureFocalDevice(manipulated = Reference(reference = FHIRString("Device/1234")))),
-            usedReference = listOf(Reference(reference = FHIRString("Device/5678"))),
-            usedCode = listOf(CodeableConcept(text = FHIRString("used-code")))
-        )
+        val procedure =
+            Procedure(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninProcedure")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                instantiatesCanonical = listOf(Canonical("instantiates-canonical")),
+                instantiatesUri = listOf(Uri("instantiates-uri")),
+                basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
+                partOf = listOf(Reference(reference = FHIRString("Observation/1234"))),
+                status = EventStatus.COMPLETED.asCode(),
+                statusReason = CodeableConcept(text = FHIRString("status-reason")),
+                category = CodeableConcept(text = FHIRString("category")),
+                code = CodeableConcept(text = FHIRString("code")),
+                subject = Reference(reference = FHIRString("Patient/1234")),
+                encounter = Reference(reference = FHIRString("Encounter/1234")),
+                performed = DynamicValue(DynamicValueType.STRING, FHIRString("performed")),
+                recorder = Reference(reference = FHIRString("Patient/1234")),
+                asserter = Reference(reference = FHIRString("Patient/5678")),
+                performer = listOf(ProcedurePerformer(actor = Reference(reference = FHIRString("Practitioner/1234")))),
+                location = Reference(reference = FHIRString("Location/1234")),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason-code"))),
+                reasonReference = listOf(Reference(reference = FHIRString("Condition/1234"))),
+                bodySite = listOf(CodeableConcept(text = FHIRString("body-site"))),
+                outcome = CodeableConcept(text = FHIRString("outcome")),
+                report = listOf(Reference(reference = FHIRString("DiagnosticReport/1234"))),
+                complication = listOf(CodeableConcept(text = FHIRString("complication"))),
+                complicationDetail = listOf(Reference(reference = FHIRString("Condition/5678"))),
+                followUp = listOf(CodeableConcept(text = FHIRString("follow-up"))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                focalDevice = listOf(ProcedureFocalDevice(manipulated = Reference(reference = FHIRString("Device/1234")))),
+                usedReference = listOf(Reference(reference = FHIRString("Device/5678"))),
+                usedCode = listOf(CodeableConcept(text = FHIRString("used-code"))),
+            )
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(procedure)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Procedure",
               "id" : "12345",
@@ -189,7 +195,7 @@ class ProcedureTest {
                 "text" : "used-code"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedProcedure = objectMapper.readValue<Procedure>(json)
@@ -198,14 +204,16 @@ class ProcedureTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val procedure = Procedure(
-            status = EventStatus.ENTERED_IN_ERROR.asCode(),
-            subject = Reference(reference = FHIRString("Patient/5678"))
-        )
+        val procedure =
+            Procedure(
+                status = EventStatus.ENTERED_IN_ERROR.asCode(),
+                subject = Reference(reference = FHIRString("Patient/5678")),
+            )
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(procedure)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Procedure",
               "status" : "entered-in-error",
@@ -213,13 +221,14 @@ class ProcedureTest {
                 "reference" : "Patient/5678"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Procedure",
               "status" : "in-progress",
@@ -227,7 +236,7 @@ class ProcedureTest {
                 "reference" : "Patient/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val procedure = objectMapper.readValue<Procedure>(json)
 
         assertNull(procedure.id)
@@ -272,28 +281,32 @@ class ProcedureTest {
 class ProcedurePerformerTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val performer = ProcedurePerformer(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            function = CodeableConcept(text = FHIRString("function")),
-            actor = Reference(reference = FHIRString("Practitioner/1234")),
-            onBehalfOf = Reference(reference = FHIRString("Organization/1234"))
-        )
+        val performer =
+            ProcedurePerformer(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                function = CodeableConcept(text = FHIRString("function")),
+                actor = Reference(reference = FHIRString("Practitioner/1234")),
+                onBehalfOf = Reference(reference = FHIRString("Organization/1234")),
+            )
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(performer)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -314,7 +327,7 @@ class ProcedurePerformerTest {
                 "reference" : "Organization/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedProcedurePerformer = objectMapper.readValue<ProcedurePerformer>(json)
@@ -327,25 +340,27 @@ class ProcedurePerformerTest {
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(performer)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "actor" : {
                 "reference" : "Practitioner/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "actor" : {
                 "reference" : "Practitioner/5678"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val performer = objectMapper.readValue<ProcedurePerformer>(json)
 
         assertNull(performer.id)
@@ -360,27 +375,31 @@ class ProcedurePerformerTest {
 class ProcedureFocalDeviceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val focalDevice = ProcedureFocalDevice(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            action = CodeableConcept(text = FHIRString("action")),
-            manipulated = Reference(reference = FHIRString("Device/1234"))
-        )
+        val focalDevice =
+            ProcedureFocalDevice(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                action = CodeableConcept(text = FHIRString("action")),
+                manipulated = Reference(reference = FHIRString("Device/1234")),
+            )
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(focalDevice)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -398,7 +417,7 @@ class ProcedureFocalDeviceTest {
                 "reference" : "Device/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedProcedureFocalDevice = objectMapper.readValue<ProcedureFocalDevice>(json)
@@ -411,25 +430,27 @@ class ProcedureFocalDeviceTest {
         val json =
             objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(focalDevice)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "manipulated" : {
                 "reference" : "Device/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "manipulated" : {
                 "reference" : "Device/5678"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val focalDevice = objectMapper.readValue<ProcedureFocalDevice>(json)
 
         assertNull(focalDevice.id)

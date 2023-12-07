@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://hl7.org/fhir/r4/valueset-composition-status.html)
  */
-enum class CompositionStatus(@JsonValue override val code: String) : CodedEnum<CompositionStatus> {
+enum class CompositionStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<CompositionStatus> {
     /**
      * This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or unverified.
      */
@@ -28,5 +30,5 @@ enum class CompositionStatus(@JsonValue override val code: String) : CodedEnum<C
      * The composition or document was originally created/issued in error, and this is an amendment that marks that the
      * entire series should not be considered as valid.
      */
-    ENTERED_IN_ERROR("entered-in-error")
+    ENTERED_IN_ERROR("entered-in-error"),
 }

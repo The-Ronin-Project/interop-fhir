@@ -11,24 +11,28 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
+@Suppress("ktlint:standard:max-line-length")
 class AnnotationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val annotation = Annotation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
-            time = DateTime("2021-11-17"),
-            text = Markdown("Markdown text")
-        )
+        val annotation =
+            Annotation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
+                time = DateTime("2021-11-17"),
+                text = Markdown("Markdown text"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(annotation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -39,7 +43,7 @@ class AnnotationTest {
             |  "time" : "2021-11-17",
             |  "text" : "Markdown text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAnnotation = objectMapper.readValue<Annotation>(json)
@@ -48,26 +52,29 @@ class AnnotationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val annotation = Annotation(
-            text = Markdown("Markdown text")
-        )
+        val annotation =
+            Annotation(
+                text = Markdown("Markdown text"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(annotation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "text" : "Markdown text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "text" : "Markdown text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val annotation = objectMapper.readValue<Annotation>(json)
 
         assertNull(annotation.id)
@@ -79,30 +86,38 @@ class AnnotationTest {
 
     @Test
     fun `can serialize and deserialize JSON with markdown extensions`() {
-        val annotation = Annotation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
-            time = DateTime("2021-11-17"),
-            text = Markdown(
-                value = "Markdown text",
-                id = FHIRString("67890"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),
-                        value = DynamicValue(DynamicValueType.CODE, Code("e-mail"))
-                    )
-                )
+        val annotation =
+            Annotation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                author = DynamicValue(DynamicValueType.STRING, FHIRString("Author")),
+                time = DateTime("2021-11-17"),
+                text =
+                    Markdown(
+                        value = "Markdown text",
+                        id = FHIRString("67890"),
+                        extension =
+                            listOf(
+                                Extension(
+                                    url =
+                                        Uri(
+                                            "http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem",
+                                        ),
+                                    value = DynamicValue(DynamicValueType.CODE, Code("e-mail")),
+                                ),
+                            ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(annotation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -120,7 +135,7 @@ class AnnotationTest {
             |    } ]
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAnnotation = objectMapper.readValue<Annotation>(json)

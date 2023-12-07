@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class DocumentReferenceGeneratorTest {
-
     @Test
     fun `resource generated with all required elements`() {
         val docRef = documentReference { }

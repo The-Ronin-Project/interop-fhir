@@ -32,55 +32,62 @@ import org.junit.jupiter.api.Test
 class DocumentReferenceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val documentReference = DocumentReference(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninAppointment"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            masterIdentifier = Identifier(value = FHIRString("masterIdentifier")),
-            identifier = listOf(Identifier(value = FHIRString("identifier"))),
-            status = DocumentReferenceStatus.CURRENT.asCode(),
-            docStatus = CompositionStatus.FINAL.asCode(),
-            type = CodeableConcept(text = FHIRString("type")),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            subject = Reference(display = FHIRString("subject")),
-            date = Instant("2017-01-01T00:00:00Z"),
-            author = listOf(Reference(display = FHIRString("author"))),
-            authenticator = Reference(display = FHIRString("authenticator")),
-            custodian = Reference(display = FHIRString("custodian")),
-            relatesTo = listOf(
-                DocumentReferenceRelatesTo(
-                    code = DocumentRelationshipType.SIGNS.asCode(),
-                    target = Reference(display = FHIRString("target"))
-                )
-            ),
-            description = FHIRString("description"),
-            securityLabel = listOf(CodeableConcept(text = FHIRString("securityLabel"))),
-            content = listOf(DocumentReferenceContent(attachment = Attachment(data = Base64Binary("r2d2")))),
-            context = DocumentReferenceContext(id = FHIRString("contextId"))
-        )
+        val documentReference =
+            DocumentReference(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninAppointment")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                masterIdentifier = Identifier(value = FHIRString("masterIdentifier")),
+                identifier = listOf(Identifier(value = FHIRString("identifier"))),
+                status = DocumentReferenceStatus.CURRENT.asCode(),
+                docStatus = CompositionStatus.FINAL.asCode(),
+                type = CodeableConcept(text = FHIRString("type")),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                subject = Reference(display = FHIRString("subject")),
+                date = Instant("2017-01-01T00:00:00Z"),
+                author = listOf(Reference(display = FHIRString("author"))),
+                authenticator = Reference(display = FHIRString("authenticator")),
+                custodian = Reference(display = FHIRString("custodian")),
+                relatesTo =
+                    listOf(
+                        DocumentReferenceRelatesTo(
+                            code = DocumentRelationshipType.SIGNS.asCode(),
+                            target = Reference(display = FHIRString("target")),
+                        ),
+                    ),
+                description = FHIRString("description"),
+                securityLabel = listOf(CodeableConcept(text = FHIRString("securityLabel"))),
+                content = listOf(DocumentReferenceContent(attachment = Attachment(data = Base64Binary("r2d2")))),
+                context = DocumentReferenceContext(id = FHIRString("contextId")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(documentReference)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "DocumentReference",
               "id" : "12345",
@@ -152,7 +159,7 @@ class DocumentReferenceTest {
                 "id" : "contextId"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedDocumentReference = objectMapper.readValue<DocumentReference>(json)
@@ -161,28 +168,31 @@ class DocumentReferenceTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val documentReference = DocumentReference(
-            status = DocumentReferenceStatus.SUPERSEDED.asCode()
-        )
+        val documentReference =
+            DocumentReference(
+                status = DocumentReferenceStatus.SUPERSEDED.asCode(),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(documentReference)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "DocumentReference",
               "status" : "superseded"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "DocumentReference",
               "status" : "entered-in-error"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val documentReference = objectMapper.readValue<DocumentReference>(json)
 
@@ -216,26 +226,30 @@ class DocumentReferenceTest {
 class DocumentReferenceRelatesToTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val relatesTo = DocumentReferenceRelatesTo(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = DocumentRelationshipType.SIGNS.asCode(),
-            target = Reference(display = FHIRString("target"))
-        )
+        val relatesTo =
+            DocumentReferenceRelatesTo(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = DocumentRelationshipType.SIGNS.asCode(),
+                target = Reference(display = FHIRString("target")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(relatesTo)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -251,7 +265,7 @@ class DocumentReferenceRelatesToTest {
                 "display" : "target"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedRelatesTo = objectMapper.readValue<DocumentReferenceRelatesTo>(json)
@@ -260,33 +274,36 @@ class DocumentReferenceRelatesToTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val relatesTo = DocumentReferenceRelatesTo(
-            code = DocumentRelationshipType.SIGNS.asCode(),
-            target = Reference(display = FHIRString("target"))
-        )
+        val relatesTo =
+            DocumentReferenceRelatesTo(
+                code = DocumentRelationshipType.SIGNS.asCode(),
+                target = Reference(display = FHIRString("target")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(relatesTo)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "code" : "signs",
               "target" : {
                 "display" : "target"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "code" : "appends",
               "target" : {
                 "display" : "target"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val relatesTo = objectMapper.readValue<DocumentReferenceRelatesTo>(json)
 
@@ -301,26 +318,30 @@ class DocumentReferenceRelatesToTest {
 class DocumentReferenceContentTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val content = DocumentReferenceContent(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            attachment = Attachment(data = Base64Binary("abcd")),
-            format = Coding(display = FHIRString("format"))
-        )
+        val content =
+            DocumentReferenceContent(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                attachment = Attachment(data = Base64Binary("abcd")),
+                format = Coding(display = FHIRString("format")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(content)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -338,7 +359,7 @@ class DocumentReferenceContentTest {
                 "display" : "format"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedContent = objectMapper.readValue<DocumentReferenceContent>(json)
@@ -347,30 +368,33 @@ class DocumentReferenceContentTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val content = DocumentReferenceContent(
-            attachment = Attachment(data = Base64Binary("abcd"))
-        )
+        val content =
+            DocumentReferenceContent(
+                attachment = Attachment(data = Base64Binary("abcd")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(content)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "attachment" : {
                 "data" : "abcd"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "attachment" : {
                 "data" : "1b3d"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val content = objectMapper.readValue<DocumentReferenceContent>(json)
 
@@ -385,31 +409,35 @@ class DocumentReferenceContentTest {
 class DocumentReferenceContextTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val context = DocumentReferenceContext(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            encounter = listOf(Reference(display = FHIRString("encounter"))),
-            event = listOf(CodeableConcept(text = FHIRString("event"))),
-            period = Period(start = DateTime("1905-08-23")),
-            facilityType = CodeableConcept(text = FHIRString("facilityType")),
-            practiceSetting = CodeableConcept(text = FHIRString("practiceSetting")),
-            sourcePatientInfo = Reference(display = FHIRString("sourcePatientInfo")),
-            related = listOf(Reference(display = FHIRString("related")))
-        )
+        val context =
+            DocumentReferenceContext(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                encounter = listOf(Reference(display = FHIRString("encounter"))),
+                event = listOf(CodeableConcept(text = FHIRString("event"))),
+                period = Period(start = DateTime("1905-08-23")),
+                facilityType = CodeableConcept(text = FHIRString("facilityType")),
+                practiceSetting = CodeableConcept(text = FHIRString("practiceSetting")),
+                sourcePatientInfo = Reference(display = FHIRString("sourcePatientInfo")),
+                related = listOf(Reference(display = FHIRString("related"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(context)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -442,7 +470,7 @@ class DocumentReferenceContextTest {
                 "display" : "related"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedContext = objectMapper.readValue<DocumentReferenceContext>(json)
@@ -451,30 +479,33 @@ class DocumentReferenceContextTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val context = DocumentReferenceContext(
-            encounter = listOf(Reference(display = FHIRString("encounter")))
-        )
+        val context =
+            DocumentReferenceContext(
+                encounter = listOf(Reference(display = FHIRString("encounter"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(context)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "encounter" : [ {
                 "display" : "encounter"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "event" : [ {
                 "text" : "event"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val context = objectMapper.readValue<DocumentReferenceContext>(json)
 

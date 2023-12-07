@@ -15,10 +15,11 @@ class PeriodGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val period = period {
-            start of dateTime { year of 1990 }
-            end of dateTime { year of 1990 }
-        }
+        val period =
+            period {
+                start of dateTime { year of 1990 }
+                end of dateTime { year of 1990 }
+            }
         assertTrue(period.start?.value?.startsWith("1990")!!)
         assertTrue(period.end?.value?.startsWith("1990")!!)
     }

@@ -41,9 +41,8 @@ data class STU3Dosage(
     val rate: DynamicValue<Any>? = null,
     val maxDosePerPeriod: Ratio? = null,
     val maxDosePerAdministration: SimpleQuantity? = null,
-    val maxDosePerLifetime: SimpleQuantity? = null
+    val maxDosePerLifetime: SimpleQuantity? = null,
 ) : STU3Element<STU3Dosage> {
-
     override fun transformToR4(): Dosage {
         return Dosage(
             id = id,
@@ -60,21 +59,21 @@ data class STU3Dosage(
             doseAndRate = transformToR4DoseAndRate(dose, rate),
             maxDosePerPeriod = maxDosePerPeriod,
             maxDosePerAdministration = maxDosePerAdministration,
-            maxDosePerLifetime = maxDosePerLifetime
+            maxDosePerLifetime = maxDosePerLifetime,
         )
     }
 
     private fun transformToR4DoseAndRate(
         dose: DynamicValue<Any>?,
-        rate: DynamicValue<Any>?
+        rate: DynamicValue<Any>?,
     ): List<DoseAndRate> {
         return if ((dose != null) || (rate != null)) {
             listOf(
                 DoseAndRate(
                     // R4 type - not populated
                     dose = dose,
-                    rate = rate
-                )
+                    rate = rate,
+                ),
             )
         } else {
             emptyList()
@@ -83,4 +82,5 @@ data class STU3Dosage(
 }
 
 class STU3DosageSerializer : BaseFHIRSerializer<STU3Dosage>(STU3Dosage::class.java)
+
 class STU3DosageDeserializer : BaseFHIRDeserializer<STU3Dosage>(STU3Dosage::class.java)

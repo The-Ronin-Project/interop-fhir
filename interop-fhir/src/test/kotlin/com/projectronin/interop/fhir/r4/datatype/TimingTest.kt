@@ -22,46 +22,52 @@ import org.junit.jupiter.api.Test
 class TimingTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val timing = Timing(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            event = listOf(DateTime("2021-11-18")),
-            repeat = TimingRepeat(
-                id = FHIRString("67890"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                    )
-                ),
-                bounds = DynamicValue(
-                    DynamicValueType.DURATION,
-                    Duration(value = Decimal(3.0), code = Code("a"), system = CodeSystem.UCUM.uri)
-                ),
-                count = PositiveInt(5),
-                countMax = PositiveInt(10),
-                duration = Decimal(14.0),
-                durationMax = Decimal(30.0),
-                durationUnit = UnitOfTime.DAY.asCode(),
-                frequency = PositiveInt(2),
-                frequencyMax = PositiveInt(10),
-                period = Decimal(6.0),
-                periodMax = Decimal(8.0),
-                periodUnit = UnitOfTime.HOUR.asCode(),
-                dayOfWeek = listOf(DayOfWeek.MONDAY.asCode()),
-                `when` = listOf(EventTiming.UPON_WAKING.asCode()),
-                offset = UnsignedInt(12)
-            ),
-            code = CodeableConcept(text = FHIRString("code-concept"))
-        )
+        val timing =
+            Timing(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                event = listOf(DateTime("2021-11-18")),
+                repeat =
+                    TimingRepeat(
+                        id = FHIRString("67890"),
+                        extension =
+                            listOf(
+                                Extension(
+                                    url = Uri("http://localhost/extension"),
+                                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                                ),
+                            ),
+                        bounds =
+                            DynamicValue(
+                                DynamicValueType.DURATION,
+                                Duration(value = Decimal(3.0), code = Code("a"), system = CodeSystem.UCUM.uri),
+                            ),
+                        count = PositiveInt(5),
+                        countMax = PositiveInt(10),
+                        duration = Decimal(14.0),
+                        durationMax = Decimal(30.0),
+                        durationUnit = UnitOfTime.DAY.asCode(),
+                        frequency = PositiveInt(2),
+                        frequencyMax = PositiveInt(10),
+                        period = Decimal(6.0),
+                        periodMax = Decimal(8.0),
+                        periodUnit = UnitOfTime.HOUR.asCode(),
+                        dayOfWeek = listOf(DayOfWeek.MONDAY.asCode()),
+                        `when` = listOf(EventTiming.UPON_WAKING.asCode()),
+                        offset = UnsignedInt(12),
+                    ),
+                code = CodeableConcept(text = FHIRString("code-concept")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(timing)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -98,7 +104,7 @@ class TimingTest {
             |    "text" : "code-concept"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedTiming = objectMapper.readValue<Timing>(json)
@@ -107,32 +113,36 @@ class TimingTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val timing = Timing(
-            repeat = TimingRepeat(
-                timeOfDay = listOf(Time("12:00:00"))
+        val timing =
+            Timing(
+                repeat =
+                    TimingRepeat(
+                        timeOfDay = listOf(Time("12:00:00")),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(timing)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "repeat" : {
             |    "timeOfDay" : [ "12:00:00" ]
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "repeat" : {
             |    "count" : 3
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val timing = objectMapper.readValue<Timing>(json)
 
         assertNull(timing.id)

@@ -53,7 +53,7 @@ data class MedicationStatementGenerator(
     val reasonCode: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val reasonReference: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
-    val dosage: ListDataGenerator<Dosage> = ListDataGenerator(0, DosageGenerator())
+    val dosage: ListDataGenerator<Dosage> = ListDataGenerator(0, DosageGenerator()),
 ) : DomainResource<MedicationStatement> {
     override fun toFhir(): MedicationStatement =
         MedicationStatement(
@@ -81,7 +81,7 @@ data class MedicationStatementGenerator(
             reasonCode = reasonCode.generate(),
             reasonReference = reasonReference.generate(),
             note = note.generate(),
-            dosage = dosage.generate()
+            dosage = dosage.generate(),
         )
 }
 

@@ -29,20 +29,21 @@ class AddressGenerator : DataGenerator<Address>() {
     val country: FHIRStringFakerDataGenerator = AddressPartGenerator(FakerAddress::country)
     val period: DataGenerator<Period?> = NullDataGenerator()
 
-    override fun generateInternal() = Address(
-        id = id.generate(),
-        extension = extension.generate(),
-        use = use.generate(),
-        type = type.generate(),
-        text = text.generate(),
-        line = line.generate(),
-        city = city.generate(),
-        district = district.generate(),
-        state = state.generate(),
-        postalCode = postalCode.generate(),
-        country = country.generate(),
-        period = period.generate()
-    )
+    override fun generateInternal() =
+        Address(
+            id = id.generate(),
+            extension = extension.generate(),
+            use = use.generate(),
+            type = type.generate(),
+            text = text.generate(),
+            line = line.generate(),
+            city = city.generate(),
+            district = district.generate(),
+            state = state.generate(),
+            postalCode = postalCode.generate(),
+            country = country.generate(),
+            period = period.generate(),
+        )
 }
 
 class AddressLineGenerator : FakerDataGenerator<List<FHIRString>>() {

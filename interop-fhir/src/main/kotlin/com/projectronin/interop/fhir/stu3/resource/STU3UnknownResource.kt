@@ -19,7 +19,7 @@ data class STU3UnknownResource(
     override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
-    val otherData: Map<String, Any?>
+    val otherData: Map<String, Any?>,
 ) : STU3Resource<STU3UnknownResource> {
     override fun transformToR4(): Resource<*> {
         return UnknownResource(resourceType, id, meta, implicitRules, language, otherData)

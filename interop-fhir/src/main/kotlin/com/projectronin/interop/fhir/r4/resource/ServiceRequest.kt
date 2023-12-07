@@ -83,7 +83,7 @@ data class ServiceRequest(
         ResourceType.Organization,
         ResourceType.Patient,
         ResourceType.RelatedPerson,
-        ResourceType.Device
+        ResourceType.Device,
     )
     val requester: Reference? = null,
     val performerType: CodeableConcept? = null,
@@ -95,7 +95,7 @@ data class ServiceRequest(
         ResourceType.HealthcareService,
         ResourceType.Patient,
         ResourceType.Device,
-        ResourceType.RelatedPerson
+        ResourceType.RelatedPerson,
     )
     val performer: List<Reference> = listOf(),
     val locationCode: List<CodeableConcept> = listOf(),
@@ -106,7 +106,7 @@ data class ServiceRequest(
         ResourceType.Condition,
         ResourceType.Observation,
         ResourceType.DiagnosticReport,
-        ResourceType.DocumentReference
+        ResourceType.DocumentReference,
     )
     val reasonReference: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Coverage, ResourceType.ClaimResponse)
@@ -118,10 +118,11 @@ data class ServiceRequest(
     val note: List<Annotation> = listOf(),
     val patientInstruction: FHIRString? = null,
     @SupportedReferenceTypes(ResourceType.Provenance)
-    val relevantHistory: List<Reference> = listOf()
+    val relevantHistory: List<Reference> = listOf(),
 ) : DomainResource<ServiceRequest> {
     override val resourceType: String = "ServiceRequest"
 }
 
 class ServiceRequestSerializer : BaseFHIRSerializer<ServiceRequest>(ServiceRequest::class.java)
+
 class ServiceRequestDeserializer : BaseFHIRDeserializer<ServiceRequest>(ServiceRequest::class.java)

@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty1
  * Base implementation of [ValidationAnnotationValidator] that adds common logic.
  */
 abstract class BaseValidationAnnotationValidator<A : Annotation>(
-    override val supportedAnnotation: KClass<A>
+    override val supportedAnnotation: KClass<A>,
 ) : ValidationAnnotationValidator {
     /**
      * Validates the provided [annotations] against the [element]'s [property] where they were defined.
@@ -22,7 +22,7 @@ abstract class BaseValidationAnnotationValidator<A : Annotation>(
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     )
 
     override fun <T : Validatable<T>> validateAnnotations(
@@ -32,7 +32,7 @@ abstract class BaseValidationAnnotationValidator<A : Annotation>(
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         val supportedAnnotations = annotations.filterIsInstance(supportedAnnotation.java)
         if (supportedAnnotations.isNotEmpty()) {
@@ -43,7 +43,7 @@ abstract class BaseValidationAnnotationValidator<A : Annotation>(
                 element,
                 elementName,
                 parentContext,
-                validation
+                validation,
             )
         }
     }

@@ -17,8 +17,9 @@ data class Period(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val start: DateTime? = null,
-    val end: DateTime? = null
+    val end: DateTime? = null,
 ) : Element<Period>
 
 class PeriodSerializer : BaseFHIRSerializer<Period>(Period::class.java)
+
 class PeriodDeserializer : BaseFHIRDeserializer<Period>(Period::class.java)

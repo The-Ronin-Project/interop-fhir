@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-contact-point-system.html)
  */
-enum class ContactPointSystem(@JsonValue override val code: String) : CodedEnum<ContactPointSystem> {
+enum class ContactPointSystem(
+    @JsonValue override val code: String,
+) : CodedEnum<ContactPointSystem> {
     /**
      * The value is a telephone number used for voice calls. Use of full international numbers starting with + is recommended to enable automatic dialing support but not required.
      */
@@ -40,5 +42,5 @@ enum class ContactPointSystem(@JsonValue override val code: String) : CodedEnum<
     /**
      * A contact that is not a phone, fax, page or email address and is not expressible as a URL. E.g. Internal mail address. This SHOULD NOT be used for contacts that are expressible as a URL (e.g. Skype, Twitter, Facebook, etc.) Extensions may be used to distinguish "other" contact types.
      */
-    OTHER("other")
+    OTHER("other"),
 }

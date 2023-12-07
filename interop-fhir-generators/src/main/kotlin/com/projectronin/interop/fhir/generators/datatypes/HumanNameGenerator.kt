@@ -28,7 +28,7 @@ class HumanNameGenerator : DataGenerator<HumanName>() {
             given = given.generate().asFHIR(),
             prefix = prefix.generate().asFHIR(),
             suffix = suffix.generate().asFHIR(),
-            period = period.generate()
+            period = period.generate(),
         )
     }
 }

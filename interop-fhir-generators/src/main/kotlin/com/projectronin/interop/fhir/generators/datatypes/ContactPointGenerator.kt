@@ -24,16 +24,18 @@ class ContactPointGenerator : DataGenerator<ContactPoint>() {
 
     override fun generateInternal(): ContactPoint {
         val system = system.generate()
-        val value = value.generate() ?: when (system!!.value) {
-            ContactPointSystem.PHONE.code,
-            ContactPointSystem.FAX.code,
-            ContactPointSystem.SMS.code,
-            ContactPointSystem.PAGER.code -> Faker().phoneNumber().phoneNumber()
+        val value =
+            value.generate() ?: when (system!!.value) {
+                ContactPointSystem.PHONE.code,
+                ContactPointSystem.FAX.code,
+                ContactPointSystem.SMS.code,
+                ContactPointSystem.PAGER.code,
+                -> Faker().phoneNumber().phoneNumber()
 
-            ContactPointSystem.EMAIL.code -> Faker().internet().emailAddress()
-            ContactPointSystem.URL.code -> Faker().internet().url()
-            else -> Faker().lorem().word()
-        }?.let { FHIRString(it) }
+                ContactPointSystem.EMAIL.code -> Faker().internet().emailAddress()
+                ContactPointSystem.URL.code -> Faker().internet().url()
+                else -> Faker().lorem().word()
+            }?.let { FHIRString(it) }
 
         return ContactPoint(
             id = id.generate(),
@@ -42,7 +44,7 @@ class ContactPointGenerator : DataGenerator<ContactPoint>() {
             value = value,
             use = use.generate(),
             rank = rank.generate(),
-            period = period.generate()
+            period = period.generate(),
         )
     }
 }

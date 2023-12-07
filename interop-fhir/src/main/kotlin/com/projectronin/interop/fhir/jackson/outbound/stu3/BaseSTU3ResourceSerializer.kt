@@ -14,9 +14,17 @@ abstract class BaseSTU3ResourceSerializer<T : STU3Resource<T>>(clazz: Class<T>) 
     /**
      * Writes the specific element attributes of [value] to the [gen]. Common element items such as id and extension do not need to be written.
      */
-    abstract fun serializeSpecificElement(value: T, gen: JsonGenerator, provider: SerializerProvider)
+    abstract fun serializeSpecificElement(
+        value: T,
+        gen: JsonGenerator,
+        provider: SerializerProvider,
+    )
 
-    override fun serialize(value: T, gen: JsonGenerator, provider: SerializerProvider) {
+    override fun serialize(
+        value: T,
+        gen: JsonGenerator,
+        provider: SerializerProvider,
+    ) {
         gen.writeStartObject()
         gen.writeNullableField("resourceType", value.resourceType)
         gen.writeNullableField("id", value.id)
@@ -33,7 +41,7 @@ abstract class BaseSTU3ResourceSerializer<T : STU3Resource<T>>(clazz: Class<T>) 
         value: T,
         gen: JsonGenerator,
         serializers: SerializerProvider,
-        typeSer: TypeSerializer
+        typeSer: TypeSerializer,
     ) {
         serialize(value, gen, serializers)
     }

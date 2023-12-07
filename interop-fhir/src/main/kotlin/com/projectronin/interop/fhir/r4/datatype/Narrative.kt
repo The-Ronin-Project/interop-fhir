@@ -24,8 +24,9 @@ data class Narrative(
     @RequiredValueSet(NarrativeStatus::class)
     val status: Code?,
     @RequiredField
-    val div: FHIRString?
+    val div: FHIRString?,
 ) : Element<Narrative>
 
 class NarrativeSerializer : BaseFHIRSerializer<Narrative>(Narrative::class.java)
+
 class NarrativeDeserializer : BaseFHIRDeserializer<Narrative>(Narrative::class.java)

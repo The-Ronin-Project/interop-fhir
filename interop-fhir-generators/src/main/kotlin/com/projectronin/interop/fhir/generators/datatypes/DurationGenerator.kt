@@ -27,7 +27,7 @@ class DurationGenerator : DataGenerator<Duration>() {
             comparator = comparator.generate(),
             unit = unit.generate(),
             system = system.generate(),
-            code = code.generate()
+            code = code.generate(),
         )
     }
 }

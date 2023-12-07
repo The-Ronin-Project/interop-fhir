@@ -33,8 +33,9 @@ data class ParameterDefinition(
     val documentation: FHIRString? = null,
     @RequiredField
     val type: Code?,
-    val profile: Canonical? = null
+    val profile: Canonical? = null,
 ) : Element<ParameterDefinition>
 
 class ParameterDefinitionSerializer : BaseFHIRSerializer<ParameterDefinition>(ParameterDefinition::class.java)
+
 class ParameterDefinitionDeserializer : BaseFHIRDeserializer<ParameterDefinition>(ParameterDefinition::class.java)

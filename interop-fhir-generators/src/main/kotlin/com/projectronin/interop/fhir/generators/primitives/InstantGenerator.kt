@@ -22,8 +22,8 @@ class InstantGenerator : DataGenerator<Instant>() {
                 day.generate(),
                 hour.generate(),
                 minute.generate(),
-                second.generate()
-            )
+                second.generate(),
+            ),
         )
 }
 

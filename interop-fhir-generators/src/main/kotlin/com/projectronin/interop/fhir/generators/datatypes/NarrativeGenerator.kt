@@ -14,12 +14,13 @@ class NarrativeGenerator : DataGenerator<Narrative>() {
     val status: CodeGenerator = CodeGenerator()
     val div: DataGenerator<FHIRString?> = NullDataGenerator()
 
-    override fun generateInternal() = Narrative(
-        id = id.generate(),
-        extension = extension.generate(),
-        status = status.generate(),
-        div = div.generate()
-    )
+    override fun generateInternal() =
+        Narrative(
+            id = id.generate(),
+            extension = extension.generate(),
+            status = status.generate(),
+            div = div.generate(),
+        )
 }
 
 fun narrative(block: NarrativeGenerator.() -> Unit): Narrative {

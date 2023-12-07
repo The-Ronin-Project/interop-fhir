@@ -21,7 +21,7 @@ class CodingGenerator : DataGenerator<Coding>() {
             version = version.generate(),
             code = code.generate(),
             display = display.generate(),
-            userSelected = userSelected.generate()
+            userSelected = userSelected.generate(),
         )
 }
 

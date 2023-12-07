@@ -18,16 +18,17 @@ data class BundleGenerator(
     override val implicitRules: DataGenerator<Uri?> = NullDataGenerator(),
     override val language: DataGenerator<Code?> = NullDataGenerator(),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val type: CodeGenerator = CodeGenerator()
+    val type: CodeGenerator = CodeGenerator(),
 ) : FhirTestResource<Bundle> {
-    override fun toFhir(): Bundle = Bundle(
-        id = id.generate(),
-        meta = meta.generate(),
-        implicitRules = implicitRules.generate(),
-        language = language.generate(),
-        identifier = identifier.generate().firstOrNull(),
-        type = type.generate()
-    )
+    override fun toFhir(): Bundle =
+        Bundle(
+            id = id.generate(),
+            meta = meta.generate(),
+            implicitRules = implicitRules.generate(),
+            language = language.generate(),
+            identifier = identifier.generate().firstOrNull(),
+            type = type.generate(),
+        )
 }
 
 fun bundle(block: BundleGenerator.() -> Unit): Bundle {

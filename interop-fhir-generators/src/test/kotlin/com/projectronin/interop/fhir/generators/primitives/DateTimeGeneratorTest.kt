@@ -13,11 +13,12 @@ class DateTimeGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val date = dateTime {
-            year of 1990
-            day of 3
-            month of 1
-        }
+        val date =
+            dateTime {
+                year of 1990
+                day of 3
+                month of 1
+            }
         assertNotNull(date)
         assertEquals("1990-01-03", date.value)
     }

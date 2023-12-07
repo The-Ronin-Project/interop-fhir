@@ -8,5 +8,5 @@ import com.projectronin.interop.fhir.validate.InvalidPrimitiveError
  */
 object R4UuidValidator : BaseRegexPrimitiveValidator<Uuid>(
     Regex("""urn:uuid:[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}"""),
-    InvalidPrimitiveError(Uuid::class)
+    InvalidPrimitiveError(Uuid::class),
 )

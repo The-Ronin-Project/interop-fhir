@@ -53,12 +53,13 @@ data class Organization(
     val partOf: Reference? = null,
     val contact: List<OrganizationContact> = listOf(),
     @SupportedReferenceTypes(ResourceType.Endpoint)
-    val endpoint: List<Reference> = listOf()
+    val endpoint: List<Reference> = listOf(),
 ) : DomainResource<Organization> {
     override val resourceType: String = "Organization"
 }
 
 class OrganizationDeserializer : BaseFHIRDeserializer<Organization>(Organization::class.java)
+
 class OrganizationSerializer : BaseFHIRSerializer<Organization>(Organization::class.java)
 
 /**
@@ -75,8 +76,9 @@ data class OrganizationContact(
     val purpose: CodeableConcept? = null,
     val name: HumanName? = null,
     val telecom: List<ContactPoint> = listOf(),
-    val address: Address? = null
+    val address: Address? = null,
 ) : BackboneElement<OrganizationContact>
 
 class OrganizationContactSerializer : BaseFHIRSerializer<OrganizationContact>(OrganizationContact::class.java)
+
 class OrganizationContactDeserializer : BaseFHIRDeserializer<OrganizationContact>(OrganizationContact::class.java)

@@ -21,7 +21,7 @@ class R4AgeValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Quantity",
-            exception.message
+            exception.message,
         )
     }
 
@@ -35,46 +35,49 @@ class R4AgeValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_AGE_001: There SHALL be a code if there is a value @ Age",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(system = Uri("SNOMED"))
-            R4AgeValidator.validate(age).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val age = Age(system = Uri("SNOMED"))
+                R4AgeValidator.validate(age).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_AGE_002: If system is present, it SHALL be UCUM @ Age.system",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value is zero`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
-            R4AgeValidator.validate(age).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
+                R4AgeValidator.validate(age).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_AGE_003: If value is present, it SHALL be positive @ Age.value",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value is negative`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(-3.0))
-            R4AgeValidator.validate(age).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(-3.0))
+                R4AgeValidator.validate(age).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_AGE_003: If value is present, it SHALL be positive @ Age.value",
-            exception.message
+            exception.message,
         )
     }
 
@@ -88,30 +91,32 @@ class R4AgeValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `age failure includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
-            R4AgeValidator.validate(age, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val age = Age(code = Code("code"), system = CodeSystem.UCUM.uri, value = Decimal(0.0))
+                R4AgeValidator.validate(age, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_AGE_003: If value is present, it SHALL be positive @ Test.field.value",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val age = Age(
-            value = Decimal(17.0),
-            system = CodeSystem.UCUM.uri,
-            code = Code("a")
-        )
+        val age =
+            Age(
+                value = Decimal(17.0),
+                system = CodeSystem.UCUM.uri,
+                code = Code("a"),
+            )
         R4AgeValidator.validate(age).alertIfErrors()
     }
 }

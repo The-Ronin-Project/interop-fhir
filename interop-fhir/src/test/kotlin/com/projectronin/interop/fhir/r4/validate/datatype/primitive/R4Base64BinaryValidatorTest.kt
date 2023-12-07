@@ -27,25 +27,27 @@ class R4Base64BinaryValidatorTest {
 
     @Test
     fun `fails on value with wrong number of values`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val base64Binary = Base64Binary("abc")
-            R4Base64BinaryValidator.validate(base64Binary).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val base64Binary = Base64Binary("abc")
+                R4Base64BinaryValidator.validate(base64Binary).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Base64Binary",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val base64Binary = Base64Binary("abc")
-            R4Base64BinaryValidator.validate(base64Binary, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val base64Binary = Base64Binary("abc")
+                R4Base64BinaryValidator.validate(base64Binary, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Base64Binary @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

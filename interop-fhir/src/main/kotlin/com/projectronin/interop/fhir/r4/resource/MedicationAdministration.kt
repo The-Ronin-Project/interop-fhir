@@ -72,7 +72,7 @@ data class MedicationAdministration(
     val note: List<Annotation> = listOf(),
     val dosage: MedicationAdministrationDosage? = null,
     @SupportedReferenceTypes(ResourceType.Provenance)
-    val eventHistory: List<Reference> = listOf()
+    val eventHistory: List<Reference> = listOf(),
 ) : DomainResource<MedicationAdministration> {
     override val resourceType: String = "MedicationAdministration"
 }
@@ -96,9 +96,9 @@ data class MedicationAdministrationPerformer(
         ResourceType.PractitionerRole,
         ResourceType.Patient,
         ResourceType.RelatedPerson,
-        ResourceType.Device
+        ResourceType.Device,
     )
-    val actor: Reference? = null
+    val actor: Reference? = null,
 ) : BackboneElement<MedicationAdministrationPerformer>
 
 class MedicationAdministrationPerformerDeserializer :
@@ -119,7 +119,7 @@ data class MedicationAdministrationDosage(
     val method: CodeableConcept? = null,
     val dose: Quantity? = null,
     @SupportedDynamicValueTypes(DynamicValueType.RATIO, DynamicValueType.QUANTITY)
-    val rate: DynamicValue<Any>? = null
+    val rate: DynamicValue<Any>? = null,
 ) : BackboneElement<MedicationAdministrationDosage>
 
 class MedicationAdministrationDosageDeserializer :

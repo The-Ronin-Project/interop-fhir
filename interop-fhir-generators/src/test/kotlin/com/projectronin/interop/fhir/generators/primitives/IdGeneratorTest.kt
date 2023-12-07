@@ -20,9 +20,10 @@ class IdGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val id = id {
-            value of "abc-123"
-        }
+        val id =
+            id {
+                value of "abc-123"
+            }
         assertEquals("abc-123", id.value)
     }
 

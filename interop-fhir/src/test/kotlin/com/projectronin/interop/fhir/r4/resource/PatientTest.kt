@@ -39,55 +39,62 @@ class PatientTest {
     fun `can serialize and deserialize JSON`() {
         val deceased = DynamicValue(type = DynamicValueType.BOOLEAN, value = FHIRBoolean.FALSE)
         val multipleBirth = DynamicValue(type = DynamicValueType.INTEGER, value = FHIRInteger(2))
-        val patient = Patient(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninPatient"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            active = FHIRBoolean.TRUE,
-            name = listOf(HumanName(family = FHIRString("Doe"))),
-            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
-            gender = AdministrativeGender.FEMALE.asCode(),
-            birthDate = Date("1975-07-05"),
-            deceased = deceased,
-            address = listOf(Address(country = FHIRString("USA"))),
-            maritalStatus = CodeableConcept(text = FHIRString("M")),
-            multipleBirth = multipleBirth,
-            photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
-            contact = listOf(PatientContact(name = HumanName(text = FHIRString("Jane Doe")))),
-            communication = listOf(PatientCommunication(language = CodeableConcept(text = FHIRString("English")))),
-            generalPractitioner = listOf(Reference(display = FHIRString("GP"))),
-            managingOrganization = Reference(display = FHIRString("organization")),
-            link = listOf(
-                PatientLink(
-                    other = Reference(display = FHIRString("other patient")),
-                    type = LinkType.REPLACES.asCode()
-                )
+        val patient =
+            Patient(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninPatient")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                active = FHIRBoolean.TRUE,
+                name = listOf(HumanName(family = FHIRString("Doe"))),
+                telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+                gender = AdministrativeGender.FEMALE.asCode(),
+                birthDate = Date("1975-07-05"),
+                deceased = deceased,
+                address = listOf(Address(country = FHIRString("USA"))),
+                maritalStatus = CodeableConcept(text = FHIRString("M")),
+                multipleBirth = multipleBirth,
+                photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
+                contact = listOf(PatientContact(name = HumanName(text = FHIRString("Jane Doe")))),
+                communication = listOf(PatientCommunication(language = CodeableConcept(text = FHIRString("English")))),
+                generalPractitioner = listOf(Reference(display = FHIRString("GP"))),
+                managingOrganization = Reference(display = FHIRString("organization")),
+                link =
+                    listOf(
+                        PatientLink(
+                            other = Reference(display = FHIRString("other patient")),
+                            type = LinkType.REPLACES.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Patient",
               "id" : "12345",
@@ -161,7 +168,7 @@ class PatientTest {
                 "type" : "replaces"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedPatient = JacksonManager.objectMapper.readValue<Patient>(json)
@@ -173,21 +180,23 @@ class PatientTest {
         val patient = Patient()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Patient"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Patient"
             }
-        """.trimIndent()
+            """.trimIndent()
         val patient = JacksonManager.objectMapper.readValue<Patient>(json)
 
         assertNull(patient.id)
@@ -220,26 +229,30 @@ class PatientTest {
 class PatientCommunicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val patientCommunication = PatientCommunication(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            language = CodeableConcept(text = FHIRString("English")),
-            preferred = FHIRBoolean.TRUE
-        )
+        val patientCommunication =
+            PatientCommunication(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                language = CodeableConcept(text = FHIRString("English")),
+                preferred = FHIRBoolean.TRUE,
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCommunication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -255,7 +268,7 @@ class PatientCommunicationTest {
               },
               "preferred" : true
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedPatientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
@@ -267,13 +280,14 @@ class PatientCommunicationTest {
         val patientCommunication = PatientCommunication(language = CodeableConcept(text = FHIRString("English")))
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCommunication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "language" : {
                 "text" : "English"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedPatientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
@@ -282,13 +296,14 @@ class PatientCommunicationTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "language" : {
                 "text" : "English"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val patientCommunication = JacksonManager.objectMapper.readValue<PatientCommunication>(json)
 
         assertNull(patientCommunication.id)
@@ -301,38 +316,44 @@ class PatientCommunicationTest {
 class PatientContactTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val contact = PatientContact(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            relationship = listOf(
-                CodeableConcept(text = FHIRString("N"))
-            ),
-            name = HumanName(text = FHIRString("Jane Doe")),
-            telecom = listOf(
-                ContactPoint(
-                    value = FHIRString("name@site.com"),
-                    system = ContactPointSystem.EMAIL.asCode()
-                )
-            ),
-            address = Address(text = FHIRString("123 Sesame St")),
-            gender = AdministrativeGender.MALE.asCode(),
-            organization = Reference(reference = FHIRString("Patient/123")),
-            period = Period(start = DateTime("1998-08"))
-        )
+        val contact =
+            PatientContact(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                relationship =
+                    listOf(
+                        CodeableConcept(text = FHIRString("N")),
+                    ),
+                name = HumanName(text = FHIRString("Jane Doe")),
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            value = FHIRString("name@site.com"),
+                            system = ContactPointSystem.EMAIL.asCode(),
+                        ),
+                    ),
+                address = Address(text = FHIRString("123 Sesame St")),
+                gender = AdministrativeGender.MALE.asCode(),
+                organization = Reference(reference = FHIRString("Patient/123")),
+                period = Period(start = DateTime("1998-08")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -364,7 +385,7 @@ class PatientContactTest {
                 "start" : "1998-08"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedContact = JacksonManager.objectMapper.readValue<PatientContact>(json)
@@ -373,18 +394,21 @@ class PatientContactTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val contact = PatientContact(
-            name = HumanName(text = FHIRString("Jane Doe")),
-            telecom = listOf(
-                ContactPoint(
-                    value = FHIRString("name@site.com"),
-                    system = ContactPointSystem.EMAIL.asCode()
-                )
+        val contact =
+            PatientContact(
+                name = HumanName(text = FHIRString("Jane Doe")),
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            value = FHIRString("name@site.com"),
+                            system = ContactPointSystem.EMAIL.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "name" : {
                 "text" : "Jane Doe"
@@ -394,7 +418,7 @@ class PatientContactTest {
                 "value" : "name@site.com"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedContact = JacksonManager.objectMapper.readValue<PatientContact>(json)
@@ -403,7 +427,8 @@ class PatientContactTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "name" : {
                 "text" : "Jane Doe"
@@ -413,7 +438,7 @@ class PatientContactTest {
                 "value" : "name@site.com"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         val contact = JacksonManager.objectMapper.readValue<PatientContact>(json)
 
         assertNull(contact.id)
@@ -431,26 +456,30 @@ class PatientContactTest {
 class PatientLinkTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val link = PatientLink(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            other = Reference(display = FHIRString("reference")),
-            type = LinkType.REPLACES.asCode()
-        )
+        val link =
+            PatientLink(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                other = Reference(display = FHIRString("reference")),
+                type = LinkType.REPLACES.asCode(),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -466,7 +495,7 @@ class PatientLinkTest {
               },
               "type" : "replaces"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedLink = JacksonManager.objectMapper.readValue<PatientLink>(json)
@@ -475,20 +504,22 @@ class PatientLinkTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val link = PatientLink(
-            other = Reference(display = FHIRString("any")),
-            type = LinkType.REPLACES.asCode()
-        )
+        val link =
+            PatientLink(
+                other = Reference(display = FHIRString("any")),
+                type = LinkType.REPLACES.asCode(),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(link)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "other" : {
                 "display" : "any"
               },
               "type" : "replaces"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedLink = JacksonManager.objectMapper.readValue<PatientLink>(json)
@@ -497,14 +528,15 @@ class PatientLinkTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "other" : {
                 "display" : "any"
               },
               "type" : "replaces"
             }
-        """.trimIndent()
+            """.trimIndent()
         val link = JacksonManager.objectMapper.readValue<PatientLink>(json)
 
         assertNull(link.id)

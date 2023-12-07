@@ -53,78 +53,89 @@ class LocationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val location = location {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            status of "Active"
-            operationalStatus of coding {
-                code of "codeZ"
-                system of "systemZ"
-                display of "displayZ"
-            }
-            name of "Prairie"
-            alias of listOf("A", "B", "C")
-            description of "Flat"
-            mode of Code("codeA")
-            type of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            code of "codeB"
-                            system of "systemB"
-                        }
+        val location =
+            location {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
                     )
-                    text of "textB"
-                }
-            )
-            telecom of listOf(
-                contactPoint {
-                    system of ContactPointSystem.PHONE.asCode()
-                    value of "123-456-7890"
-                    use of "official"
-                },
-                contactPoint {
-                    system of ContactPointSystem.EMAIL.asCode()
-                    value of "clinic.com"
-                }
-            )
-            address of address {}
-            physicalType of codeableConcept {
-                coding of listOf(
+                status of "Active"
+                operationalStatus of
                     coding {
-                        code of "codeC"
-                        system of "systemC"
+                        code of "codeZ"
+                        system of "systemZ"
+                        display of "displayZ"
                     }
-                )
-                text of "textC"
+                name of "Prairie"
+                alias of listOf("A", "B", "C")
+                description of "Flat"
+                mode of Code("codeA")
+                type of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        code of "codeB"
+                                        system of "systemB"
+                                    },
+                                )
+                            text of "textB"
+                        },
+                    )
+                telecom of
+                    listOf(
+                        contactPoint {
+                            system of ContactPointSystem.PHONE.asCode()
+                            value of "123-456-7890"
+                            use of "official"
+                        },
+                        contactPoint {
+                            system of ContactPointSystem.EMAIL.asCode()
+                            value of "clinic.com"
+                        },
+                    )
+                address of address {}
+                physicalType of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    code of "codeC"
+                                    system of "systemC"
+                                },
+                            )
+                        text of "textC"
+                    }
+                position of
+                    locationPosition {
+                        longitude of BigDecimal(1.45)
+                        latitude of BigDecimal(3.78)
+                        altitude of BigDecimal(6.02)
+                    }
+                managingOrganization of reference("Organization", "123")
+                partOf of reference("Location", "999")
+                hoursOfOperation of
+                    listOf(
+                        locationHoursOfOperation {
+                            daysOfWeek of listOf(Code("Mon"), Code("Tue"), Code("Wed"))
+                            allDay of true
+                            openingTime of "9:00"
+                            closingTime of "14:00"
+                        },
+                        locationHoursOfOperation {
+                            daysOfWeek of listOf(Code("Thu"), Code("Fri"))
+                            allDay of false
+                        },
+                        locationHoursOfOperation {},
+                    )
+                availabilityExceptions of "Closed Sat, Sun"
+                endpoint of
+                    listOf(
+                        reference("Endpoint", "123"),
+                    )
             }
-            position of locationPosition {
-                longitude of BigDecimal(1.45)
-                latitude of BigDecimal(3.78)
-                altitude of BigDecimal(6.02)
-            }
-            managingOrganization of reference("Organization", "123")
-            partOf of reference("Location", "999")
-            hoursOfOperation of listOf(
-                locationHoursOfOperation {
-                    daysOfWeek of listOf(Code("Mon"), Code("Tue"), Code("Wed"))
-                    allDay of true
-                    openingTime of "9:00"
-                    closingTime of "14:00"
-                },
-                locationHoursOfOperation {
-                    daysOfWeek of listOf(Code("Thu"), Code("Fri"))
-                    allDay of false
-                },
-                locationHoursOfOperation {}
-            )
-            availabilityExceptions of "Closed Sat, Sun"
-            endpoint of listOf(
-                reference("Endpoint", "123")
-            )
-        }
         assertEquals("id", location.id?.value)
         assertEquals(1, location.identifier.size)
         assertEquals("Active", location.status?.value)
@@ -151,14 +162,14 @@ class LocationGeneratorTest {
         assertEquals("Location/999", location.partOf?.reference?.value)
         assertEquals(
             listOf(Code("Mon"), Code("Tue"), Code("Wed")),
-            location.hoursOfOperation[0].daysOfWeek
+            location.hoursOfOperation[0].daysOfWeek,
         )
         assertEquals(true.asFHIR(), location.hoursOfOperation[0].allDay)
         assertEquals("9:00", location.hoursOfOperation[0].openingTime?.value)
         assertEquals("14:00", location.hoursOfOperation[0].closingTime?.value)
         assertEquals(
             listOf(Code("Thu"), Code("Fri")),
-            location.hoursOfOperation[1].daysOfWeek
+            location.hoursOfOperation[1].daysOfWeek,
         )
         assertEquals(false.asFHIR(), location.hoursOfOperation[1].allDay)
         assertNull(location.hoursOfOperation[1].openingTime)
@@ -172,29 +183,33 @@ class LocationGeneratorTest {
     @Test
     fun `example use with serialization`() {
         // Create a location with the details you need.
-        val location = location {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            name of "Prairie"
-
-            // Say your test requires a type
-            type of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            code of "codeA"
-                            system of "systemA"
-                        }
+        val location =
+            location {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
                     )
-                    text of "textA"
-                }
-            )
+                name of "Prairie"
 
-            // And status
-            status of "Active"
-        }
+                // Say your test requires a type
+                type of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        code of "codeA"
+                                        system of "systemA"
+                                    },
+                                )
+                            text of "textA"
+                        },
+                    )
+
+                // And status
+                status of "Active"
+            }
 
         // This object can be serialized to JSON to be injected into your workflow, all specified R4 attributes wil be generated
         val locationJSON = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(location)

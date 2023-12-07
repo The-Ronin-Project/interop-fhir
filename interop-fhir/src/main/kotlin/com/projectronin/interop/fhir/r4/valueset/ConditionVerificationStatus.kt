@@ -11,5 +11,5 @@ enum class ConditionVerificationStatus(override val code: String) : CodedEnum<Co
     DIFFERENTIAL("differential"),
     CONFIRMED("confirmed"),
     REFUTED("refuted"),
-    ENTERED_IN_ERROR("entered-in-error")
+    ENTERED_IN_ERROR("entered-in-error"),
 }

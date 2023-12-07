@@ -48,13 +48,14 @@ data class TriggerDefinition(
         DynamicValueType.TIMING,
         DynamicValueType.REFERENCE,
         DynamicValueType.DATE,
-        DynamicValueType.DATE_TIME
+        DynamicValueType.DATE_TIME,
     )
     @SupportedReferenceTypes(ResourceType.Schedule)
     val timing: DynamicValue<Any>? = null,
     val data: List<DataRequirement> = listOf(),
-    val condition: Expression? = null
+    val condition: Expression? = null,
 ) : Element<TriggerDefinition>
 
 class TriggerDefinitionDeserializer : BaseFHIRDeserializer<TriggerDefinition>(TriggerDefinition::class.java)
+
 class TriggerDefinitionSerializer : BaseFHIRSerializer<TriggerDefinition>(TriggerDefinition::class.java)

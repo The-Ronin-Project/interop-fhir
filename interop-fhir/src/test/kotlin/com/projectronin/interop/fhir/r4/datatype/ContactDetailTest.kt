@@ -13,25 +13,29 @@ import org.junit.jupiter.api.Test
 class ContactDetailTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val contactDetail = ContactDetail(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            name = FHIRString("Jane Doe"),
-            telecom = listOf(
-                ContactPoint(
-                    value = FHIRString("jane@doe.com"),
-                    system = ContactPointSystem.EMAIL.asCode()
-                )
+        val contactDetail =
+            ContactDetail(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                name = FHIRString("Jane Doe"),
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            value = FHIRString("jane@doe.com"),
+                            system = ContactPointSystem.EMAIL.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactDetail)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -44,7 +48,7 @@ class ContactDetailTest {
             |    "value" : "jane@doe.com"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactDetail = objectMapper.readValue<ContactDetail>(json)
@@ -53,26 +57,29 @@ class ContactDetailTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val contactDetail = ContactDetail(
-            name = FHIRString("Jane Doe")
-        )
+        val contactDetail =
+            ContactDetail(
+                name = FHIRString("Jane Doe"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactDetail)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "name" : "Jane Doe"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "12345"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val contactDetail = objectMapper.readValue<ContactDetail>(json)
 
         assertEquals(FHIRString("12345"), contactDetail.id)

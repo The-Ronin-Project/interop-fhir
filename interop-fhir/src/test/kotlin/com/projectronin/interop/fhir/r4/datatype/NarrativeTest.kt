@@ -13,20 +13,23 @@ import org.junit.jupiter.api.Test
 class NarrativeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val narrative = Narrative(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            status = NarrativeStatus.GENERATED.asCode(),
-            div = FHIRString("narrative text")
-        )
+        val narrative =
+            Narrative(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                status = NarrativeStatus.GENERATED.asCode(),
+                div = FHIRString("narrative text"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -36,7 +39,7 @@ class NarrativeTest {
             |  "status" : "generated",
             |  "div" : "narrative text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedNarrative = objectMapper.readValue<Narrative>(json)
@@ -48,23 +51,25 @@ class NarrativeTest {
         val narrative = Narrative(status = NarrativeStatus.GENERATED.asCode(), div = FHIRString("narrative text"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(narrative)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "status" : "generated",
             |  "div" : "narrative text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "status" : "generated",
             |  "div" : "narrative text"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val narrative = objectMapper.readValue<Narrative>(json)
 
         assertNull(narrative.id)

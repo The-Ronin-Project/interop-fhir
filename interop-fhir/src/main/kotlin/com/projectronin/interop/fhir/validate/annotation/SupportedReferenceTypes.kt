@@ -8,5 +8,5 @@ import com.projectronin.event.interop.internal.v1.ResourceType
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class SupportedReferenceTypes(
-    vararg val value: ResourceType
+    vararg val value: ResourceType,
 )

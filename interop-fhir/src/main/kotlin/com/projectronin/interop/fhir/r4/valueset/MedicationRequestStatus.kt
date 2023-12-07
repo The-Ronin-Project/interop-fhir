@@ -51,5 +51,5 @@ enum class MedicationRequestStatus(override val code: String) : CodedEnum<Medica
      * 	Note: This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, but the
      * 	authoring/source system does not know which.
      */
-    UNKNOWN("unknown")
+    UNKNOWN("unknown"),
 }

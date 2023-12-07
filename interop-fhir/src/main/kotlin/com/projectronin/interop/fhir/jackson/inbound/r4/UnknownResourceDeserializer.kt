@@ -15,7 +15,10 @@ import com.projectronin.interop.fhir.r4.resource.UnknownResource
 class UnknownResourceDeserializer : BaseFHIRDeserializer<UnknownResource>(UnknownResource::class.java) {
     private val discreteValues = setOf("resourceType", "id", "meta", "implicitRules", "language")
 
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): UnknownResource {
+    override fun deserialize(
+        p: JsonParser,
+        ctxt: DeserializationContext,
+    ): UnknownResource {
         // First we read the tree so that we can easily handle some of the required fields for a resource.
         val node = p.codec.readTree<JsonNode>(p) ?: throw JsonParseException(p, "Unable to parse node")
 
@@ -32,7 +35,7 @@ class UnknownResourceDeserializer : BaseFHIRDeserializer<UnknownResource>(Unknow
             meta = node.getAsOrNull("meta", p),
             implicitRules = node.getAsOrNull("implicitRules", p),
             language = node.getAsOrNull("language", p),
-            otherData = otherData
+            otherData = otherData,
         )
     }
 }

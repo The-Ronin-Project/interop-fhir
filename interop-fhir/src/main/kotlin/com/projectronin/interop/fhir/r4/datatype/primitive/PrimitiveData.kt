@@ -14,8 +14,9 @@ import com.projectronin.interop.fhir.r4.element.Element
 @JsonSerialize(using = PrimitiveDataSerializer::class)
 data class PrimitiveData(
     override val id: FHIRString? = null,
-    override val extension: List<Extension> = listOf()
+    override val extension: List<Extension> = listOf(),
 ) : Element<PrimitiveData>
 
 class PrimitiveDataSerializer : BaseFHIRSerializer<PrimitiveData>(PrimitiveData::class.java)
+
 class PrimitiveDataDeserializer : BaseFHIRDeserializer<PrimitiveData>(PrimitiveData::class.java)

@@ -24,15 +24,16 @@ class HumanNameGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val name = name {
-            use of Code("use")
-            text of "text"
-            family of "Felt"
-            given of listOf("Sam")
-            prefix of listOf("Dr")
-            suffix of listOf("IV")
-            period of Period()
-        }
+        val name =
+            name {
+                use of Code("use")
+                text of "text"
+                family of "Felt"
+                given of listOf("Sam")
+                prefix of listOf("Dr")
+                suffix of listOf("IV")
+                period of Period()
+            }
         assertEquals("use", name.use?.value)
         assertEquals("text", name.text?.value)
         assertEquals("Felt", name.family?.value)

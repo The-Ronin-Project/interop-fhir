@@ -33,37 +33,40 @@ class R4DateTimeValidatorTest {
 
     @Test
     fun `fails on invalid input`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val dateTime = DateTime("abc")
-            R4DateTimeValidator.validate(dateTime).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val dateTime = DateTime("abc")
+                R4DateTimeValidator.validate(dateTime).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a DateTime",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on 24_00 time`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val dateTime = DateTime("2021-11-16T24:00:00Z")
-            R4DateTimeValidator.validate(dateTime).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val dateTime = DateTime("2021-11-16T24:00:00Z")
+                R4DateTimeValidator.validate(dateTime).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a DateTime",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val dateTime = DateTime("2021-11-16T24:00:00Z")
-            R4DateTimeValidator.validate(dateTime, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val dateTime = DateTime("2021-11-16T24:00:00Z")
+                R4DateTimeValidator.validate(dateTime, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a DateTime @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

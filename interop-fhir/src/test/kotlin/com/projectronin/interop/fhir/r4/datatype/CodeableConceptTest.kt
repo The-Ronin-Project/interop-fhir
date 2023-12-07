@@ -11,20 +11,23 @@ import org.junit.jupiter.api.Test
 class CodeableConceptTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val codeableConcept = CodeableConcept(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            coding = listOf(Coding(system = Uri("coding-system"))),
-            text = FHIRString("concept")
-        )
+        val codeableConcept =
+            CodeableConcept(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                coding = listOf(Coding(system = Uri("coding-system"))),
+                text = FHIRString("concept"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(codeableConcept)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -36,7 +39,7 @@ class CodeableConceptTest {
             |  } ],
             |  "text" : "concept"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCodeableConcept = objectMapper.readValue<CodeableConcept>(json)
@@ -45,26 +48,29 @@ class CodeableConceptTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val codeableConcept = CodeableConcept(
-            text = FHIRString("concept")
-        )
+        val codeableConcept =
+            CodeableConcept(
+                text = FHIRString("concept"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(codeableConcept)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "text" : "concept"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "12345"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val codeableConcept = objectMapper.readValue<CodeableConcept>(json)
 
         assertEquals(FHIRString("12345"), codeableConcept.id)

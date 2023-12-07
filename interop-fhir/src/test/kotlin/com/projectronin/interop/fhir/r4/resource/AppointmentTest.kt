@@ -30,64 +30,72 @@ import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
+@Suppress("ktlint:standard:max-line-length")
 class AppointmentTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val appointment = Appointment(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninAppointment"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            status = AppointmentStatus.CANCELLED.asCode(),
-            cancelationReason = CodeableConcept(text = FHIRString("cancel reason")),
-            serviceCategory = listOf(CodeableConcept(text = FHIRString("service category"))),
-            serviceType = listOf(CodeableConcept(text = FHIRString("service type"))),
-            specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
-            appointmentType = CodeableConcept(text = FHIRString("appointment type")),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
-            reasonReference = listOf(Reference(display = FHIRString("reason reference"))),
-            priority = UnsignedInt(1),
-            description = FHIRString("appointment test"),
-            supportingInformation = listOf(Reference(display = FHIRString("supporting info"))),
-            start = Instant(value = "2017-01-01T00:00:00Z"),
-            end = Instant(value = "2017-01-01T01:00:00Z"),
-            minutesDuration = PositiveInt(15),
-            slot = listOf(Reference(display = FHIRString("slot"))),
-            created = DateTime(value = "2021-11-16"),
-            comment = FHIRString("comment"),
-            patientInstruction = FHIRString("patient instruction"),
-            basedOn = listOf(Reference(display = FHIRString("based on"))),
-            participant = listOf(
-                Participant(
-                    actor = Reference(display = FHIRString("actor")),
-                    status = ParticipationStatus.ACCEPTED.asCode()
-                )
-            ),
-            requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16")))
-        )
+        val appointment =
+            Appointment(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninAppointment")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                status = AppointmentStatus.CANCELLED.asCode(),
+                cancelationReason = CodeableConcept(text = FHIRString("cancel reason")),
+                serviceCategory = listOf(CodeableConcept(text = FHIRString("service category"))),
+                serviceType = listOf(CodeableConcept(text = FHIRString("service type"))),
+                specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
+                appointmentType = CodeableConcept(text = FHIRString("appointment type")),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
+                reasonReference = listOf(Reference(display = FHIRString("reason reference"))),
+                priority = UnsignedInt(1),
+                description = FHIRString("appointment test"),
+                supportingInformation = listOf(Reference(display = FHIRString("supporting info"))),
+                start = Instant(value = "2017-01-01T00:00:00Z"),
+                end = Instant(value = "2017-01-01T01:00:00Z"),
+                minutesDuration = PositiveInt(15),
+                slot = listOf(Reference(display = FHIRString("slot"))),
+                created = DateTime(value = "2021-11-16"),
+                comment = FHIRString("comment"),
+                patientInstruction = FHIRString("patient instruction"),
+                basedOn = listOf(Reference(display = FHIRString("based on"))),
+                participant =
+                    listOf(
+                        Participant(
+                            actor = Reference(display = FHIRString("actor")),
+                            status = ParticipationStatus.ACCEPTED.asCode(),
+                        ),
+                    ),
+                requestedPeriod = listOf(Period(start = DateTime(value = "2021-11-16"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(appointment)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Appointment",
               "id" : "12345",
@@ -165,7 +173,7 @@ class AppointmentTest {
                 "start" : "2021-11-16"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedAppointment = JacksonManager.objectMapper.readValue<Appointment>(json)
@@ -174,18 +182,21 @@ class AppointmentTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val appointment = Appointment(
-            status = AppointmentStatus.CANCELLED.asCode(),
-            participant = listOf(
-                Participant(
-                    actor = Reference(display = FHIRString("actor")),
-                    status = ParticipationStatus.ACCEPTED.asCode()
-                )
+        val appointment =
+            Appointment(
+                status = AppointmentStatus.CANCELLED.asCode(),
+                participant =
+                    listOf(
+                        Participant(
+                            actor = Reference(display = FHIRString("actor")),
+                            status = ParticipationStatus.ACCEPTED.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(appointment)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Appointment",
               "status" : "cancelled",
@@ -196,24 +207,27 @@ class AppointmentTest {
                 "status" : "accepted"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `serialized JSON without an actor but with a type`() {
-        val appointment = Appointment(
-            status = AppointmentStatus.CANCELLED.asCode(),
-            participant = listOf(
-                Participant(
-                    type = listOf(CodeableConcept(FHIRString("123"))),
-                    status = ParticipationStatus.ACCEPTED.asCode()
-                )
+        val appointment =
+            Appointment(
+                status = AppointmentStatus.CANCELLED.asCode(),
+                participant =
+                    listOf(
+                        Participant(
+                            type = listOf(CodeableConcept(FHIRString("123"))),
+                            status = ParticipationStatus.ACCEPTED.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(appointment)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Appointment",
               "status" : "cancelled",
@@ -224,13 +238,14 @@ class AppointmentTest {
                 "status" : "accepted"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Appointment",
               "status" : "cancelled",
@@ -241,7 +256,7 @@ class AppointmentTest {
                 "status" : "accepted"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         val appointment = JacksonManager.objectMapper.readValue<Appointment>(json)
 
         assertNull(appointment.id)
@@ -297,32 +312,37 @@ class AppointmentTest {
 class ParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val participant = Participant(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = listOf(CodeableConcept(text = FHIRString("abc"))),
-            actor = Reference(display = FHIRString("actor")),
-            required = ParticipantRequired.REQUIRED.asCode(),
-            status = ParticipationStatus.ACCEPTED.asCode(),
-            period = Period(
-                start = DateTime("1998-08"),
-                end = DateTime("2002-05")
+        val participant =
+            Participant(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                type = listOf(CodeableConcept(text = FHIRString("abc"))),
+                actor = Reference(display = FHIRString("actor")),
+                required = ParticipantRequired.REQUIRED.asCode(),
+                status = ParticipationStatus.ACCEPTED.asCode(),
+                period =
+                    Period(
+                        start = DateTime("1998-08"),
+                        end = DateTime("2002-05"),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -346,7 +366,7 @@ class ParticipantTest {
                 "end" : "2002-05"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedParticipant = JacksonManager.objectMapper.readValue<Participant>(json)
@@ -355,20 +375,22 @@ class ParticipantTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val participant = Participant(
-            actor = Reference(display = FHIRString("actor")),
-            status = ParticipationStatus.ACCEPTED.asCode()
-        )
+        val participant =
+            Participant(
+                actor = Reference(display = FHIRString("actor")),
+                status = ParticipationStatus.ACCEPTED.asCode(),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "actor" : {
                 "display" : "actor"
               },
               "status" : "accepted"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedParticipant = JacksonManager.objectMapper.readValue<Participant>(json)
@@ -377,14 +399,15 @@ class ParticipantTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
              "type" : [ {
                 "text" : "abc"
              } ],
              "status" : "accepted"
             }
-        """.trimIndent()
+            """.trimIndent()
         val participant = JacksonManager.objectMapper.readValue<Participant>(json)
 
         assertNull(participant.id)

@@ -48,5 +48,5 @@ enum class MedicationRequestIntent(override val code: String) : CodedEnum<Medica
      * The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or
      * other constraints among a set of requests.
      */
-    OPTION("option")
+    OPTION("option"),
 }

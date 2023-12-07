@@ -21,7 +21,7 @@ import com.projectronin.interop.fhir.validate.Validation
  */
 fun <T, PT : Primitive<T, PT>> validatePrimitive(
     primitive: Primitive<T, PT>,
-    parentContext: LocationContext?
+    parentContext: LocationContext?,
 ): Validation {
     return when (primitive) {
         is Base64Binary -> primitive.validate(R4Base64BinaryValidator, parentContext)

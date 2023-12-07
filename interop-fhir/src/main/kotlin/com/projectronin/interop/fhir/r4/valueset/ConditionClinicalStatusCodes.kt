@@ -11,5 +11,5 @@ enum class ConditionClinicalStatusCodes(override val code: String) : CodedEnum<C
     RELAPSE("relapse"),
     INACTIVE("inactive"),
     REMISSION("remission"),
-    RESOLVED("resolved")
+    RESOLVED("resolved"),
 }

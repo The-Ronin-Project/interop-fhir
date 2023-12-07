@@ -29,8 +29,9 @@ data class HumanName(
     val given: List<FHIRString> = listOf(),
     val prefix: List<FHIRString> = listOf(),
     val suffix: List<FHIRString> = listOf(),
-    val period: Period? = null
+    val period: Period? = null,
 ) : Element<HumanName>
 
 class HumanNameSerializer : BaseFHIRSerializer<HumanName>(HumanName::class.java)
+
 class HumanNameDeserializer : BaseFHIRDeserializer<HumanName>(HumanName::class.java)

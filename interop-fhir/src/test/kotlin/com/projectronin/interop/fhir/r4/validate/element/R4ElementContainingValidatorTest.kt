@@ -29,9 +29,10 @@ import org.junit.jupiter.api.Test
  * These tests are focused on the core elements of the [R4ElementContainingValidator] and not the extending uses.
  */
 class R4ElementContainingValidatorTest {
-    private val failedValidation = validation {
-        checkNotNull(null, RequiredFieldError(Patient::name), null)
-    }
+    private val failedValidation =
+        validation {
+            checkNotNull(null, RequiredFieldError(Patient::name), null)
+        }
     private val parentContext = LocationContext("Sample", "field")
     private val nameLocationContext = LocationContext("Sample", "field.name")
 
@@ -204,25 +205,35 @@ class R4ElementContainingValidatorTest {
     }
 
     data class NoValidatableTypesValidatable(val name: String) : Validatable<NoValidatableTypesValidatable>
+
     data class PrimitiveValidatable(val name: Code?) : Validatable<PrimitiveValidatable>
+
     data class ElementValidatable(val name: HumanName?) : Validatable<ElementValidatable>
+
     data class DynamicValueValidatable(val name: DynamicValue<*>?) : Validatable<DynamicValueValidatable>
+
     data class PrimitiveCollectionValidatable(val name: List<Code>) : Validatable<PrimitiveCollectionValidatable>
+
     data class ElementCollectionValidatable(val name: List<HumanName>) : Validatable<ElementCollectionValidatable>
+
     data class DynamicValueCollectionValidatable(val name: List<DynamicValue<*>>) :
         Validatable<DynamicValueCollectionValidatable>
 
     data class AnnotatedReferenceValidatable(
         @SupportedReferenceTypes(ResourceType.Patient)
-        val reference: Reference?
+        val reference: Reference?,
     ) : Validatable<AnnotatedReferenceValidatable>
 
     data class RequiredFieldValidatable(
         @RequiredField
-        val value: FHIRString?
+        val value: FHIRString?,
     ) : Validatable<RequiredFieldValidatable>
 
     abstract class NoElementValidationValidator<T : Validatable<T>> : R4ElementContainingValidator<T>() {
-        override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {}
+        override fun validateElement(
+            element: T,
+            parentContext: LocationContext?,
+            validation: Validation,
+        ) {}
     }
 }

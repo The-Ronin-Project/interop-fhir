@@ -9,7 +9,10 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValue
 /**
  * Finds the [DynamicValue] on the node for the supplied [prefix] using the [currentParser].
  */
-fun JsonNode.getDynamicValue(prefix: String, currentParser: JsonParser): DynamicValue<Any> {
+fun JsonNode.getDynamicValue(
+    prefix: String,
+    currentParser: JsonParser,
+): DynamicValue<Any> {
     return getDynamicValueOrNull(prefix, currentParser)
         ?: throw JsonParseException(currentParser, "No value fields found")
 }
@@ -17,13 +20,17 @@ fun JsonNode.getDynamicValue(prefix: String, currentParser: JsonParser): Dynamic
 /**
  * Finds the [DynamicValue] on the node for the supplied [prefix] using the [currentParser] if present, or null.
  */
-fun JsonNode.getDynamicValueOrNull(prefix: String, currentParser: JsonParser): DynamicValue<Any>? {
+fun JsonNode.getDynamicValueOrNull(
+    prefix: String,
+    currentParser: JsonParser,
+): DynamicValue<Any>? {
     val valueFields = this.fieldsStartingWith(prefix)
-    val valueField = when (valueFields.size) {
-        1 -> valueFields[0]
-        0 -> return null
-        else -> throw JsonParseException(currentParser, "Multiple value fields found")
-    }
+    val valueField =
+        when (valueFields.size) {
+            1 -> valueFields[0]
+            0 -> return null
+            else -> throw JsonParseException(currentParser, "Multiple value fields found")
+        }
 
     val type = valueField.substring(prefix.length)
     return DynamicValueResolver(currentParser).resolveDynamicValue(this.get(valueField), type)

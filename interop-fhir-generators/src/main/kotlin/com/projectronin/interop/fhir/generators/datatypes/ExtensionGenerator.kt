@@ -17,12 +17,13 @@ class ExtensionGenerator : DataGenerator<Extension>() {
     val url: DataGenerator<Uri?> = NullDataGenerator()
     val value: DataGenerator<DynamicValue<Any>?> = NullDataGenerator()
 
-    override fun generateInternal() = Extension(
-        id = id.generate(),
-        extension = extension.generate().filterNotNull(),
-        url = url.generate(),
-        value = value.generate()
-    )
+    override fun generateInternal() =
+        Extension(
+            id = id.generate(),
+            extension = extension.generate().filterNotNull(),
+            url = url.generate(),
+            value = value.generate(),
+        )
 }
 
 fun extension(block: ExtensionGenerator.() -> Unit): Extension {

@@ -12,50 +12,53 @@ import org.junit.jupiter.api.assertThrows
 class R4CommunicationValidatorTest {
     @Test
     fun `fails if no status`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4CommunicationValidator.validate(
-                Communication(
-                    status = null
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4CommunicationValidator.validate(
+                    Communication(
+                        status = null,
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: status is a required element @ Communication.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails for invalid status`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4CommunicationValidator.validate(
-                Communication(
-                    status = Code("invalid-status")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4CommunicationValidator.validate(
+                    Communication(
+                        status = Code("invalid-status"),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'invalid-status' is outside of required value set @ Communication.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails for invalid priority`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4CommunicationValidator.validate(
-                Communication(
-                    status = EventStatus.ON_HOLD.asCode(),
-                    priority = Code("invalid-status")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4CommunicationValidator.validate(
+                    Communication(
+                        status = EventStatus.ON_HOLD.asCode(),
+                        priority = Code("invalid-status"),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'invalid-status' is outside of required value set @ Communication.priority",
-            exception.message
+            exception.message,
         )
     }
 
@@ -64,8 +67,8 @@ class R4CommunicationValidatorTest {
         R4CommunicationValidator.validate(
             Communication(
                 status = EventStatus.IN_PROGRESS.asCode(),
-                priority = RequestPriority.STAT.asCode()
-            )
+                priority = RequestPriority.STAT.asCode(),
+            ),
         ).alertIfErrors()
     }
 
@@ -73,8 +76,8 @@ class R4CommunicationValidatorTest {
     fun `validates successfully`() {
         R4CommunicationValidator.validate(
             Communication(
-                status = EventStatus.NOT_DONE.asCode()
-            )
+                status = EventStatus.NOT_DONE.asCode(),
+            ),
         ).alertIfErrors()
     }
 }

@@ -13,20 +13,23 @@ import org.junit.jupiter.api.Test
 class MoneyTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val money = Money(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(5.99),
-            currency = Code("USD")
-        )
+        val money =
+            Money(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(5.99),
+                currency = Code("USD"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(money)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -36,7 +39,7 @@ class MoneyTest {
             |  "value" : 5.99,
             |  "currency" : "USD"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMoney = objectMapper.readValue<Money>(json)
@@ -48,21 +51,23 @@ class MoneyTest {
         val money = Money(value = Decimal(3.24))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(money)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "value" : 3.24
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "currency" : "USD"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val money = objectMapper.readValue<Money>(json)
 
         assertNull(money.id)

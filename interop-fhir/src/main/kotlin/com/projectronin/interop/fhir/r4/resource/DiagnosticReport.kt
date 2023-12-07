@@ -53,7 +53,7 @@ data class DiagnosticReport(
         ResourceType.ImmunizationRecommendation,
         ResourceType.MedicationRequest,
         ResourceType.NutritionOrder,
-        ResourceType.ServiceRequest
+        ResourceType.ServiceRequest,
     )
     val basedOn: List<Reference> = listOf(),
     @RequiredField
@@ -73,14 +73,14 @@ data class DiagnosticReport(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.Organization,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val performer: List<Reference> = listOf(),
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.Organization,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val resultsInterpreter: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Specimen)
@@ -92,12 +92,13 @@ data class DiagnosticReport(
     val media: List<DiagnosticReportMedia> = listOf(),
     val conclusion: FHIRString? = null,
     val conclusionCode: List<CodeableConcept> = listOf(),
-    val presentedForm: List<Attachment> = listOf()
+    val presentedForm: List<Attachment> = listOf(),
 ) : DomainResource<DiagnosticReport> {
     override val resourceType: String = "DiagnosticReport"
 }
 
 class DiagnosticReportSerializer : BaseFHIRSerializer<DiagnosticReport>(DiagnosticReport::class.java)
+
 class DiagnosticReportDeserializer : BaseFHIRDeserializer<DiagnosticReport>(DiagnosticReport::class.java)
 
 /**
@@ -112,8 +113,9 @@ data class DiagnosticReportMedia(
     val comment: FHIRString? = null,
     @RequiredField
     @SupportedReferenceTypes(ResourceType.Media)
-    val link: Reference?
+    val link: Reference?,
 ) : BackboneElement<DiagnosticReportMedia>
 
 class DiagnosticReportMediaSerializer : BaseFHIRSerializer<DiagnosticReportMedia>(DiagnosticReportMedia::class.java)
+
 class DiagnosticReportMediaDeserializer : BaseFHIRDeserializer<DiagnosticReportMedia>(DiagnosticReportMedia::class.java)

@@ -54,12 +54,13 @@ data class Practitioner(
     val birthDate: Date? = null,
     val photo: List<Attachment> = listOf(),
     val qualification: List<Qualification> = listOf(),
-    val communication: List<CodeableConcept> = listOf()
+    val communication: List<CodeableConcept> = listOf(),
 ) : DomainResource<Practitioner> {
     override val resourceType: String = "Practitioner"
 }
 
 class PractitionerSerializer : BaseFHIRSerializer<Practitioner>(Practitioner::class.java)
+
 class PractitionerDeserializer : BaseFHIRDeserializer<Practitioner>(Practitioner::class.java)
 
 /**
@@ -78,8 +79,9 @@ data class Qualification(
     val code: CodeableConcept?,
     val period: Period? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
-    val issuer: Reference? = null
+    val issuer: Reference? = null,
 ) : BackboneElement<Qualification>
 
 class QualificationSerializer : BaseFHIRSerializer<Qualification>(Qualification::class.java)
+
 class QualificationDeserializer : BaseFHIRDeserializer<Qualification>(Qualification::class.java)

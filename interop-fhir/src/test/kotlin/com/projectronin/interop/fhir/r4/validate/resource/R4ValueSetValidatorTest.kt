@@ -22,33 +22,35 @@ import org.junit.jupiter.api.assertThrows
 class R4ValueSetValidatorTest {
     @Test
     fun `fails if no status`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetValidator.validate(
-                ValueSet(
-                    status = null
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetValidator.validate(
+                    ValueSet(
+                        status = null,
+                    ),
+                ).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: status is a required element @ ValueSet.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails for invalid status`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetValidator.validate(
-                ValueSet(
-                    status = Code("invalid-status")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetValidator.validate(
+                    ValueSet(
+                        status = Code("invalid-status"),
+                    ),
+                ).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'invalid-status' is outside of required value set @ ValueSet.status",
-            exception.message
+            exception.message,
         )
     }
 
@@ -56,8 +58,8 @@ class R4ValueSetValidatorTest {
     fun `validates successfully with valid status`() {
         R4ValueSetValidator.validate(
             ValueSet(
-                status = PublicationStatus.ACTIVE.asCode()
-            )
+                status = PublicationStatus.ACTIVE.asCode(),
+            ),
         )
     }
 }
@@ -65,18 +67,19 @@ class R4ValueSetValidatorTest {
 class R4ValueSetIncludeValidatorTest {
     @Test
     fun `fails if both valueSet and system are missing`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetIncludeValidator.validate(
-                ValueSetInclude(
-                    system = null,
-                    valueSet = listOf()
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetIncludeValidator.validate(
+                    ValueSetInclude(
+                        system = null,
+                        valueSet = listOf(),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTINC_001: A value set include/exclude SHALL have a value set or a system @ ValueSetInclude",
-            exception.message
+            exception.message,
         )
     }
 
@@ -85,12 +88,13 @@ class R4ValueSetIncludeValidatorTest {
         R4ValueSetIncludeValidator.validate(
             ValueSetInclude(
                 system = null,
-                valueSet = listOf(
-                    Canonical(
-                        value = "canonical"
-                    )
-                )
-            )
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 
@@ -99,8 +103,8 @@ class R4ValueSetIncludeValidatorTest {
         R4ValueSetIncludeValidator.validate(
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
-                valueSet = listOf()
-            )
+                valueSet = listOf(),
+            ),
         ).alertIfErrors()
     }
 
@@ -109,66 +113,73 @@ class R4ValueSetIncludeValidatorTest {
         R4ValueSetIncludeValidator.validate(
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
-                valueSet = listOf(
-                    Canonical(
-                        value = "canonical"
-                    )
-                )
-            )
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 
     @Test
     fun `fails when concept exists but system does not`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetIncludeValidator.validate(
-                ValueSetInclude(
-                    system = null,
-                    concept = listOf(
-                        ValueSetConcept(
-                            code = Code("concept_code")
-                        )
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetIncludeValidator.validate(
+                    ValueSetInclude(
+                        system = null,
+                        concept =
+                            listOf(
+                                ValueSetConcept(
+                                    code = Code("concept_code"),
+                                ),
+                            ),
+                        valueSet =
+                            listOf(
+                                Canonical(
+                                    value = "canonical",
+                                ),
+                            ),
                     ),
-                    valueSet = listOf(
-                        Canonical(
-                            value = "canonical"
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTINC_002: A value set with concepts or filters SHALL include a system @ ValueSetInclude",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails when filter exists but system does not`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetIncludeValidator.validate(
-                ValueSetInclude(
-                    system = null,
-                    filter = listOf(
-                        ValueSetFilter(
-                            property = Code("property"),
-                            op = FilterOperator.REGULAR_EXPRESSION.asCode(),
-                            value = FHIRString("value")
-                        )
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetIncludeValidator.validate(
+                    ValueSetInclude(
+                        system = null,
+                        filter =
+                            listOf(
+                                ValueSetFilter(
+                                    property = Code("property"),
+                                    op = FilterOperator.REGULAR_EXPRESSION.asCode(),
+                                    value = FHIRString("value"),
+                                ),
+                            ),
+                        valueSet =
+                            listOf(
+                                Canonical(
+                                    value = "canonical",
+                                ),
+                            ),
                     ),
-                    valueSet = listOf(
-                        Canonical(
-                            value = "canonical"
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTINC_002: A value set with concepts or filters SHALL include a system @ ValueSetInclude",
-            exception.message
+            exception.message,
         )
     }
 
@@ -177,14 +188,15 @@ class R4ValueSetIncludeValidatorTest {
         R4ValueSetIncludeValidator.validate(
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
-                filter = listOf(
-                    ValueSetFilter(
-                        property = Code("property"),
-                        op = FilterOperator.REGULAR_EXPRESSION.asCode(),
-                        value = FHIRString("value")
-                    )
-                )
-            )
+                filter =
+                    listOf(
+                        ValueSetFilter(
+                            property = Code("property"),
+                            op = FilterOperator.REGULAR_EXPRESSION.asCode(),
+                            value = FHIRString("value"),
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 
@@ -193,45 +205,50 @@ class R4ValueSetIncludeValidatorTest {
         R4ValueSetIncludeValidator.validate(
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
-                concept = listOf(
-                    ValueSetConcept(
-                        code = Code("concept_code")
-                    )
-                )
-            )
+                concept =
+                    listOf(
+                        ValueSetConcept(
+                            code = Code("concept_code"),
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 
     @Test
     fun `fails when both concept and filter exist`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetIncludeValidator.validate(
-                ValueSetInclude(
-                    system = Uri("http://localhost/valueset-include"),
-                    filter = listOf(
-                        ValueSetFilter(
-                            property = Code("property"),
-                            op = FilterOperator.REGULAR_EXPRESSION.asCode(),
-                            value = FHIRString("value")
-                        )
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetIncludeValidator.validate(
+                    ValueSetInclude(
+                        system = Uri("http://localhost/valueset-include"),
+                        filter =
+                            listOf(
+                                ValueSetFilter(
+                                    property = Code("property"),
+                                    op = FilterOperator.REGULAR_EXPRESSION.asCode(),
+                                    value = FHIRString("value"),
+                                ),
+                            ),
+                        concept =
+                            listOf(
+                                ValueSetConcept(
+                                    code = Code("code"),
+                                ),
+                            ),
+                        valueSet =
+                            listOf(
+                                Canonical(
+                                    value = "canonical",
+                                ),
+                            ),
                     ),
-                    concept = listOf(
-                        ValueSetConcept(
-                            code = Code("code")
-                        )
-                    ),
-                    valueSet = listOf(
-                        Canonical(
-                            value = "canonical"
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTINC_003: Cannot have both concept and filter @ ValueSetInclude",
-            exception.message
+            exception.message,
         )
     }
 
@@ -241,19 +258,21 @@ class R4ValueSetIncludeValidatorTest {
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
                 version = FHIRString("include_version"),
-                filter = listOf(
-                    ValueSetFilter(
-                        property = Code("property"),
-                        op = FilterOperator.REGULAR_EXPRESSION.asCode(),
-                        value = FHIRString("value")
-                    )
-                ),
-                valueSet = listOf(
-                    Canonical(
-                        value = "canonical"
-                    )
-                )
-            )
+                filter =
+                    listOf(
+                        ValueSetFilter(
+                            property = Code("property"),
+                            op = FilterOperator.REGULAR_EXPRESSION.asCode(),
+                            value = FHIRString("value"),
+                        ),
+                    ),
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 
@@ -263,17 +282,19 @@ class R4ValueSetIncludeValidatorTest {
             ValueSetInclude(
                 system = Uri("http://localhost/valueset-include"),
                 version = FHIRString("include_version"),
-                concept = listOf(
-                    ValueSetConcept(
-                        code = Code("code")
-                    )
-                ),
-                valueSet = listOf(
-                    Canonical(
-                        value = "canonical"
-                    )
-                )
-            )
+                concept =
+                    listOf(
+                        ValueSetConcept(
+                            code = Code("code"),
+                        ),
+                    ),
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 }
@@ -281,17 +302,18 @@ class R4ValueSetIncludeValidatorTest {
 class R4ValueSetContainsValidatorTest {
     @Test
     fun `fails if both code and display are missing`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetContainsValidator.validate(
-                ValueSetContains(
-                    abstract = FHIRBoolean(true)
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetContainsValidator.validate(
+                    ValueSetContains(
+                        abstract = FHIRBoolean(true),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTCON_001: SHALL have a code or a display @ ValueSetContains",
-            exception.message
+            exception.message,
         )
     }
 
@@ -300,8 +322,8 @@ class R4ValueSetContainsValidatorTest {
         R4ValueSetContainsValidator.validate(
             ValueSetContains(
                 code = Code("code"),
-                system = Uri("http://localhost/valueset-contains")
-            )
+                system = Uri("http://localhost/valueset-contains"),
+            ),
         ).alertIfErrors()
     }
 
@@ -310,44 +332,46 @@ class R4ValueSetContainsValidatorTest {
         R4ValueSetContainsValidator.validate(
             ValueSetContains(
                 display = FHIRString("display"),
-                abstract = FHIRBoolean(true)
-            )
+                abstract = FHIRBoolean(true),
+            ),
         ).alertIfErrors()
     }
 
     @Test
     fun `fails when not abstract and no code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetContainsValidator.validate(
-                ValueSetContains(
-                    abstract = FHIRBoolean(false),
-                    code = null,
-                    display = FHIRString("display")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetContainsValidator.validate(
+                    ValueSetContains(
+                        abstract = FHIRBoolean(false),
+                        code = null,
+                        display = FHIRString("display"),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTCON_002: Must have a code if not abstract @ ValueSetContains",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails when abstract is null and no code `() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetContainsValidator.validate(
-                ValueSetContains(
-                    abstract = null,
-                    code = null,
-                    display = FHIRString("display")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetContainsValidator.validate(
+                    ValueSetContains(
+                        abstract = null,
+                        code = null,
+                        display = FHIRString("display"),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTCON_002: Must have a code if not abstract @ ValueSetContains",
-            exception.message
+            exception.message,
         )
     }
 
@@ -356,8 +380,8 @@ class R4ValueSetContainsValidatorTest {
         R4ValueSetContainsValidator.validate(
             ValueSetContains(
                 display = FHIRString("display"),
-                abstract = FHIRBoolean(true)
-            )
+                abstract = FHIRBoolean(true),
+            ),
         ).alertIfErrors()
     }
 
@@ -367,8 +391,8 @@ class R4ValueSetContainsValidatorTest {
             ValueSetContains(
                 abstract = FHIRBoolean(false),
                 code = Code("code"),
-                system = Uri("http://localhost/valueset-contains")
-            )
+                system = Uri("http://localhost/valueset-contains"),
+            ),
         ).alertIfErrors()
     }
 
@@ -377,25 +401,26 @@ class R4ValueSetContainsValidatorTest {
         R4ValueSetContainsValidator.validate(
             ValueSetContains(
                 code = Code("code"),
-                system = Uri("http://localhost/valueset-contains")
-            )
+                system = Uri("http://localhost/valueset-contains"),
+            ),
         ).alertIfErrors()
     }
 
     @Test
     fun `fails when code exists but system does not`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4ValueSetContainsValidator.validate(
-                ValueSetContains(
-                    code = Code("code"),
-                    display = FHIRString("display")
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4ValueSetContainsValidator.validate(
+                    ValueSetContains(
+                        code = Code("code"),
+                        display = FHIRString("display"),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_VALSTCON_003: Must have a system if a code is present @ ValueSetContains",
-            exception.message
+            exception.message,
         )
     }
 
@@ -405,8 +430,8 @@ class R4ValueSetContainsValidatorTest {
             ValueSetContains(
                 code = Code("code"),
                 display = FHIRString("display"),
-                system = Uri("http://localhost/valueset-contains")
-            )
+                system = Uri("http://localhost/valueset-contains"),
+            ),
         ).alertIfErrors()
     }
 
@@ -420,12 +445,13 @@ class R4ValueSetContainsValidatorTest {
                 version = FHIRString("contains_version"),
                 code = Code("contains_code"),
                 display = FHIRString("contains display"),
-                designation = listOf(
-                    ValueSetDesignation(
-                        value = FHIRString("valueset_designationvalue")
-                    )
-                )
-            )
+                designation =
+                    listOf(
+                        ValueSetDesignation(
+                            value = FHIRString("valueset_designationvalue"),
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 }

@@ -19,13 +19,14 @@ class QuantityGenerator : DataGenerator<Quantity>() {
     val system: DataGenerator<Uri?> = NullDataGenerator()
     val code: DataGenerator<Code?> = NullDataGenerator()
 
-    override fun generateInternal() = Quantity(
-        value = value.generate(),
-        comparator = comparator.generate(),
-        unit = unit.generate(),
-        system = system.generate(),
-        code = code.generate()
-    )
+    override fun generateInternal() =
+        Quantity(
+            value = value.generate(),
+            comparator = comparator.generate(),
+            unit = unit.generate(),
+            system = system.generate(),
+            code = code.generate(),
+        )
 }
 
 fun quantity(block: QuantityGenerator.() -> Unit): Quantity {

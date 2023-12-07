@@ -32,59 +32,69 @@ class ConditionTest {
     fun `can serialize and deserialize JSON`() {
         val onset = DynamicValue(DynamicValueType.STRING, FHIRString("22"))
         val abatement = DynamicValue(DynamicValueType.STRING, FHIRString("29"))
-        val condition = Condition(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninConditionProblemsHealthConcerns"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            clinicalStatus = CodeableConcept(
-                coding = listOf(
-                    Coding(code = Code(value = ConditionClinicalStatusCodes.RESOLVED.code))
-                )
-            ),
-            verificationStatus = CodeableConcept(
-                coding = listOf(
-                    Coding(code = Code(value = ConditionVerificationStatus.CONFIRMED.code))
-                )
-            ),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            severity = CodeableConcept(text = FHIRString("severity")),
-            code = CodeableConcept(text = FHIRString("code")),
-            bodySite = listOf(CodeableConcept(text = FHIRString("body site"))),
-            subject = Reference(reference = FHIRString("subject")),
-            encounter = Reference(reference = FHIRString("encounter")),
-            onset = onset,
-            abatement = abatement,
-            recordedDate = DateTime("2003-06-29"),
-            recorder = Reference(reference = FHIRString("recorder")),
-            asserter = Reference(reference = FHIRString("asserter")),
-            stage = listOf(ConditionStage(summary = CodeableConcept(text = FHIRString("summary")))),
-            evidence = listOf(ConditionEvidence(code = listOf(CodeableConcept(text = FHIRString("code"))))),
-            note = listOf(Annotation(text = Markdown("note")))
-        )
+        val condition =
+            Condition(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninConditionProblemsHealthConcerns")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                clinicalStatus =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(code = Code(value = ConditionClinicalStatusCodes.RESOLVED.code)),
+                            ),
+                    ),
+                verificationStatus =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(code = Code(value = ConditionVerificationStatus.CONFIRMED.code)),
+                            ),
+                    ),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                severity = CodeableConcept(text = FHIRString("severity")),
+                code = CodeableConcept(text = FHIRString("code")),
+                bodySite = listOf(CodeableConcept(text = FHIRString("body site"))),
+                subject = Reference(reference = FHIRString("subject")),
+                encounter = Reference(reference = FHIRString("encounter")),
+                onset = onset,
+                abatement = abatement,
+                recordedDate = DateTime("2003-06-29"),
+                recorder = Reference(reference = FHIRString("recorder")),
+                asserter = Reference(reference = FHIRString("asserter")),
+                stage = listOf(ConditionStage(summary = CodeableConcept(text = FHIRString("summary")))),
+                evidence = listOf(ConditionEvidence(code = listOf(CodeableConcept(text = FHIRString("code"))))),
+                note = listOf(Annotation(text = Markdown("note"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Condition",
               "id" : "12345",
@@ -164,7 +174,7 @@ class ConditionTest {
                 "text" : "note"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCondition = JacksonManager.objectMapper.readValue<Condition>(json)
@@ -173,32 +183,35 @@ class ConditionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val condition = Condition(
-            subject = Reference(reference = FHIRString("subject"))
-        )
+        val condition =
+            Condition(
+                subject = Reference(reference = FHIRString("subject")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Condition",
               "subject" : {
                 "reference" : "subject"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Condition",
               "subject" : {
                 "reference" : "subject"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val condition = JacksonManager.objectMapper.readValue<Condition>(json)
 
         assertNull(condition.id)
@@ -232,26 +245,30 @@ class ConditionTest {
 class ConditionEvidenceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val conditionEvidence = ConditionEvidence(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = listOf(CodeableConcept(text = FHIRString("code"))),
-            detail = listOf(Reference(display = FHIRString("detail")))
-        )
+        val conditionEvidence =
+            ConditionEvidence(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = listOf(CodeableConcept(text = FHIRString("code"))),
+                detail = listOf(Reference(display = FHIRString("detail"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionEvidence)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -269,7 +286,7 @@ class ConditionEvidenceTest {
             |    "display" : "detail"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedConditionEvidence = JacksonManager.objectMapper.readValue<ConditionEvidence>(json)
@@ -278,30 +295,33 @@ class ConditionEvidenceTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val conditionEvidence = ConditionEvidence(
-            code = listOf(CodeableConcept(text = FHIRString("code")))
-        )
+        val conditionEvidence =
+            ConditionEvidence(
+                code = listOf(CodeableConcept(text = FHIRString("code"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionEvidence)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "code" : [ {
             |    "text" : "code"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "detail" : [ {
             |    "display" : "detail"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         val conditionEvidence = JacksonManager.objectMapper.readValue<ConditionEvidence>(json)
 
         assertNull(conditionEvidence.id)
@@ -315,27 +335,31 @@ class ConditionEvidenceTest {
 class ConditionStageTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val conditionStage = ConditionStage(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            summary = CodeableConcept(text = FHIRString("summary")),
-            assessment = listOf(Reference(display = FHIRString("assessment"))),
-            type = CodeableConcept(text = FHIRString("type"))
-        )
+        val conditionStage =
+            ConditionStage(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                summary = CodeableConcept(text = FHIRString("summary")),
+                assessment = listOf(Reference(display = FHIRString("assessment"))),
+                type = CodeableConcept(text = FHIRString("type")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionStage)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -356,7 +380,7 @@ class ConditionStageTest {
             |    "text" : "type"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedConditionStage = JacksonManager.objectMapper.readValue<ConditionStage>(json)
@@ -365,30 +389,33 @@ class ConditionStageTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val conditionStage = ConditionStage(
-            assessment = listOf(Reference(display = FHIRString("assessment")))
-        )
+        val conditionStage =
+            ConditionStage(
+                assessment = listOf(Reference(display = FHIRString("assessment"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conditionStage)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "assessment" : [ {
             |    "display" : "assessment"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "summary" : {
             |    "text" : "summary"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val conditionStage = JacksonManager.objectMapper.readValue<ConditionStage>(json)
 
         assertNull(conditionStage.id)

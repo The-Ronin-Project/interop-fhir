@@ -26,13 +26,14 @@ data class Annotation(
         ResourceType.Practitioner,
         ResourceType.Patient,
         ResourceType.RelatedPerson,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
     val author: DynamicValue<Any>? = null,
     val time: DateTime? = null,
     @RequiredField
-    val text: Markdown?
+    val text: Markdown?,
 ) : Element<Annotation>
 
 class AnnotationDeserializer : BaseFHIRDeserializer<Annotation>(Annotation::class.java)
+
 class AnnotationSerializer : BaseFHIRSerializer<Annotation>(Annotation::class.java)

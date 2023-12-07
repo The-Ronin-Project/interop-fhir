@@ -8,5 +8,5 @@ import com.projectronin.interop.fhir.r4.datatype.DynamicValueType
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class SupportedDynamicValueTypes(
-    vararg val value: DynamicValueType
+    vararg val value: DynamicValueType,
 )

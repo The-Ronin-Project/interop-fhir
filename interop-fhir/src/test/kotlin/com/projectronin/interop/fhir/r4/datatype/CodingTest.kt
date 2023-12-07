@@ -13,23 +13,26 @@ import org.junit.jupiter.api.Test
 class CodingTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val coding = Coding(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Uri("system-uri"),
-            version = FHIRString("1.2"),
-            code = Code("code-value"),
-            display = FHIRString("code-value from system-uri"),
-            userSelected = FHIRBoolean.TRUE
-        )
+        val coding =
+            Coding(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = Uri("system-uri"),
+                version = FHIRString("1.2"),
+                code = Code("code-value"),
+                display = FHIRString("code-value from system-uri"),
+                userSelected = FHIRBoolean.TRUE,
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(coding)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -42,7 +45,7 @@ class CodingTest {
             |  "display" : "code-value from system-uri",
             |  "userSelected" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCoding = objectMapper.readValue<Coding>(json)
@@ -51,26 +54,29 @@ class CodingTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val coding = Coding(
-            display = FHIRString("code-value from system-uri")
-        )
+        val coding =
+            Coding(
+                display = FHIRString("code-value from system-uri"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(coding)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "display" : "code-value from system-uri"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "code" : "code-value"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val coding = objectMapper.readValue<Coding>(json)
 
         assertNull(coding.id)

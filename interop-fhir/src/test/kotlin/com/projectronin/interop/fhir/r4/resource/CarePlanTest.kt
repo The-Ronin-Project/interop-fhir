@@ -35,180 +35,213 @@ import org.junit.jupiter.api.Test
 class CarePlanTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val carePlanDetail = CarePlanDetail(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            kind = Code("Appointment"),
-            instantiatesCanonical = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            ),
-            instantiatesUri = listOf(Uri("uri")),
-            code = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            reasonCode = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            goal = listOf(
-                Reference(reference = FHIRString("ABC123"))
-            ),
-            status = Code("scheduled"),
-            statusReason = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            doNotPerform = FHIRBoolean.TRUE,
-            scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
-            location = Reference(reference = FHIRString("DEF123")),
-            performer = listOf(Reference(reference = FHIRString("GHI123"))),
-            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
-            dailyAmount = SimpleQuantity(value = Decimal(1.1)),
-            quantity = SimpleQuantity(value = Decimal(2.2)),
-            description = FHIRString("Description")
-        )
-        val carePlanActivity = CarePlanActivity(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            outcomeCodeableConcept = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            outcomeReference = listOf(
-                Reference(reference = FHIRString("outcome"))
-            ),
-            progress = listOf(
-                Annotation(text = Markdown("123"))
-            ),
-            detail = carePlanDetail
-        )
-        val carePlan = CarePlan(
-            id = Id("123"),
-            meta = Meta(
-                profile = listOf(Canonical("CarePlan"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            ),
-            instantiatesUri = listOf(Uri("uri")),
-            basedOn = listOf(Reference(reference = FHIRString("reference"))),
-            replaces = listOf(Reference(reference = FHIRString("reference"))),
-            partOf = listOf(Reference(reference = FHIRString("reference"))),
-            status = Code("active"),
-            intent = Code("plan"),
-            category = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            title = FHIRString("care plan"),
-            description = FHIRString("description"),
-            subject = Reference(reference = FHIRString("XYZ123")),
-            encounter = Reference(reference = FHIRString("12XYZ3")),
-            period = Period(start = DateTime("2021"), end = DateTime("2022")),
-            created = DateTime("2022"),
-            author = Reference(reference = FHIRString("author123")),
-            contributor = listOf(
-                Reference(reference = FHIRString("contributor123"))
-            ),
-            careTeam = listOf(
-                Reference(reference = FHIRString("careteam123"))
-            ),
-            addresses = listOf(
-                Reference(reference = FHIRString("address123"))
-            ),
-            supportingInfo = listOf(
-                Reference(reference = FHIRString("supportingInfo123"))
-            ),
-            goal = listOf(
-                Reference(reference = FHIRString("goal123"))
-            ),
-            activity = listOf(carePlanActivity),
-            note = listOf(
-                Annotation(
-                    text = Markdown("potato")
-                )
+        val carePlanDetail =
+            CarePlanDetail(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                kind = Code("Appointment"),
+                instantiatesCanonical =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+                instantiatesUri = listOf(Uri("uri")),
+                code =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                reasonCode =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                goal =
+                    listOf(
+                        Reference(reference = FHIRString("ABC123")),
+                    ),
+                status = Code("scheduled"),
+                statusReason =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                doNotPerform = FHIRBoolean.TRUE,
+                scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                location = Reference(reference = FHIRString("DEF123")),
+                performer = listOf(Reference(reference = FHIRString("GHI123"))),
+                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
+                dailyAmount = SimpleQuantity(value = Decimal(1.1)),
+                quantity = SimpleQuantity(value = Decimal(2.2)),
+                description = FHIRString("Description"),
             )
-        )
+        val carePlanActivity =
+            CarePlanActivity(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                outcomeCodeableConcept =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                outcomeReference =
+                    listOf(
+                        Reference(reference = FHIRString("outcome")),
+                    ),
+                progress =
+                    listOf(
+                        Annotation(text = Markdown("123")),
+                    ),
+                detail = carePlanDetail,
+            )
+        val carePlan =
+            CarePlan(
+                id = Id("123"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("CarePlan")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                instantiatesCanonical =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+                instantiatesUri = listOf(Uri("uri")),
+                basedOn = listOf(Reference(reference = FHIRString("reference"))),
+                replaces = listOf(Reference(reference = FHIRString("reference"))),
+                partOf = listOf(Reference(reference = FHIRString("reference"))),
+                status = Code("active"),
+                intent = Code("plan"),
+                category =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                title = FHIRString("care plan"),
+                description = FHIRString("description"),
+                subject = Reference(reference = FHIRString("XYZ123")),
+                encounter = Reference(reference = FHIRString("12XYZ3")),
+                period = Period(start = DateTime("2021"), end = DateTime("2022")),
+                created = DateTime("2022"),
+                author = Reference(reference = FHIRString("author123")),
+                contributor =
+                    listOf(
+                        Reference(reference = FHIRString("contributor123")),
+                    ),
+                careTeam =
+                    listOf(
+                        Reference(reference = FHIRString("careteam123")),
+                    ),
+                addresses =
+                    listOf(
+                        Reference(reference = FHIRString("address123")),
+                    ),
+                supportingInfo =
+                    listOf(
+                        Reference(reference = FHIRString("supportingInfo123")),
+                    ),
+                goal =
+                    listOf(
+                        Reference(reference = FHIRString("goal123")),
+                    ),
+                activity = listOf(carePlanActivity),
+                note =
+                    listOf(
+                        Annotation(
+                            text = Markdown("potato"),
+                        ),
+                    ),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlan)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "CarePlan",
               "id" : "123",
@@ -373,7 +406,7 @@ class CarePlanTest {
                 "text" : "potato"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCarePlan = JacksonManager.objectMapper.readValue<CarePlan>(json)
@@ -382,13 +415,15 @@ class CarePlanTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val carePlan = CarePlan(
-            status = Code("active"),
-            intent = Code("plan"),
-            subject = Reference(reference = FHIRString("XYZ123"))
-        )
+        val carePlan =
+            CarePlan(
+                status = Code("active"),
+                intent = Code("plan"),
+                subject = Reference(reference = FHIRString("XYZ123")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlan)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "CarePlan",
               "status" : "active",
@@ -397,13 +432,14 @@ class CarePlanTest {
                 "reference" : "XYZ123"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "CarePlan",
               "status" : "active",
@@ -412,7 +448,7 @@ class CarePlanTest {
                 "reference" : "XYZ123"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val carePlan = JacksonManager.objectMapper.readValue<CarePlan>(json)
         assertNull(carePlan.id)
         assertNull(carePlan.meta)
@@ -451,105 +487,124 @@ class CarePlanTest {
 class CarePlanActivityTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val carePlanDetail = CarePlanDetail(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            kind = Code("Appointment"),
-            instantiatesCanonical = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            ),
-            instantiatesUri = listOf(Uri("uri")),
-            code = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            reasonCode = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            goal = listOf(
-                Reference(reference = FHIRString("ABC123"))
-            ),
-            status = Code("scheduled"),
-            statusReason = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            doNotPerform = FHIRBoolean.TRUE,
-            scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
-            location = Reference(reference = FHIRString("DEF123")),
-            performer = listOf(Reference(reference = FHIRString("GHI123"))),
-            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
-            dailyAmount = SimpleQuantity(value = Decimal(1.1)),
-            quantity = SimpleQuantity(value = Decimal(2.2)),
-            description = FHIRString("Description")
-        )
-        val carePlanActivity = CarePlanActivity(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            outcomeCodeableConcept = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            outcomeReference = listOf(
-                Reference(reference = FHIRString("outcome"))
-            ),
-            progress = listOf(
-                Annotation(text = Markdown("123"))
-            ),
-            detail = carePlanDetail
-        )
+        val carePlanDetail =
+            CarePlanDetail(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                kind = Code("Appointment"),
+                instantiatesCanonical =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+                instantiatesUri = listOf(Uri("uri")),
+                code =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                reasonCode =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                goal =
+                    listOf(
+                        Reference(reference = FHIRString("ABC123")),
+                    ),
+                status = Code("scheduled"),
+                statusReason =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                doNotPerform = FHIRBoolean.TRUE,
+                scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                location = Reference(reference = FHIRString("DEF123")),
+                performer = listOf(Reference(reference = FHIRString("GHI123"))),
+                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
+                dailyAmount = SimpleQuantity(value = Decimal(1.1)),
+                quantity = SimpleQuantity(value = Decimal(2.2)),
+                description = FHIRString("Description"),
+            )
+        val carePlanActivity =
+            CarePlanActivity(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                outcomeCodeableConcept =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                outcomeReference =
+                    listOf(
+                        Reference(reference = FHIRString("outcome")),
+                    ),
+                progress =
+                    listOf(
+                        Annotation(text = Markdown("123")),
+                    ),
+                detail = carePlanDetail,
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlanActivity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -631,7 +686,7 @@ class CarePlanActivityTest {
                 "description" : "Description"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCarePlanActivity = JacksonManager.objectMapper.readValue<CarePlanActivity>(json)
@@ -640,30 +695,33 @@ class CarePlanActivityTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val carePlanActivity = CarePlanActivity(
-            reference = Reference(reference = FHIRString("ABC123"))
-        )
+        val carePlanActivity =
+            CarePlanActivity(
+                reference = Reference(reference = FHIRString("ABC123")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlanActivity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "reference" : {
                 "reference" : "ABC123"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "reference" : {
                 "reference" : "ABC123"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val carePlanActivity = JacksonManager.objectMapper.readValue<CarePlanActivity>(json)
         assertNull(carePlanActivity.id)
         assertEquals(listOf<Extension>(), carePlanActivity.extension)
@@ -679,71 +737,83 @@ class CarePlanActivityTest {
 class CarePlanDetailTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val carePlanDetail = CarePlanDetail(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            kind = Code("Appointment"),
-            instantiatesCanonical = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            ),
-            instantiatesUri = listOf(Uri("uri")),
-            code = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            reasonCode = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                            code = Code("DD"),
-                            display = FHIRString("Discharge diagnosis")
-                        )
-                    )
-                )
-            ),
-            goal = listOf(
-                Reference(reference = FHIRString("ABC123"))
-            ),
-            status = Code("scheduled"),
-            statusReason = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            doNotPerform = FHIRBoolean.TRUE,
-            scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
-            location = Reference(reference = FHIRString("DEF123")),
-            performer = listOf(Reference(reference = FHIRString("GHI123"))),
-            product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
-            dailyAmount = SimpleQuantity(value = Decimal(1.1)),
-            quantity = SimpleQuantity(value = Decimal(2.2)),
-            description = FHIRString("Description")
-        )
+        val carePlanDetail =
+            CarePlanDetail(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                kind = Code("Appointment"),
+                instantiatesCanonical =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+                instantiatesUri = listOf(Uri("uri")),
+                code =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                reasonCode =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                        code = Code("DD"),
+                                        display = FHIRString("Discharge diagnosis"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                goal =
+                    listOf(
+                        Reference(reference = FHIRString("ABC123")),
+                    ),
+                status = Code("scheduled"),
+                statusReason =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                doNotPerform = FHIRBoolean.TRUE,
+                scheduled = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                location = Reference(reference = FHIRString("DEF123")),
+                performer = listOf(Reference(reference = FHIRString("GHI123"))),
+                product = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("product"))),
+                dailyAmount = SimpleQuantity(value = Decimal(1.1)),
+                quantity = SimpleQuantity(value = Decimal(2.2)),
+                description = FHIRString("Description"),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlanDetail)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -801,7 +871,7 @@ class CarePlanDetailTest {
               },
               "description" : "Description"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCarePlanDetail = JacksonManager.objectMapper.readValue<CarePlanDetail>(json)
@@ -810,26 +880,29 @@ class CarePlanDetailTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val carePlanDetail = CarePlanDetail(
-            status = Code("scheduled")
-        )
+        val carePlanDetail =
+            CarePlanDetail(
+                status = Code("scheduled"),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(carePlanDetail)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "status" : "scheduled"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "status" : "scheduled"
             }
-        """.trimIndent()
+            """.trimIndent()
         val carePlanDetail = JacksonManager.objectMapper.readValue<CarePlanDetail>(json)
         assertNull(carePlanDetail.id)
         assertEquals(listOf<Extension>(), carePlanDetail.extension)

@@ -21,8 +21,9 @@ data class Count(
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<Count>(id, extension, value, comparator, unit, system, code)
 
 class CountSerializer : BaseFHIRSerializer<Count>(Count::class.java)
+
 class CountDeserializer : BaseFHIRDeserializer<Count>(Count::class.java)

@@ -21,8 +21,9 @@ data class DoseAndRate(
     @SupportedDynamicValueTypes(DynamicValueType.RANGE, DynamicValueType.QUANTITY)
     val dose: DynamicValue<Any>? = null,
     @SupportedDynamicValueTypes(DynamicValueType.RATIO, DynamicValueType.RANGE, DynamicValueType.QUANTITY)
-    val rate: DynamicValue<Any>? = null
+    val rate: DynamicValue<Any>? = null,
 ) : Element<DoseAndRate>
 
 class DoseAndRateDeserializer : BaseFHIRDeserializer<DoseAndRate>(DoseAndRate::class.java)
+
 class DoseAndRateSerializer : BaseFHIRSerializer<DoseAndRate>(DoseAndRate::class.java)

@@ -27,65 +27,73 @@ import org.junit.jupiter.api.Test
 class CommunicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val communication: Communication = Communication(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninCommunication"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf(Canonical("RoninCommunication")),
-            instantiatesUri = listOf(Uri("http://localhost/uri")),
-            basedOn = listOf(Reference(display = FHIRString("communication-based-on"))),
-            partOf = listOf(Reference(display = FHIRString("communication-part-of"))),
-            inResponseTo = listOf(Reference(display = FHIRString("communication-in-response-to"))),
-            status = EventStatus.COMPLETED.asCode(),
-            statusReason = CodeableConcept(text = FHIRString("communication-status-reason")),
-            category = listOf(CodeableConcept(text = FHIRString("communication-category"))),
-            priority = Code("priority"),
-            medium = listOf(CodeableConcept(text = FHIRString("communication-medium"))),
-            subject = Reference(display = FHIRString("communication-subject")),
-            topic = CodeableConcept(text = FHIRString("communication-topic")),
-            about = listOf(Reference(display = FHIRString("communication-about"))),
-            encounter = Reference(display = FHIRString("communication-encounter")),
-            sent = DateTime("2023-01-30"),
-            received = DateTime("2023-01-31"),
-            recipient = listOf(Reference(display = FHIRString("communication-recipient"))),
-            sender = Reference(display = FHIRString("communication-sender")),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("communication-reason-code"))),
-            reasonReference = listOf(Reference(display = FHIRString("communication-reason-reference"))),
-            payload = listOf(
-                CommunicationPayload(
-                    content = DynamicValue(
-                        DynamicValueType.REFERENCE,
-                        Reference(display = FHIRString("communication-payload-content"))
-                    )
-                )
-            ),
-            note = listOf(Annotation(text = Markdown("communication-note")))
-        )
+        val communication: Communication =
+            Communication(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninCommunication")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                instantiatesCanonical = listOf(Canonical("RoninCommunication")),
+                instantiatesUri = listOf(Uri("http://localhost/uri")),
+                basedOn = listOf(Reference(display = FHIRString("communication-based-on"))),
+                partOf = listOf(Reference(display = FHIRString("communication-part-of"))),
+                inResponseTo = listOf(Reference(display = FHIRString("communication-in-response-to"))),
+                status = EventStatus.COMPLETED.asCode(),
+                statusReason = CodeableConcept(text = FHIRString("communication-status-reason")),
+                category = listOf(CodeableConcept(text = FHIRString("communication-category"))),
+                priority = Code("priority"),
+                medium = listOf(CodeableConcept(text = FHIRString("communication-medium"))),
+                subject = Reference(display = FHIRString("communication-subject")),
+                topic = CodeableConcept(text = FHIRString("communication-topic")),
+                about = listOf(Reference(display = FHIRString("communication-about"))),
+                encounter = Reference(display = FHIRString("communication-encounter")),
+                sent = DateTime("2023-01-30"),
+                received = DateTime("2023-01-31"),
+                recipient = listOf(Reference(display = FHIRString("communication-recipient"))),
+                sender = Reference(display = FHIRString("communication-sender")),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("communication-reason-code"))),
+                reasonReference = listOf(Reference(display = FHIRString("communication-reason-reference"))),
+                payload =
+                    listOf(
+                        CommunicationPayload(
+                            content =
+                                DynamicValue(
+                                    DynamicValueType.REFERENCE,
+                                    Reference(display = FHIRString("communication-payload-content")),
+                                ),
+                        ),
+                    ),
+                note = listOf(Annotation(text = Markdown("communication-note"))),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Communication",
               "id" : "12345",
@@ -171,7 +179,7 @@ class CommunicationTest {
                 "text" : "communication-note"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCommunication = objectMapper.readValue<Communication>(json)
@@ -180,17 +188,19 @@ class CommunicationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val communication = Communication(
-            status = EventStatus.ENTERED_IN_ERROR.asCode()
-        )
+        val communication =
+            Communication(
+                status = EventStatus.ENTERED_IN_ERROR.asCode(),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communication)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Communication",
               "status" : "entered-in-error"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -200,12 +210,13 @@ class CommunicationTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Communication",
               "status" : "entered-in-error"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val communication = objectMapper.readValue<Communication>(json)
         communication.apply {
@@ -247,29 +258,34 @@ class CommunicationTest {
 class CommunicationPayloadTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val communicationPayload = CommunicationPayload(
-            id = FHIRString("39876"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            content = DynamicValue(
-                DynamicValueType.REFERENCE,
-                Reference(display = FHIRString("communication-payload-content"))
+        val communicationPayload =
+            CommunicationPayload(
+                id = FHIRString("39876"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                content =
+                    DynamicValue(
+                        DynamicValueType.REFERENCE,
+                        Reference(display = FHIRString("communication-payload-content")),
+                    ),
             )
-        )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communicationPayload)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "39876",
               "extension" : [ {
@@ -284,7 +300,7 @@ class CommunicationPayloadTest {
                 "display" : "communication-payload-content"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -294,22 +310,25 @@ class CommunicationPayloadTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val communicationPayload = CommunicationPayload(
-            content = DynamicValue(
-                DynamicValueType.REFERENCE,
-                Reference(display = FHIRString("communication-payload-content"))
+        val communicationPayload =
+            CommunicationPayload(
+                content =
+                    DynamicValue(
+                        DynamicValueType.REFERENCE,
+                        Reference(display = FHIRString("communication-payload-content")),
+                    ),
             )
-        )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(communicationPayload)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "contentReference" : {
                 "display" : "communication-payload-content"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCommunicationPayload = objectMapper.readValue<CommunicationPayload>(json)
@@ -318,13 +337,14 @@ class CommunicationPayloadTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "contentReference" : {
                 "display" : "communication-payload-content"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val communicationPayload = objectMapper.readValue<CommunicationPayload>(json)
         communicationPayload.apply {
@@ -334,9 +354,9 @@ class CommunicationPayloadTest {
             assertEquals(
                 DynamicValue(
                     DynamicValueType.REFERENCE,
-                    Reference(display = FHIRString("communication-payload-content"))
+                    Reference(display = FHIRString("communication-payload-content")),
                 ),
-                content
+                content,
             )
         }
     }

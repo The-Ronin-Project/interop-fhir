@@ -28,10 +28,11 @@ data class Binary(
     @RequiredField
     val contentType: Code?,
     val securityContent: Reference? = null,
-    val data: Base64Binary? = null
+    val data: Base64Binary? = null,
 ) : Resource<Binary> {
     override val resourceType: String = "Binary"
 }
 
 class BinarySerializer : BaseFHIRSerializer<Binary>(Binary::class.java)
+
 class BinaryDeserializer : BaseFHIRDeserializer<Binary>(Binary::class.java)

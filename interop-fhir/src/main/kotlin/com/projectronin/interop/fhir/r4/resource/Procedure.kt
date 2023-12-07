@@ -66,21 +66,21 @@ data class Procedure(
         DynamicValueType.PERIOD,
         DynamicValueType.STRING,
         DynamicValueType.AGE,
-        DynamicValueType.RANGE
+        DynamicValueType.RANGE,
     )
     val performed: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(
         ResourceType.Patient,
         ResourceType.RelatedPerson,
         ResourceType.Practitioner,
-        ResourceType.PractitionerRole
+        ResourceType.PractitionerRole,
     )
     val recorder: Reference? = null,
     @SupportedReferenceTypes(
         ResourceType.Patient,
         ResourceType.RelatedPerson,
         ResourceType.Practitioner,
-        ResourceType.PractitionerRole
+        ResourceType.PractitionerRole,
     )
     val asserter: Reference? = null,
     val performer: List<ProcedurePerformer> = listOf(),
@@ -92,7 +92,7 @@ data class Procedure(
         ResourceType.Observation,
         ResourceType.Procedure,
         ResourceType.DiagnosticReport,
-        ResourceType.DocumentReference
+        ResourceType.DocumentReference,
     )
     val reasonReference: List<Reference> = listOf(),
     val bodySite: List<CodeableConcept> = listOf(),
@@ -107,12 +107,13 @@ data class Procedure(
     val focalDevice: List<ProcedureFocalDevice> = listOf(),
     @SupportedReferenceTypes(ResourceType.Device, ResourceType.Medication, ResourceType.Substance)
     val usedReference: List<Reference> = listOf(),
-    val usedCode: List<CodeableConcept> = listOf()
+    val usedCode: List<CodeableConcept> = listOf(),
 ) : DomainResource<Procedure> {
     override val resourceType: String = "Procedure"
 }
 
 class ProcedureSerializer : BaseFHIRSerializer<Procedure>(Procedure::class.java)
+
 class ProcedureDeserializer : BaseFHIRDeserializer<Procedure>(Procedure::class.java)
 
 /**
@@ -132,14 +133,15 @@ data class ProcedurePerformer(
         ResourceType.Organization,
         ResourceType.Patient,
         ResourceType.RelatedPerson,
-        ResourceType.Device
+        ResourceType.Device,
     )
     val actor: Reference?,
     @SupportedReferenceTypes(ResourceType.Organization)
-    val onBehalfOf: Reference? = null
+    val onBehalfOf: Reference? = null,
 ) : BackboneElement<ProcedurePerformer>
 
 class ProcedurePerformerSerializer : BaseFHIRSerializer<ProcedurePerformer>(ProcedurePerformer::class.java)
+
 class ProcedurePerformerDeserializer : BaseFHIRDeserializer<ProcedurePerformer>(ProcedurePerformer::class.java)
 
 @JsonSerialize(using = ProcedureFocalDeviceSerializer::class)
@@ -151,8 +153,9 @@ data class ProcedureFocalDevice(
     val action: CodeableConcept? = null,
     @RequiredField
     @SupportedReferenceTypes(ResourceType.Device)
-    val manipulated: Reference?
+    val manipulated: Reference?,
 ) : BackboneElement<ProcedureFocalDevice>
 
 class ProcedureFocalDeviceSerializer : BaseFHIRSerializer<ProcedureFocalDevice>(ProcedureFocalDevice::class.java)
+
 class ProcedureFocalDeviceDeserializer : BaseFHIRDeserializer<ProcedureFocalDevice>(ProcedureFocalDevice::class.java)

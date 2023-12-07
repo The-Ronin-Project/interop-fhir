@@ -22,16 +22,17 @@ class MetaGenerator : DataGenerator<Meta>() {
     val security: ListDataGenerator<Coding> = ListDataGenerator(0, CodingGenerator())
     val tag: ListDataGenerator<Coding> = ListDataGenerator(0, CodingGenerator())
 
-    override fun generateInternal() = Meta(
-        id = id.generate(),
-        extension = extension.generate(),
-        versionId = versionId.generate(),
-        lastUpdated = lastUpdated.generate(),
-        source = source.generate(),
-        profile = profile.generate().filterNotNull(),
-        security = security.generate(),
-        tag = tag.generate()
-    )
+    override fun generateInternal() =
+        Meta(
+            id = id.generate(),
+            extension = extension.generate(),
+            versionId = versionId.generate(),
+            lastUpdated = lastUpdated.generate(),
+            source = source.generate(),
+            profile = profile.generate().filterNotNull(),
+            security = security.generate(),
+            tag = tag.generate(),
+        )
 }
 
 fun meta(block: MetaGenerator.() -> Unit): Meta {

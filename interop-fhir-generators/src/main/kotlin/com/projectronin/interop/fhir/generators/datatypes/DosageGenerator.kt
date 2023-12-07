@@ -49,7 +49,7 @@ class DosageGenerator : DataGenerator<Dosage>() {
             doseAndRate = doseAndRate.generate(),
             maxDosePerPeriod = maxDosePerPeriod.generate(),
             maxDosePerAdministration = maxDosePerAdministration.generate(),
-            maxDosePerLifetime = maxDosePerLifetime.generate()
+            maxDosePerLifetime = maxDosePerLifetime.generate(),
         )
 }
 
@@ -66,7 +66,7 @@ class DoseAndRateGenerator : DataGenerator<DoseAndRate>() {
             extension = extension.generate(),
             type = type.generate(),
             dose = dose.generate(),
-            rate = rate.generate()
+            rate = rate.generate(),
         )
 }
 

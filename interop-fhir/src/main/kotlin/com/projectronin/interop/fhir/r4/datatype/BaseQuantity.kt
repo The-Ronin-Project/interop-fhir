@@ -13,5 +13,5 @@ abstract class BaseQuantity<T : BaseQuantity<T>>(
     open val comparator: Code? = null,
     open val unit: FHIRString? = null,
     open val system: Uri? = null,
-    open val code: Code? = null
+    open val code: Code? = null,
 ) : Element<T>

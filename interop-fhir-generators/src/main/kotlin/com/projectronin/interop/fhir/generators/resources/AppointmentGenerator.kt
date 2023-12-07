@@ -60,7 +60,7 @@ data class AppointmentGenerator(
     val patientInstruction: DataGenerator<FHIRString?> = NullDataGenerator(),
     val basedOn: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val participant: ListDataGenerator<Participant> = ListDataGenerator(1, ParticipantGenerator()),
-    val requestedPeriod: ListDataGenerator<Period> = ListDataGenerator(0, PeriodGenerator())
+    val requestedPeriod: ListDataGenerator<Period> = ListDataGenerator(0, PeriodGenerator()),
 ) : DomainResource<Appointment> {
     override fun toFhir(): Appointment =
         Appointment(
@@ -93,7 +93,7 @@ data class AppointmentGenerator(
             patientInstruction = patientInstruction.generate(),
             basedOn = basedOn.generate(),
             participant = participant.generate(),
-            requestedPeriod = requestedPeriod.generate()
+            requestedPeriod = requestedPeriod.generate(),
         )
 }
 

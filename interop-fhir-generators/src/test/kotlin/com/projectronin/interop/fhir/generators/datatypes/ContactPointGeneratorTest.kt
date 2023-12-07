@@ -25,10 +25,11 @@ class ContactPointGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val contactPoint = contactPoint {
-            system of ContactPointSystem.EMAIL.asCode()
-            value of "josh@projectronin.com"
-        }
+        val contactPoint =
+            contactPoint {
+                system of ContactPointSystem.EMAIL.asCode()
+                value of "josh@projectronin.com"
+            }
         assertEquals(Code("email"), contactPoint.system)
         assertEquals(FHIRString("josh@projectronin.com"), contactPoint.value)
     }

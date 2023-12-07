@@ -24,18 +24,19 @@ class AttachmentGenerator : DataGenerator<Attachment>() {
     val title: DataGenerator<FHIRString?> = NullDataGenerator()
     val creation: DataGenerator<DateTime?> = NullDataGenerator()
 
-    override fun generateInternal() = Attachment(
-        id = id.generate(),
-        extension = extension.generate(),
-        contentType = contentType.generate(),
-        language = language.generate(),
-        data = data.generate(),
-        url = url.generate(),
-        size = size.generate(),
-        hash = hash.generate(),
-        title = title.generate(),
-        creation = creation.generate()
-    )
+    override fun generateInternal() =
+        Attachment(
+            id = id.generate(),
+            extension = extension.generate(),
+            contentType = contentType.generate(),
+            language = language.generate(),
+            data = data.generate(),
+            url = url.generate(),
+            size = size.generate(),
+            hash = hash.generate(),
+            title = title.generate(),
+            creation = creation.generate(),
+        )
 }
 
 fun attachment(block: AttachmentGenerator.() -> Unit): Attachment {

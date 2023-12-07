@@ -25,39 +25,44 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class STU3BundleTest {
-    private val miniAppt = STU3Appointment(
-        status = AppointmentStatus.BOOKED.asCode(),
-        participant = listOf(
-            Participant(
-                status = ParticipationStatus.ACCEPTED.asCode(),
-                actor = Reference(reference = FHIRString("reference"))
-            )
+    private val miniAppt =
+        STU3Appointment(
+            status = AppointmentStatus.BOOKED.asCode(),
+            participant =
+                listOf(
+                    Participant(
+                        status = ParticipationStatus.ACCEPTED.asCode(),
+                        actor = Reference(reference = FHIRString("reference")),
+                    ),
+                ),
         )
-    )
 
-    private val goodBundle = STU3Bundle(
-        id = Id("1234"),
-        meta = Meta(profile = listOf(Canonical("STU3profile"))),
-        implicitRules = Uri("implicit-rules"),
-        language = Code("en-US"),
-        identifier = Identifier(value = FHIRString("identifier")),
-        type = BundleType.SEARCHSET.asCode(),
-        timestamp = Instant("2017-01-01T00:00:00Z"),
-        total = UnsignedInt(1),
-        link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
-        entry = listOf(STU3BundleEntry(resource = miniAppt)),
-        signature = Signature(
-            type = listOf(Coding(display = FHIRString("type"))),
-            `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(reference = FHIRString("who"))
+    private val goodBundle =
+        STU3Bundle(
+            id = Id("1234"),
+            meta = Meta(profile = listOf(Canonical("STU3profile"))),
+            implicitRules = Uri("implicit-rules"),
+            language = Code("en-US"),
+            identifier = Identifier(value = FHIRString("identifier")),
+            type = BundleType.SEARCHSET.asCode(),
+            timestamp = Instant("2017-01-01T00:00:00Z"),
+            total = UnsignedInt(1),
+            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
+            entry = listOf(STU3BundleEntry(resource = miniAppt)),
+            signature =
+                Signature(
+                    type = listOf(Coding(display = FHIRString("type"))),
+                    `when` = Instant("2017-01-01T00:00:00Z"),
+                    who = Reference(reference = FHIRString("who")),
+                ),
         )
-    )
 
     @Test
     fun `can serialize and deserialize JSON with known resource type`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(goodBundle)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Bundle",
               "id" : "1234",
@@ -98,7 +103,7 @@ class STU3BundleTest {
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedBundle = objectMapper.readValue<STU3Bundle>(json)

@@ -25,10 +25,11 @@ class RelatedArtifactGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val relatedArtifact = relatedArtifact {
-            display of "My Artifact"
-            citation of "This is the citation"
-        }
+        val relatedArtifact =
+            relatedArtifact {
+                display of "My Artifact"
+                citation of "This is the citation"
+            }
         assertEquals(FHIRString("My Artifact"), relatedArtifact.display)
         assertEquals(Markdown("This is the citation"), relatedArtifact.citation)
     }

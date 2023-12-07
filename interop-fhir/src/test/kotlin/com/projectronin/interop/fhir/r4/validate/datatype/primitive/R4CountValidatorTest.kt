@@ -22,59 +22,63 @@ class R4CountValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Quantity",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(value = Decimal(2.0), system = CodeSystem.UCUM.uri)
-            R4CountValidator.validate(count).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val count = Count(value = Decimal(2.0), system = CodeSystem.UCUM.uri)
+                R4CountValidator.validate(count).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CNT_001: There SHALL be a code with a value of \"1\" if there is a value @ Count",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value provided with invalid code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(value = Decimal(2.0), code = Code("code-value"), system = CodeSystem.UCUM.uri)
-            R4CountValidator.validate(count).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val count = Count(value = Decimal(2.0), code = Code("code-value"), system = CodeSystem.UCUM.uri)
+                R4CountValidator.validate(count).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CNT_001: There SHALL be a code with a value of \"1\" if there is a value @ Count",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(system = Uri("SNOMED"))
-            R4CountValidator.validate(count).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val count = Count(system = Uri("SNOMED"))
+                R4CountValidator.validate(count).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CNT_002: If system is present, it SHALL be UCUM @ Count.system",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value is non-whole number`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val count = Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = Decimal(1.2))
-            R4CountValidator.validate(count).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val count = Count(code = Code("1"), system = CodeSystem.UCUM.uri, value = Decimal(1.2))
+                R4CountValidator.validate(count).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CNT_003: If present, the value SHALL be a whole number @ Count.value",
-            exception.message
+            exception.message,
         )
     }
 
@@ -88,17 +92,18 @@ class R4CountValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val count = Count(
-            value = Decimal(17.0),
-            system = CodeSystem.UCUM.uri,
-            code = Code("1")
-        )
+        val count =
+            Count(
+                value = Decimal(17.0),
+                system = CodeSystem.UCUM.uri,
+                code = Code("1"),
+            )
         R4CountValidator.validate(count).alertIfErrors()
     }
 }

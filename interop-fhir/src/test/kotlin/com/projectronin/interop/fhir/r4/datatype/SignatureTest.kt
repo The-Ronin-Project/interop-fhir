@@ -14,25 +14,28 @@ import org.junit.jupiter.api.Test
 class SignatureTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val signature = Signature(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = listOf(Coding(display = FHIRString("coding-type"))),
-            `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(display = FHIRString("Reference")),
-            onBehalfOf = Reference(display = FHIRString("onBehalfOf Reference")),
-            targetFormat = Code("target-format"),
-            sigFormat = Code("sig-format"),
-            data = Base64Binary("1234")
-        )
+        val signature =
+            Signature(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                type = listOf(Coding(display = FHIRString("coding-type"))),
+                `when` = Instant("2017-01-01T00:00:00Z"),
+                who = Reference(display = FHIRString("Reference")),
+                onBehalfOf = Reference(display = FHIRString("onBehalfOf Reference")),
+                targetFormat = Code("target-format"),
+                sigFormat = Code("sig-format"),
+                data = Base64Binary("1234"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(signature)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -53,7 +56,7 @@ class SignatureTest {
             |  "sigFormat" : "sig-format",
             |  "data" : "1234"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSignature = objectMapper.readValue<Signature>(json)
@@ -62,14 +65,16 @@ class SignatureTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val signature = Signature(
-            type = listOf(Coding(display = FHIRString("coding-type"))),
-            `when` = Instant("2017-01-01T00:00:00Z"),
-            who = Reference(display = FHIRString("Reference"))
-        )
+        val signature =
+            Signature(
+                type = listOf(Coding(display = FHIRString("coding-type"))),
+                `when` = Instant("2017-01-01T00:00:00Z"),
+                who = Reference(display = FHIRString("Reference")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(signature)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : [ {
             |    "display" : "coding-type"
@@ -79,13 +84,14 @@ class SignatureTest {
             |    "display" : "Reference"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "type" : [ {
             |    "display" : "coding-type"
@@ -95,7 +101,7 @@ class SignatureTest {
             |    "display" : "Reference"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val signature = objectMapper.readValue<Signature>(json)
 
         assertNull(signature.id)

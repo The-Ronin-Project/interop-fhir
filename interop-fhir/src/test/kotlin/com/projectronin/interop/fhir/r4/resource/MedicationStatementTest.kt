@@ -28,55 +28,62 @@ import org.junit.jupiter.api.Test
 class MedicationStatementTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val medication = DynamicValue(
-            type = DynamicValueType.CODEABLE_CONCEPT,
-            value = CodeableConcept(text = FHIRString("Medication Category"))
-        )
+        val medication =
+            DynamicValue(
+                type = DynamicValueType.CODEABLE_CONCEPT,
+                value = CodeableConcept(text = FHIRString("Medication Category")),
+            )
         val effective = DynamicValue(type = DynamicValueType.DATE_TIME, value = DateTime("2022"))
-        val medicationStatement = MedicationStatement(
-            id = Id("123"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninMedicationStatement"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            basedOn = listOf(Reference(display = FHIRString("basedOn Reference"))),
-            partOf = listOf(Reference(display = FHIRString("partOf Reference"))),
-            status = MedicationStatementStatus.ACTIVE.asCode(),
-            statusReason = listOf(CodeableConcept(text = FHIRString("statusReason category"))),
-            category = CodeableConcept(text = FHIRString("category category")),
-            medication = medication,
-            subject = Reference(display = FHIRString("subject Reference")),
-            context = Reference(display = FHIRString("context Reference")),
-            effective = effective,
-            dateAsserted = DateTime("2021"),
-            informationSource = Reference(display = FHIRString("informationSource Reference")),
-            derivedFrom = listOf(Reference(display = FHIRString("derivedFrom Reference"))),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reasonCode category"))),
-            reasonReference = listOf(Reference(display = FHIRString("reasonReference Reference"))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            dosage = listOf(Dosage(text = FHIRString("Dosage")))
-        )
+        val medicationStatement =
+            MedicationStatement(
+                id = Id("123"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninMedicationStatement")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                basedOn = listOf(Reference(display = FHIRString("basedOn Reference"))),
+                partOf = listOf(Reference(display = FHIRString("partOf Reference"))),
+                status = MedicationStatementStatus.ACTIVE.asCode(),
+                statusReason = listOf(CodeableConcept(text = FHIRString("statusReason category"))),
+                category = CodeableConcept(text = FHIRString("category category")),
+                medication = medication,
+                subject = Reference(display = FHIRString("subject Reference")),
+                context = Reference(display = FHIRString("context Reference")),
+                effective = effective,
+                dateAsserted = DateTime("2021"),
+                informationSource = Reference(display = FHIRString("informationSource Reference")),
+                derivedFrom = listOf(Reference(display = FHIRString("derivedFrom Reference"))),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reasonCode category"))),
+                reasonReference = listOf(Reference(display = FHIRString("reasonReference Reference"))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                dosage = listOf(Dosage(text = FHIRString("Dosage"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationStatement)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "MedicationStatement",
               "id" : "123",
@@ -148,7 +155,7 @@ class MedicationStatementTest {
                 "text" : "Dosage"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedStatement = JacksonManager.objectMapper.readValue<MedicationStatement>(json)
@@ -157,21 +164,24 @@ class MedicationStatementTest {
 
     @Test
     fun `serialization ignores nulls`() {
-        val medication = DynamicValue(
-            type = DynamicValueType.CODEABLE_CONCEPT,
-            value = CodeableConcept(text = FHIRString("Medication Category"))
-        )
+        val medication =
+            DynamicValue(
+                type = DynamicValueType.CODEABLE_CONCEPT,
+                value = CodeableConcept(text = FHIRString("Medication Category")),
+            )
         val effective = DynamicValue(type = DynamicValueType.DATE_TIME, value = DateTime("2022"))
-        val medicationStatement = MedicationStatement(
-            status = MedicationStatementStatus.COMPLETED.asCode(),
-            medication = medication,
-            subject = Reference(display = FHIRString("reference")),
-            effective = effective
-        )
+        val medicationStatement =
+            MedicationStatement(
+                status = MedicationStatementStatus.COMPLETED.asCode(),
+                medication = medication,
+                subject = Reference(display = FHIRString("reference")),
+                effective = effective,
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationStatement)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "MedicationStatement",
               "status" : "completed",
@@ -183,7 +193,7 @@ class MedicationStatementTest {
               },
               "effectiveDateTime" : "2022"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 }

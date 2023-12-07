@@ -59,12 +59,13 @@ data class PractitionerRole(
     val notAvailable: List<NotAvailable> = listOf(),
     val availabilityExceptions: FHIRString? = null,
     @SupportedReferenceTypes(ResourceType.Endpoint)
-    val endpoint: List<Reference> = listOf()
+    val endpoint: List<Reference> = listOf(),
 ) : DomainResource<PractitionerRole> {
     override val resourceType: String = "PractitionerRole"
 }
 
 class PractitionerRoleSerializer : BaseFHIRSerializer<PractitionerRole>(PractitionerRole::class.java)
+
 class PractitionerRoleDeserializer : BaseFHIRDeserializer<PractitionerRole>(PractitionerRole::class.java)
 
 /**
@@ -80,10 +81,11 @@ data class AvailableTime(
     val daysOfWeek: List<Code> = listOf(),
     val allDay: FHIRBoolean? = null,
     val availableStartTime: Time? = null,
-    val availableEndTime: Time? = null
+    val availableEndTime: Time? = null,
 ) : BackboneElement<AvailableTime>
 
 class AvailableTimeSerializer : BaseFHIRSerializer<AvailableTime>(AvailableTime::class.java)
+
 class AvailableTimeDeserializer : BaseFHIRDeserializer<AvailableTime>(AvailableTime::class.java)
 
 /**
@@ -97,8 +99,9 @@ data class NotAvailable(
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
     val description: FHIRString?,
-    val during: Period? = null
+    val during: Period? = null,
 ) : BackboneElement<NotAvailable>
 
 class NotAvailableSerializer : BaseFHIRSerializer<NotAvailable>(NotAvailable::class.java)
+
 class NotAvailableDeserializer : BaseFHIRDeserializer<NotAvailable>(NotAvailable::class.java)

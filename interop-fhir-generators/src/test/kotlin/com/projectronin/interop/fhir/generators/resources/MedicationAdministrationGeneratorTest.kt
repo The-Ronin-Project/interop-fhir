@@ -56,60 +56,74 @@ class MedicationAdministrationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val medicationAdmin = medicationAdministration {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            instantiates of listOf(
-                Uri("Uri")
-            )
-            partOf of listOf(
-                reference("Part", "123")
-            )
-            status of "Code"
-            statusReason of listOf(
-                codeableConcept {
-                    text of "code"
-                }
-            )
-            category of codeableConcept {
-                text of "code"
+        val medicationAdmin =
+            medicationAdministration {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                instantiates of
+                    listOf(
+                        Uri("Uri"),
+                    )
+                partOf of
+                    listOf(
+                        reference("Part", "123"),
+                    )
+                status of "Code"
+                statusReason of
+                    listOf(
+                        codeableConcept {
+                            text of "code"
+                        },
+                    )
+                category of
+                    codeableConcept {
+                        text of "code"
+                    }
+                medication of DynamicValues.reference(reference("Substance", "5678"))
+                subject of reference("Subject", "123")
+                context of reference("Context", "123")
+                supportingInformation of
+                    listOf(
+                        reference("Information", "123"),
+                    )
+                effective of DynamicValues.period(Period(FHIRString("Period")))
+                performer of
+                    listOf(
+                        medAdminPerformer {
+                            id of FHIRString("id")
+                        },
+                    )
+                reasonCode of
+                    listOf(
+                        codeableConcept {
+                            text of "code"
+                        },
+                    )
+                reasonReference of
+                    listOf(
+                        reference("Reason", "123"),
+                    )
+                request of reference("Request", "123")
+                device of
+                    listOf(
+                        reference("Device", "123"),
+                    )
+                note of
+                    listOf(
+                        Annotation(text = Markdown("text")),
+                    )
+                dosage of
+                    medAdminDosage {
+                        id of FHIRString("id")
+                    }
+                eventHistory of
+                    listOf(
+                        reference("History", "123"),
+                    )
             }
-            medication of DynamicValues.reference(reference("Substance", "5678"))
-            subject of reference("Subject", "123")
-            context of reference("Context", "123")
-            supportingInformation of listOf(
-                reference("Information", "123")
-            )
-            effective of DynamicValues.period(Period(FHIRString("Period")))
-            performer of listOf(
-                medAdminPerformer {
-                    id of FHIRString("id")
-                }
-            )
-            reasonCode of listOf(
-                codeableConcept {
-                    text of "code"
-                }
-            )
-            reasonReference of listOf(
-                reference("Reason", "123")
-            )
-            request of reference("Request", "123")
-            device of listOf(
-                reference("Device", "123")
-            )
-            note of listOf(
-                Annotation(text = Markdown("text"))
-            )
-            dosage of medAdminDosage {
-                id of FHIRString("id")
-            }
-            eventHistory of listOf(
-                reference("History", "123")
-            )
-        }
         assertEquals("id", medicationAdmin.id?.value)
         assertEquals(1, medicationAdmin.identifier.size)
         assertEquals(1, medicationAdmin.instantiates.size)
@@ -156,12 +170,14 @@ class MedAdminPerformerGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val medAdminPerformer = medAdminPerformer {
-            function of codeableConcept {
-                text of "code"
+        val medAdminPerformer =
+            medAdminPerformer {
+                function of
+                    codeableConcept {
+                        text of "code"
+                    }
+                actor of reference("Actor", "123")
             }
-            actor of reference("Actor", "123")
-        }
 
         assertEquals("code", medAdminPerformer.function?.text?.value)
         assertEquals(reference("Actor", "123"), medAdminPerformer.actor)
@@ -185,20 +201,24 @@ class MedAdminDosageGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val medAdminDosage = medAdminDosage {
-            text of "123232345"
-            site of codeableConcept {
-                text of "site"
+        val medAdminDosage =
+            medAdminDosage {
+                text of "123232345"
+                site of
+                    codeableConcept {
+                        text of "site"
+                    }
+                route of
+                    codeableConcept {
+                        text of "route"
+                    }
+                method of
+                    codeableConcept {
+                        text of "method"
+                    }
+                dose of Quantity(value = Decimal(BigDecimal(4.0)))
+                rate of DynamicValues.reference(reference("Rate", "1234"))
             }
-            route of codeableConcept {
-                text of "route"
-            }
-            method of codeableConcept {
-                text of "method"
-            }
-            dose of Quantity(value = Decimal(BigDecimal(4.0)))
-            rate of DynamicValues.reference(reference("Rate", "1234"))
-        }
         assertEquals("123232345", medAdminDosage.text?.value)
         assertEquals("site", medAdminDosage.site?.text?.value)
         assertEquals("route", medAdminDosage.route?.text?.value)

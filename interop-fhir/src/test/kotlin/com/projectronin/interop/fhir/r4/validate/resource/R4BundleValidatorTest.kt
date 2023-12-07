@@ -11,39 +11,44 @@ import org.junit.jupiter.api.assertThrows
 class R4BundleValidatorTest {
     @Test
     fun `no type provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val bundle = Bundle(
-                type = null
-            )
-            R4BundleValidator.validate(bundle).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val bundle =
+                    Bundle(
+                        type = null,
+                    )
+                R4BundleValidator.validate(bundle).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: type is a required element @ Bundle.type",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `type is outside of required value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val bundle = Bundle(
-                type = Code("unsupported-type")
-            )
-            R4BundleValidator.validate(bundle).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val bundle =
+                    Bundle(
+                        type = Code("unsupported-type"),
+                    )
+                R4BundleValidator.validate(bundle).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unsupported-type' is outside of required value set @ Bundle.type",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val bundle = Bundle(
-            type = BundleType.BATCH.asCode()
-        )
+        val bundle =
+            Bundle(
+                type = BundleType.BATCH.asCode(),
+            )
         R4BundleValidator.validate(bundle).alertIfErrors()
     }
 }

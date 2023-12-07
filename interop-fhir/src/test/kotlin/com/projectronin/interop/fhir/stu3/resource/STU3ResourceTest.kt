@@ -14,8 +14,9 @@ class STU3ResourceTest {
         // This test is not really running anything (Resource is an interface, after all), but it is verifying a critical
         // piece of information for our system. This test ensures that all final subtypes of this interface are included
         // in the JsonSubTypes. This ensures that Bundles can be built properly.
-        val jsonSubTypes = STU3Resource::class.findAnnotation<JsonSubTypes>()?.value?.map { it.value.jvmName }
-            ?: fail { "No JsonSubTypes found" }
+        val jsonSubTypes =
+            STU3Resource::class.findAnnotation<JsonSubTypes>()?.value?.map { it.value.jvmName }
+                ?: fail { "No JsonSubTypes found" }
 
         val defaultType =
             STU3Resource::class.findAnnotation<JsonTypeInfo>()?.defaultImpl?.jvmName
@@ -30,10 +31,10 @@ class STU3ResourceTest {
         if (missingSubTypes.isNotEmpty()) {
             fail {
                 "JsonSubType not specified for following defined types: ${
-                missingSubTypes.joinToString(
-                    "\n\t",
-                    prefix = "\n\t"
-                )
+                    missingSubTypes.joinToString(
+                        "\n\t",
+                        prefix = "\n\t",
+                    )
                 }"
             }
         }

@@ -20,13 +20,14 @@ class CodingGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val coding = coding {
-            system of "system"
-            code of "code"
-            version of "v1"
-            display of "display"
-            userSelected of true
-        }
+        val coding =
+            coding {
+                system of "system"
+                code of "code"
+                version of "v1"
+                display of "display"
+                userSelected of true
+            }
         assertEquals("system", coding.system?.value)
         assertEquals("code", coding.code?.value)
         assertEquals("v1", coding.version?.value)

@@ -23,49 +23,56 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class STU3DosageTest {
-    private val validSTU3DosageDoseAndRate = STU3Dosage(
-        id = FHIRString("12345"),
-        extension = listOf(
-            Extension(
-                url = Uri("http://localhost/extension"),
-                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-            )
-        ),
-        sequence = FHIRInteger(2),
-        text = FHIRString("Dosage 2"),
-        additionalInstruction = listOf(CodeableConcept(text = FHIRString("additional instruction"))),
-        patientInstruction = FHIRString("Take BID"),
-        timing = Timing(event = listOf(DateTime("2021-12-25"))),
-        asNeeded = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE),
-        site = CodeableConcept(text = FHIRString("dosage site")),
-        route = CodeableConcept(text = FHIRString("dosage route")),
-        method = CodeableConcept(text = FHIRString("dosage method")),
-        dose = DynamicValue(
-            type = DynamicValueType.QUANTITY,
-            value = Quantity(
-                value = Decimal(40.0),
-                unit = FHIRString("mg"),
-                system = Uri("http://unitsofmeasure.org"),
-                code = Code("mg")
-            )
-        ),
-        rate = DynamicValue(
-            type = DynamicValueType.QUANTITY,
-            value = Quantity(value = Decimal(2.0))
-        ),
-        maxDosePerPeriod = Ratio(
-            numerator = Quantity(value = Decimal(2.0)),
-            denominator = Quantity(value = Decimal(5.0))
-        ),
-        maxDosePerAdministration = SimpleQuantity(value = Decimal(20.0)),
-        maxDosePerLifetime = SimpleQuantity(value = Decimal(120.0))
-    )
+    private val validSTU3DosageDoseAndRate =
+        STU3Dosage(
+            id = FHIRString("12345"),
+            extension =
+                listOf(
+                    Extension(
+                        url = Uri("http://localhost/extension"),
+                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                    ),
+                ),
+            sequence = FHIRInteger(2),
+            text = FHIRString("Dosage 2"),
+            additionalInstruction = listOf(CodeableConcept(text = FHIRString("additional instruction"))),
+            patientInstruction = FHIRString("Take BID"),
+            timing = Timing(event = listOf(DateTime("2021-12-25"))),
+            asNeeded = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE),
+            site = CodeableConcept(text = FHIRString("dosage site")),
+            route = CodeableConcept(text = FHIRString("dosage route")),
+            method = CodeableConcept(text = FHIRString("dosage method")),
+            dose =
+                DynamicValue(
+                    type = DynamicValueType.QUANTITY,
+                    value =
+                        Quantity(
+                            value = Decimal(40.0),
+                            unit = FHIRString("mg"),
+                            system = Uri("http://unitsofmeasure.org"),
+                            code = Code("mg"),
+                        ),
+                ),
+            rate =
+                DynamicValue(
+                    type = DynamicValueType.QUANTITY,
+                    value = Quantity(value = Decimal(2.0)),
+                ),
+            maxDosePerPeriod =
+                Ratio(
+                    numerator = Quantity(value = Decimal(2.0)),
+                    denominator = Quantity(value = Decimal(5.0)),
+                ),
+            maxDosePerAdministration = SimpleQuantity(value = Decimal(20.0)),
+            maxDosePerLifetime = SimpleQuantity(value = Decimal(120.0)),
+        )
 
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(validSTU3DosageDoseAndRate)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -115,7 +122,7 @@ class STU3DosageTest {
             |    "value" : 120.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDosage = objectMapper.readValue<STU3Dosage>(json)
@@ -124,28 +131,31 @@ class STU3DosageTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val dosage = STU3Dosage(
-            dose = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(3.0)))
-        )
+        val dosage =
+            STU3Dosage(
+                dose = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(3.0))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dosage)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "doseQuantity" : {
             |    "value" : 3.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "asNeededBoolean" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         val dosage = objectMapper.readValue<STU3Dosage>(json)
 
         assertNull(dosage.id)

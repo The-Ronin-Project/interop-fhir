@@ -28,7 +28,10 @@ private val validatorsByClass =
  * Validates the [element] against the R4 spec.
  */
 @Suppress("UNCHECKED_CAST")
-fun <T : Element<T>> validateElement(element: Element<T>, parentContext: LocationContext?): Validation {
+fun <T : Element<T>> validateElement(
+    element: Element<T>,
+    parentContext: LocationContext?,
+): Validation {
     val validator =
         validatorsByClass[element::class.java] as? R4ElementContainingValidator<T> ?: GenericElementValidator()
     return element.validate(validator, parentContext)
@@ -38,7 +41,11 @@ fun <T : Element<T>> validateElement(element: Element<T>, parentContext: Locatio
  * A generic validator for elements that ensures their properties are validated.
  */
 internal class GenericElementValidator<T : Element<T>> : R4ElementContainingValidator<T>() {
-    override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: T,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         // There is no actual validation done for generic elements.
     }
 }

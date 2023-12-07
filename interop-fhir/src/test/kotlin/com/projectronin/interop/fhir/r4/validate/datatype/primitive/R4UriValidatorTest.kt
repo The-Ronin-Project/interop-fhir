@@ -15,25 +15,27 @@ class R4UriValidatorTest {
 
     @Test
     fun `fails on value with space`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uri = Uri("Some value")
-            R4UriValidator.validate(uri).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uri = Uri("Some value")
+                R4UriValidator.validate(uri).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uri",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uri = Uri("Some value")
-            R4UriValidator.validate(uri, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uri = Uri("Some value")
+                R4UriValidator.validate(uri, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uri @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

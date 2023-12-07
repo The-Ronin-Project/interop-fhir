@@ -9,7 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 data class FHIRInteger(
     override val value: Int?,
     override val id: FHIRString? = null,
-    override val extension: List<Extension> = listOf()
+    override val extension: List<Extension> = listOf(),
 ) : Primitive<Int, FHIRInteger> {
     @JsonCreator
     constructor(value: Int) : this(value, null, emptyList())

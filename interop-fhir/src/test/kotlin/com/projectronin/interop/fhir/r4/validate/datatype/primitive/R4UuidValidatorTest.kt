@@ -15,13 +15,14 @@ class R4UuidValidatorTest {
 
     @Test
     fun `fails on non-uuid URN`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uuid = Uuid("urn:oid:12345678-90ab-cdef-1234-567890abcdef")
-            R4UuidValidator.validate(uuid).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uuid = Uuid("urn:oid:12345678-90ab-cdef-1234-567890abcdef")
+                R4UuidValidator.validate(uuid).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uuid",
-            exception.message
+            exception.message,
         )
     }
 
@@ -34,43 +35,46 @@ class R4UuidValidatorTest {
             }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uuid",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on value with too few characters`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uuid = Uuid("urn:uuid:12345678-90ab-cdef-1234-567890abcd")
-            R4UuidValidator.validate(uuid).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uuid = Uuid("urn:uuid:12345678-90ab-cdef-1234-567890abcd")
+                R4UuidValidator.validate(uuid).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uuid",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on value with invalid pattern`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uuid = Uuid("urn:uuid:12345678-90ab-cdef-12345678-90abcdef")
-            R4UuidValidator.validate(uuid).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uuid = Uuid("urn:uuid:12345678-90ab-cdef-12345678-90abcdef")
+                R4UuidValidator.validate(uuid).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uuid",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val uuid = Uuid("urn:uuid:12345678-90ab-cdef-12345678-90abcdef")
-            R4UuidValidator.validate(uuid, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val uuid = Uuid("urn:uuid:12345678-90ab-cdef-12345678-90abcdef")
+                R4UuidValidator.validate(uuid, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Uuid @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

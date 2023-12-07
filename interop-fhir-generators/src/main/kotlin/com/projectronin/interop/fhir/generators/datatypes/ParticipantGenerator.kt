@@ -22,7 +22,7 @@ class ParticipantGenerator : DataGenerator<Participant>() {
             actor = actor.generate(),
             required = required.generate(),
             status = status.generate(),
-            period = period.generate()
+            period = period.generate(),
         )
 }
 

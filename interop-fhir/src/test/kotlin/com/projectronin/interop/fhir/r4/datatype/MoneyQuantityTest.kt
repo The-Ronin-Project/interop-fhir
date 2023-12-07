@@ -16,22 +16,25 @@ import org.junit.jupiter.api.Test
 class MoneyQuantityTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val moneyQuantity = MoneyQuantity(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            system = CodeSystem.CURRENCY.uri,
-            code = Code("USD")
-        )
+        val moneyQuantity =
+            MoneyQuantity(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
+                system = CodeSystem.CURRENCY.uri,
+                code = Code("USD"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moneyQuantity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -43,7 +46,7 @@ class MoneyQuantityTest {
             |  "system" : "urn:iso:std:iso:4217",
             |  "code" : "USD"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMoneyQuantity = objectMapper.readValue<MoneyQuantity>(json)
@@ -52,21 +55,24 @@ class MoneyQuantityTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val moneyQuantity = MoneyQuantity(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            system = CodeSystem.CURRENCY.uri,
-            code = Code("USD")
-        )
+        val moneyQuantity =
+            MoneyQuantity(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                system = CodeSystem.CURRENCY.uri,
+                code = Code("USD"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moneyQuantity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -77,17 +83,18 @@ class MoneyQuantityTest {
             |  "system" : "urn:iso:std:iso:4217",
             |  "code" : "USD"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "comparator" : ">="
             |}
-        """.trimMargin()
+            """.trimMargin()
         val distance = objectMapper.readValue<Distance>(json)
 
         assertNull(distance.id)

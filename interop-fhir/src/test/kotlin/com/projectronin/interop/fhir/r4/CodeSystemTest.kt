@@ -1,6 +1,7 @@
 package com.projectronin.interop.fhir.r4
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+
 class CodeSystemTest {
     @Test
     fun `codecov for enum values`() {

@@ -29,7 +29,7 @@ data class CareTeamGenerator(
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
-    val status: CodeGenerator = CodeGenerator()
+    val status: CodeGenerator = CodeGenerator(),
 ) : DomainResource<CareTeam> {
     override fun toFhir(): CareTeam =
         CareTeam(
@@ -43,7 +43,7 @@ data class CareTeamGenerator(
             modifierExtension = modifierExtension.generate(),
             identifier = identifier.generate(),
             subject = subject.generate(),
-            status = status.generate()
+            status = status.generate(),
         )
 }
 

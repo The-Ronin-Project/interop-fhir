@@ -17,50 +17,56 @@ import org.junit.jupiter.api.assertThrows
 class R4SimpleQuantityValidatorTest {
     @Test
     fun `fails if code is provided without system`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val simpleQuantity = SimpleQuantity(
-                value = Decimal(60.0),
-                unit = FHIRString("mL/min/1.73m2"),
-                code = Code("mL/min/{1.73_m2}")
-            )
-            R4SimpleQuantityValidator.validate(simpleQuantity).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val simpleQuantity =
+                    SimpleQuantity(
+                        value = Decimal(60.0),
+                        unit = FHIRString("mL/min/1.73m2"),
+                        code = Code("mL/min/{1.73_m2}"),
+                    )
+                R4SimpleQuantityValidator.validate(simpleQuantity).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Quantity",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `base quantity failure includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val simpleQuantity = SimpleQuantity(
-                value = Decimal(60.0),
-                unit = FHIRString("mL/min/1.73m2"),
-                code = Code("mL/min/{1.73_m2}")
-            )
-            R4SimpleQuantityValidator.validate(simpleQuantity, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val simpleQuantity =
+                    SimpleQuantity(
+                        value = Decimal(60.0),
+                        unit = FHIRString("mL/min/1.73m2"),
+                        code = Code("mL/min/{1.73_m2}"),
+                    )
+                R4SimpleQuantityValidator.validate(simpleQuantity, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val simpleQuantity = SimpleQuantity(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5)
-        )
+        val simpleQuantity =
+            SimpleQuantity(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+            )
         R4SimpleQuantityValidator.validate(simpleQuantity).alertIfErrors()
     }
 }

@@ -24,9 +24,10 @@ class AttachmentGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val attachment = attachment {
-            language of "english"
-        }
+        val attachment =
+            attachment {
+                language of "english"
+            }
         assertEquals(Code("english"), attachment.language)
     }
 }

@@ -12,20 +12,23 @@ import org.junit.jupiter.api.Test
 class RangeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val range = Range(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            low = SimpleQuantity(value = Decimal(1.0)),
-            high = SimpleQuantity(value = Decimal(10.3))
-        )
+        val range =
+            Range(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                low = SimpleQuantity(value = Decimal(1.0)),
+                high = SimpleQuantity(value = Decimal(10.3)),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(range)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -39,7 +42,7 @@ class RangeTest {
             |    "value" : 10.3
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRange = objectMapper.readValue<Range>(json)
@@ -51,25 +54,27 @@ class RangeTest {
         val range = Range(low = SimpleQuantity(value = Decimal(1.0)))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(range)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "low" : {
             |    "value" : 1.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "high" : {
             |    "value" : 10.3
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val range = objectMapper.readValue<Range>(json)
 
         assertNull(range.id)

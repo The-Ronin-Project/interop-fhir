@@ -32,8 +32,9 @@ data class Dosage(
     val doseAndRate: List<DoseAndRate> = listOf(),
     val maxDosePerPeriod: Ratio? = null,
     val maxDosePerAdministration: SimpleQuantity? = null,
-    val maxDosePerLifetime: SimpleQuantity? = null
+    val maxDosePerLifetime: SimpleQuantity? = null,
 ) : BackboneElement<Dosage>
 
 class DosageDeserializer : BaseFHIRDeserializer<Dosage>(Dosage::class.java)
+
 class DosageSerializer : BaseFHIRSerializer<Dosage>(Dosage::class.java)

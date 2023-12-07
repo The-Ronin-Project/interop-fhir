@@ -25,8 +25,9 @@ data class Timing(
     override val modifierExtension: List<Extension> = listOf(),
     val event: List<DateTime> = listOf(),
     val repeat: TimingRepeat? = null,
-    val code: CodeableConcept? = null
+    val code: CodeableConcept? = null,
 ) : BackboneElement<Timing>
 
 class TimingSerializer : BaseFHIRSerializer<Timing>(Timing::class.java)
+
 class TimingDeserializer : BaseFHIRDeserializer<Timing>(Timing::class.java)

@@ -17,28 +17,32 @@ class TimeGeneratorTest {
 
     @Test
     fun `function works with parameters and defaults`() {
-        val timeA = time {
-            hour of 1
-            minute of 52
-        }
+        val timeA =
+            time {
+                hour of 1
+                minute of 52
+            }
         assertEquals("01:52", timeA!!.value)
 
-        val timeB = time {
-            hour of 17
-            minute of 52
-        }
+        val timeB =
+            time {
+                hour of 17
+                minute of 52
+            }
         assertEquals("17:52", timeB!!.value)
 
-        val timeC = time {
-            hour of 17
-        }
+        val timeC =
+            time {
+                hour of 17
+            }
         timeC!!
         assertTrue(timeC.value!!.matches(Regex("\\d{2}:\\d{2}")))
         assertTrue(timeC.value!!.startsWith("17:"))
 
-        val timeD = time {
-            minute of 52
-        }
+        val timeD =
+            time {
+                minute of 52
+            }
         timeD!!
         assertTrue(timeD.value!!.matches(Regex("\\d{2}:\\d{2}")))
         assertTrue(timeD.value!!.endsWith(":52"))

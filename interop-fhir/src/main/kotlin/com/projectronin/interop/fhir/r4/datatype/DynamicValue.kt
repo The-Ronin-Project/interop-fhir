@@ -9,12 +9,15 @@ import com.fasterxml.jackson.databind.JsonNode
  */
 data class DynamicValue<out T>(
     val type: DynamicValueType,
-    val value: T
+    val value: T,
 ) {
     /**
      * Writes this value to the [gen] under a field based on the value's type and the [prefix]
      */
-    fun writeToJson(prefix: String, gen: JsonGenerator) {
+    fun writeToJson(
+        prefix: String,
+        gen: JsonGenerator,
+    ) {
         gen.writeObjectField("$prefix${type.code}", value)
     }
 }
@@ -26,5 +29,8 @@ interface DynamicValueReader {
     /**
      * Reads the value from the supplied [jsonNode], using the [jsonParser] if needed.
      */
-    fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any
+    fun readValue(
+        jsonNode: JsonNode,
+        jsonParser: JsonParser,
+    ): Any
 }

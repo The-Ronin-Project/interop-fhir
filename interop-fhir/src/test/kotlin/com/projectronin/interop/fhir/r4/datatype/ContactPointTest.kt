@@ -14,26 +14,30 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
+@Suppress("ktlint:standard:max-line-length")
 class ContactPointTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val contactPoint = ContactPoint(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = ContactPointSystem.EMAIL.asCode(),
-            value = FHIRString("name@site.com"),
-            use = ContactPointUse.HOME.asCode(),
-            rank = PositiveInt(1),
-            period = Period(start = DateTime("2021-11-18"))
-        )
+        val contactPoint =
+            ContactPoint(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = ContactPointSystem.EMAIL.asCode(),
+                value = FHIRString("name@site.com"),
+                use = ContactPointUse.HOME.asCode(),
+                rank = PositiveInt(1),
+                period = Period(start = DateTime("2021-11-18")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -48,7 +52,7 @@ class ContactPointTest {
             |    "start" : "2021-11-18"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)
@@ -57,30 +61,33 @@ class ContactPointTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val contactPoint = ContactPoint(
-            value = FHIRString("name@site.com"),
-            system = ContactPointSystem.EMAIL.asCode()
-        )
+        val contactPoint =
+            ContactPoint(
+                value = FHIRString("name@site.com"),
+                system = ContactPointSystem.EMAIL.asCode(),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "system" : "email",
             |  "value" : "name@site.com"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "period" : {
             |    "start" : "2021-11-18"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val contactPoint = objectMapper.readValue<ContactPoint>(json)
 
         assertNull(contactPoint.id)
@@ -94,52 +101,65 @@ class ContactPointTest {
 
     @Test
     fun `can serialize and deserialize JSON with code and system extensions`() {
-        val contactPoint = ContactPoint(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Code(
-                ContactPointSystem.EMAIL.toString(),
-                FHIRString("12345"),
-                listOf(
-                    Extension(
-                        url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),
-                        value = DynamicValue(
-                            DynamicValueType.CODING,
-                            Coding(
-                                code = ContactPointSystem.EMAIL.asCode(),
-                                system = Uri("http://telecomSystem/localCodeSystem")
-                            )
-                        )
-                    )
-                )
-            ),
-            value = FHIRString("name@site.com"),
-            use = Code(
-                ContactPointUse.HOME.toString(),
-                null,
-                listOf(
-                    Extension(
-                        url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomUse"),
-                        value = DynamicValue(
-                            DynamicValueType.CODING,
-                            Coding(
-                                code = ContactPointUse.HOME.asCode(),
-                                system = Uri("http://telecomSystem/localCodeSystem")
-                            )
-                        )
-                    )
-                )
-            ),
-            rank = PositiveInt(1),
-            period = Period(start = DateTime("2021-11-18"))
-        )
+        val contactPoint =
+            ContactPoint(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system =
+                    Code(
+                        ContactPointSystem.EMAIL.toString(),
+                        FHIRString("12345"),
+                        listOf(
+                            Extension(
+                                url =
+                                    Uri(
+                                        "http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem",
+                                    ),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.CODING,
+                                        Coding(
+                                            code = ContactPointSystem.EMAIL.asCode(),
+                                            system = Uri("http://telecomSystem/localCodeSystem"),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                    ),
+                value = FHIRString("name@site.com"),
+                use =
+                    Code(
+                        ContactPointUse.HOME.toString(),
+                        null,
+                        listOf(
+                            Extension(
+                                url =
+                                    Uri(
+                                        "http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomUse",
+                                    ),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.CODING,
+                                        Coding(
+                                            code = ContactPointUse.HOME.asCode(),
+                                            system = Uri("http://telecomSystem/localCodeSystem"),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                    ),
+                rank = PositiveInt(1),
+                period = Period(start = DateTime("2021-11-18")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -173,7 +193,7 @@ class ContactPointTest {
             |    "start" : "2021-11-18"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)
@@ -182,52 +202,65 @@ class ContactPointTest {
 
     @Test
     fun `can serialize and deserialize JSON with code and system extensions with null values`() {
-        val contactPoint = ContactPoint(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Code(
-                ContactPointSystem.EMAIL.toString(),
-                FHIRString("12345"),
-                listOf(
-                    Extension(
-                        url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem"),
-                        value = DynamicValue(
-                            DynamicValueType.CODING,
-                            Coding(
-                                code = ContactPointSystem.EMAIL.asCode(),
-                                system = Uri("http://telecomSystem/localCodeSystem")
-                            )
-                        )
-                    )
-                )
-            ),
-            value = FHIRString("name@site.com"),
-            use = Code(
-                null,
-                null,
-                listOf(
-                    Extension(
-                        url = Uri("http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomUse"),
-                        value = DynamicValue(
-                            DynamicValueType.CODING,
-                            Coding(
-                                code = ContactPointUse.HOME.asCode(),
-                                system = Uri("http://telecomSystem/localCodeSystem")
-                            )
-                        )
-                    )
-                )
-            ),
-            rank = PositiveInt(1),
-            period = Period(start = DateTime("2021-11-18"))
-        )
+        val contactPoint =
+            ContactPoint(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system =
+                    Code(
+                        ContactPointSystem.EMAIL.toString(),
+                        FHIRString("12345"),
+                        listOf(
+                            Extension(
+                                url =
+                                    Uri(
+                                        "http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomSystem",
+                                    ),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.CODING,
+                                        Coding(
+                                            code = ContactPointSystem.EMAIL.asCode(),
+                                            system = Uri("http://telecomSystem/localCodeSystem"),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                    ),
+                value = FHIRString("name@site.com"),
+                use =
+                    Code(
+                        null,
+                        null,
+                        listOf(
+                            Extension(
+                                url =
+                                    Uri(
+                                        "http://projectronin.io/fhir/ronin.common-fhir-model.uscore-r4/StructureDefinition/Extension/tenant-sourceTelecomUse",
+                                    ),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.CODING,
+                                        Coding(
+                                            code = ContactPointUse.HOME.asCode(),
+                                            system = Uri("http://telecomSystem/localCodeSystem"),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                    ),
+                rank = PositiveInt(1),
+                period = Period(start = DateTime("2021-11-18")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contactPoint)
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -260,7 +293,7 @@ class ContactPointTest {
             |    "start" : "2021-11-18"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedContactPoint = objectMapper.readValue<ContactPoint>(json)

@@ -27,10 +27,11 @@ class AddressGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val address = address {
-            city of "Kansas City"
-            state of "KS"
-        }
+        val address =
+            address {
+                city of "Kansas City"
+                state of "KS"
+            }
         assertEquals(FHIRString("Kansas City"), address.city)
         assertEquals(FHIRString("KS"), address.state)
     }

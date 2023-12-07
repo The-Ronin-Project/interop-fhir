@@ -55,17 +55,19 @@ class ObservationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val observation = observation {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            status of "status"
-            category of listOf(codeableConcept {})
-            code of codeableConcept { text of "code" }
-            subject of reference("Patient", "123")
-            effective of DynamicValues.dateTime(dateTime { year of 1990 })
-        }
+        val observation =
+            observation {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                status of "status"
+                category of listOf(codeableConcept {})
+                code of codeableConcept { text of "code" }
+                subject of reference("Patient", "123")
+                effective of DynamicValues.dateTime(dateTime { year of 1990 })
+            }
         assertEquals("id", observation.id?.value)
         assertEquals(1, observation.identifier.size)
         assertEquals("status", observation.status?.value)
@@ -95,9 +97,10 @@ class ObservationComponentGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val observationComponent = observationComponent {
-            id of "id"
-        }
+        val observationComponent =
+            observationComponent {
+                id of "id"
+            }
         assertEquals("id", observationComponent.id?.value)
     }
 }
@@ -119,9 +122,10 @@ class ObservationReferenceRangeGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val observationReferenceRange = observationReferenceRange {
-            text of "range"
-        }
+        val observationReferenceRange =
+            observationReferenceRange {
+                text of "range"
+            }
         assertEquals("range", observationReferenceRange.text?.value)
     }
 }

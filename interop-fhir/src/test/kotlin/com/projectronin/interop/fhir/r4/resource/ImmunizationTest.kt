@@ -34,69 +34,77 @@ import java.math.BigDecimal
 class ImmunizatioNTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val immunization = Immunization(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninImmunization"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            status = ImmunizationStatus.COMPLETED.asCode(),
-            statusReason = CodeableConcept(text = FHIRString("status reason")),
-            vaccineCode = CodeableConcept(text = FHIRString("vaccine code")),
-            patient = Reference(display = FHIRString("patient")),
-            encounter = Reference(display = FHIRString("encounter")),
-            occurrence = DynamicValue(DynamicValueType.STRING, FHIRString("occurrence")),
-            recorded = DateTime("2023"),
-            primarySource = FHIRBoolean.TRUE,
-            reportOrigin = CodeableConcept(text = FHIRString("report origin")),
-            location = Reference(display = FHIRString("location")),
-            manufacturer = Reference(display = FHIRString("manufacturer")),
-            lotNumber = FHIRString("lot number"),
-            expirationDate = Date("2025"),
-            site = CodeableConcept(text = FHIRString("site")),
-            route = CodeableConcept(text = FHIRString("route")),
-            doseQuantity = SimpleQuantity(value = Decimal(BigDecimal("1.2"))),
-            performer = listOf(ImmunizationPerformer(actor = Reference(display = FHIRString("actor")))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
-            reasonReference = listOf(Reference(display = FHIRString("reason reference"))),
-            isSubpotent = FHIRBoolean.TRUE,
-            subpotentReason = listOf(CodeableConcept(text = FHIRString("subpotent reason"))),
-            education = listOf(ImmunizationEducation(documentType = FHIRString("document type"))),
-            programEligibility = listOf(CodeableConcept(text = FHIRString("program eligibility"))),
-            fundingSource = CodeableConcept(text = FHIRString("funding source")),
-            reaction = listOf(ImmunizationReaction(date = DateTime("2023"))),
-            protocolApplied = listOf(
-                ImmunizationProtocolApplied(
-                    doseNumber = DynamicValue(
-                        DynamicValueType.POSITIVE_INT,
-                        PositiveInt(1)
-                    )
-                )
+        val immunization =
+            Immunization(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninImmunization")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                status = ImmunizationStatus.COMPLETED.asCode(),
+                statusReason = CodeableConcept(text = FHIRString("status reason")),
+                vaccineCode = CodeableConcept(text = FHIRString("vaccine code")),
+                patient = Reference(display = FHIRString("patient")),
+                encounter = Reference(display = FHIRString("encounter")),
+                occurrence = DynamicValue(DynamicValueType.STRING, FHIRString("occurrence")),
+                recorded = DateTime("2023"),
+                primarySource = FHIRBoolean.TRUE,
+                reportOrigin = CodeableConcept(text = FHIRString("report origin")),
+                location = Reference(display = FHIRString("location")),
+                manufacturer = Reference(display = FHIRString("manufacturer")),
+                lotNumber = FHIRString("lot number"),
+                expirationDate = Date("2025"),
+                site = CodeableConcept(text = FHIRString("site")),
+                route = CodeableConcept(text = FHIRString("route")),
+                doseQuantity = SimpleQuantity(value = Decimal(BigDecimal("1.2"))),
+                performer = listOf(ImmunizationPerformer(actor = Reference(display = FHIRString("actor")))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
+                reasonReference = listOf(Reference(display = FHIRString("reason reference"))),
+                isSubpotent = FHIRBoolean.TRUE,
+                subpotentReason = listOf(CodeableConcept(text = FHIRString("subpotent reason"))),
+                education = listOf(ImmunizationEducation(documentType = FHIRString("document type"))),
+                programEligibility = listOf(CodeableConcept(text = FHIRString("program eligibility"))),
+                fundingSource = CodeableConcept(text = FHIRString("funding source")),
+                reaction = listOf(ImmunizationReaction(date = DateTime("2023"))),
+                protocolApplied =
+                    listOf(
+                        ImmunizationProtocolApplied(
+                            doseNumber =
+                                DynamicValue(
+                                    DynamicValueType.POSITIVE_INT,
+                                    PositiveInt(1),
+                                ),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(immunization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Immunization",
               "id" : "12345",
@@ -195,7 +203,7 @@ class ImmunizatioNTest {
                 "doseNumberPositiveInt" : 1
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedImmunization = objectMapper.readValue<Immunization>(json)
@@ -204,15 +212,17 @@ class ImmunizatioNTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val immunization = Immunization(
-            status = ImmunizationStatus.COMPLETED.asCode(),
-            vaccineCode = CodeableConcept(text = FHIRString("vaccine code")),
-            patient = Reference(display = FHIRString("patient")),
-            occurrence = DynamicValue(DynamicValueType.STRING, FHIRString("occurrence"))
-        )
+        val immunization =
+            Immunization(
+                status = ImmunizationStatus.COMPLETED.asCode(),
+                vaccineCode = CodeableConcept(text = FHIRString("vaccine code")),
+                patient = Reference(display = FHIRString("patient")),
+                occurrence = DynamicValue(DynamicValueType.STRING, FHIRString("occurrence")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(immunization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Immunization",
               "status" : "completed",
@@ -224,13 +234,14 @@ class ImmunizatioNTest {
               },
               "occurrenceString" : "occurrence"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Immunization",
               "status" : "completed",
@@ -242,7 +253,7 @@ class ImmunizatioNTest {
               },
               "occurrenceString" : "occurrence"
             }
-        """.trimIndent()
+            """.trimIndent()
         val immunization = objectMapper.readValue<Immunization>(json)
 
         assertNull(immunization.id)
@@ -287,26 +298,30 @@ class ImmunizatioNTest {
 class ImmunizationPerformerTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val performer = ImmunizationPerformer(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            function = CodeableConcept(text = FHIRString("function")),
-            actor = Reference(display = FHIRString("actor"))
-        )
+        val performer =
+            ImmunizationPerformer(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                function = CodeableConcept(text = FHIRString("function")),
+                actor = Reference(display = FHIRString("actor")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(performer)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -324,7 +339,7 @@ class ImmunizationPerformerTest {
                 "display" : "actor"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedPerformer = objectMapper.readValue<ImmunizationPerformer>(json)
@@ -333,30 +348,33 @@ class ImmunizationPerformerTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val performer = ImmunizationPerformer(
-            actor = Reference(display = FHIRString("actor"))
-        )
+        val performer =
+            ImmunizationPerformer(
+                actor = Reference(display = FHIRString("actor")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(performer)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "actor" : {
                 "display" : "actor"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "actor" : {
                 "display" : "actor"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val performer = objectMapper.readValue<ImmunizationPerformer>(json)
 
         assertNull(performer.id)
@@ -370,28 +388,32 @@ class ImmunizationPerformerTest {
 class ImmunizationEducationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val education = ImmunizationEducation(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            documentType = FHIRString("document type"),
-            reference = Uri("reference"),
-            publicationDate = DateTime("2020"),
-            presentationDate = DateTime("2022")
-        )
+        val education =
+            ImmunizationEducation(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                documentType = FHIRString("document type"),
+                reference = Uri("reference"),
+                publicationDate = DateTime("2020"),
+                presentationDate = DateTime("2022"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(education)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -407,7 +429,7 @@ class ImmunizationEducationTest {
               "publicationDate" : "2020",
               "presentationDate" : "2022"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEducation = objectMapper.readValue<ImmunizationEducation>(json)
@@ -416,26 +438,29 @@ class ImmunizationEducationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val education = ImmunizationEducation(
-            documentType = FHIRString("document type")
-        )
+        val education =
+            ImmunizationEducation(
+                documentType = FHIRString("document type"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(education)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "documentType" : "document type"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "reference" : "reference"
             }
-        """.trimIndent()
+            """.trimIndent()
         val education = objectMapper.readValue<ImmunizationEducation>(json)
 
         assertNull(education.id)
@@ -451,27 +476,31 @@ class ImmunizationEducationTest {
 class ImmunizationReactionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val reaction = ImmunizationReaction(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            date = DateTime("2023"),
-            detail = Reference(display = FHIRString("detail")),
-            reported = FHIRBoolean.TRUE
-        )
+        val reaction =
+            ImmunizationReaction(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                date = DateTime("2023"),
+                detail = Reference(display = FHIRString("detail")),
+                reported = FHIRBoolean.TRUE,
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reaction)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -488,7 +517,7 @@ class ImmunizationReactionTest {
               },
               "reported" : true
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedReaction = objectMapper.readValue<ImmunizationReaction>(json)
@@ -497,26 +526,29 @@ class ImmunizationReactionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val reaction = ImmunizationReaction(
-            date = DateTime("2023-06-20")
-        )
+        val reaction =
+            ImmunizationReaction(
+                date = DateTime("2023-06-20"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reaction)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "date" : "2023-06-20"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "reported" : false
             }
-        """.trimIndent()
+            """.trimIndent()
         val reaction = objectMapper.readValue<ImmunizationReaction>(json)
 
         assertNull(reaction.id)
@@ -531,29 +563,33 @@ class ImmunizationReactionTest {
 class ImmunizationProtocolAppliedTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val protocolApplied = ImmunizationProtocolApplied(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            series = FHIRString("series"),
-            authority = Reference(display = FHIRString("authority")),
-            targetDisease = listOf(CodeableConcept(text = FHIRString("target disease"))),
-            doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(1)),
-            seriesDoses = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(2))
-        )
+        val protocolApplied =
+            ImmunizationProtocolApplied(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                series = FHIRString("series"),
+                authority = Reference(display = FHIRString("authority")),
+                targetDisease = listOf(CodeableConcept(text = FHIRString("target disease"))),
+                doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(1)),
+                seriesDoses = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(2)),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(protocolApplied)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -574,7 +610,7 @@ class ImmunizationProtocolAppliedTest {
               "doseNumberPositiveInt" : 1,
               "seriesDosesPositiveInt" : 2
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedProtocolApplied = objectMapper.readValue<ImmunizationProtocolApplied>(json)
@@ -583,26 +619,29 @@ class ImmunizationProtocolAppliedTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val protocolApplied = ImmunizationProtocolApplied(
-            doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(3))
-        )
+        val protocolApplied =
+            ImmunizationProtocolApplied(
+                doseNumber = DynamicValue(DynamicValueType.POSITIVE_INT, PositiveInt(3)),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(protocolApplied)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "doseNumberPositiveInt" : 3
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "doseNumberPositiveInt" : 4
             }
-        """.trimIndent()
+            """.trimIndent()
         val protocolApplied = objectMapper.readValue<ImmunizationProtocolApplied>(json)
 
         assertNull(protocolApplied.id)

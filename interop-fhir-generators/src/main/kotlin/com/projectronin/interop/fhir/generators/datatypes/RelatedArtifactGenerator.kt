@@ -23,7 +23,7 @@ data class RelatedArtifactGenerator(
     val citation: DataGenerator<Markdown?> = NullDataGenerator(),
     val url: DataGenerator<Url?> = NullDataGenerator(),
     val document: DataGenerator<Attachment?> = NullDataGenerator(),
-    val resource: DataGenerator<Canonical?> = NullDataGenerator()
+    val resource: DataGenerator<Canonical?> = NullDataGenerator(),
 ) : DataGenerator<RelatedArtifact>() {
     override fun generateInternal() =
         RelatedArtifact(
@@ -35,7 +35,7 @@ data class RelatedArtifactGenerator(
             citation = citation.generate(),
             url = url.generate(),
             document = document.generate(),
-            resource = resource.generate()
+            resource = resource.generate(),
         )
 }
 

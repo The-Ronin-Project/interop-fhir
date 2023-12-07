@@ -22,9 +22,10 @@ class ExpressionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val expression = expression {
-            expression of "example expression"
-        }
+        val expression =
+            expression {
+                expression of "example expression"
+            }
         assertEquals(FHIRString("example expression"), expression.expression)
     }
 }

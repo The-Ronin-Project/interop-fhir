@@ -33,9 +33,8 @@ data class DiagnosticReportGenerator(
     val status: CodeGenerator = CodeGenerator(),
     val code: DataGenerator<CodeableConcept> = CodeableConceptGenerator(),
     val subject: DataGenerator<Reference> = ReferenceGenerator(),
-    val category: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
+    val category: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
 ) : DomainResource<DiagnosticReport> {
-
     override fun toFhir(): DiagnosticReport =
         DiagnosticReport(
             id = id.generate(),
@@ -50,7 +49,7 @@ data class DiagnosticReportGenerator(
             status = status.generate(),
             code = code.generate(),
             subject = subject.generate(),
-            category = category.generate()
+            category = category.generate(),
         )
 }
 

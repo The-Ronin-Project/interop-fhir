@@ -23,10 +23,11 @@ class DurationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val duration = duration {
-            value of BigDecimal(12.5)
-            unit of "cm"
-        }
+        val duration =
+            duration {
+                value of BigDecimal(12.5)
+                unit of "cm"
+            }
         assertEquals(Decimal(BigDecimal(12.5)), duration.value)
         assertEquals(FHIRString("cm"), duration.unit)
     }

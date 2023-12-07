@@ -31,8 +31,9 @@ data class SampledData(
     val upperLimit: Decimal? = null,
     @RequiredField
     val dimensions: PositiveInt?,
-    val data: FHIRString? = null
+    val data: FHIRString? = null,
 ) : Element<SampledData>
 
 class SampledDataSerializer : BaseFHIRSerializer<SampledData>(SampledData::class.java)
+
 class SampledDataDeserializer : BaseFHIRDeserializer<SampledData>(SampledData::class.java)

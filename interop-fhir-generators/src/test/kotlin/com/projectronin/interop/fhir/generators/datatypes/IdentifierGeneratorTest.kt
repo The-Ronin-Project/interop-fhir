@@ -21,14 +21,15 @@ class IdentifierGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val identifier = identifier {
-            use of Code("code")
-            type of codeableConcept { }
-            system of "system"
-            value of "value"
-            period of period { }
-            assigner of reference("Patient", "123")
-        }
+        val identifier =
+            identifier {
+                use of Code("code")
+                type of codeableConcept { }
+                system of "system"
+                value of "value"
+                period of period { }
+                assigner of reference("Patient", "123")
+            }
         assertNotNull("code", identifier.use?.value)
         assertNotNull(identifier.type)
         assertEquals("system", identifier.system?.value)
@@ -40,17 +41,19 @@ class IdentifierGeneratorTest {
 
     @Test
     fun `external identifier works`() {
-        val identifier = externalIdentifier {
-            type of codeableConcept { text of "overridden" }
-        }
+        val identifier =
+            externalIdentifier {
+                type of codeableConcept { text of "overridden" }
+            }
         assertEquals("External", identifier.type?.text?.value)
     }
 
     @Test
     fun `internal identifier works`() {
-        val identifier = internalIdentifier {
-            type of codeableConcept { text of "overridden" }
-        }
+        val identifier =
+            internalIdentifier {
+                type of codeableConcept { text of "overridden" }
+            }
         assertEquals("Internal", identifier.type?.text?.value)
     }
 }

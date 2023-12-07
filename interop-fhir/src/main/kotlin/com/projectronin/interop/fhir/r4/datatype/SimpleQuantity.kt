@@ -20,8 +20,9 @@ data class SimpleQuantity(
     override val value: Decimal? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<SimpleQuantity>(id, extension, value, null, unit, system, code)
 
 class SimpleQuantitySerializer : BaseFHIRSerializer<SimpleQuantity>(SimpleQuantity::class.java)
+
 class SimpleQuantityDeserializer : BaseFHIRDeserializer<SimpleQuantity>(SimpleQuantity::class.java)

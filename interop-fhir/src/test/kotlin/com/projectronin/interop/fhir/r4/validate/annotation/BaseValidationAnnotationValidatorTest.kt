@@ -22,7 +22,7 @@ class BaseValidationAnnotationValidatorTest {
             element: T,
             elementName: String,
             parentContext: LocationContext?,
-            validation: Validation
+            validation: Validation,
         ) {
             requests++
             annotationsReceived += annotations.size
@@ -42,7 +42,7 @@ class BaseValidationAnnotationValidatorTest {
             Address(),
             "Address",
             null,
-            Validation()
+            Validation(),
         )
 
         assertEquals(1, validator.requests)
@@ -62,7 +62,7 @@ class BaseValidationAnnotationValidatorTest {
             Address(),
             "Address",
             null,
-            Validation()
+            Validation(),
         )
 
         assertEquals(0, validator.requests)

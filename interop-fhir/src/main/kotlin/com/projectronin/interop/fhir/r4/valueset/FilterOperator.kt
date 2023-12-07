@@ -49,5 +49,5 @@ enum class FilterOperator(override val code: String) : CodedEnum<FilterOperator>
     /**
      * The specified property of the code has at least one value (if the specified value is true; if the specified value is false, then matches when the specified property of the code has no values).
      */
-    EXISTS("exists")
+    EXISTS("exists"),
 }

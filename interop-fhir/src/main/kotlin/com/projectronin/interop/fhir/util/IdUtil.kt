@@ -9,10 +9,11 @@ import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 /**
  * Returns an [Identifier] representation of this Id.
  */
-fun Id?.toFhirIdentifier(): Identifier? = this?.let {
-    Identifier(
-        value = value?.let { FHIRString(it) },
-        system = CodeSystem.RONIN_FHIR_ID.uri,
-        type = CodeableConcepts.RONIN_FHIR_ID
-    )
-}
+fun Id?.toFhirIdentifier(): Identifier? =
+    this?.let {
+        Identifier(
+            value = value?.let { FHIRString(it) },
+            system = CodeSystem.RONIN_FHIR_ID.uri,
+            type = CodeableConcepts.RONIN_FHIR_ID,
+        )
+    }

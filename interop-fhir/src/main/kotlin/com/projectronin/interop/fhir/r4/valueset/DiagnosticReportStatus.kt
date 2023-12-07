@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://hl7.org/fhir/r4/valueset-diagnostic-report-status.html)
  */
-enum class DiagnosticReportStatus(@JsonValue override val code: String) : CodedEnum<DiagnosticReportStatus> {
+enum class DiagnosticReportStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<DiagnosticReportStatus> {
     /**
      * The existence of the report is registered, but there is nothing yet available.
      */
@@ -60,5 +62,5 @@ enum class DiagnosticReportStatus(@JsonValue override val code: String) : CodedE
      * Note: This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the
      * authoring/source system does not know which.
      */
-    UNKNOWN("unknown")
+    UNKNOWN("unknown"),
 }

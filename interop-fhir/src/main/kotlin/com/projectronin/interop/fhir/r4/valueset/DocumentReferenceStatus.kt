@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://hl7.org/fhir/r4/valueset-document-reference-status.html)
  */
-enum class DocumentReferenceStatus(@JsonValue override val code: String) : CodedEnum<DocumentReferenceStatus> {
+enum class DocumentReferenceStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<DocumentReferenceStatus> {
     /**
      * This is the current reference for this document.
      */
@@ -20,5 +22,5 @@ enum class DocumentReferenceStatus(@JsonValue override val code: String) : Coded
     /**
      * This reference was created in error.
      */
-    ENTERED_IN_ERROR("entered-in-error")
+    ENTERED_IN_ERROR("entered-in-error"),
 }

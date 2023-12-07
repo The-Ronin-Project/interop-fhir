@@ -25,23 +25,25 @@ class BinaryGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val binary = binary {
-            id of "id"
-            contentType of Code("text/plain")
-            securityContent of reference("Mime", "123")
-            data of "base64string"
-        }
-        val binary2 = binary {
-            id of "id"
-            contentType of Code("text/plain")
-            securityContent of reference("Mime", "123")
-            data ofLength 3063
-        }
+        val binary =
+            binary {
+                id of "id"
+                contentType of Code("text/plain")
+                securityContent of reference("Mime", "123")
+                data of "base64string"
+            }
+        val binary2 =
+            binary {
+                id of "id"
+                contentType of Code("text/plain")
+                securityContent of reference("Mime", "123")
+                data ofLength 3063
+            }
         assertEquals("id", binary.id?.value)
         assertEquals("text/plain", binary.contentType?.value)
         assertEquals(
             "Mime/123",
-            binary.securityContent?.reference?.value
+            binary.securityContent?.reference?.value,
         )
         assertEquals(Base64.getEncoder().encodeToString("base64string".toByteArray()), binary.data?.value)
         assertEquals(3063, String(Base64.getDecoder().decode(binary2.data!!.value)).length)

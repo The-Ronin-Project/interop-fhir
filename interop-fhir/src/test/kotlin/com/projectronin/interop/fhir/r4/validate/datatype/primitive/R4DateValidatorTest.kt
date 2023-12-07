@@ -27,25 +27,27 @@ class R4DateValidatorTest {
 
     @Test
     fun `fails on invalid input`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val date = Date("abc")
-            R4DateValidator.validate(date).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val date = Date("abc")
+                R4DateValidator.validate(date).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Date",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val date = Date("abc")
-            R4DateValidator.validate(date, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val date = Date("abc")
+                R4DateValidator.validate(date, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Date @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

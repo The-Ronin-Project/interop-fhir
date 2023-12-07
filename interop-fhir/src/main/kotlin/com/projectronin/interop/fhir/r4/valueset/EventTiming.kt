@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/R4/valueset-event-timing.html)
  */
-enum class EventTiming(@JsonValue override val code: String) : CodedEnum<EventTiming> {
+enum class EventTiming(
+    @JsonValue override val code: String,
+) : CodedEnum<EventTiming> {
     MORNING("MORN"),
     EARLY_MORNING("MORN.early"),
     LATE_MORNING("MORN.late"),
@@ -32,5 +34,5 @@ enum class EventTiming(@JsonValue override val code: String) : CodedEnum<EventTi
     AFTER_MEAL("PC"),
     AFTER_BREAKFAST("PCM"),
     AFTER_LUNCH("PCD"),
-    AFTER_DINNER("PCV")
+    AFTER_DINNER("PCV"),
 }

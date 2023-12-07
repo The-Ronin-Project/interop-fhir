@@ -11,31 +11,35 @@ import org.junit.jupiter.api.assertThrows
 class R4LocationValidatorTest {
     @Test
     fun `status is outside of required value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val location = Location(
-                status = Code("unsupported-status")
-            )
-            R4LocationValidator.validate(location).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val location =
+                    Location(
+                        status = Code("unsupported-status"),
+                    )
+                R4LocationValidator.validate(location).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unsupported-status' is outside of required value set @ Location.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `mode is outside of required value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val location = Location(
-                mode = Code("unsupported-mode")
-            )
-            R4LocationValidator.validate(location).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val location =
+                    Location(
+                        mode = Code("unsupported-mode"),
+                    )
+                R4LocationValidator.validate(location).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unsupported-mode' is outside of required value set @ Location.mode",
-            exception.message
+            exception.message,
         )
     }
 

@@ -48,15 +48,17 @@ class PatientGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val patient = patient {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            name of listOf(name { family of "Felt" })
-            gender of "Very"
-            birthDate of date { year of 1990 }
-        }
+        val patient =
+            patient {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                name of listOf(name { family of "Felt" })
+                gender of "Very"
+                birthDate of date { year of 1990 }
+            }
         assertEquals("id", patient.id?.value)
         assertEquals(1, patient.identifier.size)
         assertEquals("Felt", patient.name.first().family?.value)
@@ -83,13 +85,15 @@ class PatientContactGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val patientContact = patientContact {
-            period of period { }
-            address of address {
-                city of "Kansas City"
-                state of "KS"
+        val patientContact =
+            patientContact {
+                period of period { }
+                address of
+                    address {
+                        city of "Kansas City"
+                        state of "KS"
+                    }
             }
-        }
         assertNotNull(patientContact.period)
         assertEquals(FHIRString("Kansas City"), patientContact.address?.city)
         assertEquals(FHIRString("KS"), patientContact.address?.state)
@@ -109,9 +113,10 @@ class PatientCommunicationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val patientCommunication = patientCommunication {
-            preferred of true
-        }
+        val patientCommunication =
+            patientCommunication {
+                preferred of true
+            }
         assertEquals(FHIRBoolean.TRUE, patientCommunication.preferred)
     }
 }
@@ -129,9 +134,10 @@ class PatientLinkGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val patientLink = patientLink {
-            other of reference("Patient", "1234")
-        }
+        val patientLink =
+            patientLink {
+                other of reference("Patient", "1234")
+            }
         assertNotNull(patientLink.other)
     }
 }

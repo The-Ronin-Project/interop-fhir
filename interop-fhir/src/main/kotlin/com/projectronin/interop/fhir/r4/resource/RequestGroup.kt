@@ -78,16 +78,17 @@ data class RequestGroup(
         ResourceType.Condition,
         ResourceType.Observation,
         ResourceType.DiagnosticReport,
-        ResourceType.DocumentReference
+        ResourceType.DocumentReference,
     )
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
-    val action: List<RequestGroupAction> = listOf()
+    val action: List<RequestGroupAction> = listOf(),
 ) : DomainResource<RequestGroup> {
     override val resourceType: String = "RequestGroup"
 }
 
 class RequestGroupSerializer : BaseFHIRSerializer<RequestGroup>(RequestGroup::class.java)
+
 class RequestGroupDeserializer : BaseFHIRDeserializer<RequestGroup>(RequestGroup::class.java)
 
 @JsonSerialize(using = RequestGroupActionSerializer::class)
@@ -112,7 +113,7 @@ data class RequestGroupAction(
         DynamicValueType.PERIOD,
         DynamicValueType.DURATION,
         DynamicValueType.RANGE,
-        DynamicValueType.TIMING
+        DynamicValueType.TIMING,
     )
     val timing: DynamicValue<Any>? = null,
     @SupportedReferenceTypes(
@@ -120,7 +121,7 @@ data class RequestGroupAction(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.RelatedPerson,
-        ResourceType.Device
+        ResourceType.Device,
     )
     val participant: List<Reference> = listOf(),
     val type: CodeableConcept? = null,
@@ -135,10 +136,11 @@ data class RequestGroupAction(
     @RequiredValueSet(RequestGroupActionCardinalityBehavior::class)
     val cardinalityBehavior: Code? = null,
     val resource: Reference? = null,
-    val action: List<RequestGroupAction> = emptyList()
+    val action: List<RequestGroupAction> = emptyList(),
 ) : BackboneElement<RequestGroupAction>
 
 class RequestGroupActionSerializer : BaseFHIRSerializer<RequestGroupAction>(RequestGroupAction::class.java)
+
 class RequestGroupActionDeserializer : BaseFHIRDeserializer<RequestGroupAction>(RequestGroupAction::class.java)
 
 @JsonSerialize(using = RequestGroupConditionSerializer::class)
@@ -150,10 +152,11 @@ data class RequestGroupCondition(
     @RequiredField
     @RequiredValueSet(RequestGroupConditionKind::class)
     val kind: Code?,
-    val expression: Expression? = null
+    val expression: Expression? = null,
 ) : BackboneElement<RequestGroupCondition>
 
 class RequestGroupConditionSerializer : BaseFHIRSerializer<RequestGroupCondition>(RequestGroupCondition::class.java)
+
 class RequestGroupConditionDeserializer : BaseFHIRDeserializer<RequestGroupCondition>(RequestGroupCondition::class.java)
 
 @JsonSerialize(using = RequestGroupRelatedActionSerializer::class)
@@ -168,7 +171,7 @@ data class RequestGroupRelatedAction(
     @RequiredValueSet(RequestGroupRelatedActionRelationship::class)
     val relationship: Code?,
     @SupportedDynamicValueTypes(DynamicValueType.DURATION, DynamicValueType.RANGE)
-    val offset: DynamicValue<Any>? = null
+    val offset: DynamicValue<Any>? = null,
 ) : BackboneElement<RequestGroupRelatedAction>
 
 class RequestGroupRelatedActionSerializer :

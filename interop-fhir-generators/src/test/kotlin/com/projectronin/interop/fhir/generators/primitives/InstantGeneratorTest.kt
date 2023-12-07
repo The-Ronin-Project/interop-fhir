@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
 class InstantGeneratorTest {
-
     @Test
     fun `function works with default`() {
         val instant = instant {}
@@ -14,14 +13,15 @@ class InstantGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val instant = instant {
-            year of 1990
-            day of 3
-            month of 1
-            hour of 12
-            minute of 11
-            second of 1
-        }
+        val instant =
+            instant {
+                year of 1990
+                day of 3
+                month of 1
+                hour of 12
+                minute of 11
+                second of 1
+            }
         assertNotNull(instant)
         assertEquals("1990-01-03T12:11:01Z", instant.value)
     }

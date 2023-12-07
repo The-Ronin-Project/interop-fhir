@@ -12,32 +12,36 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class ValidationTest {
-    private val error = FHIRError(
-        code = "INT-001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "There was a really bad issue thing that happened.",
-        location = LocationContext("Resource", "identifier.system")
-    )
-    private val warning = FHIRError(
-        code = "INT-002",
-        severity = ValidationIssueSeverity.WARNING,
-        description = "There was an issue thing that happened.",
-        location = LocationContext("Resource", "status")
-    )
+    private val error =
+        FHIRError(
+            code = "INT-001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "There was a really bad issue thing that happened.",
+            location = LocationContext("Resource", "identifier.system"),
+        )
+    private val warning =
+        FHIRError(
+            code = "INT-002",
+            severity = ValidationIssueSeverity.WARNING,
+            description = "There was an issue thing that happened.",
+            location = LocationContext("Resource", "status"),
+        )
 
-    private val validationError = ValidationIssue(
-        code = "INT-001",
-        description = "There was a really bad issue thing that happened.",
-        location = LocationContext("Resource", "identifier.system"),
-        severity = ValidationIssueSeverity.ERROR
-    )
+    private val validationError =
+        ValidationIssue(
+            code = "INT-001",
+            description = "There was a really bad issue thing that happened.",
+            location = LocationContext("Resource", "identifier.system"),
+            severity = ValidationIssueSeverity.ERROR,
+        )
 
-    private val validationWarning = ValidationIssue(
-        code = "INT-002",
-        description = "There was an issue thing that happened.",
-        location = LocationContext("Resource", "status"),
-        severity = ValidationIssueSeverity.WARNING
-    )
+    private val validationWarning =
+        ValidationIssue(
+            code = "INT-002",
+            description = "There was an issue thing that happened.",
+            location = LocationContext("Resource", "status"),
+            severity = ValidationIssueSeverity.WARNING,
+        )
 
     @Test
     fun `check with true value does not create an error`() {
@@ -65,7 +69,7 @@ class ValidationTest {
         validation.checkCodedEnum<AdministrativeGender>(
             gender,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -80,7 +84,7 @@ class ValidationTest {
         validation.checkCodedEnum<AdministrativeGender>(
             gender,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -96,7 +100,7 @@ class ValidationTest {
         validation.checkCodedEnum<AdministrativeGender>(
             gender,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -112,7 +116,7 @@ class ValidationTest {
             gender,
             AdministrativeGender::class,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -128,7 +132,7 @@ class ValidationTest {
             gender,
             AdministrativeGender::class,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -145,7 +149,7 @@ class ValidationTest {
             gender,
             AdministrativeGender::class,
             InvalidValueSetError(Patient::gender, gender.value),
-            LocationContext("Patient", "")
+            LocationContext("Patient", ""),
         )
 
         val issues = validation.issues()
@@ -223,13 +227,14 @@ class ValidationTest {
         val validation = Validation()
         validation.checkTrue(false, warning, null)
         validation.checkTrue(false, error, null)
-        val exception = assertThrows<IllegalArgumentException> {
-            validation.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                validation.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
-            exception.message
+            exception.message,
         )
     }
 
@@ -249,7 +254,7 @@ class ValidationTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
-            errorString
+            errorString,
         )
     }
 
@@ -262,7 +267,7 @@ class ValidationTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
-            errorString
+            errorString,
         )
     }
 
@@ -276,9 +281,10 @@ class ValidationTest {
 
     @Test
     fun `validation function creates an instance`() {
-        val validation = validation {
-            checkTrue(false, warning, null)
-        }
+        val validation =
+            validation {
+                checkTrue(false, warning, null)
+            }
 
         val issues = validation.issues()
         assertEquals(1, issues.size)
@@ -294,59 +300,65 @@ class ValidationTest {
 
     @Test
     fun `validateAndAlert function creates an instance and throws an exception if errors exist`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            validateAndAlert {
-                checkTrue(false, error, null)
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                validateAndAlert {
+                    checkTrue(false, error, null)
+                }
             }
-        }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INT-001: There was a really bad issue thing that happened. @ Resource.identifier.system",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `hasIssues returns false when no issues recorded`() {
-        val validation = validation {
-            checkTrue(true, warning, null)
-        }
+        val validation =
+            validation {
+                checkTrue(true, warning, null)
+            }
 
         assertFalse(validation.hasIssues())
     }
 
     @Test
     fun `hasIssues returns true when issues recorded`() {
-        val validation = validation {
-            checkTrue(false, warning, null)
-        }
+        val validation =
+            validation {
+                checkTrue(false, warning, null)
+            }
 
         assertTrue(validation.hasIssues())
     }
 
     @Test
     fun `hasErrors returns false when no issues recorded`() {
-        val validation = validation {
-            checkTrue(true, warning, null)
-        }
+        val validation =
+            validation {
+                checkTrue(true, warning, null)
+            }
 
         assertFalse(validation.hasErrors())
     }
 
     @Test
     fun `hasErrors returns false when no errors recorded`() {
-        val validation = validation {
-            checkTrue(false, warning, null)
-        }
+        val validation =
+            validation {
+                checkTrue(false, warning, null)
+            }
 
         assertFalse(validation.hasErrors())
     }
 
     @Test
     fun `hasErrors returns true when an error recorded`() {
-        val validation = validation {
-            checkTrue(false, error, null)
-        }
+        val validation =
+            validation {
+                checkTrue(false, error, null)
+            }
 
         assertTrue(validation.hasErrors())
     }

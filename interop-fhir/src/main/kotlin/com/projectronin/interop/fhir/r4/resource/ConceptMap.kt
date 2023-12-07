@@ -62,13 +62,13 @@ data class ConceptMap(
     val source: DynamicValue<Any>? = null,
     @SupportedDynamicValueTypes(DynamicValueType.URI, DynamicValueType.CANONICAL)
     val target: DynamicValue<Any>? = null,
-    val group: List<ConceptMapGroup> = listOf()
+    val group: List<ConceptMapGroup> = listOf(),
 ) : DomainResource<ConceptMap> {
-
     override val resourceType: String = "ConceptMap"
 }
 
 class ConceptMapDeserializer : BaseFHIRDeserializer<ConceptMap>(ConceptMap::class.java)
+
 class ConceptMapSerializer : BaseFHIRSerializer<ConceptMap>(ConceptMap::class.java)
 
 @JsonSerialize(using = ConceptMapGroupSerializer::class)
@@ -83,10 +83,11 @@ data class ConceptMapGroup(
     val targetVersion: FHIRString? = null,
     @RequiredField
     val element: List<ConceptMapElement>? = listOf(),
-    val unmapped: ConceptMapUnmapped? = null
+    val unmapped: ConceptMapUnmapped? = null,
 ) : BackboneElement<ConceptMapGroup>
 
 class ConceptMapGroupSerializer : BaseFHIRSerializer<ConceptMapGroup>(ConceptMapGroup::class.java)
+
 class ConceptMapGroupDeserializer : BaseFHIRDeserializer<ConceptMapGroup>(ConceptMapGroup::class.java)
 
 @JsonSerialize(using = ConceptMapElementSerializer::class)
@@ -97,10 +98,11 @@ data class ConceptMapElement(
     override val modifierExtension: List<Extension> = listOf(),
     val code: Code? = null,
     val display: FHIRString? = null,
-    val target: List<ConceptMapTarget> = listOf()
+    val target: List<ConceptMapTarget> = listOf(),
 ) : BackboneElement<ConceptMapElement>
 
 class ConceptMapElementSerializer : BaseFHIRSerializer<ConceptMapElement>(ConceptMapElement::class.java)
+
 class ConceptMapElementDeserializer : BaseFHIRDeserializer<ConceptMapElement>(ConceptMapElement::class.java)
 
 @JsonSerialize(using = ConceptMapTargetSerializer::class)
@@ -115,10 +117,11 @@ data class ConceptMapTarget(
     @RequiredValueSet(ConceptMapEquivalence::class)
     val equivalence: Code?,
     val comment: FHIRString? = null,
-    val dependsOn: List<ConceptMapDependsOn> = listOf()
+    val dependsOn: List<ConceptMapDependsOn> = listOf(),
 ) : BackboneElement<ConceptMapTarget>
 
 class ConceptMapTargetSerializer : BaseFHIRSerializer<ConceptMapTarget>(ConceptMapTarget::class.java)
+
 class ConceptMapTargetDeserializer : BaseFHIRDeserializer<ConceptMapTarget>(ConceptMapTarget::class.java)
 
 @JsonSerialize(using = ConceptMapDependsOnSerializer::class)
@@ -132,10 +135,11 @@ data class ConceptMapDependsOn(
     val system: Canonical? = null,
     @RequiredField
     val value: FHIRString?,
-    val display: FHIRString? = null
+    val display: FHIRString? = null,
 ) : BackboneElement<ConceptMapDependsOn>
 
 class ConceptMapDependsOnSerializer : BaseFHIRSerializer<ConceptMapDependsOn>(ConceptMapDependsOn::class.java)
+
 class ConceptMapDependsOnDeserializer : BaseFHIRDeserializer<ConceptMapDependsOn>(ConceptMapDependsOn::class.java)
 
 @JsonSerialize(using = ConceptMapUnmappedSerializer::class)
@@ -149,8 +153,9 @@ data class ConceptMapUnmapped(
     val mode: Code?,
     val code: Code? = null,
     val display: FHIRString? = null,
-    val uri: Canonical? = null
+    val uri: Canonical? = null,
 ) : BackboneElement<ConceptMapUnmapped>
 
 class ConceptMapUnmappedSerializer : BaseFHIRSerializer<ConceptMapUnmapped>(ConceptMapUnmapped::class.java)
+
 class ConceptMapUnmappedDeserializer : BaseFHIRDeserializer<ConceptMapUnmapped>(ConceptMapUnmapped::class.java)

@@ -17,8 +17,11 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.jvmErasure
 
 abstract class BaseFHIRSerializer<T : Validatable<T>>(private val clazz: Class<T>) : StdSerializer<T>(clazz) {
-
-    override fun serialize(value: T, gen: JsonGenerator, provider: SerializerProvider) {
+    override fun serialize(
+        value: T,
+        gen: JsonGenerator,
+        provider: SerializerProvider,
+    ) {
         gen.writeStartObject()
         // need to order the properties in declared order instead of generated order
         val properties = clazz.kotlin.memberProperties.toList()
@@ -44,12 +47,17 @@ abstract class BaseFHIRSerializer<T : Validatable<T>>(private val clazz: Class<T
         value: T,
         gen: JsonGenerator,
         serializers: SerializerProvider,
-        typeSer: TypeSerializer
+        typeSer: TypeSerializer,
     ) {
         serialize(value, gen, serializers)
     }
 
-    private fun writeField(gen: JsonGenerator, value: T, fieldName: String, property: KProperty1<T, *>) {
+    private fun writeField(
+        gen: JsonGenerator,
+        value: T,
+        fieldName: String,
+        property: KProperty1<T, *>,
+    ) {
         val kotlinType = property.returnType.jvmErasure
         val fieldValue = property.get(value)
 
@@ -57,14 +65,15 @@ abstract class BaseFHIRSerializer<T : Validatable<T>>(private val clazz: Class<T
             if (kotlinType == List::class) {
                 gen.writeListField(fieldName, fieldValue as List<*>)
                 if (fieldValue.isNotEmpty() && fieldValue[0]?.javaClass?.kotlin?.isSubclassOf(Primitive::class) == true) {
-                    val primitiveDataList = fieldValue.map { primitive ->
-                        primitive as Primitive<*, *>
-                        if (primitive.hasPrimitiveData()) {
-                            PrimitiveData(id = primitive.id, extension = primitive.extension)
-                        } else {
-                            null
+                    val primitiveDataList =
+                        fieldValue.map { primitive ->
+                            primitive as Primitive<*, *>
+                            if (primitive.hasPrimitiveData()) {
+                                PrimitiveData(id = primitive.id, extension = primitive.extension)
+                            } else {
+                                null
+                            }
                         }
-                    }
                     if (primitiveDataList.any { it != null }) {
                         gen.writeListField("_$fieldName", primitiveDataList)
                     }
@@ -75,10 +84,11 @@ abstract class BaseFHIRSerializer<T : Validatable<T>>(private val clazz: Class<T
                 val primitive = fieldValue as Primitive<*, *>
                 gen.writeNullableField(fieldName, fieldValue.value)
                 if (primitive.hasPrimitiveData()) {
-                    val primitiveData = PrimitiveData(
-                        primitive.id,
-                        primitive.extension
-                    )
+                    val primitiveData =
+                        PrimitiveData(
+                            primitive.id,
+                            primitive.extension,
+                        )
                     gen.writeObjectField("_$fieldName", primitiveData)
                 }
             } else {

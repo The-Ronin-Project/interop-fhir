@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/R4/valueset-identifier-use.html)
  */
-enum class IdentifierUse(@JsonValue override val code: String) : CodedEnum<IdentifierUse> {
+enum class IdentifierUse(
+    @JsonValue override val code: String,
+) : CodedEnum<IdentifierUse> {
     /**
      * The identifier recommended for display and use in real-world interactions.
      */
@@ -33,5 +35,5 @@ enum class IdentifierUse(@JsonValue override val code: String) : CodedEnum<Ident
     /**
      * The identifier id no longer considered valid, but may be relevant for search purposes. E.g. Changes to identifier schemes, account merges, etc.
      */
-    OLD("old")
+    OLD("old"),
 }

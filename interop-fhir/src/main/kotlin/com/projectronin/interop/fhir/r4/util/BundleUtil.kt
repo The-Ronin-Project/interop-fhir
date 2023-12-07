@@ -7,7 +7,10 @@ import com.projectronin.interop.fhir.r4.resource.Bundle
  * Creates a Bundle from the supplied [source] and [addition]. All values on the returned bundle are based off the
  * source, except for the total count and entry, which will include those elements from the source and the addition.
  */
-fun mergeBundles(source: Bundle, addition: Bundle): Bundle =
+fun mergeBundles(
+    source: Bundle,
+    addition: Bundle,
+): Bundle =
     Bundle(
         id = source.id,
         meta = source.meta,
@@ -19,5 +22,5 @@ fun mergeBundles(source: Bundle, addition: Bundle): Bundle =
         total = UnsignedInt((source.total?.value ?: 0) + (addition.total?.value ?: 0)),
         link = source.link,
         entry = (source.entry + addition.entry).associateBy { it.resource?.id }.values.toList(),
-        signature = source.signature
+        signature = source.signature,
     )

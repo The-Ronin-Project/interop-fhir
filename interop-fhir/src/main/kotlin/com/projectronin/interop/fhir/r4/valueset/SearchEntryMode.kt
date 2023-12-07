@@ -8,7 +8,9 @@ import com.projectronin.interop.common.enums.CodedEnum
  *
  * See [FHIR Spec](http://www.hl7.org/fhir/valueset-search-entry-mode.html)
  */
-enum class SearchEntryMode(@JsonValue override val code: String) : CodedEnum<SearchEntryMode> {
+enum class SearchEntryMode(
+    @JsonValue override val code: String,
+) : CodedEnum<SearchEntryMode> {
     /**
      * This resource matched the search specification.
      */
@@ -22,5 +24,5 @@ enum class SearchEntryMode(@JsonValue override val code: String) : CodedEnum<Sea
     /**
      * An OperationOutcome that provides additional information about the processing of a search.
      */
-    OUTCOME("outcome")
+    OUTCOME("outcome"),
 }

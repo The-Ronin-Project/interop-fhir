@@ -46,7 +46,7 @@ data class MedicationStatement(
         ResourceType.MedicationDispense,
         ResourceType.MedicationStatement,
         ResourceType.Procedure,
-        ResourceType.Observation
+        ResourceType.Observation,
     )
     val partOf: List<Reference> = listOf(),
     @RequiredField
@@ -71,7 +71,7 @@ data class MedicationStatement(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.RelatedPerson,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
     val informationSource: Reference? = null,
     val derivedFrom: List<Reference> = listOf(),
@@ -79,10 +79,11 @@ data class MedicationStatement(
     @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Observation, ResourceType.DiagnosticReport)
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
-    val dosage: List<Dosage> = listOf()
+    val dosage: List<Dosage> = listOf(),
 ) : DomainResource<MedicationStatement> {
     override val resourceType: String = "MedicationStatement"
 }
 
 class MedicationStatementDeserializer : BaseFHIRDeserializer<MedicationStatement>(MedicationStatement::class.java)
+
 class MedicationStatementSerializer : BaseFHIRSerializer<MedicationStatement>(MedicationStatement::class.java)

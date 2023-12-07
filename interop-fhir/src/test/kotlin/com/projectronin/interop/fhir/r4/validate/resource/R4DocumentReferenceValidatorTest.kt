@@ -15,82 +15,89 @@ import org.junit.jupiter.api.assertThrows
 class R4DocumentReferenceValidatorTest {
     @Test
     fun `fails if no status`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DocumentReferenceValidator.validate(
-                DocumentReference(
-                    status = null,
-                    content = listOf(
-                        DocumentReferenceContent(
-                            attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text"))
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4DocumentReferenceValidator.validate(
+                    DocumentReference(
+                        status = null,
+                        content =
+                            listOf(
+                                DocumentReferenceContent(
+                                    attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text")),
+                                ),
+                            ),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: status is a required element @ DocumentReference.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if status outside value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DocumentReferenceValidator.validate(
-                DocumentReference(
-                    status = Code("unknown-value"),
-                    content = listOf(
-                        DocumentReferenceContent(
-                            attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text"))
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4DocumentReferenceValidator.validate(
+                    DocumentReference(
+                        status = Code("unknown-value"),
+                        content =
+                            listOf(
+                                DocumentReferenceContent(
+                                    attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text")),
+                                ),
+                            ),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unknown-value' is outside of required value set @ DocumentReference.status",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if docStatus outside value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DocumentReferenceValidator.validate(
-                DocumentReference(
-                    status = DocumentReferenceStatus.CURRENT.asCode(),
-                    docStatus = Code("unknown-value"),
-                    content = listOf(
-                        DocumentReferenceContent(
-                            attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text"))
-                        )
-                    )
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4DocumentReferenceValidator.validate(
+                    DocumentReference(
+                        status = DocumentReferenceStatus.CURRENT.asCode(),
+                        docStatus = Code("unknown-value"),
+                        content =
+                            listOf(
+                                DocumentReferenceContent(
+                                    attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text")),
+                                ),
+                            ),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unknown-value' is outside of required value set @ DocumentReference.docStatus",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if no content`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            R4DocumentReferenceValidator.validate(
-                DocumentReference(
-                    status = DocumentReferenceStatus.CURRENT.asCode(),
-                    content = listOf()
-                )
-            ).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                R4DocumentReferenceValidator.validate(
+                    DocumentReference(
+                        status = DocumentReferenceStatus.CURRENT.asCode(),
+                        content = listOf(),
+                    ),
+                ).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: content is a required element @ DocumentReference.content",
-            exception.message
+            exception.message,
         )
     }
 
@@ -100,12 +107,13 @@ class R4DocumentReferenceValidatorTest {
             DocumentReference(
                 status = DocumentReferenceStatus.CURRENT.asCode(),
                 docStatus = CompositionStatus.AMENDED.asCode(),
-                content = listOf(
-                    DocumentReferenceContent(
-                        attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text"))
-                    )
-                )
-            )
+                content =
+                    listOf(
+                        DocumentReferenceContent(
+                            attachment = Attachment(data = Base64Binary("c3po"), contentType = Code("plain/text")),
+                        ),
+                    ),
+            ),
         ).alertIfErrors()
     }
 }

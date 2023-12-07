@@ -28,16 +28,19 @@ class PractitionerRoleGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val practitionerRole = practitionerRole {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            practitioner of reference("Practitioner", "123")
-            location of listOf(
-                reference("Location", "123")
-            )
-        }
+        val practitionerRole =
+            practitionerRole {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                practitioner of reference("Practitioner", "123")
+                location of
+                    listOf(
+                        reference("Location", "123"),
+                    )
+            }
         assertEquals("id", practitionerRole.id?.value)
         assertEquals(1, practitionerRole.identifier.size)
         assertEquals("Practitioner/123", practitionerRole.practitioner?.reference?.value)

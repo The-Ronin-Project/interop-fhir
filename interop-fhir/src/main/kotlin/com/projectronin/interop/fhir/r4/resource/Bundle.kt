@@ -40,12 +40,13 @@ data class Bundle(
     val total: UnsignedInt? = null,
     val link: List<BundleLink> = listOf(),
     val entry: List<BundleEntry> = listOf(),
-    val signature: Signature? = null
+    val signature: Signature? = null,
 ) : Resource<Bundle> {
     override val resourceType: String = "Bundle"
 }
 
 class BundleSerializer : BaseFHIRSerializer<Bundle>(Bundle::class.java)
+
 class BundleDeserializer : BaseFHIRDeserializer<Bundle>(Bundle::class.java)
 
 /**
@@ -62,10 +63,11 @@ data class BundleEntry(
     val resource: Resource<*>? = null,
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
-    val response: BundleResponse? = null
+    val response: BundleResponse? = null,
 ) : BackboneElement<BundleEntry>
 
 class BundleEntrySerializer : BaseFHIRSerializer<BundleEntry>(BundleEntry::class.java)
+
 class BundleEntryDeserializer : BaseFHIRDeserializer<BundleEntry>(BundleEntry::class.java)
 
 /**
@@ -80,10 +82,11 @@ data class BundleLink(
     @RequiredField
     val relation: FHIRString?,
     @RequiredField
-    val url: Uri?
+    val url: Uri?,
 ) : BackboneElement<BundleLink>
 
 class BundleLinkSerializer : BaseFHIRSerializer<BundleLink>(BundleLink::class.java)
+
 class BundleLinkDeserializer : BaseFHIRDeserializer<BundleLink>(BundleLink::class.java)
 
 /**
@@ -103,10 +106,11 @@ data class BundleRequest(
     val ifNoneMatch: FHIRString? = null,
     val ifModifiedSince: Instant? = null,
     val ifMatch: FHIRString? = null,
-    val ifNoneExist: FHIRString? = null
+    val ifNoneExist: FHIRString? = null,
 ) : BackboneElement<BundleRequest>
 
 class BundleRequestSerializer : BaseFHIRSerializer<BundleRequest>(BundleRequest::class.java)
+
 class BundleRequestDeserializer : BaseFHIRDeserializer<BundleRequest>(BundleRequest::class.java)
 
 /**
@@ -123,10 +127,11 @@ data class BundleResponse(
     val location: Uri? = null,
     val etag: FHIRString? = null,
     val lastModified: Instant? = null,
-    val outcome: Resource<*>? = null
+    val outcome: Resource<*>? = null,
 ) : BackboneElement<BundleResponse>
 
 class BundleResponseSerializer : BaseFHIRSerializer<BundleResponse>(BundleResponse::class.java)
+
 class BundleResponseDeserializer : BaseFHIRDeserializer<BundleResponse>(BundleResponse::class.java)
 
 /**
@@ -140,8 +145,9 @@ data class BundleSearch(
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredValueSet(SearchEntryMode::class)
     val mode: Code? = null,
-    val score: Decimal? = null
+    val score: Decimal? = null,
 ) : BackboneElement<BundleSearch>
 
 class BundleSearchSerializer : BaseFHIRSerializer<BundleSearch>(BundleSearch::class.java)
+
 class BundleSearchDeserializer : BaseFHIRDeserializer<BundleSearch>(BundleSearch::class.java)

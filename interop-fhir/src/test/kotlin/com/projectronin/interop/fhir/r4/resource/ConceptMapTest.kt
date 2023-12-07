@@ -34,157 +34,180 @@ class ConceptMapTest {
     fun `can serialize and deserialize JSON`() {
         val source = DynamicValue(type = DynamicValueType.URI, value = Uri("sourceUri"))
         val target = DynamicValue(type = DynamicValueType.URI, value = Uri("targetUri"))
-        val depends = ConceptMapDependsOn(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            property = Uri("propertyUri"),
-            system = Canonical("canonical"),
-            value = FHIRString("value"),
-            display = FHIRString("display")
-        )
-        val elementTarget = ConceptMapTarget(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = Code("test"),
-            display = FHIRString("conceptMapElement"),
-            equivalence = ConceptMapEquivalence.EQUIVALENT.asCode(),
-            comment = FHIRString("Nope"),
-            dependsOn = listOf(depends)
-        )
-        val element = ConceptMapElement(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = Code("test"),
-            display = FHIRString("conceptMapElement"),
-            target = listOf(elementTarget)
-        )
-        val unmapped = ConceptMapUnmapped(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            mode = ConceptMapMode.FIXED.asCode(),
-            code = Code(value = "value"),
-            display = FHIRString("unmapped"),
-            uri = Canonical("canonical")
-        )
+        val depends =
+            ConceptMapDependsOn(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                property = Uri("propertyUri"),
+                system = Canonical("canonical"),
+                value = FHIRString("value"),
+                display = FHIRString("display"),
+            )
+        val elementTarget =
+            ConceptMapTarget(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = Code("test"),
+                display = FHIRString("conceptMapElement"),
+                equivalence = ConceptMapEquivalence.EQUIVALENT.asCode(),
+                comment = FHIRString("Nope"),
+                dependsOn = listOf(depends),
+            )
+        val element =
+            ConceptMapElement(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = Code("test"),
+                display = FHIRString("conceptMapElement"),
+                target = listOf(elementTarget),
+            )
+        val unmapped =
+            ConceptMapUnmapped(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                mode = ConceptMapMode.FIXED.asCode(),
+                code = Code(value = "value"),
+                display = FHIRString("unmapped"),
+                uri = Canonical("canonical"),
+            )
 
-        val group = ConceptMapGroup(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            source = Uri("groupSourceURI"),
-            sourceVersion = FHIRString("source.V1"),
-            target = Uri("groupTargetURI"),
-            targetVersion = FHIRString("target.V1"),
-            element = listOf(element),
-            unmapped = unmapped
-        )
-        val conceptMap = ConceptMap(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninConceptMap/guid"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            url = Uri("google.com"),
-            identifier = Identifier(value = FHIRString("id")),
-            version = FHIRString("v1"),
-            name = FHIRString("name"),
-            status = ConceptMapStatus.ACTIVE.asCode(),
-            experimental = FHIRBoolean.FALSE,
-            date = DateTime("2020"),
-            publisher = FHIRString("Ronin"),
-            contact = listOf(ContactDetail(name = FHIRString("Big Dawg"))),
-            description = Markdown("text"),
-            useContext = listOf(
-                UsageContext(
-                    code = Coding(),
-                    value = DynamicValue(
-                        type = DynamicValueType.REFERENCE,
-                        value = Reference(display = FHIRString("blah"))
-                    )
-                )
-            ),
-            jurisdiction = listOf(CodeableConcept(text = FHIRString("jurisdiction category"))),
-            purpose = Markdown("text"),
-            copyright = Markdown("text"),
-            source = source,
-            target = target,
-            group = listOf(group)
-        )
+        val group =
+            ConceptMapGroup(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                source = Uri("groupSourceURI"),
+                sourceVersion = FHIRString("source.V1"),
+                target = Uri("groupTargetURI"),
+                targetVersion = FHIRString("target.V1"),
+                element = listOf(element),
+                unmapped = unmapped,
+            )
+        val conceptMap =
+            ConceptMap(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninConceptMap/guid")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                url = Uri("google.com"),
+                identifier = Identifier(value = FHIRString("id")),
+                version = FHIRString("v1"),
+                name = FHIRString("name"),
+                status = ConceptMapStatus.ACTIVE.asCode(),
+                experimental = FHIRBoolean.FALSE,
+                date = DateTime("2020"),
+                publisher = FHIRString("Ronin"),
+                contact = listOf(ContactDetail(name = FHIRString("Big Dawg"))),
+                description = Markdown("text"),
+                useContext =
+                    listOf(
+                        UsageContext(
+                            code = Coding(),
+                            value =
+                                DynamicValue(
+                                    type = DynamicValueType.REFERENCE,
+                                    value = Reference(display = FHIRString("blah")),
+                                ),
+                        ),
+                    ),
+                jurisdiction = listOf(CodeableConcept(text = FHIRString("jurisdiction category"))),
+                purpose = Markdown("text"),
+                copyright = Markdown("text"),
+                source = source,
+                target = target,
+                group = listOf(group),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conceptMap)
         print(json)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ConceptMap",
               "id" : "12345",
@@ -311,7 +334,7 @@ class ConceptMapTest {
                 }
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
         val deserializedConceptMap = JacksonManager.objectMapper.readValue<ConceptMap>(json)
         assertEquals(conceptMap, deserializedConceptMap)
@@ -319,17 +342,19 @@ class ConceptMapTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val conceptMap = ConceptMap(
-            status = ConceptMapStatus.ACTIVE.asCode()
-        )
+        val conceptMap =
+            ConceptMap(
+                status = ConceptMapStatus.ACTIVE.asCode(),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(conceptMap)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ConceptMap",
               "status" : "active"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 }

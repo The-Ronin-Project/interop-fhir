@@ -73,7 +73,7 @@ data class Encounter(
         ResourceType.Condition,
         ResourceType.Procedure,
         ResourceType.Observation,
-        ResourceType.ImmunizationRecommendation
+        ResourceType.ImmunizationRecommendation,
     )
     val reasonReference: List<Reference> = listOf(),
     val diagnosis: List<EncounterDiagnosis> = listOf(),
@@ -84,12 +84,13 @@ data class Encounter(
     @SupportedReferenceTypes(ResourceType.Organization)
     val serviceProvider: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Encounter)
-    val partOf: Reference? = null
+    val partOf: Reference? = null,
 ) : DomainResource<Encounter> {
     override val resourceType: String = "Encounter"
 }
 
 class EncounterSerializer : BaseFHIRSerializer<Encounter>(Encounter::class.java)
+
 class EncounterDeserializer : BaseFHIRDeserializer<Encounter>(Encounter::class.java)
 
 /**
@@ -105,10 +106,11 @@ data class EncounterClassHistory(
     @RequiredField
     val `class`: Code?,
     @RequiredField
-    val period: Period?
+    val period: Period?,
 ) : BackboneElement<EncounterClassHistory>
 
 class EncounterClassHistorySerializer : BaseFHIRSerializer<EncounterClassHistory>(EncounterClassHistory::class.java)
+
 class EncounterClassHistoryDeserializer : BaseFHIRDeserializer<EncounterClassHistory>(EncounterClassHistory::class.java)
 
 /**
@@ -125,10 +127,11 @@ data class EncounterDiagnosis(
     @SupportedReferenceTypes(ResourceType.Condition, ResourceType.Procedure)
     val condition: Reference?,
     val use: CodeableConcept? = null,
-    val rank: PositiveInt? = null
+    val rank: PositiveInt? = null,
 ) : BackboneElement<EncounterDiagnosis>
 
 class EncounterDiagnosisSerializer : BaseFHIRSerializer<EncounterDiagnosis>(EncounterDiagnosis::class.java)
+
 class EncounterDiagnosisDeserializer : BaseFHIRDeserializer<EncounterDiagnosis>(EncounterDiagnosis::class.java)
 
 /**
@@ -151,7 +154,7 @@ data class EncounterHospitalization(
     val specialArrangement: List<CodeableConcept> = listOf(),
     @SupportedReferenceTypes(ResourceType.Location, ResourceType.Organization)
     val destination: Reference? = null,
-    val dischargeDisposition: CodeableConcept? = null
+    val dischargeDisposition: CodeableConcept? = null,
 ) : BackboneElement<EncounterHospitalization>
 
 class EncounterHospitalizationSerializer :
@@ -176,10 +179,11 @@ data class EncounterLocation(
     @RequiredValueSet(EncounterLocationStatus::class)
     val status: Code? = null,
     val physicalType: CodeableConcept? = null,
-    val period: Period? = null
+    val period: Period? = null,
 ) : BackboneElement<EncounterLocation>
 
 class EncounterLocationSerializer : BaseFHIRSerializer<EncounterLocation>(EncounterLocation::class.java)
+
 class EncounterLocationDeserializer : BaseFHIRDeserializer<EncounterLocation>(EncounterLocation::class.java)
 
 /**
@@ -195,10 +199,11 @@ data class EncounterParticipant(
     val type: List<CodeableConcept> = listOf(),
     val period: Period? = null,
     @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.RelatedPerson)
-    val individual: Reference? = null
+    val individual: Reference? = null,
 ) : BackboneElement<EncounterParticipant>
 
 class EncounterParticipantSerializer : BaseFHIRSerializer<EncounterParticipant>(EncounterParticipant::class.java)
+
 class EncounterParticipantDeserializer : BaseFHIRDeserializer<EncounterParticipant>(EncounterParticipant::class.java)
 
 /**
@@ -215,9 +220,10 @@ data class EncounterStatusHistory(
     @RequiredValueSet(EncounterStatus::class)
     val status: Code?,
     @RequiredField
-    val period: Period?
+    val period: Period?,
 ) : BackboneElement<EncounterStatusHistory>
 
 class EncounterStatusHistorySerializer : BaseFHIRSerializer<EncounterStatusHistory>(EncounterStatusHistory::class.java)
+
 class EncounterStatusHistoryDeserializer :
     BaseFHIRDeserializer<EncounterStatusHistory>(EncounterStatusHistory::class.java)

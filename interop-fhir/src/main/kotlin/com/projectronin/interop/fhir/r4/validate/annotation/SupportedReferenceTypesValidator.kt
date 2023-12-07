@@ -26,7 +26,7 @@ class SupportedReferenceTypesValidator :
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         val supportedTypes = annotations.flatMap { it.value.toList() }
         if (supportedTypes.isNotEmpty()) {
@@ -35,7 +35,7 @@ class SupportedReferenceTypesValidator :
                     property.get(element) as? Reference,
                     supportedTypes,
                     parentContext.append(LocationContext(elementName, property.name)),
-                    validation
+                    validation,
                 )
             } else if (kotlinType.isSubclassOf(DynamicValue::class)) {
                 val dynamicValue = property.get(element) as? DynamicValue<*>
@@ -45,7 +45,7 @@ class SupportedReferenceTypesValidator :
                             it.value as? Reference,
                             supportedTypes,
                             parentContext.append(LocationContext(elementName, property.name)),
-                            validation
+                            validation,
                         )
                     }
                 }
@@ -67,14 +67,14 @@ class SupportedReferenceTypesValidator :
         reference: Reference?,
         supportedTypes: List<ResourceType>,
         context: LocationContext,
-        validation: Validation
+        validation: Validation,
     ) {
         reference?.let {
             reference.decomposedType().asResourceType()?.let { resourceType ->
                 validation.checkTrue(
                     resourceType in supportedTypes,
                     InvalidReferenceType(Reference::reference, supportedTypes),
-                    context
+                    context,
                 )
             }
         }

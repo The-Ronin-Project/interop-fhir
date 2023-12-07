@@ -14,25 +14,28 @@ import org.junit.jupiter.api.Test
 class HumanNameTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val humanName = HumanName(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            use = NameUse.OFFICIAL.asCode(),
-            text = FHIRString("Jane Doe"),
-            family = FHIRString("Doe"),
-            given = listOf(FHIRString("Jane")),
-            prefix = listOf(FHIRString("Dr")),
-            suffix = listOf(FHIRString("M.D.")),
-            period = Period(start = DateTime("1994-02-29"))
-        )
+        val humanName =
+            HumanName(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                use = NameUse.OFFICIAL.asCode(),
+                text = FHIRString("Jane Doe"),
+                family = FHIRString("Doe"),
+                given = listOf(FHIRString("Jane")),
+                prefix = listOf(FHIRString("Dr")),
+                suffix = listOf(FHIRString("M.D.")),
+                period = Period(start = DateTime("1994-02-29")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(humanName)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -49,7 +52,7 @@ class HumanNameTest {
             |    "start" : "1994-02-29"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedHumanName = objectMapper.readValue<HumanName>(json)
@@ -58,26 +61,29 @@ class HumanNameTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val humanName = HumanName(
-            text = FHIRString("Name")
-        )
+        val humanName =
+            HumanName(
+                text = FHIRString("Name"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(humanName)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "text" : "Name"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "use" : "nickname"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val humanName = objectMapper.readValue<HumanName>(json)
 
         assertNull(humanName.id)

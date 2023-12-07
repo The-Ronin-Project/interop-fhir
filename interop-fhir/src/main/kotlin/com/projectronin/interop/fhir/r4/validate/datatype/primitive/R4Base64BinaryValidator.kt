@@ -9,5 +9,5 @@ import com.projectronin.interop.fhir.validate.InvalidPrimitiveError
 object R4Base64BinaryValidator :
     BaseRegexPrimitiveValidator<Base64Binary>(
         Regex("""(\s*([0-9a-zA-Z\+\=]){4}\s*)+"""),
-        InvalidPrimitiveError(Base64Binary::class)
+        InvalidPrimitiveError(Base64Binary::class),
     )

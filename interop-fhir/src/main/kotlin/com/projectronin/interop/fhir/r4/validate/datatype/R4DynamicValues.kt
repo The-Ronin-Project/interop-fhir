@@ -11,7 +11,10 @@ import com.projectronin.interop.fhir.validate.Validation
 /**
  * Validates the [dynamicValue] against the R4 spec.
  */
-fun <T> validateDynamicValue(dynamicValue: DynamicValue<T>, parentContext: LocationContext?): Validation {
+fun <T> validateDynamicValue(
+    dynamicValue: DynamicValue<T>,
+    parentContext: LocationContext?,
+): Validation {
     return when (val value = dynamicValue.value) {
         is Primitive<*, *> -> validatePrimitive(value, parentContext)
         is Element<*> -> validateElement(value, parentContext)

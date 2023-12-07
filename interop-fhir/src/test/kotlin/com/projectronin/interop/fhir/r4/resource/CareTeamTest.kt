@@ -31,75 +31,87 @@ import org.junit.jupiter.api.Test
 class CareTeamTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val careTeam = CareTeam(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninCareTeam"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            status = CareTeamStatus.ENTERED_IN_ERROR.asCode(),
-            category = listOf(CodeableConcept(text = FHIRString("care team category"))),
-            name = FHIRString("group"),
-            subject = Reference(
-                type = Uri("Patient"),
-                reference = FHIRString("Reference/pat1"),
-                display = FHIRString("Elaine Benes")
-            ),
-            encounter = Reference(reference = FHIRString("Encounter/123")),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
-            ),
-            participant = listOf(
-                CareTeamParticipant(
-                    member = Reference(
-                        reference = FHIRString("Practitioner/f001"),
-                        display = FHIRString("Dr. Van Nostrand")
+        val careTeam =
+            CareTeam(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninCareTeam")),
                     ),
-                    onBehalfOf = Reference(
-                        reference = FHIRString("Organization/org1"),
-                        display = FHIRString("Hoffermanndale Clinic")
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
                     ),
-                    period = Period(
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                status = CareTeamStatus.ENTERED_IN_ERROR.asCode(),
+                category = listOf(CodeableConcept(text = FHIRString("care team category"))),
+                name = FHIRString("group"),
+                subject =
+                    Reference(
+                        type = Uri("Patient"),
+                        reference = FHIRString("Reference/pat1"),
+                        display = FHIRString("Elaine Benes"),
+                    ),
+                encounter = Reference(reference = FHIRString("Encounter/123")),
+                period =
+                    Period(
                         start = DateTime(value = "2021-11-17T08:00:00Z"),
-                        end = DateTime(value = "2021-11-17T09:00:00Z")
-                    )
-                )
-            ),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
-            reasonReference = listOf(Reference(reference = FHIRString("Conditioner/cond1"))),
-            managingOrganization = listOf(
-                Reference(
-                    reference = FHIRString("Organization/org2"),
-                    display = FHIRString("Juilliard")
-                )
-            ),
-            telecom = listOf(ContactPoint()),
-            note = listOf(Annotation(text = Markdown("Difficult patient")))
-
-        )
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
+                participant =
+                    listOf(
+                        CareTeamParticipant(
+                            member =
+                                Reference(
+                                    reference = FHIRString("Practitioner/f001"),
+                                    display = FHIRString("Dr. Van Nostrand"),
+                                ),
+                            onBehalfOf =
+                                Reference(
+                                    reference = FHIRString("Organization/org1"),
+                                    display = FHIRString("Hoffermanndale Clinic"),
+                                ),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-17T08:00:00Z"),
+                                    end = DateTime(value = "2021-11-17T09:00:00Z"),
+                                ),
+                        ),
+                    ),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason code"))),
+                reasonReference = listOf(Reference(reference = FHIRString("Conditioner/cond1"))),
+                managingOrganization =
+                    listOf(
+                        Reference(
+                            reference = FHIRString("Organization/org2"),
+                            display = FHIRString("Juilliard"),
+                        ),
+                    ),
+                telecom = listOf(ContactPoint()),
+                note = listOf(Annotation(text = Markdown("Difficult patient"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(careTeam)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "CareTeam",
               "id" : "12345",
@@ -174,7 +186,7 @@ class CareTeamTest {
                 "text" : "Difficult patient"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCareTeam = JacksonManager.objectMapper.readValue<CareTeam>(json)
@@ -186,21 +198,23 @@ class CareTeamTest {
         val careTeam = CareTeam()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(careTeam)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "CareTeam"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "CareTeam"
             }
-        """.trimIndent()
+            """.trimIndent()
         val careTeam = JacksonManager.objectMapper.readValue<CareTeam>(json)
 
         assertNull(careTeam.id)
@@ -230,48 +244,56 @@ class CareTeamTest {
 class CareTeamParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val careTeamParticipant = CareTeamParticipant(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            role = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
-                            code = Code("PPRT"),
-                            display = FHIRString("Primary performer")
-                        )
-                    )
-                )
-            ),
-            member = Reference(
-                reference = FHIRString("Practitioner/f001"),
-                display = FHIRString("Dr. Van Nostrand")
-            ),
-            onBehalfOf = Reference(
-                reference = FHIRString("Organization/orgid"),
-                display = FHIRString("Juilliard, Hoffermanndale Clinic")
-            ),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val careTeamParticipant =
+            CareTeamParticipant(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                role =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
+                                        code = Code("PPRT"),
+                                        display = FHIRString("Primary performer"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                member =
+                    Reference(
+                        reference = FHIRString("Practitioner/f001"),
+                        display = FHIRString("Dr. Van Nostrand"),
+                    ),
+                onBehalfOf =
+                    Reference(
+                        reference = FHIRString("Organization/orgid"),
+                        display = FHIRString("Juilliard, Hoffermanndale Clinic"),
+                    ),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(careTeamParticipant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -302,7 +324,7 @@ class CareTeamParticipantTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedCareTeamParticipant = JacksonManager.objectMapper.readValue<CareTeamParticipant>(json)
@@ -314,15 +336,17 @@ class CareTeamParticipantTest {
         val careTeamParticipant = CareTeamParticipant()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(careTeamParticipant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -333,7 +357,7 @@ class CareTeamParticipantTest {
                 "reference" : "Practitioner/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val careTeamParticipant = JacksonManager.objectMapper.readValue<CareTeamParticipant>(json)
 
         assertEquals(FHIRString("12345"), careTeamParticipant.id)

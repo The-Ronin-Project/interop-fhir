@@ -21,49 +21,53 @@ class R4TimeValidatorTest {
 
     @Test
     fun `fails on value without seconds`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val time = Time("09:20")
-            R4TimeValidator.validate(time).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val time = Time("09:20")
+                R4TimeValidator.validate(time).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Time",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on value without minutes`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val time = Time("08")
-            R4TimeValidator.validate(time).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val time = Time("08")
+                R4TimeValidator.validate(time).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Time",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on 2400`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val time = Time("24:00:00")
-            R4TimeValidator.validate(time).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val time = Time("24:00:00")
+                R4TimeValidator.validate(time).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Time",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val time = Time("24:00:00")
-            R4TimeValidator.validate(time, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val time = Time("24:00:00")
+                R4TimeValidator.validate(time, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Time @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

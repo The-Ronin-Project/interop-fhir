@@ -9,7 +9,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 data class FHIRString(
     override val value: String?,
     override val id: FHIRString? = null,
-    override val extension: List<Extension> = listOf()
+    override val extension: List<Extension> = listOf(),
 ) : Primitive<String, FHIRString> {
     @JsonCreator
     constructor(value: String) : this(value, null, emptyList())
@@ -19,4 +19,5 @@ data class FHIRString(
 }
 
 fun String.asFHIR(): FHIRString = FHIRString(this)
+
 fun List<String>.asFHIR(): List<FHIRString> = this.map { it.asFHIR() }

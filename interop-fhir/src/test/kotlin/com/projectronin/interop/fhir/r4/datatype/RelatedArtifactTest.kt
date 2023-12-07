@@ -16,25 +16,28 @@ import org.junit.jupiter.api.Test
 class RelatedArtifactTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val relatedArtifact = RelatedArtifact(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = RelatedArtifactType.DOCUMENTATION.asCode(),
-            label = FHIRString("artifact label"),
-            display = FHIRString("Artifact"),
-            citation = Markdown("citation-markdown"),
-            url = Url("http://localhost/artifact"),
-            document = Attachment(url = Url("http://localhost/artifact/document")),
-            resource = Canonical("resource-canonical")
-        )
+        val relatedArtifact =
+            RelatedArtifact(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                type = RelatedArtifactType.DOCUMENTATION.asCode(),
+                label = FHIRString("artifact label"),
+                display = FHIRString("Artifact"),
+                citation = Markdown("citation-markdown"),
+                url = Url("http://localhost/artifact"),
+                document = Attachment(url = Url("http://localhost/artifact/document")),
+                resource = Canonical("resource-canonical"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(relatedArtifact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -51,7 +54,7 @@ class RelatedArtifactTest {
             |  },
             |  "resource" : "resource-canonical"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRelatedArtifact = objectMapper.readValue<RelatedArtifact>(json)
@@ -63,21 +66,23 @@ class RelatedArtifactTest {
         val relatedArtifact = RelatedArtifact(type = RelatedArtifactType.DOCUMENTATION.asCode())
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(relatedArtifact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "documentation"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "type" : "documentation"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val relatedArtifact = objectMapper.readValue<RelatedArtifact>(json)
 
         assertNull(relatedArtifact.id)

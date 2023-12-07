@@ -34,236 +34,279 @@ import org.junit.jupiter.api.Test
 class EncounterTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounter = Encounter(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninEncounter"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            status = EncounterStatus.FINISHED.asCode(),
-            statusHistory = listOf(
-                EncounterStatusHistory(
-                    status = EncounterStatus.PLANNED.asCode(),
-                    period = Period(
-                        start = DateTime(value = "2021-11-16"),
-                        end = DateTime(value = "2021-11-17T08:00:00Z")
-                    )
-                ),
-                EncounterStatusHistory(
-                    status = EncounterStatus.ARRIVED.asCode(),
-                    period = Period(
-                        start = DateTime(value = "2021-11-17T08:00:00Z"),
-                        end = DateTime(value = "2021-11-17T09:00:00Z")
-                    )
-                ),
-                EncounterStatusHistory(
-                    status = EncounterStatus.IN_PROGRESS.asCode(),
-                    period = Period(
-                        start = DateTime(value = "2021-11-17T09:00:00Z"),
-                        end = DateTime(value = "2021-11-17T10:00:00Z")
-                    )
-                ),
-                EncounterStatusHistory(
-                    status = EncounterStatus.FINISHED.asCode(),
-                    period = Period(
-                        start = DateTime(value = "2021-11-17T10:00:00Z")
-                    )
-                )
-            ),
-            `class` = Coding(
-                system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
-                code = Code("AMB"),
-                display = FHIRString("ambulatory")
-            ),
-            classHistory = listOf(
-                EncounterClassHistory(
-                    `class` = Code("AMB"),
-                    period = Period(
-                        start = DateTime(value = "2021-11-16")
-                    )
-                )
-            ),
-            type = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = CodeSystem.SNOMED_CT.uri,
-                            code = Code("270427003"),
-                            display = FHIRString("Patient-initiated encounter")
-                        )
-                    )
-                )
-            ),
-            serviceType = null,
-            priority = CodeableConcept(
-                coding = listOf(
+        val encounter =
+            Encounter(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninEncounter")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                status = EncounterStatus.FINISHED.asCode(),
+                statusHistory =
+                    listOf(
+                        EncounterStatusHistory(
+                            status = EncounterStatus.PLANNED.asCode(),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-16"),
+                                    end = DateTime(value = "2021-11-17T08:00:00Z"),
+                                ),
+                        ),
+                        EncounterStatusHistory(
+                            status = EncounterStatus.ARRIVED.asCode(),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-17T08:00:00Z"),
+                                    end = DateTime(value = "2021-11-17T09:00:00Z"),
+                                ),
+                        ),
+                        EncounterStatusHistory(
+                            status = EncounterStatus.IN_PROGRESS.asCode(),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-17T09:00:00Z"),
+                                    end = DateTime(value = "2021-11-17T10:00:00Z"),
+                                ),
+                        ),
+                        EncounterStatusHistory(
+                            status = EncounterStatus.FINISHED.asCode(),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-17T10:00:00Z"),
+                                ),
+                        ),
+                    ),
+                `class` =
                     Coding(
-                        system = CodeSystem.SNOMED_CT.uri,
-                        code = Code("103391001"),
-                        display = FHIRString("Non-urgent ear, nose and throat admission")
-                    )
-                )
-            ),
-            subject = Reference(
-                reference = FHIRString("Patient/f001"),
-                display = FHIRString("P. van de Heuvel")
-            ),
-            episodeOfCare = emptyList(),
-            basedOn = emptyList(),
-            participant = listOf(
-                EncounterParticipant(
-                    individual = Reference(
-                        reference = FHIRString("Practitioner/f001"),
-                        display = FHIRString("E.M. van den Broek")
-                    )
-                )
-            ),
-            appointment = emptyList(),
-            period = null,
-            length = Duration(
-                value = Decimal(90.0),
-                unit = FHIRString("min"),
-                system = CodeSystem.UCUM.uri,
-                code = Code("min")
-            ),
-            reasonCode = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = CodeSystem.SNOMED_CT.uri,
-                            code = Code("18099001"),
-                            display = FHIRString("Retropharyngeal abscess")
-                        )
-                    )
-                )
-            ),
-            reasonReference = listOf(
-                Reference(
-                    reference = FHIRString("Condition/f001"),
-                    display = FHIRString("Test Condition")
-                )
-            ),
-            diagnosis = listOf(
-                EncounterDiagnosis(
-                    condition = Reference(reference = FHIRString("Condition/stroke")),
-                    use = CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                                code = Code("AD"),
-                                display = FHIRString("Admission diagnosis")
-                            )
-                        )
+                        system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
+                        code = Code("AMB"),
+                        display = FHIRString("ambulatory"),
                     ),
-                    rank = PositiveInt(1)
-                ),
-                EncounterDiagnosis(
-                    condition = Reference(reference = FHIRString("Condition/f201")),
-                    use = CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                                code = Code("DD"),
-                                display = FHIRString("Discharge diagnosis")
-                            )
-                        )
-                    )
-                )
-            ),
-            account = listOf(Reference(reference = FHIRString("Account/f001"))),
-            hospitalization = EncounterHospitalization(
-                preAdmissionIdentifier = Identifier(
-                    use = Code("official"),
-                    system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
-                    value = FHIRString("93042")
-                ),
-                origin = null,
-                admitSource = CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = CodeSystem.SNOMED_CT.uri,
-                            code = Code("305956004"),
-                            display = FHIRString("Referral by physician")
-                        )
-                    )
-                ),
-                reAdmission = null,
-                dietPreference = listOf(
-                    CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
-                                code = Code("vegetarian"),
-                                display = FHIRString("vegetarian")
-                            )
-                        )
+                classHistory =
+                    listOf(
+                        EncounterClassHistory(
+                            `class` = Code("AMB"),
+                            period =
+                                Period(
+                                    start = DateTime(value = "2021-11-16"),
+                                ),
+                        ),
                     ),
+                type =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = CodeSystem.SNOMED_CT.uri,
+                                        code = Code("270427003"),
+                                        display = FHIRString("Patient-initiated encounter"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                serviceType = null,
+                priority =
                     CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
-                                code = Code("kosher"),
-                                display = FHIRString("kosher")
-                            )
-                        )
-                    )
-                ),
-                specialCourtesy = emptyList(),
-                specialArrangement = emptyList(),
-                destination = Reference(reference = FHIRString("Location/place")),
-                dischargeDisposition = CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = CodeSystem.SNOMED_CT.uri,
-                            code = Code("306689006"),
-                            display = FHIRString("Discharge to home")
-                        )
-                    )
-                )
-            ),
-            location = listOf(
-                EncounterLocation(
-                    location = Reference(reference = FHIRString("Location/f001")),
-                    status = EncounterLocationStatus.RESERVED.asCode(),
-                    physicalType = CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
-                                code = Code("area"),
-                                display = FHIRString("Area")
-                            )
-                        )
-                    )
-                )
-            ),
-            serviceProvider = Reference(
-                reference = FHIRString("Organization/f001"),
-                display = FHIRString("Community Hospital")
-            ),
-            partOf = Reference(reference = FHIRString("Encounter/super"))
-        )
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = CodeSystem.SNOMED_CT.uri,
+                                    code = Code("103391001"),
+                                    display = FHIRString("Non-urgent ear, nose and throat admission"),
+                                ),
+                            ),
+                    ),
+                subject =
+                    Reference(
+                        reference = FHIRString("Patient/f001"),
+                        display = FHIRString("P. van de Heuvel"),
+                    ),
+                episodeOfCare = emptyList(),
+                basedOn = emptyList(),
+                participant =
+                    listOf(
+                        EncounterParticipant(
+                            individual =
+                                Reference(
+                                    reference = FHIRString("Practitioner/f001"),
+                                    display = FHIRString("E.M. van den Broek"),
+                                ),
+                        ),
+                    ),
+                appointment = emptyList(),
+                period = null,
+                length =
+                    Duration(
+                        value = Decimal(90.0),
+                        unit = FHIRString("min"),
+                        system = CodeSystem.UCUM.uri,
+                        code = Code("min"),
+                    ),
+                reasonCode =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = CodeSystem.SNOMED_CT.uri,
+                                        code = Code("18099001"),
+                                        display = FHIRString("Retropharyngeal abscess"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                reasonReference =
+                    listOf(
+                        Reference(
+                            reference = FHIRString("Condition/f001"),
+                            display = FHIRString("Test Condition"),
+                        ),
+                    ),
+                diagnosis =
+                    listOf(
+                        EncounterDiagnosis(
+                            condition = Reference(reference = FHIRString("Condition/stroke")),
+                            use =
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                                code = Code("AD"),
+                                                display = FHIRString("Admission diagnosis"),
+                                            ),
+                                        ),
+                                ),
+                            rank = PositiveInt(1),
+                        ),
+                        EncounterDiagnosis(
+                            condition = Reference(reference = FHIRString("Condition/f201")),
+                            use =
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                                code = Code("DD"),
+                                                display = FHIRString("Discharge diagnosis"),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                    ),
+                account = listOf(Reference(reference = FHIRString("Account/f001"))),
+                hospitalization =
+                    EncounterHospitalization(
+                        preAdmissionIdentifier =
+                            Identifier(
+                                use = Code("official"),
+                                system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
+                                value = FHIRString("93042"),
+                            ),
+                        origin = null,
+                        admitSource =
+                            CodeableConcept(
+                                coding =
+                                    listOf(
+                                        Coding(
+                                            system = CodeSystem.SNOMED_CT.uri,
+                                            code = Code("305956004"),
+                                            display = FHIRString("Referral by physician"),
+                                        ),
+                                    ),
+                            ),
+                        reAdmission = null,
+                        dietPreference =
+                            listOf(
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
+                                                code = Code("vegetarian"),
+                                                display = FHIRString("vegetarian"),
+                                            ),
+                                        ),
+                                ),
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
+                                                code = Code("kosher"),
+                                                display = FHIRString("kosher"),
+                                            ),
+                                        ),
+                                ),
+                            ),
+                        specialCourtesy = emptyList(),
+                        specialArrangement = emptyList(),
+                        destination = Reference(reference = FHIRString("Location/place")),
+                        dischargeDisposition =
+                            CodeableConcept(
+                                coding =
+                                    listOf(
+                                        Coding(
+                                            system = CodeSystem.SNOMED_CT.uri,
+                                            code = Code("306689006"),
+                                            display = FHIRString("Discharge to home"),
+                                        ),
+                                    ),
+                            ),
+                    ),
+                location =
+                    listOf(
+                        EncounterLocation(
+                            location = Reference(reference = FHIRString("Location/f001")),
+                            status = EncounterLocationStatus.RESERVED.asCode(),
+                            physicalType =
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
+                                                code = Code("area"),
+                                                display = FHIRString("Area"),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                    ),
+                serviceProvider =
+                    Reference(
+                        reference = FHIRString("Organization/f001"),
+                        display = FHIRString("Community Hospital"),
+                    ),
+                partOf = Reference(reference = FHIRString("Encounter/super")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounter)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Encounter",
               "id" : "12345",
@@ -454,7 +497,7 @@ class EncounterTest {
                 "reference" : "Encounter/super"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounter = JacksonManager.objectMapper.readValue<Encounter>(json)
@@ -463,17 +506,20 @@ class EncounterTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounter = Encounter(
-            status = EncounterStatus.CANCELLED.asCode(),
-            `class` = Coding(
-                system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
-                code = Code("OBSENC"),
-                display = FHIRString("observation")
+        val encounter =
+            Encounter(
+                status = EncounterStatus.CANCELLED.asCode(),
+                `class` =
+                    Coding(
+                        system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
+                        code = Code("OBSENC"),
+                        display = FHIRString("observation"),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounter)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Encounter",
               "status" : "cancelled",
@@ -483,13 +529,14 @@ class EncounterTest {
                 "display" : "observation"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Encounter",
               "status" : "cancelled",
@@ -499,7 +546,7 @@ class EncounterTest {
                 "display" : "observation"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounter = JacksonManager.objectMapper.readValue<Encounter>(json)
 
         assertNull(encounter.id)
@@ -517,9 +564,9 @@ class EncounterTest {
             Coding(
                 system = Uri("http://terminology.hl7.org/CodeSystem/v3-ActCode"),
                 code = Code("OBSENC"),
-                display = FHIRString("observation")
+                display = FHIRString("observation"),
             ),
-            encounter.`class`
+            encounter.`class`,
         )
         assertEquals(listOf<EncounterClassHistory>(), encounter.classHistory)
         assertEquals(listOf<CodeableConcept>(), encounter.type)
@@ -546,30 +593,35 @@ class EncounterTest {
 class EncounterClassHistoryTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterClassHistory = EncounterClassHistory(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            `class` = Code("PRENC"),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val encounterClassHistory =
+            EncounterClassHistory(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                `class` = Code("PRENC"),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -586,7 +638,7 @@ class EncounterClassHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterClassHistory = JacksonManager.objectMapper.readValue<EncounterClassHistory>(json)
@@ -595,17 +647,20 @@ class EncounterClassHistoryTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterClassHistory = EncounterClassHistory(
-            `class` = Code("PRENC"),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val encounterClassHistory =
+            EncounterClassHistory(
+                `class` = Code("PRENC"),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterClassHistory)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "class" : "PRENC",
               "period" : {
@@ -613,13 +668,14 @@ class EncounterClassHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "class" : "PRENC",
               "period" : {
@@ -627,7 +683,7 @@ class EncounterClassHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterClassHistory = JacksonManager.objectMapper.readValue<EncounterClassHistory>(json)
 
         assertNull(encounterClassHistory.id)
@@ -637,9 +693,9 @@ class EncounterClassHistoryTest {
         assertEquals(
             Period(
                 start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+                end = DateTime(value = "2021-11-17T09:00:00Z"),
             ),
-            encounterClassHistory.period
+            encounterClassHistory.period,
         )
     }
 }
@@ -647,35 +703,41 @@ class EncounterClassHistoryTest {
 class EncounterDiagnosisTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterDiagnosis = EncounterDiagnosis(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            condition = Reference(reference = FHIRString("Condition/f201")),
-            use = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
-                        code = Code("DD"),
-                        display = FHIRString("Discharge diagnosis")
-                    )
-                )
-            ),
-            rank = PositiveInt(1)
-        )
+        val encounterDiagnosis =
+            EncounterDiagnosis(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                condition = Reference(reference = FHIRString("Condition/f201")),
+                use =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/diagnosis-role"),
+                                    code = Code("DD"),
+                                    display = FHIRString("Discharge diagnosis"),
+                                ),
+                            ),
+                    ),
+                rank = PositiveInt(1),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterDiagnosis)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -698,7 +760,7 @@ class EncounterDiagnosisTest {
               },
               "rank" : 1
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterDiagnosis = JacksonManager.objectMapper.readValue<EncounterDiagnosis>(json)
@@ -707,19 +769,22 @@ class EncounterDiagnosisTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterDiagnosis = EncounterDiagnosis(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            condition = Reference(reference = FHIRString("Condition/example"))
-        )
+        val encounterDiagnosis =
+            EncounterDiagnosis(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                condition = Reference(reference = FHIRString("Condition/example")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterDiagnosis)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -730,13 +795,14 @@ class EncounterDiagnosisTest {
                 "reference" : "Condition/example"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -747,7 +813,7 @@ class EncounterDiagnosisTest {
                 "reference" : "Condition/example"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterDiagnosis = JacksonManager.objectMapper.readValue<EncounterDiagnosis>(json)
 
         assertEquals(FHIRString("12345"), encounterDiagnosis.id)
@@ -755,10 +821,10 @@ class EncounterDiagnosisTest {
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                ),
             ),
-            encounterDiagnosis.extension
+            encounterDiagnosis.extension,
         )
         assertEquals(listOf<Extension>(), encounterDiagnosis.modifierExtension)
         assertEquals(Reference(reference = FHIRString("Condition/example")), encounterDiagnosis.condition)
@@ -770,73 +836,85 @@ class EncounterDiagnosisTest {
 class EncounterHospitalizationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterHospitalization = EncounterHospitalization(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            preAdmissionIdentifier = Identifier(
-                use = Code("official"),
-                system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
-                value = FHIRString("93042")
-            ),
-            origin = null,
-            admitSource = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = CodeSystem.SNOMED_CT.uri,
-                        code = Code("305956004"),
-                        display = FHIRString("Referral by physician")
-                    )
-                )
-            ),
-            reAdmission = null,
-            dietPreference = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
-                            code = Code("vegetarian"),
-                            display = FHIRString("vegetarian")
-                        )
-                    )
-                ),
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
-                            code = Code("kosher"),
-                            display = FHIRString("kosher")
-                        )
-                    )
-                )
-            ),
-            specialCourtesy = emptyList(),
-            specialArrangement = emptyList(),
-            destination = Reference(reference = FHIRString("Location/place")),
-            dischargeDisposition = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = CodeSystem.SNOMED_CT.uri,
-                        code = Code("306689006"),
-                        display = FHIRString("Discharge to home")
-                    )
-                )
+        val encounterHospitalization =
+            EncounterHospitalization(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                preAdmissionIdentifier =
+                    Identifier(
+                        use = Code("official"),
+                        system = Uri("http://www.bmc.nl/zorgportal/identifiers/pre-admissions"),
+                        value = FHIRString("93042"),
+                    ),
+                origin = null,
+                admitSource =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = CodeSystem.SNOMED_CT.uri,
+                                    code = Code("305956004"),
+                                    display = FHIRString("Referral by physician"),
+                                ),
+                            ),
+                    ),
+                reAdmission = null,
+                dietPreference =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
+                                        code = Code("vegetarian"),
+                                        display = FHIRString("vegetarian"),
+                                    ),
+                                ),
+                        ),
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-diet.html"),
+                                        code = Code("kosher"),
+                                        display = FHIRString("kosher"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                specialCourtesy = emptyList(),
+                specialArrangement = emptyList(),
+                destination = Reference(reference = FHIRString("Location/place")),
+                dischargeDisposition =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = CodeSystem.SNOMED_CT.uri,
+                                    code = Code("306689006"),
+                                    display = FHIRString("Discharge to home"),
+                                ),
+                            ),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -883,7 +961,7 @@ class EncounterHospitalizationTest {
                 } ]
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterHospitalization = JacksonManager.objectMapper.readValue<EncounterHospitalization>(json)
@@ -892,19 +970,22 @@ class EncounterHospitalizationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterHospitalization = EncounterHospitalization(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+        val encounterHospitalization =
+            EncounterHospitalization(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterHospitalization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -912,13 +993,14 @@ class EncounterHospitalizationTest {
                 "valueString" : "Value"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -929,7 +1011,7 @@ class EncounterHospitalizationTest {
                 "reference" : "Location/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterHospitalization = JacksonManager.objectMapper.readValue<EncounterHospitalization>(json)
 
         assertEquals(FHIRString("12345"), encounterHospitalization.id)
@@ -937,10 +1019,10 @@ class EncounterHospitalizationTest {
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                ),
             ),
-            encounterHospitalization.extension
+            encounterHospitalization.extension,
         )
         assertEquals(listOf<Extension>(), encounterHospitalization.modifierExtension)
         assertNull(encounterHospitalization.preAdmissionIdentifier)
@@ -958,39 +1040,46 @@ class EncounterHospitalizationTest {
 class EncounterLocationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterLocation = EncounterLocation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            location = Reference(reference = FHIRString("Location/f001")),
-            status = EncounterLocationStatus.RESERVED.asCode(),
-            physicalType = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
-                        code = Code("area"),
-                        display = FHIRString("Area")
-                    )
-                )
-            ),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val encounterLocation =
+            EncounterLocation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                location = Reference(reference = FHIRString("Location/f001")),
+                status = EncounterLocationStatus.RESERVED.asCode(),
+                physicalType =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/location-physical-type"),
+                                    code = Code("area"),
+                                    display = FHIRString("Area"),
+                                ),
+                            ),
+                    ),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterLocation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1017,7 +1106,7 @@ class EncounterLocationTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterLocation = JacksonManager.objectMapper.readValue<EncounterLocation>(json)
@@ -1026,19 +1115,22 @@ class EncounterLocationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterLocation = EncounterLocation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            location = Reference(reference = FHIRString("Location/f001"))
-        )
+        val encounterLocation =
+            EncounterLocation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                location = Reference(reference = FHIRString("Location/f001")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterLocation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1049,13 +1141,14 @@ class EncounterLocationTest {
                 "reference" : "Location/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1066,7 +1159,7 @@ class EncounterLocationTest {
                 "reference" : "Location/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterLocation = JacksonManager.objectMapper.readValue<EncounterLocation>(json)
 
         assertEquals(FHIRString("12345"), encounterLocation.id)
@@ -1074,10 +1167,10 @@ class EncounterLocationTest {
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                ),
             ),
-            encounterLocation.extension
+            encounterLocation.extension,
         )
         assertEquals(listOf<Extension>(), encounterLocation.modifierExtension)
         assertEquals(Reference(reference = FHIRString("Location/f001")), encounterLocation.location)
@@ -1090,43 +1183,51 @@ class EncounterLocationTest {
 class EncounterParticipantTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterParticipant = EncounterParticipant(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            type = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
-                            code = Code("PPRT"),
-                            display = FHIRString("Primary performer")
-                        )
-                    )
-                )
-            ),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
-            ),
-            individual = Reference(
-                reference = FHIRString("Practitioner/f001"),
-                display = FHIRString("E.M. van den Broek")
+        val encounterParticipant =
+            EncounterParticipant(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                type =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("https://www.hl7.org/fhir/R4/valueset-encounter-participant-type.html"),
+                                        code = Code("PPRT"),
+                                        display = FHIRString("Primary performer"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
+                individual =
+                    Reference(
+                        reference = FHIRString("Practitioner/f001"),
+                        display = FHIRString("E.M. van den Broek"),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterParticipant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1153,7 +1254,7 @@ class EncounterParticipantTest {
                 "display" : "E.M. van den Broek"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterParticipant = JacksonManager.objectMapper.readValue<EncounterParticipant>(json)
@@ -1162,19 +1263,22 @@ class EncounterParticipantTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterParticipant = EncounterParticipant(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            individual = Reference(reference = FHIRString("Practitioner/f001"))
-        )
+        val encounterParticipant =
+            EncounterParticipant(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                individual = Reference(reference = FHIRString("Practitioner/f001")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterParticipant)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1185,13 +1289,14 @@ class EncounterParticipantTest {
                 "reference" : "Practitioner/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1202,7 +1307,7 @@ class EncounterParticipantTest {
                 "reference" : "Practitioner/f001"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterParticipant = JacksonManager.objectMapper.readValue<EncounterParticipant>(json)
 
         assertEquals(FHIRString("12345"), encounterParticipant.id)
@@ -1210,10 +1315,10 @@ class EncounterParticipantTest {
             listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                ),
             ),
-            encounterParticipant.extension
+            encounterParticipant.extension,
         )
         assertEquals(listOf<Extension>(), encounterParticipant.modifierExtension)
         assertEquals(listOf<CodeableConcept>(), encounterParticipant.type)
@@ -1225,30 +1330,35 @@ class EncounterParticipantTest {
 class EncounterStatusHistoryTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val encounterStatusHistory = EncounterStatusHistory(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
-                )
-            ),
-            status = EncounterStatus.PLANNED.asCode(),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val encounterStatusHistory =
+            EncounterStatusHistory(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
+                        ),
+                    ),
+                status = EncounterStatus.PLANNED.asCode(),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1265,7 +1375,7 @@ class EncounterStatusHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedEncounterStatusHistory = JacksonManager.objectMapper.readValue<EncounterStatusHistory>(json)
@@ -1274,17 +1384,20 @@ class EncounterStatusHistoryTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val encounterStatusHistory = EncounterStatusHistory(
-            status = EncounterStatus.ARRIVED.asCode(),
-            period = Period(
-                start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+        val encounterStatusHistory =
+            EncounterStatusHistory(
+                status = EncounterStatus.ARRIVED.asCode(),
+                period =
+                    Period(
+                        start = DateTime(value = "2021-11-17T08:00:00Z"),
+                        end = DateTime(value = "2021-11-17T09:00:00Z"),
+                    ),
             )
-        )
         val json =
             JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(encounterStatusHistory)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "status" : "arrived",
               "period" : {
@@ -1292,13 +1405,14 @@ class EncounterStatusHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "status" : "in-progress",
               "period" : {
@@ -1306,7 +1420,7 @@ class EncounterStatusHistoryTest {
                 "end" : "2021-11-17T09:00:00Z"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val encounterStatusHistory = JacksonManager.objectMapper.readValue<EncounterStatusHistory>(json)
 
         assertNull(encounterStatusHistory.id)
@@ -1316,9 +1430,9 @@ class EncounterStatusHistoryTest {
         assertEquals(
             Period(
                 start = DateTime(value = "2021-11-17T08:00:00Z"),
-                end = DateTime(value = "2021-11-17T09:00:00Z")
+                end = DateTime(value = "2021-11-17T09:00:00Z"),
             ),
-            encounterStatusHistory.period
+            encounterStatusHistory.period,
         )
     }
 }

@@ -17,10 +17,11 @@ class RatioGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val ratio = ratio {
-            numerator of Quantity(value = Decimal(BigDecimal(2.0)))
-            denominator of Quantity(value = Decimal(BigDecimal(3.5)))
-        }
+        val ratio =
+            ratio {
+                numerator of Quantity(value = Decimal(BigDecimal(2.0)))
+                denominator of Quantity(value = Decimal(BigDecimal(3.5)))
+            }
         assertEquals(Quantity(value = Decimal(BigDecimal(2.0))), ratio.numerator)
         assertEquals(Quantity(value = Decimal(BigDecimal(3.5))), ratio.denominator)
     }

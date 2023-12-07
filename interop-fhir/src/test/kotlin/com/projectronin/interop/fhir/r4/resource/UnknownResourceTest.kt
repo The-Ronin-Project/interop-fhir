@@ -15,25 +15,29 @@ import java.math.BigDecimal
 class UnknownResourceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val unknownResource = UnknownResource(
-            resourceType = "Banana",
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninUnknown"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            otherData = mapOf(
-                "field1" to "value1",
-                "field2" to 2,
-                "field3" to BigDecimal.valueOf(3.0),
-                "field4" to false,
-                "field5" to listOf("val1", "val2")
+        val unknownResource =
+            UnknownResource(
+                resourceType = "Banana",
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninUnknown")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                otherData =
+                    mapOf(
+                        "field1" to "value1",
+                        "field2" to 2,
+                        "field3" to BigDecimal.valueOf(3.0),
+                        "field4" to false,
+                        "field5" to listOf("val1", "val2"),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(unknownResource)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Banana",
               "id" : "12345",
@@ -48,7 +52,7 @@ class UnknownResourceTest {
               "field4" : false,
               "field5" : [ "val1", "val2" ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedUnknownResource = objectMapper.readValue<UnknownResource>(json)
@@ -57,29 +61,32 @@ class UnknownResourceTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val unknownResource = UnknownResource(
-            resourceType = "Banana",
-            otherData = mapOf("field1" to "value1")
-        )
+        val unknownResource =
+            UnknownResource(
+                resourceType = "Banana",
+                otherData = mapOf("field1" to "value1"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(unknownResource)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Banana",
               "field1" : "value1"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Banana",
               "field1" : "value1"
             }
-        """.trimIndent()
+            """.trimIndent()
         val unknownResource = objectMapper.readValue<UnknownResource>(json)
 
         assertEquals("Banana", unknownResource.resourceType)

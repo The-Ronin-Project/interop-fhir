@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/valueset-medication-statement-status.html)
  */
-enum class MedicationStatementStatus(@JsonValue override val code: String) : CodedEnum<MedicationStatementStatus> {
+enum class MedicationStatementStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<MedicationStatementStatus> {
     /**
      * The medication is still being taken.
      */
@@ -48,5 +50,5 @@ enum class MedicationStatementStatus(@JsonValue override val code: String) : Cod
      * Actions implied by the statement have been permanently halted, before all of them occurred.
      * This should not be used if the statement was entered in error.
      */
-    STOPPED("stopped");
+    STOPPED("stopped"),
 }

@@ -29,8 +29,9 @@ data class Attachment(
     val size: UnsignedInt? = null,
     val hash: Base64Binary? = null,
     val title: FHIRString? = null,
-    val creation: DateTime? = null
+    val creation: DateTime? = null,
 ) : Element<Attachment>
 
 class AttachmentSerializer : BaseFHIRSerializer<Attachment>(Attachment::class.java)
+
 class AttachmentDeserializer : BaseFHIRDeserializer<Attachment>(Attachment::class.java)

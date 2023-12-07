@@ -65,7 +65,7 @@ data class PatientGenerator(
     val communication: ListDataGenerator<PatientCommunication> = ListDataGenerator(0, PatientCommunicationGenerator()),
     val generalPractitioner: ListDataGenerator<Reference?> = EmptyListDataGenerator(),
     val managingOrganization: DataGenerator<Reference?> = NullDataGenerator(),
-    val link: ListDataGenerator<PatientLink> = ListDataGenerator(0, PatientLinkGenerator())
+    val link: ListDataGenerator<PatientLink> = ListDataGenerator(0, PatientLinkGenerator()),
 ) : DomainResource<Patient> {
     override fun toFhir(): Patient =
         Patient(
@@ -92,7 +92,7 @@ data class PatientGenerator(
             communication = communication.generate(),
             generalPractitioner = generalPractitioner.generate().filterNotNull(),
             managingOrganization = managingOrganization.generate(),
-            link = link.generate()
+            link = link.generate(),
         )
 }
 
@@ -108,18 +108,19 @@ class PatientContactGenerator : DataGenerator<PatientContact>() {
     val organization: DataGenerator<Reference?> = NullDataGenerator()
     val period: DataGenerator<Period?> = NullDataGenerator()
 
-    override fun generateInternal() = PatientContact(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        relationship = relationship.generate(),
-        name = name.generate(),
-        telecom = telecom.generate(),
-        address = address.generate(),
-        gender = gender.generate(),
-        organization = organization.generate(),
-        period = period.generate()
-    )
+    override fun generateInternal() =
+        PatientContact(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            relationship = relationship.generate(),
+            name = name.generate(),
+            telecom = telecom.generate(),
+            address = address.generate(),
+            gender = gender.generate(),
+            organization = organization.generate(),
+            period = period.generate(),
+        )
 }
 
 class PatientCommunicationGenerator : DataGenerator<PatientCommunication>() {
@@ -129,13 +130,14 @@ class PatientCommunicationGenerator : DataGenerator<PatientCommunication>() {
     val language: DataGenerator<CodeableConcept> = CodeableConceptGenerator()
     val preferred: DataGenerator<FHIRBoolean?> = NullDataGenerator()
 
-    override fun generateInternal() = PatientCommunication(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        language = language.generate(),
-        preferred = preferred.generate()
-    )
+    override fun generateInternal() =
+        PatientCommunication(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            language = language.generate(),
+            preferred = preferred.generate(),
+        )
 }
 
 class PatientLinkGenerator : DataGenerator<PatientLink>() {
@@ -145,13 +147,14 @@ class PatientLinkGenerator : DataGenerator<PatientLink>() {
     val other: DataGenerator<Reference?> = NullDataGenerator()
     val type: CodeGenerator = CodeGenerator(LinkType::class)
 
-    override fun generateInternal() = PatientLink(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        other = other.generate(),
-        type = type.generate()
-    )
+    override fun generateInternal() =
+        PatientLink(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            other = other.generate(),
+            type = type.generate(),
+        )
 }
 
 fun patient(block: PatientGenerator.() -> Unit): Patient {

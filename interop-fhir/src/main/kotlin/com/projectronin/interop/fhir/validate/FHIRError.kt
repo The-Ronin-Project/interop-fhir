@@ -15,21 +15,23 @@ open class FHIRError(
     val severity: ValidationIssueSeverity,
     val description: String,
     val location: LocationContext?,
-    val metadata: List<IssueMetadata>? = listOf<IssueMetadata>()
+    val metadata: List<IssueMetadata>? = listOf<IssueMetadata>(),
 ) {
     /**
      * Creates a [ValidationIssue] based off this error.
      * If an [overriddenDescription] is provided, it will be used instead of the error's description.
      * If a [parentContext] is provided, the [location] will be treated as a child element.
      */
-    fun toValidationIssue(overriddenDescription: String? = null, parentContext: LocationContext? = null) =
-        ValidationIssue(
-            code = code,
-            severity = severity,
-            description = overriddenDescription ?: description,
-            location = location?.let { parentContext.append(it) } ?: parentContext,
-            metadata = metadata
-        )
+    fun toValidationIssue(
+        overriddenDescription: String? = null,
+        parentContext: LocationContext? = null,
+    ) = ValidationIssue(
+        code = code,
+        severity = severity,
+        description = overriddenDescription ?: description,
+        location = location?.let { parentContext.append(it) } ?: parentContext,
+        metadata = metadata,
+    )
 }
 
 /**
@@ -40,7 +42,7 @@ class RequiredFieldError(actualLocation: LocationContext) :
         "REQ_FIELD",
         ValidationIssueSeverity.ERROR,
         "${actualLocation.field} is a required element",
-        actualLocation
+        actualLocation,
     ) {
     /**
      * Creates a RequiredFieldError based off an explicit property.
@@ -55,7 +57,7 @@ class InvalidPrimitiveError(primitiveType: KClass<out Primitive<*, *>>) : FHIREr
     "R4_INV_PRIM",
     ValidationIssueSeverity.ERROR,
     "Supplied value is not valid for a ${primitiveType.simpleName}",
-    null
+    null,
 )
 
 /**
@@ -63,20 +65,20 @@ class InvalidPrimitiveError(primitiveType: KClass<out Primitive<*, *>>) : FHIREr
  */
 class InvalidDynamicValueError(
     actualLocation: LocationContext,
-    validTypes: List<DynamicValueType>
+    validTypes: List<DynamicValueType>,
 ) :
     FHIRError(
-        "INV_DYN_VAL",
-        ValidationIssueSeverity.ERROR,
-        "${actualLocation.field} can only be one of the following: ${validTypes.joinToString { it.code }}",
-        actualLocation
-    ) {
+            "INV_DYN_VAL",
+            ValidationIssueSeverity.ERROR,
+            "${actualLocation.field} can only be one of the following: ${validTypes.joinToString { it.code }}",
+            actualLocation,
+        ) {
     /**
      * Creates an InvalidDynamicValueError based off an explicit property.
      */
     constructor(actualLocation: KProperty1<*, DynamicValue<*>?>, validTypes: List<DynamicValueType>) : this(
         LocationContext(actualLocation),
-        validTypes
+        validTypes,
     )
 }
 
@@ -87,22 +89,22 @@ class InvalidValueSetError(actualLocation: LocationContext, value: String?) : FH
     "INV_VALUE_SET",
     ValidationIssueSeverity.ERROR,
     "${
-    if (value == null) {
-        "NULL is"
-    } else if (value.contains(",")) {
-        "'${value.replace(", ", "', '")}' are"
-    } else {
-        "'$value' is"
-    }
+        if (value == null) {
+            "NULL is"
+        } else if (value.contains(",")) {
+            "'${value.replace(", ", "', '")}' are"
+        } else {
+            "'$value' is"
+        }
     } outside of required value set",
-    actualLocation
+    actualLocation,
 ) {
     /**
      * Creates an InvalidValueSetError based off an explicit property.
      */
     constructor(actualLocation: KProperty1<*, *>, value: String?) : this(
         LocationContext(actualLocation),
-        value
+        value,
     )
 }
 
@@ -113,13 +115,13 @@ class InvalidReferenceType(actualLocation: LocationContext, validTypes: List<Res
     "INV_REF_TYPE",
     ValidationIssueSeverity.ERROR,
     "${actualLocation.field} can only be one of the following: ${validTypes.joinToString { it.name }}",
-    actualLocation
+    actualLocation,
 ) {
     /**
      * Creates an InvalidReferenceType based off an explicit property.
      */
     constructor(
         actualLocation: KProperty1<*, *>,
-        validTypes: List<ResourceType>
+        validTypes: List<ResourceType>,
     ) : this(LocationContext(actualLocation), validTypes)
 }

@@ -27,5 +27,5 @@ enum class CarePlanIntent(override val code: String) : CodedEnum<CarePlanIntent>
      * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this
      * status is used.
      */
-    OPTION("option")
+    OPTION("option"),
 }

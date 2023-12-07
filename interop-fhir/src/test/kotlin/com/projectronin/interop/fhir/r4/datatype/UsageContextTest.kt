@@ -12,20 +12,23 @@ import org.junit.jupiter.api.Test
 class UsageContextTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val usageContext = UsageContext(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = Coding(display = FHIRString("code")),
-            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
-        )
+        val usageContext =
+            UsageContext(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = Coding(display = FHIRString("code")),
+                value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(usageContext)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -39,7 +42,7 @@ class UsageContextTest {
             |    "value" : 1.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedUsageContext = objectMapper.readValue<UsageContext>(json)
@@ -48,13 +51,15 @@ class UsageContextTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val usageContext = UsageContext(
-            code = Coding(display = FHIRString("code")),
-            value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0)))
-        )
+        val usageContext =
+            UsageContext(
+                code = Coding(display = FHIRString("code")),
+                value = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(1.0))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(usageContext)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "code" : {
             |    "display" : "code"
@@ -63,13 +68,14 @@ class UsageContextTest {
             |    "value" : 1.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "code" : {
             |    "display" : "code"
@@ -78,7 +84,7 @@ class UsageContextTest {
             |    "value" : 1.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val usageContext = objectMapper.readValue<UsageContext>(json)
 
         assertNull(usageContext.id)

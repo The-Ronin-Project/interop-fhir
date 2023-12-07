@@ -9,7 +9,11 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 Procedure](http://hl7.org/fhir/R4/procedure.html)
  */
 object R4ProcedureValidator : R4ElementContainingValidator<Procedure>() {
-    override fun validateElement(element: Procedure, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: Procedure,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         // Procedure has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }

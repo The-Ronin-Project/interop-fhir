@@ -7,5 +7,8 @@ interface ProfileValidator<T : Validatable<T>> {
     /**
      * Validates the [element] against this profile. An optional [parentContext] can be provided to give current Location information for a nested validation.
      */
-    fun validate(element: T, parentContext: LocationContext? = null): Validation
+    fun validate(
+        element: T,
+        parentContext: LocationContext? = null,
+    ): Validation
 }

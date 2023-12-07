@@ -59,13 +59,14 @@ data class ObservationGenerator(
     val method: DataGenerator<CodeableConcept?> = NullDataGenerator(),
     val specimen: DataGenerator<Reference?> = NullDataGenerator(),
     val device: DataGenerator<Reference?> = NullDataGenerator(),
-    val referenceRange: ListDataGenerator<ObservationReferenceRange> = ListDataGenerator(
-        0,
-        ObservationReferenceRangeGenerator()
-    ),
+    val referenceRange: ListDataGenerator<ObservationReferenceRange> =
+        ListDataGenerator(
+            0,
+            ObservationReferenceRangeGenerator(),
+        ),
     val hasMember: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val derivedFrom: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
-    val component: ListDataGenerator<ObservationComponent> = ListDataGenerator(0, ObservationComponentGenerator())
+    val component: ListDataGenerator<ObservationComponent> = ListDataGenerator(0, ObservationComponentGenerator()),
 ) : DomainResource<Observation> {
     override fun toFhir(): Observation =
         Observation(
@@ -100,7 +101,7 @@ data class ObservationGenerator(
             referenceRange = referenceRange.generate(),
             hasMember = hasMember.generate(),
             derivedFrom = derivedFrom.generate(),
-            component = component.generate()
+            component = component.generate(),
         )
 }
 
@@ -115,16 +116,17 @@ class ObservationComponentGenerator : DataGenerator<ObservationComponent>() {
     val referenceRange: ListDataGenerator<ObservationReferenceRange> =
         ListDataGenerator(0, ObservationReferenceRangeGenerator())
 
-    override fun generateInternal() = ObservationComponent(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        code = code.generate(),
-        value = value.generate(),
-        dataAbsentReason = dataAbsentReason.generate(),
-        interpretation = interpretation.generate(),
-        referenceRange = referenceRange.generate()
-    )
+    override fun generateInternal() =
+        ObservationComponent(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            code = code.generate(),
+            value = value.generate(),
+            dataAbsentReason = dataAbsentReason.generate(),
+            interpretation = interpretation.generate(),
+            referenceRange = referenceRange.generate(),
+        )
 }
 
 class ObservationReferenceRangeGenerator : DataGenerator<ObservationReferenceRange>() {
@@ -138,17 +140,18 @@ class ObservationReferenceRangeGenerator : DataGenerator<ObservationReferenceRan
     val age: DataGenerator<Range?> = NullDataGenerator()
     val text: DataGenerator<FHIRString?> = NullDataGenerator()
 
-    override fun generateInternal() = ObservationReferenceRange(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        low = low.generate(),
-        high = high.generate(),
-        type = type.generate(),
-        appliesTo = appliesTo.generate(),
-        age = age.generate(),
-        text = text.generate()
-    )
+    override fun generateInternal() =
+        ObservationReferenceRange(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            low = low.generate(),
+            high = high.generate(),
+            type = type.generate(),
+            appliesTo = appliesTo.generate(),
+            age = age.generate(),
+            text = text.generate(),
+        )
 }
 
 fun observation(block: ObservationGenerator.() -> Unit): Observation {

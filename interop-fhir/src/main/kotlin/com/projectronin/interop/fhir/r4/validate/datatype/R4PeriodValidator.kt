@@ -11,14 +11,19 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Period](http://hl7.org/fhir/R4/datatypes.html#Period).
  */
 object R4PeriodValidator : R4ElementContainingValidator<Period>() {
-    private val startBeforeEndError = FHIRError(
-        code = "R4_PRD_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "start SHALL have a lower value than end",
-        location = LocationContext(Period::class)
-    )
+    private val startBeforeEndError =
+        FHIRError(
+            code = "R4_PRD_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "start SHALL have a lower value than end",
+            location = LocationContext(Period::class),
+        )
 
-    override fun validateElement(element: Period, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: Period,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         validation.apply {
             element.start?.value?.let { start ->
                 element.end?.value?.let { end ->

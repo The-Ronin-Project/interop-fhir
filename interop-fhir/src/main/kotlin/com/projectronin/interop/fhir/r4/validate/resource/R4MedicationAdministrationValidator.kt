@@ -15,30 +15,31 @@ object R4MedicationAdministrationValidator : R4ElementContainingValidator<Medica
     override fun validateElement(
         element: MedicationAdministration,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         // MedicationAdministration has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }
 
 object R4MedAdminDosageValidator : R4ElementContainingValidator<MedicationAdministrationDosage>() {
-    private val requiredDoseOrRateError = FHIRError(
-        code = "R4_MAD_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "If dosage is provided, it SHALL have at least one of dosage.dose or dosage.rate[x]",
-        location = LocationContext(MedicationAdministration::dosage)
-    )
+    private val requiredDoseOrRateError =
+        FHIRError(
+            code = "R4_MAD_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "If dosage is provided, it SHALL have at least one of dosage.dose or dosage.rate[x]",
+            location = LocationContext(MedicationAdministration::dosage),
+        )
 
     override fun validateElement(
         element: MedicationAdministrationDosage,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         validation.apply {
             checkTrue(
                 (element.rate != null || element.dose != null),
                 requiredDoseOrRateError,
-                parentContext
+                parentContext,
             )
         }
     }

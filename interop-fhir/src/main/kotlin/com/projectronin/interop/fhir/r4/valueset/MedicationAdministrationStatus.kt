@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/valueset-medication-administration-status.html)
  */
-enum class MedicationAdministrationStatus(@JsonValue override val code: String) : CodedEnum<MedicationAdministrationStatus> {
+enum class MedicationAdministrationStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<MedicationAdministrationStatus> {
     /**
      * The administration has started but has not yet completed.
      */
@@ -43,5 +45,5 @@ enum class MedicationAdministrationStatus(@JsonValue override val code: String) 
     /**
      * Actions implied by the administration have been permanently halted, before all of them occurred.
      */
-    STOPPED("stopped");
+    STOPPED("stopped"),
 }

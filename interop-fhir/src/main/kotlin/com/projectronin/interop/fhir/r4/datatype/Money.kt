@@ -18,8 +18,9 @@ data class Money(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val value: Decimal? = null,
-    val currency: Code? = null
+    val currency: Code? = null,
 ) : Element<Money>
 
 class MoneySerializer : BaseFHIRSerializer<Money>(Money::class.java)
+
 class MoneyDeserializer : BaseFHIRDeserializer<Money>(Money::class.java)

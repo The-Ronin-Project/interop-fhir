@@ -21,25 +21,27 @@ class R4UnsignedIntValidatorTest {
 
     @Test
     fun `fails on negative`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val unsignedInt = UnsignedInt(-1)
-            R4UnsignedIntValidator.validate(unsignedInt).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val unsignedInt = UnsignedInt(-1)
+                R4UnsignedIntValidator.validate(unsignedInt).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a UnsignedInt",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val unsignedInt = UnsignedInt(-1)
-            R4UnsignedIntValidator.validate(unsignedInt, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val unsignedInt = UnsignedInt(-1)
+                R4UnsignedIntValidator.validate(unsignedInt, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a UnsignedInt @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

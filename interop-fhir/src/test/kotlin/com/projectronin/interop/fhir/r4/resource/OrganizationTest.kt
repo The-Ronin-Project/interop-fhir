@@ -30,145 +30,157 @@ import org.junit.jupiter.api.Test
 class OrganizationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val organization = Organization(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninOrganization"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            active = FHIRBoolean.TRUE,
-            type = listOf(
-                CodeableConcept(
-                    coding = listOf(
-                        Coding(
-                            system = Uri("http://terminology.hl7.org/CodeSystem/organization-type"),
-                            code = Code("dept"),
-                            display = FHIRString("Hospital Department")
-                        )
-                    )
-                )
-            ),
-            name = FHIRString("Ronin Fake Hospital Name"),
-            alias = listOf(FHIRString("Fake Other Org Name")),
-            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
-            address = listOf(Address(country = FHIRString("USA"))),
-            partOf = Reference(reference = FHIRString("Organization/super")),
-            contact = listOf(
-                OrganizationContact(
-                    name = HumanName(text = FHIRString("Jane Doe")),
-                    telecom = listOf(
-                        ContactPoint(
-                            system = ContactPointSystem.PHONE.asCode(),
-                            value = FHIRString("8675309")
-                        )
+        val organization =
+            Organization(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninOrganization")),
                     ),
-                    address = Address(country = FHIRString("USA")),
-                    purpose = CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
-                                code = Code("ADMIN")
-                            )
-                        )
-                    )
-                )
-            ),
-            endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321")))
-        )
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                active = FHIRBoolean.TRUE,
+                type =
+                    listOf(
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/organization-type"),
+                                        code = Code("dept"),
+                                        display = FHIRString("Hospital Department"),
+                                    ),
+                                ),
+                        ),
+                    ),
+                name = FHIRString("Ronin Fake Hospital Name"),
+                alias = listOf(FHIRString("Fake Other Org Name")),
+                telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+                address = listOf(Address(country = FHIRString("USA"))),
+                partOf = Reference(reference = FHIRString("Organization/super")),
+                contact =
+                    listOf(
+                        OrganizationContact(
+                            name = HumanName(text = FHIRString("Jane Doe")),
+                            telecom =
+                                listOf(
+                                    ContactPoint(
+                                        system = ContactPointSystem.PHONE.asCode(),
+                                        value = FHIRString("8675309"),
+                                    ),
+                                ),
+                            address = Address(country = FHIRString("USA")),
+                            purpose =
+                                CodeableConcept(
+                                    coding =
+                                        listOf(
+                                            Coding(
+                                                system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
+                                                code = Code("ADMIN"),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                    ),
+                endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321"))),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organization)
 
-        val expectedJson = """
-          {
-            "resourceType" : "Organization",
-            "id" : "12345",
-            "meta" : {
-              "profile" : [ "RoninOrganization" ]
-            },
-            "implicitRules" : "implicit-rules",
-            "language" : "en-US",
-            "text" : {
-              "status" : "generated",
-              "div" : "div"
-            },
-            "contained" : [ {
-              "resourceType" : "Location",
-              "id" : "1234",
-              "name" : "Contained Location"
-            } ],
-            "extension" : [ {
-              "url" : "http://localhost/extension",
-              "valueString" : "Value"
-            } ],
-            "modifierExtension" : [ {
-              "url" : "http://localhost/modifier-extension",
-              "valueString" : "Value"
-            } ],
-            "identifier" : [ {
-              "value" : "id"
-            } ],
-            "active" : true,
-            "type" : [ {
-              "coding" : [ {
-                "system" : "http://terminology.hl7.org/CodeSystem/organization-type",
-                "code" : "dept",
-                "display" : "Hospital Department"
-              } ]
-            } ],
-            "name" : "Ronin Fake Hospital Name",
-            "alias" : [ "Fake Other Org Name" ],
-            "telecom" : [ {
-              "system" : "phone",
-              "value" : "8675309"
-            } ],
-            "address" : [ {
-              "country" : "USA"
-            } ],
-            "partOf" : {
-              "reference" : "Organization/super"
-            },
-            "contact" : [ {
-              "purpose" : {
+        val expectedJson =
+            """
+            {
+              "resourceType" : "Organization",
+              "id" : "12345",
+              "meta" : {
+                "profile" : [ "RoninOrganization" ]
+              },
+              "implicitRules" : "implicit-rules",
+              "language" : "en-US",
+              "text" : {
+                "status" : "generated",
+                "div" : "div"
+              },
+              "contained" : [ {
+                "resourceType" : "Location",
+                "id" : "1234",
+                "name" : "Contained Location"
+              } ],
+              "extension" : [ {
+                "url" : "http://localhost/extension",
+                "valueString" : "Value"
+              } ],
+              "modifierExtension" : [ {
+                "url" : "http://localhost/modifier-extension",
+                "valueString" : "Value"
+              } ],
+              "identifier" : [ {
+                "value" : "id"
+              } ],
+              "active" : true,
+              "type" : [ {
                 "coding" : [ {
-                  "system" : "http://terminology.hl7.org/CodeSystem/contactentity-type",
-                  "code" : "ADMIN"
+                  "system" : "http://terminology.hl7.org/CodeSystem/organization-type",
+                  "code" : "dept",
+                  "display" : "Hospital Department"
                 } ]
-              },
-              "name" : {
-                "text" : "Jane Doe"
-              },
+              } ],
+              "name" : "Ronin Fake Hospital Name",
+              "alias" : [ "Fake Other Org Name" ],
               "telecom" : [ {
                 "system" : "phone",
                 "value" : "8675309"
               } ],
-              "address" : {
+              "address" : [ {
                 "country" : "USA"
-              }
-            } ],
-            "endpoint" : [ {
-              "reference" : "Endpoint/4321"
-            } ]
-          }
-        """.trimIndent()
+              } ],
+              "partOf" : {
+                "reference" : "Organization/super"
+              },
+              "contact" : [ {
+                "purpose" : {
+                  "coding" : [ {
+                    "system" : "http://terminology.hl7.org/CodeSystem/contactentity-type",
+                    "code" : "ADMIN"
+                  } ]
+                },
+                "name" : {
+                  "text" : "Jane Doe"
+                },
+                "telecom" : [ {
+                  "system" : "phone",
+                  "value" : "8675309"
+                } ],
+                "address" : {
+                  "country" : "USA"
+                }
+              } ],
+              "endpoint" : [ {
+                "reference" : "Endpoint/4321"
+              } ]
+            }
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedOrganization = JacksonManager.objectMapper.readValue<Organization>(json)
@@ -177,7 +189,8 @@ class OrganizationTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Organization",
               "active" : true,
@@ -198,7 +211,7 @@ class OrganizationTest {
                 }
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         val organization = JacksonManager.objectMapper.readValue<Organization>(json)
 
         assertNull(organization.id)
@@ -217,47 +230,52 @@ class OrganizationTest {
             listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
+                    value = FHIRString("8675309"),
+                ),
             ),
-            organization.telecom
+            organization.telecom,
         )
         assertEquals(listOf<Address>(), organization.address)
         assertNull(organization.partOf)
         assertEquals(
             listOf(
                 OrganizationContact(
-                    purpose = CodeableConcept(
-                        coding = listOf(
-                            Coding(
-                                system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
-                                code = Code("ADMIN")
-                            )
-                        )
-                    ),
-                    address = Address(country = FHIRString("USA"))
-                )
+                    purpose =
+                        CodeableConcept(
+                            coding =
+                                listOf(
+                                    Coding(
+                                        system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
+                                        code = Code("ADMIN"),
+                                    ),
+                                ),
+                        ),
+                    address = Address(country = FHIRString("USA")),
+                ),
             ),
-            organization.contact
+            organization.contact,
         )
         assertEquals(listOf<Reference>(), organization.endpoint)
     }
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val organization = Organization(
-            active = FHIRBoolean.TRUE,
-            name = FHIRString("Ronin Fake Hospital Name"),
-            telecom = listOf(
-                ContactPoint(
-                    system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
+        val organization =
+            Organization(
+                active = FHIRBoolean.TRUE,
+                name = FHIRString("Ronin Fake Hospital Name"),
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            system = ContactPointSystem.PHONE.asCode(),
+                            value = FHIRString("8675309"),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Organization",
               "active" : true,
@@ -267,31 +285,35 @@ class OrganizationTest {
                 "value" : "8675309"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `serialized JSON without name, but with identifier`() {
-        val organization = Organization(
-            identifier = listOf(
-                Identifier(
-                    use = Code("official"),
-                    system = Uri("http://www.fakefakefakefake.com/"),
-                    value = FHIRString("Ronin Fake Hospital Center")
-                )
-            ),
-            active = FHIRBoolean.TRUE,
-            telecom = listOf(
-                ContactPoint(
-                    system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
+        val organization =
+            Organization(
+                identifier =
+                    listOf(
+                        Identifier(
+                            use = Code("official"),
+                            system = Uri("http://www.fakefakefakefake.com/"),
+                            value = FHIRString("Ronin Fake Hospital Center"),
+                        ),
+                    ),
+                active = FHIRBoolean.TRUE,
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            system = ContactPointSystem.PHONE.asCode(),
+                            value = FHIRString("8675309"),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organization)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Organization",
               "identifier" : [ {
@@ -305,49 +327,55 @@ class OrganizationTest {
                 "value" : "8675309"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 }
 
 class OrganizationContactTest {
-
     @Test
     fun `can serialize and deserialize JSON`() {
-        val organizationContact = OrganizationContact(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            purpose = CodeableConcept(
-                coding = listOf(
-                    Coding(
-                        system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
-                        code = Code("ADMIN")
-                    )
-                )
-            ),
-            name = HumanName(text = FHIRString("Jane Doe")),
-            telecom = listOf(
-                ContactPoint(
-                    system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
-            ),
-            address = Address(country = FHIRString("USA"))
-        )
+        val organizationContact =
+            OrganizationContact(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                purpose =
+                    CodeableConcept(
+                        coding =
+                            listOf(
+                                Coding(
+                                    system = Uri("http://terminology.hl7.org/CodeSystem/contactentity-type"),
+                                    code = Code("ADMIN"),
+                                ),
+                            ),
+                    ),
+                name = HumanName(text = FHIRString("Jane Doe")),
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            system = ContactPointSystem.PHONE.asCode(),
+                            value = FHIRString("8675309"),
+                        ),
+                    ),
+                address = Address(country = FHIRString("USA")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organizationContact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -375,7 +403,7 @@ class OrganizationContactTest {
                 "country" : "USA"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedOrgContact = JacksonManager.objectMapper.readValue<OrganizationContact>(json)
@@ -384,19 +412,22 @@ class OrganizationContactTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val organizationContact = OrganizationContact(
-            telecom = listOf(
-                ContactPoint(
-                    system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
-            ),
-            address = Address(country = FHIRString("USA"))
-        )
+        val organizationContact =
+            OrganizationContact(
+                telecom =
+                    listOf(
+                        ContactPoint(
+                            system = ContactPointSystem.PHONE.asCode(),
+                            value = FHIRString("8675309"),
+                        ),
+                    ),
+                address = Address(country = FHIRString("USA")),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(organizationContact)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "telecom" : [ {
                 "system" : "phone",
@@ -406,7 +437,7 @@ class OrganizationContactTest {
                 "country" : "USA"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedOrgContact = JacksonManager.objectMapper.readValue<OrganizationContact>(json)
@@ -415,7 +446,8 @@ class OrganizationContactTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "telecom" : [ {
                 "system" : "phone",
@@ -425,7 +457,7 @@ class OrganizationContactTest {
                 "country" : "USA"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val organizationContact = JacksonManager.objectMapper.readValue<OrganizationContact>(json)
         assertNull(organizationContact.id)
         assertEquals(listOf<Extension>(), organizationContact.extension)
@@ -435,17 +467,17 @@ class OrganizationContactTest {
             listOf(
                 ContactPoint(
                     system = ContactPointSystem.PHONE.asCode(),
-                    value = FHIRString("8675309")
-                )
+                    value = FHIRString("8675309"),
+                ),
             ),
-            organizationContact.telecom
+            organizationContact.telecom,
         )
         assertNull(organizationContact.name)
         assertEquals(
             Address(
-                country = FHIRString("USA")
+                country = FHIRString("USA"),
             ),
-            organizationContact.address
+            organizationContact.address,
         )
     }
 }

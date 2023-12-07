@@ -36,7 +36,9 @@ enum class HttpVerb : CodedEnum<HttpVerb> {
     /**
      * HTTP PATCH Command.
      */
-    PATCH;
+    PATCH,
+
+    ;
 
     override val code = this.name
 }

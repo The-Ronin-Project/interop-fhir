@@ -50,5 +50,5 @@ enum class CarePlanActivityKind(override val code: String) : CodedEnum<CarePlanA
     /**
      * An authorization for the provision of glasses and/or contact lenses to a patient.
      */
-    VISIONPRESCRIPTION("VisionPrescription")
+    VISIONPRESCRIPTION("VisionPrescription"),
 }

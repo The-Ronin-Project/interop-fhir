@@ -18,13 +18,14 @@ class AnnotationGenerator : DataGenerator<Annotation>() {
     val time: DataGenerator<DateTime?> = NullDataGenerator()
     val text: DataGenerator<Markdown> = MarkdownGenerator()
 
-    override fun generateInternal() = Annotation(
-        id = id.generate(),
-        extension = extension.generate(),
-        author = author.generate(),
-        time = time.generate(),
-        text = text.generate()
-    )
+    override fun generateInternal() =
+        Annotation(
+            id = id.generate(),
+            extension = extension.generate(),
+            author = author.generate(),
+            time = time.generate(),
+            text = text.generate(),
+        )
 }
 
 fun annotation(block: AnnotationGenerator.() -> Unit): Annotation {

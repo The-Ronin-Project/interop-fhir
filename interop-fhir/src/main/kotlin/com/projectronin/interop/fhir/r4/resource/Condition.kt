@@ -57,7 +57,7 @@ data class Condition(
         DynamicValueType.AGE,
         DynamicValueType.PERIOD,
         DynamicValueType.RANGE,
-        DynamicValueType.STRING
+        DynamicValueType.STRING,
     )
     val onset: DynamicValue<Any>? = null,
     @SupportedDynamicValueTypes(
@@ -65,7 +65,7 @@ data class Condition(
         DynamicValueType.AGE,
         DynamicValueType.PERIOD,
         DynamicValueType.RANGE,
-        DynamicValueType.STRING
+        DynamicValueType.STRING,
     )
     val abatement: DynamicValue<Any>? = null,
     val recordedDate: DateTime? = null,
@@ -73,24 +73,25 @@ data class Condition(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.Patient,
-        ResourceType.RelatedPerson
+        ResourceType.RelatedPerson,
     )
     val recorder: Reference? = null,
     @SupportedReferenceTypes(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.Patient,
-        ResourceType.RelatedPerson
+        ResourceType.RelatedPerson,
     )
     val asserter: Reference? = null,
     val stage: List<ConditionStage> = listOf(),
     val evidence: List<ConditionEvidence> = listOf(),
-    val note: List<Annotation> = listOf()
+    val note: List<Annotation> = listOf(),
 ) : DomainResource<Condition> {
     override val resourceType: String = "Condition"
 }
 
 class ConditionDeserializer : BaseFHIRDeserializer<Condition>(Condition::class.java)
+
 class ConditionSerializer : BaseFHIRSerializer<Condition>(Condition::class.java)
 
 /**
@@ -103,10 +104,11 @@ data class ConditionEvidence(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val code: List<CodeableConcept> = listOf(),
-    val detail: List<Reference> = listOf()
+    val detail: List<Reference> = listOf(),
 ) : BackboneElement<ConditionEvidence>
 
 class ConditionEvidenceSerializer : BaseFHIRSerializer<ConditionEvidence>(ConditionEvidence::class.java)
+
 class ConditionEvidenceDeserializer : BaseFHIRDeserializer<ConditionEvidence>(ConditionEvidence::class.java)
 
 /**
@@ -121,8 +123,9 @@ data class ConditionStage(
     val summary: CodeableConcept? = null,
     @SupportedReferenceTypes(ResourceType.ClinicalImpression, ResourceType.DiagnosticReport, ResourceType.Observation)
     val assessment: List<Reference> = listOf(),
-    val type: CodeableConcept? = null
+    val type: CodeableConcept? = null,
 ) : BackboneElement<ConditionStage>
 
 class ConditionStageSerializer : BaseFHIRSerializer<ConditionStage>(ConditionStage::class.java)
+
 class ConditionStageDeserializer : BaseFHIRDeserializer<ConditionStage>(ConditionStage::class.java)

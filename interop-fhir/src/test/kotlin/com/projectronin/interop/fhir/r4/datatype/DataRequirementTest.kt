@@ -18,63 +18,72 @@ import org.junit.jupiter.api.Test
 class DataRequirementTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val dataRequirement = DataRequirement(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = Code("data-type"),
-            profile = listOf(Canonical("data-profile")),
-            subject = DynamicValue(DynamicValueType.REFERENCE, Reference(display = FHIRString("subject-reference"))),
-            mustSupport = listOf(FHIRString("item 1")),
-            codeFilter = listOf(
-                CodeFilter(
-                    id = FHIRString("12345"),
-                    extension = listOf(
+        val dataRequirement =
+            DataRequirement(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
                         Extension(
                             url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                        )
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
                     ),
-                    searchParam = FHIRString("search param"),
-                    valueSet = Canonical("code-value-set"),
-                    code = listOf(Coding(userSelected = FHIRBoolean.FALSE))
-                )
-            ),
-            dateFilter = listOf(
-                DateFilter(
-                    id = FHIRString("12345"),
-                    extension = listOf(
-                        Extension(
-                            url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                        )
+                type = Code("data-type"),
+                profile = listOf(Canonical("data-profile")),
+                subject = DynamicValue(DynamicValueType.REFERENCE, Reference(display = FHIRString("subject-reference"))),
+                mustSupport = listOf(FHIRString("item 1")),
+                codeFilter =
+                    listOf(
+                        CodeFilter(
+                            id = FHIRString("12345"),
+                            extension =
+                                listOf(
+                                    Extension(
+                                        url = Uri("http://localhost/extension"),
+                                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                                    ),
+                                ),
+                            searchParam = FHIRString("search param"),
+                            valueSet = Canonical("code-value-set"),
+                            code = listOf(Coding(userSelected = FHIRBoolean.FALSE)),
+                        ),
                     ),
-                    path = FHIRString("date-filter-path"),
-                    value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31"))
-                )
-            ),
-            limit = PositiveInt(5),
-            sort = listOf(
-                Sort(
-                    id = FHIRString("12345"),
-                    extension = listOf(
-                        Extension(
-                            url = Uri("http://localhost/extension"),
-                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                        )
+                dateFilter =
+                    listOf(
+                        DateFilter(
+                            id = FHIRString("12345"),
+                            extension =
+                                listOf(
+                                    Extension(
+                                        url = Uri("http://localhost/extension"),
+                                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                                    ),
+                                ),
+                            path = FHIRString("date-filter-path"),
+                            value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31")),
+                        ),
                     ),
-                    path = FHIRString("sort-path"),
-                    direction = SortDirection.ASCENDING.asCode()
-                )
+                limit = PositiveInt(5),
+                sort =
+                    listOf(
+                        Sort(
+                            id = FHIRString("12345"),
+                            extension =
+                                listOf(
+                                    Extension(
+                                        url = Uri("http://localhost/extension"),
+                                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                                    ),
+                                ),
+                            path = FHIRString("sort-path"),
+                            direction = SortDirection.ASCENDING.asCode(),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -119,7 +128,7 @@ class DataRequirementTest {
             |    "direction" : "ascending"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
@@ -128,26 +137,29 @@ class DataRequirementTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val dataRequirement = DataRequirement(
-            type = Code("type")
-        )
+        val dataRequirement =
+            DataRequirement(
+                type = Code("type"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "type"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "type" : "type"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val dataRequirement = objectMapper.readValue<DataRequirement>(json)
 
         assertNull(dataRequirement.id)
@@ -164,21 +176,24 @@ class DataRequirementTest {
 
     @Test
     fun `can serialize and deserialize with list of primitive extensions`() {
-        val extension = Extension(
-            url = Uri("http://localhost/extension"),
-            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-        )
+        val extension =
+            Extension(
+                url = Uri("http://localhost/extension"),
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+            )
         val canonical1 = Canonical("data-profile1")
         val canonical2 = Canonical("data-profile2", FHIRString("12345"), listOf(extension))
         val canonical3 = Canonical("data-profile3", null, listOf(extension))
         val canonical4 = Canonical("data-profile4", FHIRString("67890"), listOf())
-        val dataRequirement = DataRequirement(
-            type = Code("type"),
-            profile = listOf(canonical1, canonical2, canonical3, canonical4)
-        )
+        val dataRequirement =
+            DataRequirement(
+                type = Code("type"),
+                profile = listOf(canonical1, canonical2, canonical3, canonical4),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "type",
             |  "profile" : [ "data-profile1", "data-profile2", "data-profile3", "data-profile4" ],
@@ -197,7 +212,7 @@ class DataRequirementTest {
             |    "id" : "67890"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)
@@ -206,21 +221,24 @@ class DataRequirementTest {
 
     @Test
     fun `can serialize and deserialize with list of primitive extensions with null values`() {
-        val extension = Extension(
-            url = Uri("http://localhost/extension"),
-            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-        )
+        val extension =
+            Extension(
+                url = Uri("http://localhost/extension"),
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+            )
         val canonical1 = Canonical("data-profile1")
         val canonical2 = Canonical(null, FHIRString("12345"), listOf(extension))
         val canonical3 = Canonical("data-profile3", null, listOf(extension))
         val canonical4 = Canonical("data-profile4", FHIRString("67890"), listOf())
-        val dataRequirement = DataRequirement(
-            type = Code("type"),
-            profile = listOf(canonical1, canonical2, canonical3, canonical4)
-        )
+        val dataRequirement =
+            DataRequirement(
+                type = Code("type"),
+                profile = listOf(canonical1, canonical2, canonical3, canonical4),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataRequirement)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "type",
             |  "profile" : [ "data-profile1", null, "data-profile3", "data-profile4" ],
@@ -239,7 +257,7 @@ class DataRequirementTest {
             |    "id" : "67890"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDataRequirement = objectMapper.readValue<DataRequirement>(json)

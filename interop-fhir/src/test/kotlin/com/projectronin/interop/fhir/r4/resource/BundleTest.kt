@@ -33,29 +33,32 @@ class BundleTest {
         val patient =
             Patient(
                 id = Id("5678"),
-                name = listOf(HumanName(family = FHIRString("Doe"), given = listOf(FHIRString("John"))))
+                name = listOf(HumanName(family = FHIRString("Doe"), given = listOf(FHIRString("John")))),
             )
-        val bundle = Bundle(
-            id = Id("1234"),
-            meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            identifier = Identifier(value = FHIRString("identifier")),
-            type = BundleType.SEARCHSET.asCode(),
-            timestamp = Instant("2017-01-01T00:00:00Z"),
-            total = UnsignedInt(1),
-            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
-            entry = listOf(BundleEntry(resource = patient)),
-            signature = Signature(
-                type = listOf(Coding(display = FHIRString("type"))),
-                `when` = Instant("2017-01-01T00:00:00Z"),
-                who = Reference(reference = FHIRString("who"))
+        val bundle =
+            Bundle(
+                id = Id("1234"),
+                meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                identifier = Identifier(value = FHIRString("identifier")),
+                type = BundleType.SEARCHSET.asCode(),
+                timestamp = Instant("2017-01-01T00:00:00Z"),
+                total = UnsignedInt(1),
+                link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
+                entry = listOf(BundleEntry(resource = patient)),
+                signature =
+                    Signature(
+                        type = listOf(Coding(display = FHIRString("type"))),
+                        `when` = Instant("2017-01-01T00:00:00Z"),
+                        who = Reference(reference = FHIRString("who")),
+                    ),
             )
-        )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundle)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Bundle",
               "id" : "1234",
@@ -94,7 +97,7 @@ class BundleTest {
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedBundle = objectMapper.readValue<Bundle>(json)
@@ -103,32 +106,36 @@ class BundleTest {
 
     @Test
     fun `can serialize and deserialize JSON with unknown resource type`() {
-        val unknownResource = UnknownResource(
-            resourceType = "Banana",
-            id = Id("5678"),
-            otherData = mapOf("key" to "value", "key2" to mapOf("value" to "sub value"))
-        )
-        val bundle = Bundle(
-            id = Id("1234"),
-            meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            identifier = Identifier(value = FHIRString("identifier")),
-            type = BundleType.SEARCHSET.asCode(),
-            timestamp = Instant("2017-01-01T00:00:00Z"),
-            total = UnsignedInt(1),
-            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
-            entry = listOf(BundleEntry(resource = unknownResource)),
-            signature = Signature(
-                type = listOf(Coding(display = FHIRString("type"))),
-                `when` = Instant("2017-01-01T00:00:00Z"),
-                who = Reference(reference = FHIRString("who"))
+        val unknownResource =
+            UnknownResource(
+                resourceType = "Banana",
+                id = Id("5678"),
+                otherData = mapOf("key" to "value", "key2" to mapOf("value" to "sub value")),
             )
-        )
+        val bundle =
+            Bundle(
+                id = Id("1234"),
+                meta = Meta(profile = listOf(Canonical("RoninPractitioner"))),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                identifier = Identifier(value = FHIRString("identifier")),
+                type = BundleType.SEARCHSET.asCode(),
+                timestamp = Instant("2017-01-01T00:00:00Z"),
+                total = UnsignedInt(1),
+                link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://example.com"))),
+                entry = listOf(BundleEntry(resource = unknownResource)),
+                signature =
+                    Signature(
+                        type = listOf(Coding(display = FHIRString("type"))),
+                        `when` = Instant("2017-01-01T00:00:00Z"),
+                        who = Reference(reference = FHIRString("who")),
+                    ),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundle)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Bundle",
               "id" : "1234",
@@ -167,7 +174,7 @@ class BundleTest {
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedBundle = objectMapper.readValue<Bundle>(json)
@@ -178,29 +185,33 @@ class BundleTest {
 class BundleEntryTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val bundleEntry = BundleEntry(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://www.example.com/next"))),
-            resource = Patient(id = Id("1234")),
-            search = BundleSearch(mode = SearchEntryMode.INCLUDE.asCode()),
-            request = BundleRequest(method = HttpVerb.GET.asCode(), url = Uri("http://www.example.com/get")),
-            response = BundleResponse(status = FHIRString("Ok"))
-        )
+        val bundleEntry =
+            BundleEntry(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                link = listOf(BundleLink(relation = FHIRString("next"), url = Uri("http://www.example.com/next"))),
+                resource = Patient(id = Id("1234")),
+                search = BundleSearch(mode = SearchEntryMode.INCLUDE.asCode()),
+                request = BundleRequest(method = HttpVerb.GET.asCode(), url = Uri("http://www.example.com/get")),
+                response = BundleResponse(status = FHIRString("Ok")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleEntry)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -230,7 +241,7 @@ class BundleEntryTest {
             |    "status" : "Ok"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleEntry = objectMapper.readValue<BundleEntry>(json)
@@ -243,23 +254,25 @@ class BundleEntryTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleEntry)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "search" : {
             |    "mode" : "include"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "1234"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val bundleEntry = objectMapper.readValue<BundleEntry>(json)
 
         assertEquals(FHIRString("1234"), bundleEntry.id)
@@ -276,26 +289,30 @@ class BundleEntryTest {
 class BundleLinkTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val bundleLink = BundleLink(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            relation = FHIRString("next"),
-            url = Uri("http://www.example.com/next")
-        )
+        val bundleLink =
+            BundleLink(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                relation = FHIRString("next"),
+                url = Uri("http://www.example.com/next"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleLink)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -309,7 +326,7 @@ class BundleLinkTest {
             |  "relation" : "next",
             |  "url" : "http://www.example.com/next"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleLink = objectMapper.readValue<BundleLink>(json)
@@ -322,23 +339,25 @@ class BundleLinkTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleLink)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "relation" : "prev",
             |  "url" : "http://www.example.com/prev"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "relation" : "prev",
             |  "url" : "http://www.example.com/prev"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val bundleLink = objectMapper.readValue<BundleLink>(json)
 
         Assertions.assertNull(bundleLink.id)
@@ -352,30 +371,34 @@ class BundleLinkTest {
 class BundleRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val bundleRequest = BundleRequest(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            method = HttpVerb.GET.asCode(),
-            url = Uri("http://www.example.com/get"),
-            ifNoneMatch = FHIRString("if none match"),
-            ifModifiedSince = Instant("2017-01-01T00:00:00Z"),
-            ifMatch = FHIRString("if match"),
-            ifNoneExist = FHIRString("if none exist")
-        )
+        val bundleRequest =
+            BundleRequest(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                method = HttpVerb.GET.asCode(),
+                url = Uri("http://www.example.com/get"),
+                ifNoneMatch = FHIRString("if none match"),
+                ifModifiedSince = Instant("2017-01-01T00:00:00Z"),
+                ifMatch = FHIRString("if match"),
+                ifNoneExist = FHIRString("if none exist"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -393,7 +416,7 @@ class BundleRequestTest {
             |  "ifMatch" : "if match",
             |  "ifNoneExist" : "if none exist"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleRequest = objectMapper.readValue<BundleRequest>(json)
@@ -406,23 +429,25 @@ class BundleRequestTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "method" : "POST",
             |  "url" : "http://www.example.com/post"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "method" : "PUT",
             |  "url" : "http://www.example.com/put"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val bundleRequest = objectMapper.readValue<BundleRequest>(json)
 
         Assertions.assertNull(bundleRequest.id)
@@ -440,29 +465,33 @@ class BundleRequestTest {
 class BundleResponseTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val bundleResponse = BundleResponse(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            status = FHIRString("Ok"),
-            location = Uri("http://www.example.com/location"),
-            etag = FHIRString("etag"),
-            lastModified = Instant("2015-02-07T13:28:17.239+02:00"),
-            outcome = Patient(id = Id("67890"))
-        )
+        val bundleResponse =
+            BundleResponse(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                status = FHIRString("Ok"),
+                location = Uri("http://www.example.com/location"),
+                etag = FHIRString("etag"),
+                lastModified = Instant("2015-02-07T13:28:17.239+02:00"),
+                outcome = Patient(id = Id("67890")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleResponse)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -482,7 +511,7 @@ class BundleResponseTest {
             |    "id" : "67890"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleResponse = objectMapper.readValue<BundleResponse>(json)
@@ -495,21 +524,23 @@ class BundleResponseTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleResponse)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "status" : "status"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "status" : "status"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val bundleResponse = objectMapper.readValue<BundleResponse>(json)
 
         Assertions.assertNull(bundleResponse.id)
@@ -526,26 +557,30 @@ class BundleResponseTest {
 class BundleSearchTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val bundleSearch = BundleSearch(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            mode = SearchEntryMode.INCLUDE.asCode(),
-            score = Decimal(1.4)
-        )
+        val bundleSearch =
+            BundleSearch(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                mode = SearchEntryMode.INCLUDE.asCode(),
+                score = Decimal(1.4),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleSearch)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -559,7 +594,7 @@ class BundleSearchTest {
             |  "mode" : "include",
             |  "score" : 1.4
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedBundleSearch = objectMapper.readValue<BundleSearch>(json)
@@ -572,21 +607,23 @@ class BundleSearchTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(bundleSearch)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "mode" : "outcome"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "score" : 3.14
             |}
-        """.trimMargin()
+            """.trimMargin()
         val bundleSearch = objectMapper.readValue<BundleSearch>(json)
 
         Assertions.assertNull(bundleSearch.id)

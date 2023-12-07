@@ -21,8 +21,9 @@ data class Age(
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<Age>(id, extension, value, comparator, unit, system, code)
 
 class AgeSerializer : BaseFHIRSerializer<Age>(Age::class.java)
+
 class AgeDeserializer : BaseFHIRDeserializer<Age>(Age::class.java)

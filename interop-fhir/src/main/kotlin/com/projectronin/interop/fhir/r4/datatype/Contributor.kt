@@ -24,8 +24,9 @@ data class Contributor(
     val type: Code?,
     @RequiredField
     val name: FHIRString?,
-    val contact: List<ContactDetail> = listOf()
+    val contact: List<ContactDetail> = listOf(),
 ) : Element<Contributor>
 
 class ContributorSerializer : BaseFHIRSerializer<Contributor>(Contributor::class.java)
+
 class ContributorDeserializer : BaseFHIRDeserializer<Contributor>(Contributor::class.java)

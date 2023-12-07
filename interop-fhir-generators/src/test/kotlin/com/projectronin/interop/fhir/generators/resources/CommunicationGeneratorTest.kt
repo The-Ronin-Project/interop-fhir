@@ -26,15 +26,17 @@ class CommunicationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val communication = communication {
-            id of Id("id")
-            identifier of listOf(
-                identifier {
-                    value of "identifier"
-                }
-            )
-            status of "status"
-        }
+        val communication =
+            communication {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {
+                            value of "identifier"
+                        },
+                    )
+                status of "status"
+            }
 
         assertEquals("id", communication.id?.value)
         assertEquals(1, communication.identifier.size)

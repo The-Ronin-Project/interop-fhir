@@ -31,293 +31,336 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class ValueSetTest {
-
     companion object ConfiguredObjects {
-        val designation = ValueSetDesignation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            language = Code("en-US"),
-            use = Coding(
-                system = Uri("http://snomed.info/sct"),
-                code = Code("900000000000003001"),
-                display = FHIRString("Fully specified name")
-            ),
-            value = FHIRString("designation value")
-        )
-
-        val concept = ValueSetConcept(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = Code("concept_code"),
-            display = FHIRString("concept display"),
-            designation = listOf(designation)
-        )
-
-        val filter = ValueSetFilter(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            property = Code("property_code"),
-            op = FilterOperator.NOT_IN_SET.asCode(),
-            value = FHIRString("filter value")
-        )
-
-        val include = ValueSetInclude(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Uri("http://localhost/include-system"),
-            version = FHIRString("include_version"),
-            concept = listOf(concept),
-            filter = listOf(filter),
-            valueSet = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            )
-        )
-
-        val exclude = ValueSetInclude(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Uri("http://localhost/exclude-system"),
-            version = FHIRString("exclude_version"),
-            concept = listOf(concept),
-            filter = listOf(filter),
-            valueSet = listOf(
-                Canonical(
-                    value = "canonical"
-                )
-            )
-        )
-
-        val compose = ValueSetCompose(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            lockedDate = Date("2021-05-05"),
-            inactive = FHIRBoolean(false),
-            include = listOf(include),
-            exclude = listOf(exclude)
-        )
-
-        val parameter = ValueSetParameter(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            name = FHIRString("parameter name"),
-            value = DynamicValue(type = DynamicValueType.STRING, value = FHIRString("value_value"))
-        )
-
-        val containsChild = ValueSetContains(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Uri("http://localhost/contains-system"),
-            abstract = FHIRBoolean(false),
-            inactive = FHIRBoolean(false),
-            version = FHIRString("contains_version"),
-            code = Code("contains_code"),
-            display = FHIRString("contains display"),
-            designation = listOf(designation)
-        )
-
-        val containsParent = ValueSetContains(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            system = Uri("http://localhost/contains-system"),
-            abstract = FHIRBoolean(false),
-            inactive = FHIRBoolean(false),
-            version = FHIRString("contains_version"),
-            code = Code("contains_code"),
-            display = FHIRString("contains display"),
-            designation = listOf(designation),
-            contains = listOf(containsChild)
-        )
-
-        val expansion = ValueSetExpansion(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = Uri("http://localhost/expansion-identifier"),
-            timestamp = DateTime("2020-01-01 14:01:01"),
-            total = FHIRInteger(13),
-            offset = FHIRInteger(12),
-            parameter = listOf(parameter),
-            contains = listOf(containsParent)
-        )
-
-        val valueSet = ValueSet(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninConceptMap/guid"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            url = Uri("http://localhost/valueset-uri"),
-            identifier = listOf(Identifier(value = FHIRString("valueset_identifier"))),
-            version = FHIRString("valueset_version"),
-            name = FHIRString("valueset_name"),
-            title = FHIRString("valueset_title"),
-            status = PublicationStatus.DRAFT.asCode(),
-            experimental = FHIRBoolean(false),
-            date = DateTime("2021-02-03 12:09:35"),
-            publisher = FHIRString("valueset_publisher"),
-            contact = listOf(
-                ContactDetail(
-                    name = FHIRString("valueset_contactdetail")
-                )
-            ),
-            description = Markdown("valueset_description"),
-            useContext = listOf(
-                UsageContext(
-                    code = Coding(
-                        version = FHIRString("valueset_usagecontextcode")
+        val designation =
+            ValueSetDesignation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
                     ),
-                    value = DynamicValue(
-                        type = DynamicValueType.REFERENCE,
-                        value = Reference(display = FHIRString("valueset_usagecontextvaluedisplay"))
-                    )
-                )
-            ),
-            jurisdiction = listOf(
-                CodeableConcept(
-                    id = FHIRString("valueset_jurisdictioncodeableconcept")
-                )
-            ),
-            immutable = FHIRBoolean(true),
-            purpose = Markdown("valueset_purpose"),
-            copyright = Markdown("valueset_copyright"),
-            compose = compose,
-            expansion = expansion
-        )
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                language = Code("en-US"),
+                use =
+                    Coding(
+                        system = Uri("http://snomed.info/sct"),
+                        code = Code("900000000000003001"),
+                        display = FHIRString("Fully specified name"),
+                    ),
+                value = FHIRString("designation value"),
+            )
+
+        val concept =
+            ValueSetConcept(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = Code("concept_code"),
+                display = FHIRString("concept display"),
+                designation = listOf(designation),
+            )
+
+        val filter =
+            ValueSetFilter(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                property = Code("property_code"),
+                op = FilterOperator.NOT_IN_SET.asCode(),
+                value = FHIRString("filter value"),
+            )
+
+        val include =
+            ValueSetInclude(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = Uri("http://localhost/include-system"),
+                version = FHIRString("include_version"),
+                concept = listOf(concept),
+                filter = listOf(filter),
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            )
+
+        val exclude =
+            ValueSetInclude(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = Uri("http://localhost/exclude-system"),
+                version = FHIRString("exclude_version"),
+                concept = listOf(concept),
+                filter = listOf(filter),
+                valueSet =
+                    listOf(
+                        Canonical(
+                            value = "canonical",
+                        ),
+                    ),
+            )
+
+        val compose =
+            ValueSetCompose(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                lockedDate = Date("2021-05-05"),
+                inactive = FHIRBoolean(false),
+                include = listOf(include),
+                exclude = listOf(exclude),
+            )
+
+        val parameter =
+            ValueSetParameter(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                name = FHIRString("parameter name"),
+                value = DynamicValue(type = DynamicValueType.STRING, value = FHIRString("value_value")),
+            )
+
+        val containsChild =
+            ValueSetContains(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = Uri("http://localhost/contains-system"),
+                abstract = FHIRBoolean(false),
+                inactive = FHIRBoolean(false),
+                version = FHIRString("contains_version"),
+                code = Code("contains_code"),
+                display = FHIRString("contains display"),
+                designation = listOf(designation),
+            )
+
+        val containsParent =
+            ValueSetContains(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                system = Uri("http://localhost/contains-system"),
+                abstract = FHIRBoolean(false),
+                inactive = FHIRBoolean(false),
+                version = FHIRString("contains_version"),
+                code = Code("contains_code"),
+                display = FHIRString("contains display"),
+                designation = listOf(designation),
+                contains = listOf(containsChild),
+            )
+
+        val expansion =
+            ValueSetExpansion(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = Uri("http://localhost/expansion-identifier"),
+                timestamp = DateTime("2020-01-01 14:01:01"),
+                total = FHIRInteger(13),
+                offset = FHIRInteger(12),
+                parameter = listOf(parameter),
+                contains = listOf(containsParent),
+            )
+
+        val valueSet =
+            ValueSet(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninConceptMap/guid")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                url = Uri("http://localhost/valueset-uri"),
+                identifier = listOf(Identifier(value = FHIRString("valueset_identifier"))),
+                version = FHIRString("valueset_version"),
+                name = FHIRString("valueset_name"),
+                title = FHIRString("valueset_title"),
+                status = PublicationStatus.DRAFT.asCode(),
+                experimental = FHIRBoolean(false),
+                date = DateTime("2021-02-03 12:09:35"),
+                publisher = FHIRString("valueset_publisher"),
+                contact =
+                    listOf(
+                        ContactDetail(
+                            name = FHIRString("valueset_contactdetail"),
+                        ),
+                    ),
+                description = Markdown("valueset_description"),
+                useContext =
+                    listOf(
+                        UsageContext(
+                            code =
+                                Coding(
+                                    version = FHIRString("valueset_usagecontextcode"),
+                                ),
+                            value =
+                                DynamicValue(
+                                    type = DynamicValueType.REFERENCE,
+                                    value = Reference(display = FHIRString("valueset_usagecontextvaluedisplay")),
+                                ),
+                        ),
+                    ),
+                jurisdiction =
+                    listOf(
+                        CodeableConcept(
+                            id = FHIRString("valueset_jurisdictioncodeableconcept"),
+                        ),
+                    ),
+                immutable = FHIRBoolean(true),
+                purpose = Markdown("valueset_purpose"),
+                copyright = Markdown("valueset_copyright"),
+                compose = compose,
+                expansion = expansion,
+            )
     }
 
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(valueSet)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ValueSet",
               "id" : "12345",
@@ -602,7 +645,7 @@ class ValueSetTest {
                 } ]
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -612,17 +655,19 @@ class ValueSetTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val valueSet = ValueSet(
-            status = PublicationStatus.RETIRED.asCode()
-        )
+        val valueSet =
+            ValueSet(
+                status = PublicationStatus.RETIRED.asCode(),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(valueSet)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ValueSet",
               "status" : "retired"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -632,12 +677,13 @@ class ValueSetTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "ValueSet",
               "status" : "unknown"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val valueSet = objectMapper.readValue<ValueSet>(json)
         valueSet.apply {
@@ -672,11 +718,12 @@ class ValueSetTest {
 
     @Test
     fun `can deserialize from JSON with missing required field`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "ValueSet"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val valueSet = objectMapper.readValue<ValueSet>(json)
         valueSet.apply {
@@ -714,7 +761,8 @@ class ValueSetParameterTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.parameter)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -728,7 +776,7 @@ class ValueSetParameterTest {
               "name" : "parameter name",
               "valueString" : "value_value"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -738,16 +786,18 @@ class ValueSetParameterTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val parameter = ValueSetParameter(
-            name = FHIRString("name")
-        )
+        val parameter =
+            ValueSetParameter(
+                name = FHIRString("name"),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parameter)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "name" : "name"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -757,11 +807,12 @@ class ValueSetParameterTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "name" : "name"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val parameter = objectMapper.readValue<ValueSetParameter>(json)
         parameter.apply {
@@ -778,7 +829,8 @@ class ValueSetContainsTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.containsParent)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -849,7 +901,7 @@ class ValueSetContainsTest {
                 } ]
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetContains = objectMapper.readValue<ValueSetContains>(json)
@@ -861,9 +913,10 @@ class ValueSetContainsTest {
         val contains = ValueSetContains()
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contains)
-        val expectedJson = """
+        val expectedJson =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetContains = objectMapper.readValue<ValueSetContains>(json)
@@ -872,9 +925,10 @@ class ValueSetContainsTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
 
         val contains = objectMapper.readValue<ValueSetContains>(json)
         contains.apply {
@@ -897,7 +951,8 @@ class ValueSetExpansionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.expansion)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -996,7 +1051,7 @@ class ValueSetExpansionTest {
                 } ]
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetExpansion = objectMapper.readValue<ValueSetExpansion>(json)
@@ -1005,16 +1060,18 @@ class ValueSetExpansionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val expansion = ValueSetExpansion(
-            timestamp = DateTime("1986-04-03")
-        )
+        val expansion =
+            ValueSetExpansion(
+                timestamp = DateTime("1986-04-03"),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expansion)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "timestamp" : "1986-04-03"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetExpansion = objectMapper.readValue<ValueSetExpansion>(json)
@@ -1023,11 +1080,12 @@ class ValueSetExpansionTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "timestamp" : "1986-04-03"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val expansion = objectMapper.readValue<ValueSetExpansion>(json)
         expansion.apply {
@@ -1048,7 +1106,8 @@ class ValueSetDesignationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.designation)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1067,7 +1126,7 @@ class ValueSetDesignationTest {
               },
               "value" : "designation value"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetDesignation = objectMapper.readValue<ValueSetDesignation>(json)
@@ -1076,16 +1135,18 @@ class ValueSetDesignationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val designation = ValueSetDesignation(
-            value = FHIRString("value")
-        )
+        val designation =
+            ValueSetDesignation(
+                value = FHIRString("value"),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(designation)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "value" : "value"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetDesignation = objectMapper.readValue<ValueSetDesignation>(json)
@@ -1094,11 +1155,12 @@ class ValueSetDesignationTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "value" : "value"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val designation = objectMapper.readValue<ValueSetDesignation>(json)
         designation.apply {
@@ -1116,7 +1178,8 @@ class ValueSetConceptTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.concept)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1148,7 +1211,7 @@ class ValueSetConceptTest {
                 "value" : "designation value"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetConcept = objectMapper.readValue<ValueSetConcept>(json)
@@ -1157,16 +1220,18 @@ class ValueSetConceptTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val concept = ValueSetConcept(
-            code = Code("code")
-        )
+        val concept =
+            ValueSetConcept(
+                code = Code("code"),
+            )
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(concept)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "code" : "code"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetConcept = objectMapper.readValue<ValueSetConcept>(json)
@@ -1175,11 +1240,12 @@ class ValueSetConceptTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "code" : "code"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val concept = objectMapper.readValue<ValueSetConcept>(json)
         concept.apply {
@@ -1195,7 +1261,8 @@ class ValueSetFilterTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.filter)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1210,7 +1277,7 @@ class ValueSetFilterTest {
               "op" : "not-in",
               "value" : "filter value"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetFilter = objectMapper.readValue<ValueSetFilter>(json)
@@ -1222,7 +1289,8 @@ class ValueSetIncludeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.include)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1282,7 +1350,7 @@ class ValueSetIncludeTest {
               } ],
               "valueSet" : [ "canonical" ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetInclude = objectMapper.readValue<ValueSetInclude>(json)
@@ -1293,9 +1361,10 @@ class ValueSetIncludeTest {
     fun `serialized JSON ignores null and empty fields`() {
         val include = ValueSetInclude()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(include)
-        val expectedJson = """
+        val expectedJson =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetInclude = objectMapper.readValue<ValueSetInclude>(json)
@@ -1304,9 +1373,10 @@ class ValueSetIncludeTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
 
         val include = objectMapper.readValue<ValueSetInclude>(json)
         include.apply {
@@ -1326,7 +1396,8 @@ class ValueSetComposeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ValueSetTest.compose)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -1458,7 +1529,7 @@ class ValueSetComposeTest {
                 "valueSet" : [ "canonical" ]
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetCompose = objectMapper.readValue<ValueSetCompose>(json)
@@ -1467,11 +1538,13 @@ class ValueSetComposeTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val compose = ValueSetCompose(
-            include = listOf(ValueSetTest.include)
-        )
+        val compose =
+            ValueSetCompose(
+                include = listOf(ValueSetTest.include),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(compose)
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "include" : [ {
                 "id" : "12345",
@@ -1533,7 +1606,7 @@ class ValueSetComposeTest {
                 "valueSet" : [ "canonical" ]
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedValueSetCompose = objectMapper.readValue<ValueSetCompose>(json)
@@ -1542,7 +1615,8 @@ class ValueSetComposeTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "include" : [ {
                 "id" : "12345",
@@ -1604,7 +1678,7 @@ class ValueSetComposeTest {
                 "valueSet" : [ "canonical" ]
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         val compose = objectMapper.readValue<ValueSetCompose>(json)
         compose.apply {
             assertNull(id)

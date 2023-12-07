@@ -24,9 +24,10 @@ import org.junit.jupiter.api.Test
 
 class R4PrimitivesTest {
     private val expectedIssues = listOf(RequiredFieldError(Patient::name).toValidationIssue())
-    private val mockedValidation = mockk<Validation> {
-        every { issues() } returns expectedIssues
-    }
+    private val mockedValidation =
+        mockk<Validation> {
+            every { issues() } returns expectedIssues
+        }
     private val locationContext = LocationContext("Sample", "field")
 
     @Test

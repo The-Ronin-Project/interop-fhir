@@ -25,8 +25,9 @@ class ResourceTest : BaseElementTest() {
         // This test is not really running anything (Resource is an interface, after all), but it is verifying a critical
         // piece of information for our system. This test ensures that all final subtypes of this interface are included
         // in the JsonSubTypes. This ensures that Bundles can be built properly.
-        val jsonSubTypes = Resource::class.findAnnotation<JsonSubTypes>()?.value?.map { it.value.jvmName }
-            ?: fail { "No JsonSubTypes found" }
+        val jsonSubTypes =
+            Resource::class.findAnnotation<JsonSubTypes>()?.value?.map { it.value.jvmName }
+                ?: fail { "No JsonSubTypes found" }
 
         val defaultType =
             Resource::class.findAnnotation<JsonTypeInfo>()?.defaultImpl?.jvmName
@@ -41,10 +42,10 @@ class ResourceTest : BaseElementTest() {
         if (missingSubTypes.isNotEmpty()) {
             fail {
                 "JsonSubType not specified for following defined types: ${
-                missingSubTypes.joinToString(
-                    "\n\t",
-                    prefix = "\n\t"
-                )
+                    missingSubTypes.joinToString(
+                        "\n\t",
+                        prefix = "\n\t",
+                    )
                 }"
             }
         }
@@ -71,30 +72,35 @@ class ResourceTest : BaseElementTest() {
     @Test
     fun `find fhir id works`() {
         val patient1 = Patient(id = Id("1234"))
-        val patient2 = Patient(
-            id = Id("localized"),
-            identifier = listOf(
-                Identifier(system = CodeSystem.RONIN_FHIR_ID.uri, value = "unlocalized".asFHIR())
+        val patient2 =
+            Patient(
+                id = Id("localized"),
+                identifier =
+                    listOf(
+                        Identifier(system = CodeSystem.RONIN_FHIR_ID.uri, value = "unlocalized".asFHIR()),
+                    ),
             )
-        )
         val patient3 = Patient(id = null)
-        val patient4 = Patient(
-            id = Id("localized"),
-            identifier = listOf(
-                Identifier(system = null, value = "unlocalized".asFHIR()),
-                Identifier(system = CodeSystem.RONIN_FHIR_ID.uri, value = null)
+        val patient4 =
+            Patient(
+                id = Id("localized"),
+                identifier =
+                    listOf(
+                        Identifier(system = null, value = "unlocalized".asFHIR()),
+                        Identifier(system = CodeSystem.RONIN_FHIR_ID.uri, value = null),
+                    ),
             )
-        )
         assertEquals("1234", patient1.findFhirId())
         assertEquals("unlocalized", patient2.findFhirId())
         assertNull(patient3.findFhirId())
         assertNull(patient4.findFhirId())
-        val ignoredResources = listOf(
-            UnknownResource::class,
-            Binary::class,
-            Bundle::class,
-            ConceptMap::class
-        )
+        val ignoredResources =
+            listOf(
+                UnknownResource::class,
+                Binary::class,
+                Bundle::class,
+                ConceptMap::class,
+            )
         val allElements =
             ClassGraph().acceptPackages("com.projectronin.interop.fhir").enableClassInfo().scan().use {
                 it.getClassesImplementing(Resource::class.java).filter { c -> c.isFinal }
@@ -116,34 +122,39 @@ class ResourceTest : BaseElementTest() {
 
     @Test
     fun `findTenantID works`() {
-        val patient = Patient(
-            id = Id("localized"),
-            identifier = listOf(
-                Identifier(system = CodeSystem.RONIN_TENANT.uri, value = "tenant".asFHIR())
+        val patient =
+            Patient(
+                id = Id("localized"),
+                identifier =
+                    listOf(
+                        Identifier(system = CodeSystem.RONIN_TENANT.uri, value = "tenant".asFHIR()),
+                    ),
             )
-        )
         val tenantID = patient.findTenantId()
         assertEquals("tenant", tenantID)
     }
 
     @Test
     fun `findTenantID fails null 1`() {
-        val patient = Patient(
-            id = Id("localized"),
-            identifier = listOf(
-                Identifier(system = CodeSystem.RONIN_TENANT.uri, value = null)
+        val patient =
+            Patient(
+                id = Id("localized"),
+                identifier =
+                    listOf(
+                        Identifier(system = CodeSystem.RONIN_TENANT.uri, value = null),
+                    ),
             )
-        )
         val tenantID = patient.findTenantId()
         assertEquals(null, tenantID)
     }
 
     @Test
     fun `findTenantID fails null 2`() {
-        val patient = Patient(
-            id = Id("localized"),
-            identifier = listOf()
-        )
+        val patient =
+            Patient(
+                id = Id("localized"),
+                identifier = listOf(),
+            )
         val tenantID = patient.findTenantId()
         assertEquals(null, tenantID)
     }

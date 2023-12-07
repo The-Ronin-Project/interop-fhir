@@ -14,11 +14,12 @@ class IdGenerator : DataGenerator<Id>() {
     val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
 
-    override fun generateInternal() = Id(
-        value = value.generate(),
-        id = id.generate(),
-        extension = extension.generate()
-    )
+    override fun generateInternal() =
+        Id(
+            value = value.generate(),
+            id = id.generate(),
+            extension = extension.generate(),
+        )
 }
 
 fun id(block: IdGenerator.() -> Unit): Id {

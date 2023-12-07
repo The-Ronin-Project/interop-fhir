@@ -56,12 +56,13 @@ class LocationGenerator(
     val position: DataGenerator<LocationPosition?> = NullDataGenerator(),
     val managingOrganization: DataGenerator<Reference?> = NullDataGenerator(),
     val partOf: DataGenerator<Reference?> = NullDataGenerator(),
-    val hoursOfOperation: ListDataGenerator<LocationHoursOfOperation> = ListDataGenerator(
-        0,
-        LocationHoursOfOperationGenerator()
-    ),
+    val hoursOfOperation: ListDataGenerator<LocationHoursOfOperation> =
+        ListDataGenerator(
+            0,
+            LocationHoursOfOperationGenerator(),
+        ),
     val availabilityExceptions: DataGenerator<FHIRString?> = NullDataGenerator(),
-    val endpoint: ListDataGenerator<Reference?> = ListDataGenerator(0, NullDataGenerator())
+    val endpoint: ListDataGenerator<Reference?> = ListDataGenerator(0, NullDataGenerator()),
 ) : DomainResource<Location> {
     override fun toFhir(): Location =
         Location(
@@ -89,7 +90,7 @@ class LocationGenerator(
             partOf = partOf.generate(),
             hoursOfOperation = hoursOfOperation.generate(),
             availabilityExceptions = availabilityExceptions.generate(),
-            endpoint = endpoint.generate().filterNotNull()
+            endpoint = endpoint.generate().filterNotNull(),
         )
 }
 
@@ -108,7 +109,7 @@ class LocationPositionGenerator : DataGenerator<LocationPosition>() {
             modifierExtension = modifierExtension.generate(),
             longitude = longitude.generate(),
             latitude = latitude.generate(),
-            altitude = altitude.generate()
+            altitude = altitude.generate(),
         )
 }
 
@@ -129,7 +130,7 @@ class LocationHoursOfOperationGenerator : DataGenerator<LocationHoursOfOperation
             daysOfWeek = daysOfWeek.generate().filterNotNull(),
             allDay = allDay.generate(),
             openingTime = openingTime.generate(),
-            closingTime = closingTime.generate()
+            closingTime = closingTime.generate(),
         )
 }
 

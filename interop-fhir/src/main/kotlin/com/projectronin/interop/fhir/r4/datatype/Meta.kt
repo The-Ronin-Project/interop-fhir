@@ -24,8 +24,9 @@ data class Meta(
     val source: Uri? = null,
     val profile: List<Canonical> = listOf(),
     val security: List<Coding> = listOf(),
-    val tag: List<Coding> = listOf()
+    val tag: List<Coding> = listOf(),
 ) : Element<Meta>
 
 class MetaSerializer : BaseFHIRSerializer<Meta>(Meta::class.java)
+
 class MetaDeserializer : BaseFHIRDeserializer<Meta>(Meta::class.java)

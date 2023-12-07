@@ -25,9 +25,9 @@ class IdUtil {
             Identifier(
                 type = CodeableConcepts.RONIN_FHIR_ID,
                 system = CodeSystem.RONIN_FHIR_ID.uri,
-                value = null
+                value = null,
             ),
-            identifier
+            identifier,
         )
     }
 
@@ -39,9 +39,9 @@ class IdUtil {
             Identifier(
                 type = CodeableConcepts.RONIN_FHIR_ID,
                 system = CodeSystem.RONIN_FHIR_ID.uri,
-                value = FHIRString("1234")
+                value = FHIRString("1234"),
             ),
-            identifier
+            identifier,
         )
     }
 }

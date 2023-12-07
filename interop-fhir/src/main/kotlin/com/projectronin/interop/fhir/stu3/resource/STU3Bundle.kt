@@ -37,7 +37,7 @@ data class STU3Bundle(
     val total: UnsignedInt? = null,
     val link: List<BundleLink> = listOf(),
     val entry: List<STU3BundleEntry> = listOf(),
-    val signature: Signature? = null
+    val signature: Signature? = null,
 ) : STU3Resource<STU3Bundle> {
     override val resourceType: String = "Bundle"
 
@@ -52,23 +52,25 @@ data class STU3Bundle(
             timestamp = timestamp,
             total = total,
             link = link,
-            entry = entry.map {
-                BundleEntry(
-                    id = it.id,
-                    extension = it.extension,
-                    modifierExtension = it.modifierExtension,
-                    link = it.link,
-                    fullUrl = it.fullUrl,
-                    resource = it.resource?.transformToR4(),
-                    request = it.request,
-                    response = it.response,
-                    search = it.search
-                )
-            },
-            signature = signature
+            entry =
+                entry.map {
+                    BundleEntry(
+                        id = it.id,
+                        extension = it.extension,
+                        modifierExtension = it.modifierExtension,
+                        link = it.link,
+                        fullUrl = it.fullUrl,
+                        resource = it.resource?.transformToR4(),
+                        request = it.request,
+                        response = it.response,
+                        search = it.search,
+                    )
+                },
+            signature = signature,
         )
     }
 }
 
 class STU3BundleSerializer : BaseFHIRSerializer<STU3Bundle>(STU3Bundle::class.java)
+
 class STU3BundleDeserializer : BaseFHIRDeserializer<STU3Bundle>(STU3Bundle::class.java)

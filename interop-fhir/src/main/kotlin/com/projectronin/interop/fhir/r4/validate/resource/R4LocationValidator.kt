@@ -9,7 +9,11 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 Location](http://hl7.org/fhir/R4/location.html)
  */
 object R4LocationValidator : R4ElementContainingValidator<Location>() {
-    override fun validateElement(element: Location, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: Location,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         // Location has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }

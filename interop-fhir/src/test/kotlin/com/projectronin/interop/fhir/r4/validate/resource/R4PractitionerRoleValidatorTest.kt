@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test
 class R4PractitionerRoleValidatorTest {
     @Test
     fun `passes validation`() {
-        val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = FHIRString("id")))
-        )
+        val practitionerRole =
+            PractitionerRole(
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+            )
         R4PractitionerRoleValidator.validate(practitionerRole).alertIfErrors()
     }
 }

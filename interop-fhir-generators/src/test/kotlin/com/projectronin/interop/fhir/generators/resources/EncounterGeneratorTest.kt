@@ -55,26 +55,31 @@ class EncounterGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounter = encounter {
-            id of "id"
-            identifier of listOf(
-                identifier {}
-            )
-            status of "status"
-            participant of listOf(
-                encounterParticipant {}
-            )
+        val encounter =
+            encounter {
+                id of "id"
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                status of "status"
+                participant of
+                    listOf(
+                        encounterParticipant {},
+                    )
 
-            `class` of coding { code of "coding" }
-            period of period {
-                start of dateTime { year of 1990 }
-                end of dateTime { year of 1990 }
+                `class` of coding { code of "coding" }
+                period of
+                    period {
+                        start of dateTime { year of 1990 }
+                        end of dateTime { year of 1990 }
+                    }
+                subject of reference("Patient", "123")
+                type of
+                    listOf(
+                        codeableConcept { text of "type" },
+                    )
             }
-            subject of reference("Patient", "123")
-            type of listOf(
-                codeableConcept { text of "type" }
-            )
-        }
         assertEquals(Id("id"), encounter.id)
         assertEquals(1, encounter.identifier.size)
         assertEquals(Code("status"), encounter.status)
@@ -100,9 +105,10 @@ class EncounterClassHistoryGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounterClassHistory = encounterClassHistory {
-            `class` of "my-class"
-        }
+        val encounterClassHistory =
+            encounterClassHistory {
+                `class` of "my-class"
+            }
         assertEquals(Code("my-class"), encounterClassHistory.`class`)
     }
 }
@@ -121,11 +127,12 @@ class EncounterParticipantGeneratorTest {
 
     @Test
     fun `participant function works with parameters`() {
-        val participant = encounterParticipant {
-            type of listOf(codeableConcept { })
-            individual of reference("Patient", "123")
-            period of period { }
-        }
+        val participant =
+            encounterParticipant {
+                type of listOf(codeableConcept { })
+                individual of reference("Patient", "123")
+                period of period { }
+            }
         assertEquals(1, participant.type.size)
         assertEquals("Patient/123", participant.individual?.reference?.value)
         assertNotNull(participant.period)
@@ -146,9 +153,10 @@ class EncounterDiagnosisGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounterDiagnosis = encounterDiagnosis {
-            rank of 1
-        }
+        val encounterDiagnosis =
+            encounterDiagnosis {
+                rank of 1
+            }
         assertEquals(PositiveInt(1), encounterDiagnosis.rank)
     }
 }
@@ -173,9 +181,10 @@ class EncounterHospitalizationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounterHospitalization = encounterHospitalization {
-            origin of reference("Location", "123")
-        }
+        val encounterHospitalization =
+            encounterHospitalization {
+                origin of reference("Location", "123")
+            }
         assertNotNull(encounterHospitalization.origin)
     }
 }
@@ -195,9 +204,10 @@ class EncounterLocationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounterLocation = encounterLocation {
-            status of "active"
-        }
+        val encounterLocation =
+            encounterLocation {
+                status of "active"
+            }
         assertEquals(Code("active"), encounterLocation.status)
     }
 }
@@ -215,9 +225,10 @@ class EncounterStatusHistoryGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val encounterStatusHistory = encounterStatusHistory {
-            status of "invalid-status"
-        }
+        val encounterStatusHistory =
+            encounterStatusHistory {
+                status of "invalid-status"
+            }
         assertEquals(Code("invalid-status"), encounterStatusHistory.status)
     }
 }

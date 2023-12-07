@@ -19,7 +19,7 @@ class Validation {
         value: Boolean,
         error: FHIRError,
         parentContext: LocationContext?,
-        lazyDescription: (() -> String)? = null
+        lazyDescription: (() -> String)? = null,
     ) {
         if (!value) {
             issues.add(error.toValidationIssue(lazyDescription?.invoke(), parentContext))
@@ -34,7 +34,7 @@ class Validation {
         value: Any?,
         error: FHIRError,
         parentContext: LocationContext?,
-        lazyDescription: (() -> String)? = null
+        lazyDescription: (() -> String)? = null,
     ) {
         // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
         contract {
@@ -53,7 +53,7 @@ class Validation {
         code: Code,
         error: InvalidValueSetError,
         parentContext: LocationContext?,
-        noinline lazyDescription: (() -> String)? = null
+        noinline lazyDescription: (() -> String)? = null,
     ): T? where T : Enum<T>, T : CodedEnum<T> {
         checkNotNull(code.value, error, parentContext, lazyDescription)
 
@@ -74,7 +74,7 @@ class Validation {
         enumClass: KClass<out CodedEnum<*>>,
         error: InvalidValueSetError,
         parentContext: LocationContext?,
-        lazyDescription: (() -> String)? = null
+        lazyDescription: (() -> String)? = null,
     ) {
         checkNotNull(code.value, error, parentContext, lazyDescription)
         ifNotNull(code.value) {
@@ -84,7 +84,10 @@ class Validation {
     }
 
     @OptIn(ExperimentalContracts::class)
-    fun checkNotNull(value: Any?, issueToLog: ValidationIssue) {
+    fun checkNotNull(
+        value: Any?,
+        issueToLog: ValidationIssue,
+    ) {
         // Providing this contract, copied from requireNotNull, allows type-safe smart casts in consuming code.
         contract {
             returns() implies (value != null)
@@ -97,7 +100,10 @@ class Validation {
     /**
      * If the [value] is not null, then the [block] can be run to continue specific validation in a null-safe manner.
      */
-    fun ifNotNull(value: Any?, block: Validation.() -> Unit) {
+    fun ifNotNull(
+        value: Any?,
+        block: Validation.() -> Unit,
+    ) {
         value?.let {
             this.apply(block)
         }

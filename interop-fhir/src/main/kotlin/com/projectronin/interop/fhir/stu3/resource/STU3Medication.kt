@@ -47,7 +47,7 @@ data class STU3Medication(
     val form: CodeableConcept? = null,
     val ingredient: List<STU3MedicationIngredient> = listOf(),
     val `package`: STU3MedicationPackage? = null,
-    val image: List<Attachment>? = null
+    val image: List<Attachment>? = null,
 ) : STU3DomainResource<STU3Medication> {
     override val resourceType: String = "Medication"
 
@@ -57,16 +57,16 @@ data class STU3Medication(
             newExtensions.add(
                 Extension(
                     url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.isBrand"),
-                    value = DynamicValue(DynamicValueType.BOOLEAN, it)
-                )
+                    value = DynamicValue(DynamicValueType.BOOLEAN, it),
+                ),
             )
         }
         isOverTheCounter?.let {
             newExtensions.add(
                 Extension(
                     url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-MedicationOTC"),
-                    value = DynamicValue(DynamicValueType.BOOLEAN, it)
-                )
+                    value = DynamicValue(DynamicValueType.BOOLEAN, it),
+                ),
             )
         }
         `package`?.let {
@@ -74,8 +74,8 @@ data class STU3Medication(
                 newExtensions.add(
                     Extension(
                         url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.container"),
-                        value = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, container)
-                    )
+                        value = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, container),
+                    ),
                 )
             }
             it.content.map { content ->
@@ -83,23 +83,23 @@ data class STU3Medication(
                 contentExtensions.add(
                     Extension(
                         url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                        value = content.item
-                    )
+                        value = content.item,
+                    ),
                 )
                 content.amount?.let { amount ->
                     contentExtensions.add(
                         Extension(
                             url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content.amount"),
-                            value = DynamicValue(DynamicValueType.QUANTITY, amount)
-                        )
+                            value = DynamicValue(DynamicValueType.QUANTITY, amount),
+                        ),
                     )
                 }
 
                 newExtensions.add(
                     Extension(
                         url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                        extension = contentExtensions
-                    )
+                        extension = contentExtensions,
+                    ),
                 )
             }
         }
@@ -118,12 +118,13 @@ data class STU3Medication(
             manufacturer = manufacturer,
             form = form,
             ingredient = ingredient.map { it.transformToR4() },
-            batch = `package`?.batch?.firstOrNull()?.transformToR4()
+            batch = `package`?.batch?.firstOrNull()?.transformToR4(),
         )
     }
 }
 
 class STU3MedicationSerializer : BaseFHIRSerializer<STU3Medication>(STU3Medication::class.java)
+
 class STU3MedicationDeserializer : BaseFHIRDeserializer<STU3Medication>(STU3Medication::class.java)
 
 @JsonSerialize(using = STU3MedicationIngredientSerializer::class)
@@ -134,7 +135,7 @@ data class STU3MedicationIngredient(
     override val modifierExtension: List<Extension> = listOf(),
     val item: DynamicValue<Any>,
     val isActive: FHIRBoolean? = null,
-    val amount: Ratio? = null
+    val amount: Ratio? = null,
 ) : STU3BackboneElement<STU3MedicationIngredient> {
     override fun transformToR4(): Ingredient {
         return Ingredient(
@@ -143,7 +144,7 @@ data class STU3MedicationIngredient(
             modifierExtension = modifierExtension,
             item = item,
             isActive = isActive,
-            strength = amount
+            strength = amount,
         )
     }
 }
@@ -162,7 +163,7 @@ data class STU3MedicationPackage(
     override val modifierExtension: List<Extension> = listOf(),
     val container: CodeableConcept? = null,
     val content: List<STU3MedicationPackageContent> = listOf(),
-    val batch: List<STU3MedicationPackageBatch> = listOf()
+    val batch: List<STU3MedicationPackageBatch> = listOf(),
 ) : STU3BackboneElement<STU3MedicationPackage> {
     override fun transformToR4(): Element<*> {
         throw IllegalStateException("No suitable transformation exists")
@@ -170,6 +171,7 @@ data class STU3MedicationPackage(
 }
 
 class STU3MedicationPackageSerializer : BaseFHIRSerializer<STU3MedicationPackage>(STU3MedicationPackage::class.java)
+
 class STU3MedicationPackageDeserializer : BaseFHIRDeserializer<STU3MedicationPackage>(STU3MedicationPackage::class.java)
 
 @JsonSerialize(using = STU3MedicationPackageContentSerializer::class)
@@ -179,7 +181,7 @@ data class STU3MedicationPackageContent(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val item: DynamicValue<Any>,
-    val amount: SimpleQuantity? = null
+    val amount: SimpleQuantity? = null,
 ) : STU3BackboneElement<STU3MedicationPackageContent> {
     override fun transformToR4(): Element<*> {
         throw IllegalStateException("No suitable transformation exists")
@@ -199,7 +201,7 @@ data class STU3MedicationPackageBatch(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val lotNumber: FHIRString? = null,
-    val expirationDate: DateTime? = null
+    val expirationDate: DateTime? = null,
 ) : STU3BackboneElement<STU3MedicationPackageBatch> {
     override fun transformToR4(): Batch {
         return Batch(
@@ -207,7 +209,7 @@ data class STU3MedicationPackageBatch(
             extension = extension,
             modifierExtension = modifierExtension,
             lotNumber = lotNumber,
-            expirationDate = expirationDate
+            expirationDate = expirationDate,
         )
     }
 }

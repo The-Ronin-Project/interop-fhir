@@ -53,7 +53,7 @@ data class Observation(
         ResourceType.ImmunizationRecommendation,
         ResourceType.MedicationRequest,
         ResourceType.NutritionOrder,
-        ResourceType.ServiceRequest
+        ResourceType.ServiceRequest,
     )
     val basedOn: List<Reference> = listOf(),
     @SupportedReferenceTypes(
@@ -62,7 +62,7 @@ data class Observation(
         ResourceType.MedicationStatement,
         ResourceType.Procedure,
         ResourceType.Immunization,
-        ResourceType.ImagingStudy
+        ResourceType.ImagingStudy,
     )
     val partOf: List<Reference> = listOf(),
     @RequiredField
@@ -80,7 +80,7 @@ data class Observation(
         DynamicValueType.DATE_TIME,
         DynamicValueType.PERIOD,
         DynamicValueType.TIMING,
-        DynamicValueType.INSTANT
+        DynamicValueType.INSTANT,
     )
     val effective: DynamicValue<Any>? = null,
     val issued: Instant? = null,
@@ -90,7 +90,7 @@ data class Observation(
         ResourceType.Organization,
         ResourceType.CareTeam,
         ResourceType.Patient,
-        ResourceType.RelatedPerson
+        ResourceType.RelatedPerson,
     )
     val performer: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
@@ -105,7 +105,7 @@ data class Observation(
         DynamicValueType.SAMPLED_DATA,
         DynamicValueType.TIME,
         DynamicValueType.DATE_TIME,
-        DynamicValueType.PERIOD
+        DynamicValueType.PERIOD,
     )
     val value: DynamicValue<Any>? = null,
     val dataAbsentReason: CodeableConcept? = null,
@@ -120,7 +120,7 @@ data class Observation(
     @SupportedReferenceTypes(
         ResourceType.Observation,
         ResourceType.QuestionnaireResponse,
-        ResourceType.MolecularSequence
+        ResourceType.MolecularSequence,
     )
     val hasMember: List<Reference> = listOf(),
     @SupportedReferenceTypes(
@@ -129,15 +129,16 @@ data class Observation(
         ResourceType.Media,
         ResourceType.QuestionnaireResponse,
         ResourceType.Observation,
-        ResourceType.MolecularSequence
+        ResourceType.MolecularSequence,
     )
     val derivedFrom: List<Reference> = listOf(),
-    val component: List<ObservationComponent> = listOf()
+    val component: List<ObservationComponent> = listOf(),
 ) : DomainResource<Observation> {
     override val resourceType: String = "Observation"
 }
 
 class ObservationDeserializer : BaseFHIRDeserializer<Observation>(Observation::class.java)
+
 class ObservationSerializer : BaseFHIRSerializer<Observation>(Observation::class.java)
 
 /**
@@ -162,15 +163,16 @@ data class ObservationComponent(
         DynamicValueType.SAMPLED_DATA,
         DynamicValueType.TIME,
         DynamicValueType.DATE_TIME,
-        DynamicValueType.PERIOD
+        DynamicValueType.PERIOD,
     )
     val value: DynamicValue<Any>? = null,
     val dataAbsentReason: CodeableConcept? = null,
     val interpretation: List<CodeableConcept> = listOf(),
-    val referenceRange: List<ObservationReferenceRange> = listOf()
+    val referenceRange: List<ObservationReferenceRange> = listOf(),
 ) : BackboneElement<ObservationComponent>
 
 class ObservationComponentDeserializer : BaseFHIRDeserializer<ObservationComponent>(ObservationComponent::class.java)
+
 class ObservationComponentSerializer : BaseFHIRSerializer<ObservationComponent>(ObservationComponent::class.java)
 
 /**
@@ -188,7 +190,7 @@ data class ObservationReferenceRange(
     val type: CodeableConcept? = null,
     val appliesTo: List<CodeableConcept> = listOf(),
     val age: Range? = null,
-    val text: FHIRString? = null
+    val text: FHIRString? = null,
 ) : BackboneElement<ObservationReferenceRange>
 
 class ObservationReferenceRangeSerializer :

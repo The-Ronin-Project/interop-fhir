@@ -21,9 +21,10 @@ class MetaGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val meta = meta {
-            profile plus Canonical("profile")
-        }
+        val meta =
+            meta {
+                profile plus Canonical("profile")
+            }
         assertEquals(listOf(Canonical("profile")), meta.profile)
     }
 }

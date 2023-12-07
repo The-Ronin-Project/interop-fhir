@@ -49,7 +49,7 @@ data class PractitionerGenerator(
     val birthDate: DataGenerator<Date?> = NullDataGenerator(),
     val photo: ListDataGenerator<Attachment> = ListDataGenerator(0, AttachmentGenerator()),
     val qualification: ListDataGenerator<Qualification> = ListDataGenerator(0, QualificationGenerator()),
-    val communication: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
+    val communication: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
 ) : DomainResource<Practitioner> {
     override fun toFhir(): Practitioner =
         Practitioner(
@@ -70,7 +70,7 @@ data class PractitionerGenerator(
             birthDate = birthDate.generate(),
             photo = photo.generate(),
             qualification = qualification.generate(),
-            communication = communication.generate()
+            communication = communication.generate(),
         )
 }
 
@@ -83,15 +83,16 @@ class QualificationGenerator : DataGenerator<Qualification>() {
     val period: DataGenerator<Period?> = NullDataGenerator()
     val issuer: DataGenerator<Reference?> = NullDataGenerator()
 
-    override fun generateInternal() = Qualification(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        identifier = identifier.generate(),
-        code = code.generate(),
-        period = period.generate(),
-        issuer = issuer.generate()
-    )
+    override fun generateInternal() =
+        Qualification(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            identifier = identifier.generate(),
+            code = code.generate(),
+            period = period.generate(),
+            issuer = issuer.generate(),
+        )
 }
 
 fun practitioner(block: PractitionerGenerator.() -> Unit): Practitioner {

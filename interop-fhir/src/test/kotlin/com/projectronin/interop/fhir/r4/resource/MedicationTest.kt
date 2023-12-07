@@ -30,49 +30,57 @@ import org.junit.jupiter.api.Test
 class MedicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val medication = Medication(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninMedication"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            code = CodeableConcept(text = FHIRString("Med code")),
-            status = MedicationStatus.ACTIVE.asCode(),
-            manufacturer = Reference(display = FHIRString("Manufacturer reference")),
-            form = CodeableConcept(text = FHIRString("Med form")),
-            amount = Ratio(numerator = Quantity(value = Decimal(1.0)), denominator = Quantity(value = Decimal(1.0))),
-            ingredient = listOf(
-                Ingredient(
-                    item = DynamicValue(
-                        DynamicValueType.CODEABLE_CONCEPT,
-                        CodeableConcept(text = FHIRString("Med ingredient"))
-                    )
-                )
-            ),
-            batch = Batch(lotNumber = FHIRString("Batch log"))
-        )
+        val medication =
+            Medication(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninMedication")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                code = CodeableConcept(text = FHIRString("Med code")),
+                status = MedicationStatus.ACTIVE.asCode(),
+                manufacturer = Reference(display = FHIRString("Manufacturer reference")),
+                form = CodeableConcept(text = FHIRString("Med form")),
+                amount = Ratio(numerator = Quantity(value = Decimal(1.0)), denominator = Quantity(value = Decimal(1.0))),
+                ingredient =
+                    listOf(
+                        Ingredient(
+                            item =
+                                DynamicValue(
+                                    DynamicValueType.CODEABLE_CONCEPT,
+                                    CodeableConcept(text = FHIRString("Med ingredient")),
+                                ),
+                        ),
+                    ),
+                batch = Batch(lotNumber = FHIRString("Batch log")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Medication",
               "id" : "12345",
@@ -128,7 +136,7 @@ class MedicationTest {
                 "lotNumber" : "Batch log"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -141,21 +149,23 @@ class MedicationTest {
         val medication = Medication()
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Medication"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Medication"
             }
-        """.trimIndent()
+            """.trimIndent()
         val medication = JacksonManager.objectMapper.readValue<Medication>(json)
 
         assertEquals("Medication", medication.resourceType)
@@ -181,26 +191,30 @@ class MedicationTest {
 class BatchTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val batch = Batch(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            lotNumber = FHIRString("123ABC"),
-            expirationDate = DateTime("2022-08-31")
-        )
+        val batch =
+            Batch(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                lotNumber = FHIRString("123ABC"),
+                expirationDate = DateTime("2022-08-31"),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(batch)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -214,7 +228,7 @@ class BatchTest {
               "lotNumber" : "123ABC",
               "expirationDate" : "2022-08-31"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedBatch = JacksonManager.objectMapper.readValue<Batch>(json)
@@ -246,30 +260,35 @@ class BatchTest {
 class IngredientTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val ingredient = Ingredient(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test"))),
-            isActive = FHIRBoolean.TRUE,
-            strength = Ratio(
-                numerator = Quantity(value = Decimal(1.0)),
-                denominator = Quantity(value = Decimal(1.0))
+        val ingredient =
+            Ingredient(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                item = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test"))),
+                isActive = FHIRBoolean.TRUE,
+                strength =
+                    Ratio(
+                        numerator = Quantity(value = Decimal(1.0)),
+                        denominator = Quantity(value = Decimal(1.0)),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -293,7 +312,7 @@ class IngredientTest {
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedIngredient = JacksonManager.objectMapper.readValue<Ingredient>(json)
@@ -304,32 +323,35 @@ class IngredientTest {
     fun `serialized JSON ignores null and empty fields`() {
         val ingredient =
             Ingredient(
-                item = DynamicValue(
-                    DynamicValueType.CODEABLE_CONCEPT,
-                    CodeableConcept(text = FHIRString("test"))
-                )
+                item =
+                    DynamicValue(
+                        DynamicValueType.CODEABLE_CONCEPT,
+                        CodeableConcept(text = FHIRString("test")),
+                    ),
             )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "itemCodeableConcept" : {
                 "text" : "test"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "itemCodeableConcept" : {
                 "text" : "test"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val ingredient = JacksonManager.objectMapper.readValue<Ingredient>(json)
 
         assertNull(ingredient.id)
@@ -337,7 +359,7 @@ class IngredientTest {
         assertEquals(listOf<Extension>(), ingredient.modifierExtension)
         assertEquals(
             DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("test"))),
-            ingredient.item
+            ingredient.item,
         )
         assertNull(ingredient.isActive)
         assertNull(ingredient.strength)

@@ -24,5 +24,5 @@ enum class RequestPriority(override val code: String) : CodedEnum<RequestPriorit
     /**
      * The request should be actioned immediately - highest possible priority. E.g. an emergency.
      */
-    STAT("stat")
+    STAT("stat"),
 }

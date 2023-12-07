@@ -19,22 +19,23 @@ import kotlin.reflect.jvm.jvmErasure
 class FHIRErrorTest {
     @Test
     fun `ensure unique codes`() {
-        val fhirErrors = ClassGraph().acceptPackages("com.projectronin.interop.fhir").scan().use {
-            it.getClassesImplementing(ProfileValidator::class.java).standardClasses.flatMap { c ->
-                if (c.isFinal && !c.isInnerClass) {
-                    val clazz = c.loadClass()
-                    clazz.kotlin.memberProperties.filter { p ->
-                        // This intentionally excludes the common types built on FHIRError, such as RequiredFieldError, since those codes will be repeated across validators
-                        p.returnType.jvmErasure.isSuperclassOf(FHIRError::class)
-                    }.map { p ->
-                        p.isAccessible = true
-                        "${clazz.name}.${p.name}" to (p.getter.call() as FHIRError)
+        val fhirErrors =
+            ClassGraph().acceptPackages("com.projectronin.interop.fhir").scan().use {
+                it.getClassesImplementing(ProfileValidator::class.java).standardClasses.flatMap { c ->
+                    if (c.isFinal && !c.isInnerClass) {
+                        val clazz = c.loadClass()
+                        clazz.kotlin.memberProperties.filter { p ->
+                            // This intentionally excludes the common types built on FHIRError, such as RequiredFieldError, since those codes will be repeated across validators
+                            p.returnType.jvmErasure.isSuperclassOf(FHIRError::class)
+                        }.map { p ->
+                            p.isAccessible = true
+                            "${clazz.name}.${p.name}" to (p.getter.call() as FHIRError)
+                        }
+                    } else {
+                        emptyList()
                     }
-                } else {
-                    emptyList()
                 }
             }
-        }
 
         val fhirErrorLocationsByCode = fhirErrors.groupBy { it.second.code }.mapValues { it.value.map { p -> p.first } }
         val repeatCodes = fhirErrorLocationsByCode.filter { it.value.size > 1 }
@@ -45,12 +46,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError creates a ValidationIssue`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = LocationContext("FHIR", "value")
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = LocationContext("FHIR", "value"),
+            )
 
         val validationIssue = fhirError.toValidationIssue()
         assertEquals("1", validationIssue.code)
@@ -61,12 +63,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError creates a ValidationIssue with overidden description`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = LocationContext("FHIR", "value")
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = LocationContext("FHIR", "value"),
+            )
 
         val validationIssue = fhirError.toValidationIssue(overriddenDescription = "new description")
         assertEquals("1", validationIssue.code)
@@ -77,12 +80,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError creates a ValidationIssue with parent context`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = LocationContext("FHIR", "value")
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = LocationContext("FHIR", "value"),
+            )
 
         val validationIssue = fhirError.toValidationIssue(parentContext = LocationContext("Parent", "value1"))
         assertEquals("1", validationIssue.code)
@@ -93,12 +97,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError without location creates a ValidationIssue`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = null
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = null,
+            )
 
         val validationIssue = fhirError.toValidationIssue()
         assertEquals("1", validationIssue.code)
@@ -109,12 +114,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError without location creates a ValidationIssue with overidden description`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = null
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = null,
+            )
 
         val validationIssue = fhirError.toValidationIssue(overriddenDescription = "new description")
         assertEquals("1", validationIssue.code)
@@ -125,12 +131,13 @@ class FHIRErrorTest {
 
     @Test
     fun `FHIRError without location creates a ValidationIssue with parent context`() {
-        val fhirError = FHIRError(
-            code = "1",
-            severity = ValidationIssueSeverity.ERROR,
-            description = "description",
-            location = null
-        )
+        val fhirError =
+            FHIRError(
+                code = "1",
+                severity = ValidationIssueSeverity.ERROR,
+                description = "description",
+                location = null,
+            )
 
         val validationIssue = fhirError.toValidationIssue(parentContext = LocationContext("Parent", "value1"))
         assertEquals("1", validationIssue.code)
@@ -168,10 +175,11 @@ class FHIRErrorTest {
 
     @Test
     fun `InvalidDynamicValueError creates FHIRError from LocationContext`() {
-        val error = InvalidDynamicValueError(
-            LocationContext("FHIR", "value"),
-            listOf(DynamicValueType.STRING, DynamicValueType.DECIMAL)
-        )
+        val error =
+            InvalidDynamicValueError(
+                LocationContext("FHIR", "value"),
+                listOf(DynamicValueType.STRING, DynamicValueType.DECIMAL),
+            )
         assertEquals("INV_DYN_VAL", error.code)
         assertEquals(ValidationIssueSeverity.ERROR, error.severity)
         assertEquals("value can only be one of the following: String, Decimal", error.description)
@@ -180,10 +188,11 @@ class FHIRErrorTest {
 
     @Test
     fun `InvalidDynamicValueError creates FHIRError from KProperty`() {
-        val error = InvalidDynamicValueError(
-            Annotation::author,
-            listOf(DynamicValueType.STRING, DynamicValueType.DECIMAL)
-        )
+        val error =
+            InvalidDynamicValueError(
+                Annotation::author,
+                listOf(DynamicValueType.STRING, DynamicValueType.DECIMAL),
+            )
         assertEquals("INV_DYN_VAL", error.code)
         assertEquals(ValidationIssueSeverity.ERROR, error.severity)
         assertEquals("author can only be one of the following: String, Decimal", error.description)

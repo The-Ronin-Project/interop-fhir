@@ -18,7 +18,7 @@ data class ExpressionGenerator(
     val name: DataGenerator<Id?> = NullDataGenerator(),
     val language: DataGenerator<Code?> = CodeGenerator(listOf("text/cql", "text/fhirpath", "application/x-fhir-query")),
     val expression: DataGenerator<FHIRString?> = NullDataGenerator(),
-    val reference: DataGenerator<Uri?> = NullDataGenerator()
+    val reference: DataGenerator<Uri?> = NullDataGenerator(),
 ) : DataGenerator<Expression>() {
     override fun generateInternal() =
         Expression(
@@ -28,7 +28,7 @@ data class ExpressionGenerator(
             name = name.generate(),
             language = language.generate(),
             expression = expression.generate(),
-            reference = reference.generate()
+            reference = reference.generate(),
         )
 }
 

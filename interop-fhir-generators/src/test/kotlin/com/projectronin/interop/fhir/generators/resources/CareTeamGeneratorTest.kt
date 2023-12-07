@@ -29,16 +29,18 @@ class CareTeamGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val careTeam = careTeam {
-            id of Id("id")
-            identifier of listOf(
-                identifier {
-                    value of "identifier"
-                }
-            )
-            subject of reference("Patient", "123")
-            status of "status"
-        }
+        val careTeam =
+            careTeam {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {
+                            value of "identifier"
+                        },
+                    )
+                subject of reference("Patient", "123")
+                status of "status"
+            }
 
         assertEquals("id", careTeam.id?.value)
         assertEquals(1, careTeam.identifier.size)

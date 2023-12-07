@@ -15,28 +15,32 @@ import org.junit.jupiter.api.Test
 class AvailableTimeTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val availableTime = AvailableTime(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            daysOfWeek = listOf(Code("mon")),
-            allDay = FHIRBoolean.FALSE,
-            availableStartTime = Time("08:00:00"),
-            availableEndTime = Time("16:00:00")
-        )
+        val availableTime =
+            AvailableTime(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                daysOfWeek = listOf(Code("mon")),
+                allDay = FHIRBoolean.FALSE,
+                availableStartTime = Time("08:00:00"),
+                availableEndTime = Time("16:00:00"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(availableTime)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "67890",
             |  "extension" : [ {
@@ -52,7 +56,7 @@ class AvailableTimeTest {
             |  "availableStartTime" : "08:00:00",
             |  "availableEndTime" : "16:00:00"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAvailableTime = objectMapper.readValue<AvailableTime>(json)
@@ -61,26 +65,29 @@ class AvailableTimeTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val availableTime = AvailableTime(
-            availableStartTime = Time("08:00:00")
-        )
+        val availableTime =
+            AvailableTime(
+                availableStartTime = Time("08:00:00"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(availableTime)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "availableStartTime" : "08:00:00"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "allDay" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         val availableTime = objectMapper.readValue<AvailableTime>(json)
 
         assertNull(availableTime.id)

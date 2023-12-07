@@ -6,7 +6,10 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-name-use.html)
  */
-enum class NameUse(@JsonValue override val code: String, val parent: NameUse? = null) : CodedEnum<NameUse> {
+enum class NameUse(
+    @JsonValue override val code: String,
+    val parent: NameUse? = null,
+) : CodedEnum<NameUse> {
     /**
      * Known as/conventional/the one you normally use.
      */
@@ -40,5 +43,5 @@ enum class NameUse(@JsonValue override val code: String, val parent: NameUse? = 
     /**
      * A name used prior to changing name because of marriage. This name use is for use by applications that collect and store names that were used prior to a marriage. Marriage naming customs vary greatly around the world, and are constantly changing. This term is not gender specific. The use of this term does not imply any particular history for a person's name.
      */
-    MAIDEN("maiden", OLD)
+    MAIDEN("maiden", OLD),
 }

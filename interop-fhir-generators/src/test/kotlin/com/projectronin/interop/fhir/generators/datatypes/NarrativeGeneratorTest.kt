@@ -19,10 +19,11 @@ class NarrativeGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val narrative = narrative {
-            status of "complete"
-            div of "<div>data</div>"
-        }
+        val narrative =
+            narrative {
+                status of "complete"
+                div of "<div>data</div>"
+            }
         assertEquals(Code("complete"), narrative.status)
         assertEquals(FHIRString("<div>data</div>"), narrative.div)
     }

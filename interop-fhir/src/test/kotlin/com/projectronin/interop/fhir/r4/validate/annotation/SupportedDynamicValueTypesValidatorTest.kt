@@ -27,7 +27,7 @@ class SupportedDynamicValueTypesValidatorTest {
                 element,
                 "DynamicValueElement",
                 LocationContext(DynamicValueElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -44,7 +44,7 @@ class SupportedDynamicValueTypesValidatorTest {
                 element,
                 "NonDynamicValueElement",
                 LocationContext(NonDynamicValueElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -61,7 +61,7 @@ class SupportedDynamicValueTypesValidatorTest {
                 element,
                 "DynamicValueElement",
                 LocationContext(DynamicValueElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -79,7 +79,7 @@ class SupportedDynamicValueTypesValidatorTest {
                 element,
                 "DynamicValueElement",
                 LocationContext(DynamicValueElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -90,31 +90,32 @@ class SupportedDynamicValueTypesValidatorTest {
             SupportedDynamicValueTypes(DynamicValueType.STRING, DynamicValueType.ANNOTATION, DynamicValueType.REFERENCE)
         val element = DynamicValueElement(DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE))
 
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(annotation),
-                    DynamicValueElement::value,
-                    DynamicValue::class,
-                    element,
-                    "DynamicValueElement",
-                    LocationContext(DynamicValueElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(annotation),
+                        DynamicValueElement::value,
+                        DynamicValue::class,
+                        element,
+                        "DynamicValueElement",
+                        LocationContext(DynamicValueElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_DYN_VAL: value can only be one of the following: String, Annotation, Reference @ DynamicValueElement.value",
-            exception.message
+            exception.message,
         )
     }
 
     data class DynamicValueElement(
-        val value: DynamicValue<Any>?
+        val value: DynamicValue<Any>?,
     ) : Validatable<DynamicValueElement>
 
     data class NonDynamicValueElement(
-        val value: FHIRBoolean?
+        val value: FHIRBoolean?,
     ) : Validatable<NonDynamicValueElement>
 }

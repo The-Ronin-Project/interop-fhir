@@ -35,61 +35,72 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 
+@Suppress("ktlint:standard:max-line-length")
 class STU3MedicationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val medication = STU3Medication(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninSTU3Medication"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(
-                STU3UnknownResource(
-                    resourceType = "Location",
-                    id = Id("1234"),
-                    otherData = mapOf("name" to "Contained Location")
-                )
-            ),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = CodeableConcept(text = FHIRString("Med code")),
-            status = MedicationStatus.ACTIVE.asCode(),
-            isBrand = FHIRBoolean.FALSE,
-            isOverTheCounter = FHIRBoolean.FALSE,
-            manufacturer = Reference(display = FHIRString("Manufacturer reference")),
-            form = CodeableConcept(text = FHIRString("Med form")),
-            ingredient = listOf(
-                STU3MedicationIngredient(
-                    item = DynamicValue(
-                        DynamicValueType.CODEABLE_CONCEPT,
-                        CodeableConcept(text = FHIRString("Med ingredient"))
-                    )
-                )
-            ),
-            `package` = STU3MedicationPackage(
-                batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot")))
-            ),
-            image = listOf(Attachment(url = Url("attachment")))
-        )
+        val medication =
+            STU3Medication(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninSTU3Medication")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained =
+                    listOf(
+                        STU3UnknownResource(
+                            resourceType = "Location",
+                            id = Id("1234"),
+                            otherData = mapOf("name" to "Contained Location"),
+                        ),
+                    ),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = CodeableConcept(text = FHIRString("Med code")),
+                status = MedicationStatus.ACTIVE.asCode(),
+                isBrand = FHIRBoolean.FALSE,
+                isOverTheCounter = FHIRBoolean.FALSE,
+                manufacturer = Reference(display = FHIRString("Manufacturer reference")),
+                form = CodeableConcept(text = FHIRString("Med form")),
+                ingredient =
+                    listOf(
+                        STU3MedicationIngredient(
+                            item =
+                                DynamicValue(
+                                    DynamicValueType.CODEABLE_CONCEPT,
+                                    CodeableConcept(text = FHIRString("Med ingredient")),
+                                ),
+                        ),
+                    ),
+                `package` =
+                    STU3MedicationPackage(
+                        batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot"))),
+                    ),
+                image = listOf(Attachment(url = Url("attachment"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Medication",
               "id" : "12345",
@@ -141,7 +152,7 @@ class STU3MedicationTest {
                 "url" : "attachment"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -154,21 +165,23 @@ class STU3MedicationTest {
         val medication = STU3Medication()
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medication)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Medication"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Medication"
             }
-        """.trimIndent()
+            """.trimIndent()
         val medication = objectMapper.readValue<STU3Medication>(json)
 
         assertEquals("Medication", medication.resourceType)
@@ -193,100 +206,122 @@ class STU3MedicationTest {
 
     @Test
     fun `transforms full model to R4`() {
-        val stu3Medication = STU3Medication(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninSTU3Medication"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(
-                STU3UnknownResource(
-                    resourceType = "Location",
-                    id = Id("1234"),
-                    otherData = mapOf("name" to "Contained Location")
-                )
-            ),
-            extension = listOf(
+        val stu3Medication =
+            STU3Medication(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninSTU3Medication")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained =
+                    listOf(
+                        STU3UnknownResource(
+                            resourceType = "Location",
+                            id = Id("1234"),
+                            otherData = mapOf("name" to "Contained Location"),
+                        ),
+                    ),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                code = CodeableConcept(text = FHIRString("Med code")),
+                status = MedicationStatus.ACTIVE.asCode(),
+                isBrand = FHIRBoolean.FALSE,
+                isOverTheCounter = FHIRBoolean.FALSE,
+                manufacturer = Reference(display = FHIRString("Manufacturer reference")),
+                form = CodeableConcept(text = FHIRString("Med form")),
+                ingredient =
+                    listOf(
+                        STU3MedicationIngredient(
+                            item =
+                                DynamicValue(
+                                    DynamicValueType.CODEABLE_CONCEPT,
+                                    CodeableConcept(text = FHIRString("Med ingredient")),
+                                ),
+                        ),
+                    ),
+                `package` =
+                    STU3MedicationPackage(
+                        container = CodeableConcept(text = FHIRString("container")),
+                        content =
+                            listOf(
+                                STU3MedicationPackageContent(
+                                    item =
+                                        DynamicValue(
+                                            DynamicValueType.REFERENCE,
+                                            Reference(reference = FHIRString("Medication/12345")),
+                                        ),
+                                    amount = SimpleQuantity(value = Decimal(BigDecimal.ONE)),
+                                ),
+                            ),
+                        batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot"))),
+                    ),
+                image = listOf(Attachment(url = Url("attachment"))),
+            )
+
+        val r4Extensions =
+            listOf(
                 Extension(
                     url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            code = CodeableConcept(text = FHIRString("Med code")),
-            status = MedicationStatus.ACTIVE.asCode(),
-            isBrand = FHIRBoolean.FALSE,
-            isOverTheCounter = FHIRBoolean.FALSE,
-            manufacturer = Reference(display = FHIRString("Manufacturer reference")),
-            form = CodeableConcept(text = FHIRString("Med form")),
-            ingredient = listOf(
-                STU3MedicationIngredient(
-                    item = DynamicValue(
-                        DynamicValueType.CODEABLE_CONCEPT,
-                        CodeableConcept(text = FHIRString("Med ingredient"))
-                    )
-                )
-            ),
-            `package` = STU3MedicationPackage(
-                container = CodeableConcept(text = FHIRString("container")),
-                content = listOf(
-                    STU3MedicationPackageContent(
-                        item = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        ),
-                        amount = SimpleQuantity(value = Decimal(BigDecimal.ONE))
-                    )
+                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
                 ),
-                batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot")))
-            ),
-            image = listOf(Attachment(url = Url("attachment")))
-        )
-
-        val r4Extensions = listOf(
-            Extension(
-                url = Uri("http://localhost/extension"),
-                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-            ),
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.isBrand"),
-                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE)
-            ),
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-MedicationOTC"),
-                value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE)
-            ),
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.container"),
-                value = DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("container")))
-            ),
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                        value = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        )
-                    ),
-                    Extension(
-                        url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content.amount"),
-                        value = DynamicValue(DynamicValueType.QUANTITY, SimpleQuantity(value = Decimal(BigDecimal.ONE)))
-                    )
-                )
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.isBrand"),
+                    value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE),
+                ),
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-MedicationOTC"),
+                    value = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.FALSE),
+                ),
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.container"),
+                    value =
+                        DynamicValue(
+                            DynamicValueType.CODEABLE_CONCEPT,
+                            CodeableConcept(text = FHIRString("container")),
+                        ),
+                ),
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                    extension =
+                        listOf(
+                            Extension(
+                                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.REFERENCE,
+                                        Reference(reference = FHIRString("Medication/12345")),
+                                    ),
+                            ),
+                            Extension(
+                                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content.amount"),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.QUANTITY,
+                                        SimpleQuantity(value = Decimal(BigDecimal.ONE)),
+                                    ),
+                            ),
+                        ),
+                ),
             )
-        )
 
         val r4Medication = stu3Medication.transformToR4()
         assertEquals(stu3Medication.id, r4Medication.id)
@@ -299,10 +334,10 @@ class STU3MedicationTest {
                 UnknownResource(
                     resourceType = "Location",
                     id = Id("1234"),
-                    otherData = mapOf("name" to "Contained Location")
-                )
+                    otherData = mapOf("name" to "Contained Location"),
+                ),
             ),
-            r4Medication.contained
+            r4Medication.contained,
         )
         assertEquals(r4Extensions, r4Medication.extension)
         assertEquals(stu3Medication.modifierExtension, r4Medication.modifierExtension)
@@ -315,13 +350,14 @@ class STU3MedicationTest {
         assertEquals(
             listOf(
                 Ingredient(
-                    item = DynamicValue(
-                        DynamicValueType.CODEABLE_CONCEPT,
-                        CodeableConcept(text = FHIRString("Med ingredient"))
-                    )
-                )
+                    item =
+                        DynamicValue(
+                            DynamicValueType.CODEABLE_CONCEPT,
+                            CodeableConcept(text = FHIRString("Med ingredient")),
+                        ),
+                ),
             ),
-            r4Medication.ingredient
+            r4Medication.ingredient,
         )
         assertEquals(Batch(lotNumber = FHIRString("Batch lot")), r4Medication.batch)
     }
@@ -351,39 +387,50 @@ class STU3MedicationTest {
 
     @Test
     fun `transforms with no package container to R4`() {
-        val stu3Medication = STU3Medication(
-            `package` = STU3MedicationPackage(
-                content = listOf(
-                    STU3MedicationPackageContent(
-                        item = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        ),
-                        amount = SimpleQuantity(value = Decimal(BigDecimal.ONE))
-                    )
-                ),
-                batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot")))
-            )
-        )
-
-        val r4Extensions = listOf(
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                        value = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        )
+        val stu3Medication =
+            STU3Medication(
+                `package` =
+                    STU3MedicationPackage(
+                        content =
+                            listOf(
+                                STU3MedicationPackageContent(
+                                    item =
+                                        DynamicValue(
+                                            DynamicValueType.REFERENCE,
+                                            Reference(reference = FHIRString("Medication/12345")),
+                                        ),
+                                    amount = SimpleQuantity(value = Decimal(BigDecimal.ONE)),
+                                ),
+                            ),
+                        batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot"))),
                     ),
-                    Extension(
-                        url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content.amount"),
-                        value = DynamicValue(DynamicValueType.QUANTITY, SimpleQuantity(value = Decimal(BigDecimal.ONE)))
-                    )
-                )
             )
-        )
+
+        val r4Extensions =
+            listOf(
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                    extension =
+                        listOf(
+                            Extension(
+                                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.REFERENCE,
+                                        Reference(reference = FHIRString("Medication/12345")),
+                                    ),
+                            ),
+                            Extension(
+                                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content.amount"),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.QUANTITY,
+                                        SimpleQuantity(value = Decimal(BigDecimal.ONE)),
+                                    ),
+                            ),
+                        ),
+                ),
+            )
 
         val r4Medication = stu3Medication.transformToR4()
         assertEquals(stu3Medication.id, r4Medication.id)
@@ -406,34 +453,41 @@ class STU3MedicationTest {
 
     @Test
     fun `transforms with no package content amount to R4`() {
-        val stu3Medication = STU3Medication(
-            `package` = STU3MedicationPackage(
-                content = listOf(
-                    STU3MedicationPackageContent(
-                        item = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        )
-                    )
-                ),
-                batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot")))
+        val stu3Medication =
+            STU3Medication(
+                `package` =
+                    STU3MedicationPackage(
+                        content =
+                            listOf(
+                                STU3MedicationPackageContent(
+                                    item =
+                                        DynamicValue(
+                                            DynamicValueType.REFERENCE,
+                                            Reference(reference = FHIRString("Medication/12345")),
+                                        ),
+                                ),
+                            ),
+                        batch = listOf(STU3MedicationPackageBatch(lotNumber = FHIRString("Batch lot"))),
+                    ),
             )
-        )
 
-        val r4Extensions = listOf(
-            Extension(
-                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
-                        value = DynamicValue(
-                            DynamicValueType.REFERENCE,
-                            Reference(reference = FHIRString("Medication/12345"))
-                        )
-                    )
-                )
+        val r4Extensions =
+            listOf(
+                Extension(
+                    url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                    extension =
+                        listOf(
+                            Extension(
+                                url = Uri("http://hl7.org/fhir/3.0/StructureDefinition/extension-Medication.package.content"),
+                                value =
+                                    DynamicValue(
+                                        DynamicValueType.REFERENCE,
+                                        Reference(reference = FHIRString("Medication/12345")),
+                                    ),
+                            ),
+                        ),
+                ),
             )
-        )
 
         val r4Medication = stu3Medication.transformToR4()
         assertEquals(stu3Medication.id, r4Medication.id)
@@ -458,29 +512,34 @@ class STU3MedicationTest {
 class STU3MedicationIngredientTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val ingredient = STU3MedicationIngredient(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
-            isActive = FHIRBoolean.TRUE,
-            amount = Ratio(
-                numerator = Quantity(value = Decimal(BigDecimal.ONE))
+        val ingredient =
+            STU3MedicationIngredient(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
+                isActive = FHIRBoolean.TRUE,
+                amount =
+                    Ratio(
+                        numerator = Quantity(value = Decimal(BigDecimal.ONE)),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -501,7 +560,7 @@ class STU3MedicationIngredientTest {
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -511,30 +570,33 @@ class STU3MedicationIngredientTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val ingredient = STU3MedicationIngredient(
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345")))
-        )
+        val ingredient =
+            STU3MedicationIngredient(
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ingredient)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "itemReference" : {
                 "reference" : "Medication/12345"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "itemReference" : {
                 "reference" : "Medication/12345"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val ingredient = objectMapper.readValue<STU3MedicationIngredient>(json)
 
         assertNull(ingredient.id)
@@ -542,7 +604,7 @@ class STU3MedicationIngredientTest {
         assertEquals(listOf<Extension>(), ingredient.modifierExtension)
         assertEquals(
             DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
-            ingredient.item
+            ingredient.item,
         )
         assertNull(ingredient.isActive)
         assertNull(ingredient.amount)
@@ -550,26 +612,30 @@ class STU3MedicationIngredientTest {
 
     @Test
     fun `transforms to R4`() {
-        val stu3Ingredient = STU3MedicationIngredient(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
-            isActive = FHIRBoolean.TRUE,
-            amount = Ratio(
-                numerator = Quantity(value = Decimal(BigDecimal.ONE))
+        val stu3Ingredient =
+            STU3MedicationIngredient(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
+                isActive = FHIRBoolean.TRUE,
+                amount =
+                    Ratio(
+                        numerator = Quantity(value = Decimal(BigDecimal.ONE)),
+                    ),
             )
-        )
 
         val r4Ingredient = stu3Ingredient.transformToR4()
         assertEquals(stu3Ingredient.id, r4Ingredient.id)
@@ -584,38 +650,45 @@ class STU3MedicationIngredientTest {
 class STU3MedicationPackageTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val `package` = STU3MedicationPackage(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            container = CodeableConcept(text = FHIRString("container")),
-            content = listOf(
-                STU3MedicationPackageContent(
-                    item = DynamicValue(
-                        DynamicValueType.REFERENCE,
-                        Reference(reference = FHIRString("Medication/12345"))
-                    )
-                )
-            ),
-            batch = listOf(
-                STU3MedicationPackageBatch(
-                    lotNumber = FHIRString("1")
-                )
+        val medPackage =
+            STU3MedicationPackage(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                container = CodeableConcept(text = FHIRString("container")),
+                content =
+                    listOf(
+                        STU3MedicationPackageContent(
+                            item =
+                                DynamicValue(
+                                    DynamicValueType.REFERENCE,
+                                    Reference(reference = FHIRString("Medication/12345")),
+                                ),
+                        ),
+                    ),
+                batch =
+                    listOf(
+                        STU3MedicationPackageBatch(
+                            lotNumber = FHIRString("1"),
+                        ),
+                    ),
             )
-        )
-        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(`package`)
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medPackage)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -638,84 +711,93 @@ class STU3MedicationPackageTest {
                 "lotNumber" : "1"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
         val deserializedPackage = objectMapper.readValue<STU3MedicationPackage>(json)
-        assertEquals(`package`, deserializedPackage)
+        assertEquals(medPackage, deserializedPackage)
     }
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val `package` = STU3MedicationPackage(
-            container = CodeableConcept(text = FHIRString("container"))
-        )
-        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(`package`)
+        val medPackage =
+            STU3MedicationPackage(
+                container = CodeableConcept(text = FHIRString("container")),
+            )
+        val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medPackage)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "container" : {
                 "text" : "container"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "container" : {
                 "text" : "container"
               }
             }
-        """.trimIndent()
-        val `package` = objectMapper.readValue<STU3MedicationPackage>(json)
+            """.trimIndent()
+        val medPackage = objectMapper.readValue<STU3MedicationPackage>(json)
 
-        assertNull(`package`.id)
-        assertEquals(listOf<Extension>(), `package`.extension)
-        assertEquals(listOf<Extension>(), `package`.modifierExtension)
+        assertNull(medPackage.id)
+        assertEquals(listOf<Extension>(), medPackage.extension)
+        assertEquals(listOf<Extension>(), medPackage.modifierExtension)
         assertEquals(
             CodeableConcept(text = FHIRString("container")),
-            `package`.container
+            medPackage.container,
         )
-        assertEquals(listOf<STU3MedicationPackageContent>(), `package`.content)
-        assertEquals(listOf<STU3MedicationIngredient>(), `package`.batch)
+        assertEquals(listOf<STU3MedicationPackageContent>(), medPackage.content)
+        assertEquals(listOf<STU3MedicationIngredient>(), medPackage.batch)
     }
 
     @Test
     fun `transform to R4 throws exception`() {
-        val stu3Package = STU3MedicationPackage(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            container = CodeableConcept(text = FHIRString("container")),
-            content = listOf(
-                STU3MedicationPackageContent(
-                    item = DynamicValue(
-                        DynamicValueType.REFERENCE,
-                        Reference(reference = FHIRString("Medication/12345"))
-                    )
-                )
-            ),
-            batch = listOf(
-                STU3MedicationPackageBatch(
-                    lotNumber = FHIRString("1")
-                )
+        val stu3Package =
+            STU3MedicationPackage(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                container = CodeableConcept(text = FHIRString("container")),
+                content =
+                    listOf(
+                        STU3MedicationPackageContent(
+                            item =
+                                DynamicValue(
+                                    DynamicValueType.REFERENCE,
+                                    Reference(reference = FHIRString("Medication/12345")),
+                                ),
+                        ),
+                    ),
+                batch =
+                    listOf(
+                        STU3MedicationPackageBatch(
+                            lotNumber = FHIRString("1"),
+                        ),
+                    ),
             )
-        )
 
         assertThrows<IllegalStateException> { stu3Package.transformToR4() }
     }
@@ -724,26 +806,30 @@ class STU3MedicationPackageTest {
 class STU3MedicationPackageContentTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val content = STU3MedicationPackageContent(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
-            amount = SimpleQuantity(value = Decimal(BigDecimal.TEN))
-        )
+        val content =
+            STU3MedicationPackageContent(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
+                amount = SimpleQuantity(value = Decimal(BigDecimal.TEN)),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(content)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -761,7 +847,7 @@ class STU3MedicationPackageContentTest {
                 "value" : 10
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -771,30 +857,33 @@ class STU3MedicationPackageContentTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val content = STU3MedicationPackageContent(
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/67890")))
-        )
+        val content =
+            STU3MedicationPackageContent(
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/67890"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(content)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "itemReference" : {
                 "reference" : "Medication/67890"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
                "itemReference" : {
                  "reference" : "Medication/67890"
                }
             }
-        """.trimIndent()
+            """.trimIndent()
         val content = objectMapper.readValue<STU3MedicationPackageContent>(json)
 
         assertNull(content.id)
@@ -802,30 +891,33 @@ class STU3MedicationPackageContentTest {
         assertEquals(listOf<Extension>(), content.modifierExtension)
         assertEquals(
             DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/67890"))),
-            content.item
+            content.item,
         )
         assertNull(content.amount)
     }
 
     @Test
     fun `transform to R4 throws exception`() {
-        val stu3Content = STU3MedicationPackageContent(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
-            amount = SimpleQuantity(value = Decimal(BigDecimal.TEN))
-        )
+        val stu3Content =
+            STU3MedicationPackageContent(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                item = DynamicValue(DynamicValueType.REFERENCE, Reference(reference = FHIRString("Medication/12345"))),
+                amount = SimpleQuantity(value = Decimal(BigDecimal.TEN)),
+            )
 
         assertThrows<IllegalStateException> { stu3Content.transformToR4() }
     }
@@ -834,26 +926,30 @@ class STU3MedicationPackageContentTest {
 class STU3MedicationPackageBatchTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val batch = STU3MedicationPackageBatch(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            lotNumber = FHIRString("lot-number"),
-            expirationDate = DateTime("2025")
-        )
+        val batch =
+            STU3MedicationPackageBatch(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                lotNumber = FHIRString("lot-number"),
+                expirationDate = DateTime("2025"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(batch)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "12345",
               "extension" : [ {
@@ -867,7 +963,7 @@ class STU3MedicationPackageBatchTest {
               "lotNumber" : "lot-number",
               "expirationDate" : "2025"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedJson, json)
 
@@ -898,23 +994,26 @@ class STU3MedicationPackageBatchTest {
 
     @Test
     fun `transforms to R4`() {
-        val stu3Batch = STU3MedicationPackageBatch(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            lotNumber = FHIRString("lot-number"),
-            expirationDate = DateTime("2025")
-        )
+        val stu3Batch =
+            STU3MedicationPackageBatch(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                lotNumber = FHIRString("lot-number"),
+                expirationDate = DateTime("2025"),
+            )
 
         val r4Batch = stu3Batch.transformToR4()
         assertEquals(stu3Batch.id, r4Batch.id)

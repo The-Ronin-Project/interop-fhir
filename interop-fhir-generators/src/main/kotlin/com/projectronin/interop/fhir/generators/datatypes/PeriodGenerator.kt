@@ -12,7 +12,7 @@ class PeriodGenerator : DataGenerator<Period>() {
     override fun generateInternal(): Period =
         Period(
             start = start.generate(),
-            end = end.generate()
+            end = end.generate(),
         )
 }
 

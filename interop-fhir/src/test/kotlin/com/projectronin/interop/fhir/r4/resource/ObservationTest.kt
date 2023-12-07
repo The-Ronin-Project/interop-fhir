@@ -36,87 +36,98 @@ import org.junit.jupiter.api.Test
 class ObservationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val quantityValue = Quantity(
-            value = Decimal(17.5),
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            unit = FHIRString("years"),
-            system = CodeSystem.UCUM.uri,
-            code = Code("a")
-        )
-        val valueType = CodeableConcept(
-            coding = listOf(
-                Coding(
-                    system = Uri("http://value.org"),
-                    code = Code("Quantity value")
-                )
+        val quantityValue =
+            Quantity(
+                value = Decimal(17.5),
+                comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
+                unit = FHIRString("years"),
+                system = CodeSystem.UCUM.uri,
+                code = Code("a"),
             )
-        )
-        val observation = Observation(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninObservationHeartRate"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            basedOn = listOf(Reference(reference = FHIRString("CarePlan/123"))),
-            partOf = listOf(Reference(reference = FHIRString("Procedure/123"))),
-            status = ObservationStatus.FINAL.asCode(),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            code = CodeableConcept(text = FHIRString("code")),
-            subject = Reference(reference = FHIRString("subject")),
-            focus = listOf(Reference(reference = FHIRString("Condition/123"))),
-            encounter = Reference(reference = FHIRString("Encounter/123")),
-            effective = DynamicValue(DynamicValueType.INSTANT, Instant("2017-01-01T00:00:00Z")),
-            issued = Instant("2017-01-01T00:00:00Z"),
-            performer = listOf(Reference(reference = FHIRString("performer"))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2019-04-01")),
-            dataAbsentReason = CodeableConcept(text = FHIRString("data absent reason")),
-            interpretation = listOf(CodeableConcept(text = FHIRString("interpretation"))),
-            bodySite = CodeableConcept(text = FHIRString("body site")),
-            method = CodeableConcept(text = FHIRString("method")),
-            specimen = Reference(reference = FHIRString("Specimen/123")),
-            device = Reference(reference = FHIRString("Device/123")),
-            referenceRange = listOf(
-                ObservationReferenceRange(
-                    low = SimpleQuantity(value = Decimal(1.0)),
-                    high = SimpleQuantity(value = Decimal(10.0)),
-                    type = CodeableConcept(text = FHIRString("type")),
-                    appliesTo = listOf(CodeableConcept(text = FHIRString("applies to"))),
-                    age = Range(low = SimpleQuantity(value = Decimal(13.5))),
-                    text = FHIRString("reference range")
-                )
-            ),
-            hasMember = listOf(Reference(reference = FHIRString("Observation/789"))),
-            derivedFrom = listOf(Reference(reference = FHIRString("DocumentReference/123"))),
-            component = listOf(
-                ObservationComponent(
-                    code = valueType,
-                    value = DynamicValue(DynamicValueType.QUANTITY, quantityValue)
-                )
+        val valueType =
+            CodeableConcept(
+                coding =
+                    listOf(
+                        Coding(
+                            system = Uri("http://value.org"),
+                            code = Code("Quantity value"),
+                        ),
+                    ),
             )
-        )
+        val observation =
+            Observation(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninObservationHeartRate")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                basedOn = listOf(Reference(reference = FHIRString("CarePlan/123"))),
+                partOf = listOf(Reference(reference = FHIRString("Procedure/123"))),
+                status = ObservationStatus.FINAL.asCode(),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                code = CodeableConcept(text = FHIRString("code")),
+                subject = Reference(reference = FHIRString("subject")),
+                focus = listOf(Reference(reference = FHIRString("Condition/123"))),
+                encounter = Reference(reference = FHIRString("Encounter/123")),
+                effective = DynamicValue(DynamicValueType.INSTANT, Instant("2017-01-01T00:00:00Z")),
+                issued = Instant("2017-01-01T00:00:00Z"),
+                performer = listOf(Reference(reference = FHIRString("performer"))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2019-04-01")),
+                dataAbsentReason = CodeableConcept(text = FHIRString("data absent reason")),
+                interpretation = listOf(CodeableConcept(text = FHIRString("interpretation"))),
+                bodySite = CodeableConcept(text = FHIRString("body site")),
+                method = CodeableConcept(text = FHIRString("method")),
+                specimen = Reference(reference = FHIRString("Specimen/123")),
+                device = Reference(reference = FHIRString("Device/123")),
+                referenceRange =
+                    listOf(
+                        ObservationReferenceRange(
+                            low = SimpleQuantity(value = Decimal(1.0)),
+                            high = SimpleQuantity(value = Decimal(10.0)),
+                            type = CodeableConcept(text = FHIRString("type")),
+                            appliesTo = listOf(CodeableConcept(text = FHIRString("applies to"))),
+                            age = Range(low = SimpleQuantity(value = Decimal(13.5))),
+                            text = FHIRString("reference range"),
+                        ),
+                    ),
+                hasMember = listOf(Reference(reference = FHIRString("Observation/789"))),
+                derivedFrom = listOf(Reference(reference = FHIRString("DocumentReference/123"))),
+                component =
+                    listOf(
+                        ObservationComponent(
+                            code = valueType,
+                            value = DynamicValue(DynamicValueType.QUANTITY, quantityValue),
+                        ),
+                    ),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Observation",
               "id" : "12345",
@@ -236,7 +247,7 @@ class ObservationTest {
                 }
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedObservation = JacksonManager.objectMapper.readValue<Observation>(json)
@@ -245,14 +256,16 @@ class ObservationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val observation = Observation(
-            status = ObservationStatus.FINAL.asCode(),
-            code = CodeableConcept(text = FHIRString("code")),
-            subject = Reference(reference = FHIRString("subject"))
-        )
+        val observation =
+            Observation(
+                status = ObservationStatus.FINAL.asCode(),
+                code = CodeableConcept(text = FHIRString("code")),
+                subject = Reference(reference = FHIRString("subject")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Observation",
               "status" : "final",
@@ -263,13 +276,14 @@ class ObservationTest {
                 "reference" : "subject"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Observation",
               "status" : "final",
@@ -280,7 +294,7 @@ class ObservationTest {
                 "reference" : "subject"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val observation = JacksonManager.objectMapper.readValue<Observation>(json)
         assertNull(observation.id)
         assertNull(observation.meta)

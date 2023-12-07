@@ -16,25 +16,28 @@ import org.junit.jupiter.api.Test
 class ParameterDefinitionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val parameterDefinition = ParameterDefinition(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            name = Code("parameter name"),
-            use = OperationParameterUse.INPUT.asCode(),
-            min = FHIRInteger(1),
-            max = FHIRString("3"),
-            documentation = FHIRString("parameter documentation"),
-            type = Code("integer"),
-            profile = Canonical("profile-canonical")
-        )
+        val parameterDefinition =
+            ParameterDefinition(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                name = Code("parameter name"),
+                use = OperationParameterUse.INPUT.asCode(),
+                min = FHIRInteger(1),
+                max = FHIRString("3"),
+                documentation = FHIRString("parameter documentation"),
+                type = Code("integer"),
+                profile = Canonical("profile-canonical"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parameterDefinition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -49,7 +52,7 @@ class ParameterDefinitionTest {
             |  "type" : "integer",
             |  "profile" : "profile-canonical"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedParameterDefinition = objectMapper.readValue<ParameterDefinition>(json)
@@ -62,23 +65,25 @@ class ParameterDefinitionTest {
             ParameterDefinition(use = OperationParameterUse.OUTPUT.asCode(), type = Code("integer"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parameterDefinition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "use" : "out",
             |  "type" : "integer"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "use" : "out",
             |  "type" : "integer"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val parameterDefinition = objectMapper.readValue<ParameterDefinition>(json)
 
         assertNull(parameterDefinition.id)

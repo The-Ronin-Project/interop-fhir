@@ -6,8 +6,10 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/ValueSet/location-status.html)
  */
-enum class LocationStatus(@JsonValue override val code: String) : CodedEnum<LocationStatus> {
+enum class LocationStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<LocationStatus> {
     ACTIVE("active"),
     SUSPENDED("suspended"),
-    INACTIVE("inactive")
+    INACTIVE("inactive"),
 }

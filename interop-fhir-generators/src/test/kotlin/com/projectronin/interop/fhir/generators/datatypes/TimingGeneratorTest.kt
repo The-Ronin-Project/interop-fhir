@@ -30,14 +30,16 @@ class TimingGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val timing = timing {
-            event of listOf(
-                dateTime { year of 1990 },
-                dateTime { year of 1993 }
-            )
-            repeat of timingRepeat {}
-            code of codeableConcept { text of "code" }
-        }
+        val timing =
+            timing {
+                event of
+                    listOf(
+                        dateTime { year of 1990 },
+                        dateTime { year of 1993 },
+                    )
+                repeat of timingRepeat {}
+                code of codeableConcept { text of "code" }
+            }
         assertEquals(2, timing.event.size)
         assertTrue(timing.event[0].value?.startsWith("1990")!!)
         assertTrue(timing.event[1].value?.startsWith("1993")!!)
@@ -70,38 +72,43 @@ class TimingRepeatGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val repeat = timingRepeat {
-            bounds of DynamicValues.period(
-                period {
-                    start of dateTime { year of 1990 }
-                    end of dateTime { year of 1993 }
-                }
-            )
-            count of PositiveInt(1)
-            countMax of PositiveInt(3)
-            duration of Decimal(BigDecimal(1.23))
-            durationMax of Decimal(BigDecimal(2.46))
-            durationUnit of Code("min")
-            frequency of PositiveInt(2)
-            frequencyMax of PositiveInt(6)
-            period of Decimal(BigDecimal(1.23))
-            periodMax of Decimal(BigDecimal(2.46))
-            periodUnit of Code("h")
-            dayOfWeek of listOf(
-                Code("mon"),
-                Code("wed"),
-                Code("fri")
-            )
-            timeOfDay of listOf(
-                Time("08:00"),
-                Time("06:00")
-            )
-            `when` of listOf(
-                Code("CM"),
-                Code("CV")
-            )
-            offset of UnsignedInt(4)
-        }
+        val repeat =
+            timingRepeat {
+                bounds of
+                    DynamicValues.period(
+                        period {
+                            start of dateTime { year of 1990 }
+                            end of dateTime { year of 1993 }
+                        },
+                    )
+                count of PositiveInt(1)
+                countMax of PositiveInt(3)
+                duration of Decimal(BigDecimal(1.23))
+                durationMax of Decimal(BigDecimal(2.46))
+                durationUnit of Code("min")
+                frequency of PositiveInt(2)
+                frequencyMax of PositiveInt(6)
+                period of Decimal(BigDecimal(1.23))
+                periodMax of Decimal(BigDecimal(2.46))
+                periodUnit of Code("h")
+                dayOfWeek of
+                    listOf(
+                        Code("mon"),
+                        Code("wed"),
+                        Code("fri"),
+                    )
+                timeOfDay of
+                    listOf(
+                        Time("08:00"),
+                        Time("06:00"),
+                    )
+                `when` of
+                    listOf(
+                        Code("CM"),
+                        Code("CV"),
+                    )
+                offset of UnsignedInt(4)
+            }
         val actualBounds = repeat.bounds?.value as Period
         assertTrue(actualBounds.start?.value?.startsWith("1990") == true)
         assertTrue(actualBounds.end?.value?.startsWith("1993") == true)

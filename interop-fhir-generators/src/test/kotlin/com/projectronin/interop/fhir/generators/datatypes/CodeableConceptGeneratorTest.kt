@@ -18,12 +18,14 @@ class CodeableConceptGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val codeableConcept = codeableConcept {
-            coding of listOf(
-                coding { }
-            )
-            text of "text"
-        }
+        val codeableConcept =
+            codeableConcept {
+                coding of
+                    listOf(
+                        coding { },
+                    )
+                text of "text"
+            }
         val coding = codeableConcept.coding
         assertNotNull(codeableConcept.coding)
         assertEquals(1, coding.size)

@@ -40,7 +40,6 @@ data class MedicationAdministrationGenerator(
     override val contained: ListDataGenerator<Resource<*>?> = ListDataGenerator(0, NullDataGenerator()),
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
-
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
     val instantiates: ListDataGenerator<Uri> = ListDataGenerator(0, UriGenerator()),
     val partOf: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
@@ -59,7 +58,7 @@ data class MedicationAdministrationGenerator(
     val device: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
     val dosage: DataGenerator<MedicationAdministrationDosage?> = NullDataGenerator(),
-    val eventHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+    val eventHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
 ) : DomainResource<MedicationAdministration> {
     override fun toFhir(): MedicationAdministration =
         MedicationAdministration(
@@ -89,7 +88,7 @@ data class MedicationAdministrationGenerator(
             device = device.generate(),
             note = note.generate(),
             dosage = dosage.generate(),
-            eventHistory = eventHistory.generate()
+            eventHistory = eventHistory.generate(),
         )
 }
 
@@ -100,13 +99,14 @@ class MedAdminPerformerGenerator : DataGenerator<MedicationAdministrationPerform
     val function: DataGenerator<CodeableConcept?> = NullDataGenerator()
     val actor: DataGenerator<Reference> = ReferenceGenerator()
 
-    override fun generateInternal() = MedicationAdministrationPerformer(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        function = function.generate(),
-        actor = actor.generate()
-    )
+    override fun generateInternal() =
+        MedicationAdministrationPerformer(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            function = function.generate(),
+            actor = actor.generate(),
+        )
 }
 
 class MedAdminDosageGenerator : DataGenerator<MedicationAdministrationDosage>() {
@@ -120,17 +120,18 @@ class MedAdminDosageGenerator : DataGenerator<MedicationAdministrationDosage>() 
     val dose: DataGenerator<Quantity?> = NullDataGenerator()
     val rate: DataGenerator<DynamicValue<Any>?> = NullDataGenerator()
 
-    override fun generateInternal() = MedicationAdministrationDosage(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        text = text.generate(),
-        site = site.generate(),
-        route = route.generate(),
-        method = method.generate(),
-        dose = dose.generate(),
-        rate = rate.generate()
-    )
+    override fun generateInternal() =
+        MedicationAdministrationDosage(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            text = text.generate(),
+            site = site.generate(),
+            route = route.generate(),
+            method = method.generate(),
+            dose = dose.generate(),
+            rate = rate.generate(),
+        )
 }
 
 class MedAdminMedicationGenerator : DataGenerator<DynamicValue<Any>>() {

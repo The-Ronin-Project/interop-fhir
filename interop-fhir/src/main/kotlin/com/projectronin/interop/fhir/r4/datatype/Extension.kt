@@ -19,8 +19,9 @@ data class Extension(
     override val extension: List<Extension> = listOf(),
     @RequiredField
     val url: Uri? = null,
-    val value: DynamicValue<Any>? = null
+    val value: DynamicValue<Any>? = null,
 ) : Element<Extension>
 
 class ExtensionDeserializer : BaseFHIRDeserializer<Extension>(Extension::class.java)
+
 class ExtensionSerializer : BaseFHIRSerializer<Extension>(Extension::class.java)

@@ -27,7 +27,7 @@ import com.projectronin.interop.fhir.validate.Validatable
     include = JsonTypeInfo.As.EXISTING_PROPERTY,
     property = "resourceType",
     defaultImpl = UnknownResource::class,
-    visible = true
+    visible = true,
 )
 // This is the list of FHIR resources that Ronin product code can use.
 @JsonSubTypes(
@@ -56,7 +56,7 @@ import com.projectronin.interop.fhir.validate.Validatable
     JsonSubTypes.Type(Immunization::class),
     JsonSubTypes.Type(MedicationAdministration::class),
     JsonSubTypes.Type(Procedure::class),
-    JsonSubTypes.Type(ServiceRequest::class)
+    JsonSubTypes.Type(ServiceRequest::class),
 )
 interface Resource<T : Resource<T>> : Validatable<T> {
     val resourceType: String

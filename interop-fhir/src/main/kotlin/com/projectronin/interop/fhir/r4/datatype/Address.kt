@@ -32,8 +32,9 @@ data class Address(
     val state: FHIRString? = null,
     val postalCode: FHIRString? = null,
     val country: FHIRString? = null,
-    val period: Period? = null
+    val period: Period? = null,
 ) : Element<Address>
 
 class AddressSerializer : BaseFHIRSerializer<Address>(Address::class.java)
+
 class AddressDeserializer : BaseFHIRDeserializer<Address>(Address::class.java)

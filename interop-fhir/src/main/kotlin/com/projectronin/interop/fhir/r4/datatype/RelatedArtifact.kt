@@ -33,8 +33,9 @@ data class RelatedArtifact(
     val citation: Markdown? = null,
     val url: Url? = null,
     val document: Attachment? = null,
-    val resource: Canonical? = null
+    val resource: Canonical? = null,
 ) : Element<RelatedArtifact>
 
 class RelatedArtifactSerializer : BaseFHIRSerializer<RelatedArtifact>(RelatedArtifact::class.java)
+
 class RelatedArtifactDeserializer : BaseFHIRDeserializer<RelatedArtifact>(RelatedArtifact::class.java)

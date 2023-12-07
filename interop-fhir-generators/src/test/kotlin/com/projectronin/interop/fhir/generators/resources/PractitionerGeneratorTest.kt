@@ -53,59 +53,69 @@ class PractitionerGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val practitioner = practitioner {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            active of true
-            name of listOf(name { family of "Felt" })
-            telecom of listOf(
-                contactPoint {
-                    system of ContactPointSystem.EMAIL.asCode()
-                    value of "doctor.com"
-                }
-            )
-            address of listOf(
-                address {
-                    city of "Kansas City"
-                    state of "KS"
-                }
-            )
-            gender of "Very"
-            birthDate of date { year of 1990 }
-            photo of listOf(
-                attachment {
-                    id of "123"
-                    size of UnsignedInt(1)
-                    data of Base64Binary("12343211234")
-                }
-            )
-            qualification of listOf(
-                qualification {
-                    code of codeableConcept {
-                        coding of listOf(
-                            coding {
-                                code of "codeA"
-                                system of "systemA"
-                            }
-                        )
-                        text of "textA"
-                    }
-                }
-            )
-            communication of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            code of "codeB"
-                            system of "systemB"
-                        }
+        val practitioner =
+            practitioner {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
                     )
-                    text of "textB"
-                }
-            )
-        }
+                active of true
+                name of listOf(name { family of "Felt" })
+                telecom of
+                    listOf(
+                        contactPoint {
+                            system of ContactPointSystem.EMAIL.asCode()
+                            value of "doctor.com"
+                        },
+                    )
+                address of
+                    listOf(
+                        address {
+                            city of "Kansas City"
+                            state of "KS"
+                        },
+                    )
+                gender of "Very"
+                birthDate of date { year of 1990 }
+                photo of
+                    listOf(
+                        attachment {
+                            id of "123"
+                            size of UnsignedInt(1)
+                            data of Base64Binary("12343211234")
+                        },
+                    )
+                qualification of
+                    listOf(
+                        qualification {
+                            code of
+                                codeableConcept {
+                                    coding of
+                                        listOf(
+                                            coding {
+                                                code of "codeA"
+                                                system of "systemA"
+                                            },
+                                        )
+                                    text of "textA"
+                                }
+                        },
+                    )
+                communication of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        code of "codeB"
+                                        system of "systemB"
+                                    },
+                                )
+                            text of "textB"
+                        },
+                    )
+            }
         assertEquals("id", practitioner.id?.value)
         assertEquals(1, practitioner.identifier.size)
         assertTrue(practitioner.identifier.first().system?.value.toString().isNotEmpty())
@@ -132,33 +142,38 @@ class PractitionerGeneratorTest {
     @Test
     fun `example use with serialization`() {
         // Create a practitioner with the details you need.
-        val practitioner = practitioner {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            name of listOf(name { family of "Felt" })
-            gender of "Very"
-            birthDate of date { year of 1990 }
+        val practitioner =
+            practitioner {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                name of listOf(name { family of "Felt" })
+                gender of "Very"
+                birthDate of date { year of 1990 }
 
-            // Say your test requires a qualification
-            qualification of listOf(
-                qualification {
-                    code of codeableConcept {
-                        coding of listOf(
-                            coding {
-                                code of "codeA"
-                                system of "systemA"
-                            }
-                        )
-                        text of "textA"
-                    }
-                }
-            )
+                // Say your test requires a qualification
+                qualification of
+                    listOf(
+                        qualification {
+                            code of
+                                codeableConcept {
+                                    coding of
+                                        listOf(
+                                            coding {
+                                                code of "codeA"
+                                                system of "systemA"
+                                            },
+                                        )
+                                    text of "textA"
+                                }
+                        },
+                    )
 
-            // And active status
-            active of FHIRBoolean(true)
-        }
+                // And active status
+                active of FHIRBoolean(true)
+            }
 
         // This object can be serialized to JSON to be injected into your workflow, all specified R4 attributes wil be generated
         val practitionerJSON = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)

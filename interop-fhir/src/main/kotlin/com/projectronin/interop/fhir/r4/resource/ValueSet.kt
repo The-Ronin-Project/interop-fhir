@@ -63,12 +63,13 @@ data class ValueSet(
     val purpose: Markdown? = null,
     val copyright: Markdown? = null,
     val compose: ValueSetCompose? = null,
-    val expansion: ValueSetExpansion? = null
+    val expansion: ValueSetExpansion? = null,
 ) : DomainResource<ValueSet> {
     override val resourceType: String = "ValueSet"
 }
 
 class ValueSetDeserializer : BaseFHIRDeserializer<ValueSet>(ValueSet::class.java)
+
 class ValueSetSerializer : BaseFHIRSerializer<ValueSet>(ValueSet::class.java)
 
 @JsonDeserialize(using = ValueSetComposeDeserializer::class)
@@ -81,10 +82,11 @@ data class ValueSetCompose(
     val inactive: FHIRBoolean? = null,
     @RequiredField
     val include: List<ValueSetInclude> = listOf(),
-    val exclude: List<ValueSetInclude> = listOf()
+    val exclude: List<ValueSetInclude> = listOf(),
 ) : BackboneElement<ValueSetCompose>
 
 class ValueSetComposeDeserializer : BaseFHIRDeserializer<ValueSetCompose>(ValueSetCompose::class.java)
+
 class ValueSetComposeSerializer : BaseFHIRSerializer<ValueSetCompose>(ValueSetCompose::class.java)
 
 @JsonDeserialize(using = ValueSetIncludeDeserializer::class)
@@ -97,10 +99,11 @@ data class ValueSetInclude(
     val version: FHIRString? = null,
     val concept: List<ValueSetConcept> = listOf(),
     val filter: List<ValueSetFilter> = listOf(),
-    val valueSet: List<Canonical> = listOf()
+    val valueSet: List<Canonical> = listOf(),
 ) : BackboneElement<ValueSetInclude>
 
 class ValueSetIncludeDeserializer : BaseFHIRDeserializer<ValueSetInclude>(ValueSetInclude::class.java)
+
 class ValueSetIncludeSerializer : BaseFHIRSerializer<ValueSetInclude>(ValueSetInclude::class.java)
 
 @JsonDeserialize(using = ValueSetConceptDeserializer::class)
@@ -112,10 +115,11 @@ data class ValueSetConcept(
     @RequiredField
     val code: Code?,
     val display: FHIRString? = null,
-    val designation: List<ValueSetDesignation> = listOf()
+    val designation: List<ValueSetDesignation> = listOf(),
 ) : BackboneElement<ValueSetConcept>
 
 class ValueSetConceptDeserializer : BaseFHIRDeserializer<ValueSetConcept>(ValueSetConcept::class.java)
+
 class ValueSetConceptSerializer : BaseFHIRSerializer<ValueSetConcept>(ValueSetConcept::class.java)
 
 @JsonDeserialize(using = ValueSetDesignationDeserializer::class)
@@ -127,10 +131,11 @@ data class ValueSetDesignation(
     val language: Code? = null,
     val use: Coding? = null,
     @RequiredField
-    val value: FHIRString?
+    val value: FHIRString?,
 ) : BackboneElement<ValueSetDesignation>
 
 class ValueSetDesignationDeserializer : BaseFHIRDeserializer<ValueSetDesignation>(ValueSetDesignation::class.java)
+
 class ValueSetDesignationSerializer : BaseFHIRSerializer<ValueSetDesignation>(ValueSetDesignation::class.java)
 
 @JsonDeserialize(using = ValueSetFilterDeserializer::class)
@@ -145,10 +150,11 @@ data class ValueSetFilter(
     @RequiredValueSet(FilterOperator::class)
     val op: Code?,
     @RequiredField
-    val value: FHIRString?
+    val value: FHIRString?,
 ) : BackboneElement<ValueSetFilter>
 
 class ValueSetFilterDeserializer : BaseFHIRDeserializer<ValueSetFilter>(ValueSetFilter::class.java)
+
 class ValueSetFilterSerializer : BaseFHIRSerializer<ValueSetFilter>(ValueSetFilter::class.java)
 
 @JsonDeserialize(using = ValueSetExpansionDeserializer::class)
@@ -163,10 +169,11 @@ data class ValueSetExpansion(
     val total: FHIRInteger? = null,
     val offset: FHIRInteger? = null,
     val parameter: List<ValueSetParameter> = listOf(),
-    val contains: List<ValueSetContains> = listOf()
+    val contains: List<ValueSetContains> = listOf(),
 ) : BackboneElement<ValueSetExpansion>
 
 class ValueSetExpansionDeserializer : BaseFHIRDeserializer<ValueSetExpansion>(ValueSetExpansion::class.java)
+
 class ValueSetExpansionSerializer : BaseFHIRSerializer<ValueSetExpansion>(ValueSetExpansion::class.java)
 
 @JsonDeserialize(using = ValueSetParameterDeserializer::class)
@@ -184,12 +191,13 @@ data class ValueSetParameter(
         DynamicValueType.DECIMAL,
         DynamicValueType.URI,
         DynamicValueType.CODE,
-        DynamicValueType.DATE_TIME
+        DynamicValueType.DATE_TIME,
     )
-    val value: DynamicValue<Any>? = null
+    val value: DynamicValue<Any>? = null,
 ) : BackboneElement<ValueSetParameter>
 
 class ValueSetParameterDeserializer : BaseFHIRDeserializer<ValueSetParameter>(ValueSetParameter::class.java)
+
 class ValueSetParameterSerializer : BaseFHIRSerializer<ValueSetParameter>(ValueSetParameter::class.java)
 
 @JsonDeserialize(using = ValueSetContainsDeserializer::class)
@@ -205,8 +213,9 @@ data class ValueSetContains(
     val code: Code? = null,
     val display: FHIRString? = null,
     val designation: List<ValueSetDesignation> = listOf(),
-    val contains: List<ValueSetContains> = listOf()
+    val contains: List<ValueSetContains> = listOf(),
 ) : BackboneElement<ValueSetContains>
 
 class ValueSetContainsDeserializer : BaseFHIRDeserializer<ValueSetContains>(ValueSetContains::class.java)
+
 class ValueSetContainsSerializer : BaseFHIRSerializer<ValueSetContains>(ValueSetContains::class.java)

@@ -32,18 +32,21 @@ class DiagnosticReportGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val diagnosticReport = diagnosticReport {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            status of "status"
-            code of codeableConcept {
-                text of "code"
+        val diagnosticReport =
+            diagnosticReport {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                status of "status"
+                code of
+                    codeableConcept {
+                        text of "code"
+                    }
+                subject of reference("Patient", "123")
+                category of listOf(codeableConcept {})
             }
-            subject of reference("Patient", "123")
-            category of listOf(codeableConcept {})
-        }
         assertEquals("id", diagnosticReport.id?.value)
         assertEquals(1, diagnosticReport.identifier.size)
         assertEquals("status", diagnosticReport.status?.value)

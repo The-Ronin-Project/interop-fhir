@@ -5,7 +5,7 @@ data class ValidationIssue(
     val code: String,
     val description: String,
     val location: LocationContext? = null,
-    val metadata: List<IssueMetadata>? = listOf<IssueMetadata>()
+    val metadata: List<IssueMetadata>? = listOf<IssueMetadata>(),
 ) {
     override fun toString(): String {
         return "${severity.name} $code: $description${location?.let { " @ $it" } ?: ""}"
@@ -13,5 +13,6 @@ data class ValidationIssue(
 }
 
 enum class ValidationIssueSeverity {
-    ERROR, WARNING
+    ERROR,
+    WARNING,
 }

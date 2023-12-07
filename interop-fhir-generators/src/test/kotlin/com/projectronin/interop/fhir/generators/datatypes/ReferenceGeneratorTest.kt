@@ -53,7 +53,7 @@ class ReferenceGeneratorTest {
         assertEquals("5678", reference.decomposedId())
         assertEquals(
             "Medication/5678",
-            reference.reference?.value
+            reference.reference?.value,
         )
     }
 
@@ -64,7 +64,7 @@ class ReferenceGeneratorTest {
         assertEquals(5, reference.decomposedId()?.length)
         assertEquals(
             "Medication/${reference.decomposedId()}",
-            reference.reference?.value
+            reference.reference?.value,
         )
     }
 
@@ -75,7 +75,7 @@ class ReferenceGeneratorTest {
         assertEquals(5, reference.decomposedId()?.length)
         assertEquals(
             "Medication/${reference.decomposedId()}",
-            reference.reference?.value
+            reference.reference?.value,
         )
     }
 }

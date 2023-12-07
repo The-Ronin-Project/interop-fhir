@@ -21,13 +21,14 @@ class QuantityGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val quantity = quantity {
-            value of BigDecimal(1.2345)
-            comparator of Code("compCode")
-            unit of "centimeters"
-            system of Uri("system")
-            code of Code("code")
-        }
+        val quantity =
+            quantity {
+                value of BigDecimal(1.2345)
+                comparator of Code("compCode")
+                unit of "centimeters"
+                system of Uri("system")
+                code of Code("code")
+            }
         assertEquals(BigDecimal(1.2345), quantity.value?.value)
         assertEquals("compCode", quantity.comparator?.value)
         assertEquals("centimeters", quantity.unit?.value)

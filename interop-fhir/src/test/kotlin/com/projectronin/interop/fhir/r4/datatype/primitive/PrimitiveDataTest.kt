@@ -11,18 +11,21 @@ import org.junit.jupiter.api.Test
 class PrimitiveDataTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val primitiveData = PrimitiveData(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
+        val primitiveData =
+            PrimitiveData(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(primitiveData)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -30,7 +33,7 @@ class PrimitiveDataTest {
             |    "valueString" : "Value"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPrimitiveData = objectMapper.readValue<PrimitiveData>(json)
@@ -39,34 +42,38 @@ class PrimitiveDataTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val primitiveData = PrimitiveData(
-            extension = listOf(
-                Extension(
-                    url = Uri("http://hl7.org/fhir/StructureDefinition/rendered-value"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("xxx-xx-1234"))
-                )
+        val primitiveData =
+            PrimitiveData(
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://hl7.org/fhir/StructureDefinition/rendered-value"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("xxx-xx-1234")),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(primitiveData)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "extension" : [ {
             |    "url" : "http://hl7.org/fhir/StructureDefinition/rendered-value",
             |    "valueString" : "xxx-xx-1234"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "12345"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val primitiveData = objectMapper.readValue<PrimitiveData>(json)
 
         assertEquals(FHIRString("12345"), primitiveData.id)

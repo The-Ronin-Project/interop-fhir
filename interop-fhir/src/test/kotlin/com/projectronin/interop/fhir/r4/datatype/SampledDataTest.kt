@@ -13,25 +13,28 @@ import org.junit.jupiter.api.Test
 class SampledDataTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val sampledData = SampledData(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            origin = SimpleQuantity(value = Decimal(3.0)),
-            period = Decimal(2.0),
-            factor = Decimal(4.0),
-            lowerLimit = Decimal(0.0),
-            upperLimit = Decimal(205.4),
-            dimensions = PositiveInt(3),
-            data = FHIRString("the data")
-        )
+        val sampledData =
+            SampledData(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                origin = SimpleQuantity(value = Decimal(3.0)),
+                period = Decimal(2.0),
+                factor = Decimal(4.0),
+                lowerLimit = Decimal(0.0),
+                upperLimit = Decimal(205.4),
+                dimensions = PositiveInt(3),
+                data = FHIRString("the data"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sampledData)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -48,7 +51,7 @@ class SampledDataTest {
             |  "dimensions" : 3,
             |  "data" : "the data"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSampledData = objectMapper.readValue<SampledData>(json)
@@ -57,14 +60,16 @@ class SampledDataTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val sampledData = SampledData(
-            origin = SimpleQuantity(value = Decimal(1.0)),
-            period = Decimal(3.0),
-            dimensions = PositiveInt(5)
-        )
+        val sampledData =
+            SampledData(
+                origin = SimpleQuantity(value = Decimal(1.0)),
+                period = Decimal(3.0),
+                dimensions = PositiveInt(5),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sampledData)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "origin" : {
             |    "value" : 1.0
@@ -72,13 +77,14 @@ class SampledDataTest {
             |  "period" : 3.0,
             |  "dimensions" : 5
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "origin" : {
             |    "value" : 1.0
@@ -86,7 +92,7 @@ class SampledDataTest {
             |  "period" : 3.0,
             |  "dimensions" : 5
             |}
-        """.trimMargin()
+            """.trimMargin()
         val sampledData = objectMapper.readValue<SampledData>(json)
 
         assertNull(sampledData.id)

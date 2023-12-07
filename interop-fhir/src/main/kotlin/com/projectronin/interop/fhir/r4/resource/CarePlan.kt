@@ -78,7 +78,7 @@ data class CarePlan(
         ResourceType.Device,
         ResourceType.RelatedPerson,
         ResourceType.Organization,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val author: Reference? = null,
     @SupportedReferenceTypes(
@@ -88,7 +88,7 @@ data class CarePlan(
         ResourceType.Device,
         ResourceType.RelatedPerson,
         ResourceType.Organization,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val contributor: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.CareTeam)
@@ -99,12 +99,13 @@ data class CarePlan(
     @SupportedReferenceTypes(ResourceType.Goal)
     val goal: List<Reference> = listOf(),
     val activity: List<CarePlanActivity> = listOf(),
-    val note: List<Annotation> = listOf()
+    val note: List<Annotation> = listOf(),
 ) : DomainResource<CarePlan> {
     override val resourceType: String = "CarePlan"
 }
 
 class CarePlanSerializer : BaseFHIRSerializer<CarePlan>(CarePlan::class.java)
+
 class CarePlanDeserializer : BaseFHIRDeserializer<CarePlan>(CarePlan::class.java)
 
 @JsonSerialize(using = CarePlanActivitySerializer::class)
@@ -125,13 +126,14 @@ data class CarePlanActivity(
         ResourceType.Task,
         ResourceType.ServiceRequest,
         ResourceType.VisionPrescription,
-        ResourceType.RequestGroup
+        ResourceType.RequestGroup,
     )
     val reference: Reference? = null,
-    val detail: CarePlanDetail? = null
+    val detail: CarePlanDetail? = null,
 ) : BackboneElement<CarePlanActivity>
 
 class CarePlanActivitySerializer : BaseFHIRSerializer<CarePlanActivity>(CarePlanActivity::class.java)
+
 class CarePlanActivityDeserializer : BaseFHIRDeserializer<CarePlanActivity>(CarePlanActivity::class.java)
 
 @JsonDeserialize(using = CarePlanDetailDeserializer::class)
@@ -150,7 +152,7 @@ data class CarePlanDetail(
         ResourceType.Condition,
         ResourceType.Observation,
         ResourceType.DiagnosticReport,
-        ResourceType.DocumentReference
+        ResourceType.DocumentReference,
     )
     val reasonReference: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Goal)
@@ -172,7 +174,7 @@ data class CarePlanDetail(
         ResourceType.Patient,
         ResourceType.CareTeam,
         ResourceType.HealthcareService,
-        ResourceType.Device
+        ResourceType.Device,
     )
     val performer: List<Reference> = listOf(),
     @SupportedDynamicValueTypes(DynamicValueType.CODEABLE_CONCEPT, DynamicValueType.REFERENCE)
@@ -180,8 +182,9 @@ data class CarePlanDetail(
     val product: DynamicValue<Any>? = null,
     val dailyAmount: SimpleQuantity? = null,
     val quantity: SimpleQuantity? = null,
-    val description: FHIRString? = null
+    val description: FHIRString? = null,
 ) : BackboneElement<CarePlanDetail>
 
 class CarePlanDetailDeserializer : BaseFHIRDeserializer<CarePlanDetail>(CarePlanDetail::class.java)
+
 class CarePlanDetailSerializer : BaseFHIRSerializer<CarePlanDetail>(CarePlanDetail::class.java)

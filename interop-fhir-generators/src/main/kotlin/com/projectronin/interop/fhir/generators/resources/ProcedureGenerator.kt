@@ -66,7 +66,7 @@ data class ProcedureGenerator(
     val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
     val focalDevice: ListDataGenerator<ProcedureFocalDevice> = ListDataGenerator(0, ProcedureFocalDeviceGenerator()),
     val usedReference: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
-    val usedCode: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
+    val usedCode: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
 ) : DomainResource<Procedure> {
     override fun toFhir(): Procedure =
         Procedure(
@@ -105,7 +105,7 @@ data class ProcedureGenerator(
             note = note.generate(),
             focalDevice = focalDevice.generate(),
             usedReference = usedReference.generate(),
-            usedCode = usedCode.generate()
+            usedCode = usedCode.generate(),
         )
 }
 
@@ -117,14 +117,15 @@ class ProcedurePerformerGenerator : DataGenerator<ProcedurePerformer>() {
     val actor: DataGenerator<Reference> = ReferenceGenerator()
     val onBehalfOf: DataGenerator<Reference?> = NullDataGenerator()
 
-    override fun generateInternal() = ProcedurePerformer(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        function = function.generate(),
-        actor = actor.generate(),
-        onBehalfOf = onBehalfOf.generate()
-    )
+    override fun generateInternal() =
+        ProcedurePerformer(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            function = function.generate(),
+            actor = actor.generate(),
+            onBehalfOf = onBehalfOf.generate(),
+        )
 }
 
 class ProcedureFocalDeviceGenerator : DataGenerator<ProcedureFocalDevice>() {
@@ -134,13 +135,14 @@ class ProcedureFocalDeviceGenerator : DataGenerator<ProcedureFocalDevice>() {
     val action: DataGenerator<CodeableConcept?> = NullDataGenerator()
     val manipulated: DataGenerator<Reference> = ReferenceGenerator()
 
-    override fun generateInternal() = ProcedureFocalDevice(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        action = action.generate(),
-        manipulated = manipulated.generate()
-    )
+    override fun generateInternal() =
+        ProcedureFocalDevice(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            action = action.generate(),
+            manipulated = manipulated.generate(),
+        )
 }
 
 fun procedure(block: ProcedureGenerator.() -> Unit): Procedure {

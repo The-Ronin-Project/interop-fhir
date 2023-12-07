@@ -3,7 +3,9 @@ package com.projectronin.interop.fhir.r4.valueset
 import com.fasterxml.jackson.annotation.JsonValue
 import com.projectronin.interop.common.enums.CodedEnum
 
-enum class PublicationStatus(@JsonValue override val code: String) : CodedEnum<PublicationStatus> {
+enum class PublicationStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<PublicationStatus> {
     /**
      * This resource is still under development and is not yet considered to be ready for normal use.
      */
@@ -24,5 +26,5 @@ enum class PublicationStatus(@JsonValue override val code: String) : CodedEnum<P
      * Note: This concept is not to be used for "other" - one of the listed statuses is presumed to apply,
      * it's just not known which one.
      */
-    UNKNOWN("unknown")
+    UNKNOWN("unknown"),
 }

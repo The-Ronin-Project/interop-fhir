@@ -17,8 +17,9 @@ data class Range(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val low: SimpleQuantity? = null,
-    val high: SimpleQuantity? = null
+    val high: SimpleQuantity? = null,
 ) : Element<Range>
 
 class RangeSerializer : BaseFHIRSerializer<Range>(Range::class.java)
+
 class RangeDeserializer : BaseFHIRDeserializer<Range>(Range::class.java)

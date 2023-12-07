@@ -3,7 +3,9 @@ package com.projectronin.interop.fhir.r4.valueset
 import com.fasterxml.jackson.annotation.JsonValue
 import com.projectronin.interop.common.enums.CodedEnum
 
-enum class NarrativeStatus(@JsonValue override val code: String) : CodedEnum<NarrativeStatus> {
+enum class NarrativeStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<NarrativeStatus> {
     /**
      * The contents of the narrative are entirely generated from the core elements in the content.
      */
@@ -24,5 +26,5 @@ enum class NarrativeStatus(@JsonValue override val code: String) : CodedEnum<Nar
     /**
      * The contents of the narrative are some equivalent of "No human-readable text provided in this case".
      */
-    EMPTY("empty")
+    EMPTY("empty"),
 }

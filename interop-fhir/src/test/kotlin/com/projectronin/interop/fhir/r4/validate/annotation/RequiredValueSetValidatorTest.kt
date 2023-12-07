@@ -26,7 +26,7 @@ class RequiredValueSetValidatorTest {
                 CodeElement(RequestStatus.COMPLETED.asCode()),
                 "CodeElement",
                 LocationContext(CodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -41,7 +41,7 @@ class RequiredValueSetValidatorTest {
                 CodeElement(RequestStatus.COMPLETED.asCode()),
                 "CodeElement",
                 LocationContext(CodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -56,7 +56,7 @@ class RequiredValueSetValidatorTest {
                 NonCodeElement(FHIRString("completed")),
                 "NonCodeElement",
                 LocationContext(NonCodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -71,30 +71,31 @@ class RequiredValueSetValidatorTest {
                 CodeElement(null),
                 "CodeElement",
                 LocationContext(CodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
 
     @Test
     fun `fails validation when code outside value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredValueSet(RequestStatus::class)),
-                    CodeElement::code,
-                    Code::class,
-                    CodeElement(Code("unknown-code")),
-                    "CodeElement",
-                    LocationContext(CodeElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredValueSet(RequestStatus::class)),
+                        CodeElement::code,
+                        Code::class,
+                        CodeElement(Code("unknown-code")),
+                        "CodeElement",
+                        LocationContext(CodeElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unknown-code' is outside of required value set @ CodeElement.code",
-            exception.message
+            exception.message,
         )
     }
 
@@ -108,7 +109,7 @@ class RequiredValueSetValidatorTest {
                 CodeElement(RequestStatus.COMPLETED.asCode()),
                 "CodeElement",
                 LocationContext(CodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -123,7 +124,7 @@ class RequiredValueSetValidatorTest {
                 CollectionNonCodeElement(listOf(FHIRString("other"), FHIRString("another"))),
                 "CollectionNonCodeElement",
                 LocationContext(CollectionNonCodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
@@ -138,69 +139,71 @@ class RequiredValueSetValidatorTest {
                 CollectionCodeElement(listOf(RequestStatus.COMPLETED.asCode(), RequestStatus.ACTIVE.asCode())),
                 "CollectionCodeElement",
                 LocationContext(CollectionCodeElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
 
     @Test
     fun `fails when one value in a Collection of Codes is outside value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredValueSet(RequestStatus::class)),
-                    CollectionCodeElement::codes,
-                    List::class,
-                    CollectionCodeElement(listOf(RequestStatus.COMPLETED.asCode(), Code("unknown-code"))),
-                    "CollectionCodeElement",
-                    LocationContext(CollectionCodeElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredValueSet(RequestStatus::class)),
+                        CollectionCodeElement::codes,
+                        List::class,
+                        CollectionCodeElement(listOf(RequestStatus.COMPLETED.asCode(), Code("unknown-code"))),
+                        "CollectionCodeElement",
+                        LocationContext(CollectionCodeElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unknown-code' is outside of required value set @ CollectionCodeElement.codes[1]",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails when multiple values in a Collection of Codes are outside value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredValueSet(RequestStatus::class)),
-                    CollectionCodeElement::codes,
-                    List::class,
-                    CollectionCodeElement(listOf(Code("unknown-code"), Code("also-unknown"))),
-                    "CollectionCodeElement",
-                    LocationContext(CollectionCodeElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredValueSet(RequestStatus::class)),
+                        CollectionCodeElement::codes,
+                        List::class,
+                        CollectionCodeElement(listOf(Code("unknown-code"), Code("also-unknown"))),
+                        "CollectionCodeElement",
+                        LocationContext(CollectionCodeElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unknown-code' is outside of required value set @ CollectionCodeElement.codes[0]\n" +
                 "ERROR INV_VALUE_SET: 'also-unknown' is outside of required value set @ CollectionCodeElement.codes[1]",
-            exception.message
+            exception.message,
         )
     }
 
     data class CodeElement(
-        val code: Code?
+        val code: Code?,
     ) : Validatable<CodeElement>
 
     data class NonCodeElement(
-        val code: FHIRString?
+        val code: FHIRString?,
     ) : Validatable<NonCodeElement>
 
     data class CollectionCodeElement(
-        val codes: List<Code>
+        val codes: List<Code>,
     ) : Validatable<CollectionCodeElement>
 
     data class CollectionNonCodeElement(
-        val codes: List<FHIRString>
+        val codes: List<FHIRString>,
     ) : Validatable<CollectionNonCodeElement>
 }

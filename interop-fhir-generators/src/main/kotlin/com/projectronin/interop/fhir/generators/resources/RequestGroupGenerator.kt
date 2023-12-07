@@ -66,7 +66,7 @@ data class RequestGroupGenerator(
     val reasonCode: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val reasonReference: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
-    val action: ListDataGenerator<RequestGroupAction> = ListDataGenerator(0, RequestGroupActionGenerator())
+    val action: ListDataGenerator<RequestGroupAction> = ListDataGenerator(0, RequestGroupActionGenerator()),
 ) : DomainResource<RequestGroup> {
     override fun toFhir() =
         RequestGroup(
@@ -95,7 +95,7 @@ data class RequestGroupGenerator(
             reasonCode = reasonCode.generate(),
             reasonReference = reasonReference.generate(),
             note = note.generate(),
-            action = action.generate()
+            action = action.generate(),
         )
 }
 
@@ -110,10 +110,11 @@ data class RequestGroupActionGenerator(
     val priority: DataGenerator<Code?> = NullDataGenerator(),
     val documentation: ListDataGenerator<RelatedArtifact> = ListDataGenerator(0, RelatedArtifactGenerator()),
     val condition: ListDataGenerator<RequestGroupCondition> = ListDataGenerator(0, RequestGroupConditionGenerator()),
-    val relatedAction: ListDataGenerator<RequestGroupRelatedAction> = ListDataGenerator(
-        0,
-        RequestGroupRelatedActionGenerator()
-    ),
+    val relatedAction: ListDataGenerator<RequestGroupRelatedAction> =
+        ListDataGenerator(
+            0,
+            RequestGroupRelatedActionGenerator(),
+        ),
     val timing: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
     val participant: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val type: DataGenerator<CodeableConcept?> = NullDataGenerator(),
@@ -124,7 +125,7 @@ data class RequestGroupActionGenerator(
     val cardinalityBehavior: DataGenerator<Code?> = NullDataGenerator(),
     val resource: DataGenerator<Reference?> = NullDataGenerator(),
     // This can not reference this class or we will StackOverflow.
-    val action: ListDataGenerator<RequestGroupAction?> = ListDataGenerator(0, NullDataGenerator())
+    val action: ListDataGenerator<RequestGroupAction?> = ListDataGenerator(0, NullDataGenerator()),
 ) : DataGenerator<RequestGroupAction>() {
     override fun generateInternal() =
         RequestGroupAction(
@@ -148,7 +149,7 @@ data class RequestGroupActionGenerator(
             precheckBehavior = precheckBehavior.generate(),
             cardinalityBehavior = cardinalityBehavior.generate(),
             resource = resource.generate(),
-            action = action.generate().filterNotNull()
+            action = action.generate().filterNotNull(),
         )
 }
 
@@ -157,7 +158,7 @@ data class RequestGroupConditionGenerator(
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val kind: DataGenerator<Code?> = CodeGenerator(RequestGroupConditionKind::class),
-    val expression: DataGenerator<Expression?> = NullDataGenerator()
+    val expression: DataGenerator<Expression?> = NullDataGenerator(),
 ) : DataGenerator<RequestGroupCondition>() {
     override fun generateInternal() =
         RequestGroupCondition(
@@ -165,7 +166,7 @@ data class RequestGroupConditionGenerator(
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             kind = kind.generate(),
-            expression = expression.generate()
+            expression = expression.generate(),
         )
 }
 
@@ -175,7 +176,7 @@ data class RequestGroupRelatedActionGenerator(
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val actionId: DataGenerator<Id> = IdGenerator(),
     val relationship: DataGenerator<Code?> = CodeGenerator(RequestGroupRelatedActionRelationship::class),
-    val offset: DataGenerator<DynamicValue<Any>?> = NullDataGenerator()
+    val offset: DataGenerator<DynamicValue<Any>?> = NullDataGenerator(),
 ) : DataGenerator<RequestGroupRelatedAction>() {
     override fun generateInternal() =
         RequestGroupRelatedAction(
@@ -184,7 +185,7 @@ data class RequestGroupRelatedActionGenerator(
             modifierExtension = modifierExtension.generate(),
             actionId = actionId.generate(),
             relationship = relationship.generate(),
-            offset = offset.generate()
+            offset = offset.generate(),
         )
 }
 

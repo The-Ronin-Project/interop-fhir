@@ -29,48 +29,54 @@ import org.junit.jupiter.api.Test
 class PractitionerRoleTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val practitionerRole = PractitionerRole(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninPractitionerRole"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            active = FHIRBoolean.TRUE,
-            period = Period(end = DateTime("2022")),
-            practitioner = Reference(reference = FHIRString("Practitioner/1234")),
-            organization = Reference(reference = FHIRString("Organization/5678")),
-            code = listOf(CodeableConcept(text = FHIRString("code"))),
-            specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
-            location = listOf(Reference(reference = FHIRString("Location/9012"))),
-            healthcareService = listOf(Reference(reference = FHIRString("HealthcareService/3456"))),
-            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
-            availableTime = listOf(AvailableTime(allDay = FHIRBoolean.FALSE)),
-            notAvailable = listOf(NotAvailable(description = FHIRString("Not available now"))),
-            availabilityExceptions = FHIRString("exceptions"),
-            endpoint = listOf(Reference(reference = FHIRString("Endpoint/1357")))
-        )
+        val practitionerRole =
+            PractitionerRole(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninPractitionerRole")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                active = FHIRBoolean.TRUE,
+                period = Period(end = DateTime("2022")),
+                practitioner = Reference(reference = FHIRString("Practitioner/1234")),
+                organization = Reference(reference = FHIRString("Organization/5678")),
+                code = listOf(CodeableConcept(text = FHIRString("code"))),
+                specialty = listOf(CodeableConcept(text = FHIRString("specialty"))),
+                location = listOf(Reference(reference = FHIRString("Location/9012"))),
+                healthcareService = listOf(Reference(reference = FHIRString("HealthcareService/3456"))),
+                telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+                availableTime = listOf(AvailableTime(allDay = FHIRBoolean.FALSE)),
+                notAvailable = listOf(NotAvailable(description = FHIRString("Not available now"))),
+                availabilityExceptions = FHIRString("exceptions"),
+                endpoint = listOf(Reference(reference = FHIRString("Endpoint/1357"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "PractitionerRole",
             |  "id" : "12345",
@@ -136,7 +142,7 @@ class PractitionerRoleTest {
             |    "reference" : "Endpoint/1357"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPractitionerRole = objectMapper.readValue<PractitionerRole>(json)
@@ -145,30 +151,33 @@ class PractitionerRoleTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val practitionerRole = PractitionerRole(
-            identifier = listOf(Identifier(value = FHIRString("id")))
-        )
+        val practitionerRole =
+            PractitionerRole(
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitionerRole)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "PractitionerRole",
             |  "identifier" : [ {
             |    "value" : "id"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "resourceType" : "PractitionerRole",
             |  "active" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         val practitionerRole = objectMapper.readValue<PractitionerRole>(json)
 
         assertNull(practitionerRole.id)
@@ -199,26 +208,30 @@ class PractitionerRoleTest {
 class NotAvailableTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val notAvailable = NotAvailable(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            description = FHIRString("Not available now"),
-            during = Period(start = DateTime("2021-12-01"), end = DateTime("2021-12-08"))
-        )
+        val notAvailable =
+            NotAvailable(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                description = FHIRString("Not available now"),
+                during = Period(start = DateTime("2021-12-01"), end = DateTime("2021-12-08")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(notAvailable)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "67890",
             |  "extension" : [ {
@@ -235,7 +248,7 @@ class NotAvailableTest {
             |    "end" : "2021-12-08"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedNotAvailable = objectMapper.readValue<NotAvailable>(json)
@@ -244,26 +257,29 @@ class NotAvailableTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val notAvailable = NotAvailable(
-            description = FHIRString("Vacation")
-        )
+        val notAvailable =
+            NotAvailable(
+                description = FHIRString("Vacation"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(notAvailable)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "description" : "Vacation"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "description" : "Vacation"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val notAvailable = objectMapper.readValue<NotAvailable>(json)
 
         assertNull(notAvailable.id)

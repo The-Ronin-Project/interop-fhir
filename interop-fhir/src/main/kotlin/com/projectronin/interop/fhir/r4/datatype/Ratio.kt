@@ -18,8 +18,9 @@ data class Ratio(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val numerator: Quantity? = null,
-    val denominator: Quantity? = null
+    val denominator: Quantity? = null,
 ) : Element<Ratio>
 
 class RatioSerializer : BaseFHIRSerializer<Ratio>(Ratio::class.java)
+
 class RatioDeserializer : BaseFHIRDeserializer<Ratio>(Ratio::class.java)

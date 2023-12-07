@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-address-use.html)
  */
-enum class AddressUse(@JsonValue override val code: String) : CodedEnum<AddressUse> {
+enum class AddressUse(
+    @JsonValue override val code: String,
+) : CodedEnum<AddressUse> {
     /**
      * A communication address at a home.
      */
@@ -30,5 +32,5 @@ enum class AddressUse(@JsonValue override val code: String) : CodedEnum<AddressU
     /**
      * An address to be used to send bills, invoices, receipts etc.
      */
-    BILLING("billing")
+    BILLING("billing"),
 }

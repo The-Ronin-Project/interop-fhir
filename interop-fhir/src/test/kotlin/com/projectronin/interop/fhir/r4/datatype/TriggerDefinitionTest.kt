@@ -14,22 +14,25 @@ import org.junit.jupiter.api.Test
 class TriggerDefinitionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val triggerDefinition = TriggerDefinition(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = TriggerType.DATA_MODIFIED.asCode(),
-            name = FHIRString("trigger name"),
-            data = listOf(DataRequirement(type = Code("data-type-code"))),
-            condition = Expression(language = Code("en-US"), expression = FHIRString("Expression"))
-        )
+        val triggerDefinition =
+            TriggerDefinition(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                type = TriggerType.DATA_MODIFIED.asCode(),
+                name = FHIRString("trigger name"),
+                data = listOf(DataRequirement(type = Code("data-type-code"))),
+                condition = Expression(language = Code("en-US"), expression = FHIRString("Expression")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(triggerDefinition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -46,7 +49,7 @@ class TriggerDefinitionTest {
             |    "expression" : "Expression"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedTriggerDefinition = objectMapper.readValue<TriggerDefinition>(json)
@@ -55,14 +58,16 @@ class TriggerDefinitionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val triggerDefinition = TriggerDefinition(
-            type = TriggerType.NAMED_EVENT.asCode(),
-            name = FHIRString("any"),
-            data = listOf(DataRequirement(type = Code("data-type-code")))
-        )
+        val triggerDefinition =
+            TriggerDefinition(
+                type = TriggerType.NAMED_EVENT.asCode(),
+                name = FHIRString("any"),
+                data = listOf(DataRequirement(type = Code("data-type-code"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(triggerDefinition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "named-event",
             |  "name" : "any",
@@ -70,18 +75,19 @@ class TriggerDefinitionTest {
             |    "type" : "data-type-code"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "type" : "periodic",
             |  "timingDate" : "2022-02-22"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val triggerDefinition = objectMapper.readValue<TriggerDefinition>(json)
 
         assertNull(triggerDefinition.id)

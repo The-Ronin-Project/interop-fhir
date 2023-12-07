@@ -71,96 +71,118 @@ class CarePlanGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val carePlan = carePlan {
-            id of Id("id")
-            identifier of listOf(
-                identifier {
-                    value of "identifier"
-                }
-            )
-            instantiatesCanonical of listOf(
-                Canonical("url")
-            )
-            instantiatesUri of listOf(
-                Uri("uri")
-            )
-            basedOn of listOf(
-                reference("CarePlan", "1234")
-            )
-            replaces of listOf(
-                reference("CarePlan", "5678")
-            )
-            partOf of listOf(
-                reference("CarePlan", "9012")
-            )
-            status of "status"
-            intent of "intent"
-            category of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            system of "categorySystem"
-                            code of "categoryCode"
-                        }
+        val carePlan =
+            carePlan {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {
+                            value of "identifier"
+                        },
                     )
-                }
-            )
-            title of "titleText"
-            description of "descriptionText"
-            subject of reference("Patient", "123")
-            encounter of reference("Encounter", "1234")
-            period of period {
-                start of dateTime {
-                    year of 1990
-                    day of 9
-                    month of 4
-                }
-                end of dateTime {
-                    year of 1990
-                    day of 10
-                    month of 4
-                }
+                instantiatesCanonical of
+                    listOf(
+                        Canonical("url"),
+                    )
+                instantiatesUri of
+                    listOf(
+                        Uri("uri"),
+                    )
+                basedOn of
+                    listOf(
+                        reference("CarePlan", "1234"),
+                    )
+                replaces of
+                    listOf(
+                        reference("CarePlan", "5678"),
+                    )
+                partOf of
+                    listOf(
+                        reference("CarePlan", "9012"),
+                    )
+                status of "status"
+                intent of "intent"
+                category of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        system of "categorySystem"
+                                        code of "categoryCode"
+                                    },
+                                )
+                        },
+                    )
+                title of "titleText"
+                description of "descriptionText"
+                subject of reference("Patient", "123")
+                encounter of reference("Encounter", "1234")
+                period of
+                    period {
+                        start of
+                            dateTime {
+                                year of 1990
+                                day of 9
+                                month of 4
+                            }
+                        end of
+                            dateTime {
+                                year of 1990
+                                day of 10
+                                month of 4
+                            }
+                    }
+                created of
+                    dateTime {
+                        year of 1990
+                        day of 8
+                        month of 4
+                    }
+                author of reference("Practitioner", "1234")
+                contributor of
+                    listOf(
+                        reference("Practitioner", "5678"),
+                    )
+                careTeam of
+                    listOf(
+                        reference("Practitioner", "5678"),
+                        reference("Practitioner", "9012"),
+                    )
+                addresses of
+                    listOf(
+                        reference("Condition", "1234"),
+                    )
+                supportingInfo of
+                    listOf(
+                        reference("Observation", "1234"),
+                    )
+                goal of
+                    listOf(
+                        reference("Goal", "1234"),
+                    )
+                activity of
+                    listOf(
+                        carePlanActivity {
+                            outcomeReference of
+                                listOf(
+                                    reference("Procedure", "1234"),
+                                    reference("Appointment", "5678"),
+                                )
+                            progress of
+                                listOf(
+                                    annotation { text of Markdown("progressText") },
+                                )
+                            reference of reference("Appointment", "1234")
+                        },
+                    )
+                note of
+                    listOf(
+                        annotation {
+                            text of Markdown("noteText")
+                        },
+                    )
             }
-            created of dateTime {
-                year of 1990
-                day of 8
-                month of 4
-            }
-            author of reference("Practitioner", "1234")
-            contributor of listOf(
-                reference("Practitioner", "5678")
-            )
-            careTeam of listOf(
-                reference("Practitioner", "5678"),
-                reference("Practitioner", "9012")
-            )
-            addresses of listOf(
-                reference("Condition", "1234")
-            )
-            supportingInfo of listOf(
-                reference("Observation", "1234")
-            )
-            goal of listOf(
-                reference("Goal", "1234")
-            )
-            activity of listOf(
-                carePlanActivity {
-                    outcomeReference of listOf(
-                        reference("Procedure", "1234"),
-                        reference("Appointment", "5678")
-                    )
-                    progress of listOf(
-                        annotation { text of Markdown("progressText") }
-                    )
-                    reference of reference("Appointment", "1234")
-                }
-            )
-            note of listOf(
-                annotation {
-                    text of Markdown("noteText")
-                }
-            )
-        }
         assertEquals("id", carePlan.id?.value)
         assertEquals(1, carePlan.identifier.size)
         assertEquals("identifier", carePlan.identifier.first().value?.value)
@@ -169,14 +191,14 @@ class CarePlanGeneratorTest {
         assertEquals("CarePlan/1234", carePlan.basedOn.first().reference?.value)
         assertEquals(
             "CarePlan/5678",
-            carePlan.replaces.first().reference?.value
+            carePlan.replaces.first().reference?.value,
         )
         assertEquals("CarePlan/9012", carePlan.partOf.first().reference?.value)
         assertEquals("status", carePlan.status?.value)
         assertEquals("intent", carePlan.intent?.value)
         assertEquals(
             Coding(code = Code("categoryCode"), system = Uri("categorySystem")),
-            carePlan.category.first().coding.first()
+            carePlan.category.first().coding.first(),
         )
         assertEquals("titleText", carePlan.title?.value)
         assertEquals("descriptionText", carePlan.description?.value)
@@ -185,53 +207,53 @@ class CarePlanGeneratorTest {
         assertEquals(
             Period(
                 start = DateTime(value = "1990-04-09"),
-                end = DateTime(value = "1990-04-10")
+                end = DateTime(value = "1990-04-10"),
             ),
-            carePlan.period
+            carePlan.period,
         )
         assertEquals(DateTime(value = "1990-04-08"), carePlan.created)
         assertEquals("Practitioner/1234", carePlan.author?.reference?.value)
         assertEquals(
             "Practitioner/5678",
-            carePlan.contributor.first().reference?.value
+            carePlan.contributor.first().reference?.value,
         )
         assertEquals(
             listOf(
                 Reference(reference = "Practitioner/5678".asFHIR()),
-                Reference(reference = "Practitioner/9012".asFHIR())
+                Reference(reference = "Practitioner/9012".asFHIR()),
             ),
-            carePlan.careTeam
+            carePlan.careTeam,
         )
         assertEquals(
             "Condition/1234",
-            carePlan.addresses.first().reference?.value
+            carePlan.addresses.first().reference?.value,
         )
         assertEquals(
             "Observation/1234",
-            carePlan.supportingInfo.first().reference?.value
+            carePlan.supportingInfo.first().reference?.value,
         )
         assertEquals(
             "Goal/1234",
-            carePlan.goal.first().reference?.value
+            carePlan.goal.first().reference?.value,
         )
         assertEquals(
             listOf(
                 Reference(reference = "Procedure/1234".asFHIR()),
-                Reference(reference = "Appointment/5678".asFHIR())
+                Reference(reference = "Appointment/5678".asFHIR()),
             ),
-            carePlan.activity.first().outcomeReference
+            carePlan.activity.first().outcomeReference,
         )
         assertEquals(
             Annotation(text = Markdown("progressText")),
-            carePlan.activity.first().progress.first()
+            carePlan.activity.first().progress.first(),
         )
         assertEquals(
             Reference(reference = "Appointment/1234".asFHIR()),
-            carePlan.activity.first().reference
+            carePlan.activity.first().reference,
         )
         assertEquals(
             Annotation(text = Markdown("noteText")),
-            carePlan.note.first()
+            carePlan.note.first(),
         )
     }
 }
@@ -253,42 +275,48 @@ class CarePlanActivityGeneratorTest {
 
     @Test
     fun `activity function works with parameters`() {
-        val activity = carePlanActivity {
-            outcomeCodeableConcept of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            system of "system"
-                            code of "code"
-                        }
+        val activity =
+            carePlanActivity {
+                outcomeCodeableConcept of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        system of "system"
+                                        code of "code"
+                                    },
+                                )
+                        },
                     )
-                }
-            )
-            outcomeReference of listOf(
-                reference("Procedure", "1234"),
-                reference("Appointment", "5678")
-            )
-            progress of listOf(
-                annotation { text of Markdown("text") }
-            )
-            reference of reference("Appointment", "1234")
-            detail of carePlanDetail {
-                description of "details"
+                outcomeReference of
+                    listOf(
+                        reference("Procedure", "1234"),
+                        reference("Appointment", "5678"),
+                    )
+                progress of
+                    listOf(
+                        annotation { text of Markdown("text") },
+                    )
+                reference of reference("Appointment", "1234")
+                detail of
+                    carePlanDetail {
+                        description of "details"
+                    }
             }
-        }
 
         activity!!
         assertEquals(
             listOf(Coding(code = Code("code"), system = Uri("system"))),
-            activity.outcomeCodeableConcept.first().coding
+            activity.outcomeCodeableConcept.first().coding,
         )
         assertEquals(2, activity.outcomeReference.size)
         assertEquals(
             listOf(
                 Reference(reference = "Procedure/1234".asFHIR()),
-                Reference(reference = "Appointment/5678".asFHIR())
+                Reference(reference = "Appointment/5678".asFHIR()),
             ),
-            activity.outcomeReference
+            activity.outcomeReference,
         )
         assertEquals(Markdown("text"), activity.progress.first().text)
         assertEquals("Appointment/1234".asFHIR(), activity.reference?.reference)
@@ -325,81 +353,98 @@ class CarePlanDetailGeneratorTest {
 
     @Test
     fun `detail function works with parameters`() {
-        val detail = carePlanDetail {
-            kind of Code("kind")
-            instantiatesCanonical of listOf(
-                Canonical("url")
-            )
-            instantiatesUri of listOf(
-                Uri("uri")
-            )
-            code of codeableConcept {
-                coding of listOf(
-                    coding {
-                        system of "system"
-                        code of "code"
-                    }
-                )
-            }
-            reasonCode of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            system of "reasonSystem"
-                            code of "reasonCode"
-                        }
+        val detail =
+            carePlanDetail {
+                kind of Code("kind")
+                instantiatesCanonical of
+                    listOf(
+                        Canonical("url"),
                     )
-                }
-            )
-            reasonReference of listOf(
-                reference("Condition", "1234")
-            )
-            goal of listOf(
-                reference("Goal", "1234")
-            )
-            status of "status"
-            statusReason of codeableConcept {
-                coding of listOf(
-                    coding {
-                        system of "statusSystem"
-                        code of "statusCode"
+                instantiatesUri of
+                    listOf(
+                        Uri("uri"),
+                    )
+                code of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    system of "system"
+                                    code of "code"
+                                },
+                            )
                     }
-                )
-            }
-            doNotPerform of false
-            scheduled of DynamicValues.period(
-                period {
-                    start of dateTime {
-                        year of 1990
-                        day of 9
-                        month of 4
+                reasonCode of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        system of "reasonSystem"
+                                        code of "reasonCode"
+                                    },
+                                )
+                        },
+                    )
+                reasonReference of
+                    listOf(
+                        reference("Condition", "1234"),
+                    )
+                goal of
+                    listOf(
+                        reference("Goal", "1234"),
+                    )
+                status of "status"
+                statusReason of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    system of "statusSystem"
+                                    code of "statusCode"
+                                },
+                            )
                     }
-                    end of dateTime {
-                        year of 1990
-                        day of 10
-                        month of 4
+                doNotPerform of false
+                scheduled of
+                    DynamicValues.period(
+                        period {
+                            start of
+                                dateTime {
+                                    year of 1990
+                                    day of 9
+                                    month of 4
+                                }
+                            end of
+                                dateTime {
+                                    year of 1990
+                                    day of 10
+                                    month of 4
+                                }
+                        },
+                    )
+                location of reference("Location", "1234")
+                performer of
+                    listOf(
+                        reference("Practitioner", "1234"),
+                    )
+                product of DynamicValues.reference(reference("Medication", "1234"))
+                dailyAmount of
+                    simpleQuantity {
+                        value of 1.23
+                        unit of "centimeters"
+                        system of Uri("dailySystem")
+                        code of Code("dailyCode")
                     }
-                }
-            )
-            location of reference("Location", "1234")
-            performer of listOf(
-                reference("Practitioner", "1234")
-            )
-            product of DynamicValues.reference(reference("Medication", "1234"))
-            dailyAmount of simpleQuantity {
-                value of 1.23
-                unit of "centimeters"
-                system of Uri("dailySystem")
-                code of Code("dailyCode")
+                quantity of
+                    simpleQuantity {
+                        value of 1.23
+                        unit of "cubits"
+                        system of Uri("quantitySystem")
+                        code of Code("quantityCode")
+                    }
+                description of "text"
             }
-            quantity of simpleQuantity {
-                value of 1.23
-                unit of "cubits"
-                system of Uri("quantitySystem")
-                code of Code("quantityCode")
-            }
-            description of "text"
-        }
 
         detail!!
         assertEquals(Code("kind"), detail.kind)
@@ -407,64 +452,64 @@ class CarePlanDetailGeneratorTest {
         assertEquals(Uri("uri"), detail.instantiatesUri.first())
         assertEquals(
             Coding(code = Code("code"), system = Uri("system")),
-            detail.code?.coding?.first()
+            detail.code?.coding?.first(),
         )
         assertEquals(
             Coding(code = Code("reasonCode"), system = Uri("reasonSystem")),
-            detail.reasonCode.first().coding.first()
+            detail.reasonCode.first().coding.first(),
         )
         assertEquals(
             "Condition/1234".asFHIR(),
-            detail.reasonReference.first().reference
+            detail.reasonReference.first().reference,
         )
         assertEquals(
             "Goal/1234".asFHIR(),
-            detail.goal.first().reference
+            detail.goal.first().reference,
         )
         assertEquals("status", detail.status?.value)
         assertEquals(
             Coding(code = Code("statusCode"), system = Uri("statusSystem")),
-            detail.statusReason?.coding?.first()
+            detail.statusReason?.coding?.first(),
         )
         assertEquals(false, detail.doNotPerform?.value)
         assertEquals(DynamicValueType.PERIOD, detail.scheduled?.type)
         assertEquals(
             Period(
                 start = DateTime(value = "1990-04-09"),
-                end = DateTime(value = "1990-04-10")
+                end = DateTime(value = "1990-04-10"),
             ),
-            detail.scheduled?.value
+            detail.scheduled?.value,
         )
         assertEquals(
             "Location/1234".asFHIR(),
-            detail.location?.reference
+            detail.location?.reference,
         )
         assertEquals(
             "Practitioner/1234".asFHIR(),
-            detail.performer.first().reference
+            detail.performer.first().reference,
         )
         assertEquals(DynamicValueType.REFERENCE, detail.product?.type)
         assertEquals(
             Reference(reference = "Medication/1234".asFHIR()),
-            detail.product?.value
+            detail.product?.value,
         )
         assertEquals(
             SimpleQuantity(
                 value = Decimal(1.23),
                 unit = "centimeters".asFHIR(),
                 system = Uri("dailySystem"),
-                code = Code("dailyCode")
+                code = Code("dailyCode"),
             ),
-            detail.dailyAmount
+            detail.dailyAmount,
         )
         assertEquals(
             SimpleQuantity(
                 value = Decimal(1.23),
                 unit = "cubits".asFHIR(),
                 system = Uri("quantitySystem"),
-                code = Code("quantityCode")
+                code = Code("quantityCode"),
             ),
-            detail.quantity
+            detail.quantity,
         )
         assertEquals("text".asFHIR(), detail.description)
     }

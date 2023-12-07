@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://hl7.org/fhir/R4/valueset-quantity-comparator.html)
  */
-enum class QuantityComparator(@JsonValue override val code: String) : CodedEnum<QuantityComparator> {
+enum class QuantityComparator(
+    @JsonValue override val code: String,
+) : CodedEnum<QuantityComparator> {
     /**
      * The actual value is less than the given value.
      */
@@ -25,5 +27,5 @@ enum class QuantityComparator(@JsonValue override val code: String) : CodedEnum<
     /**
      * The actual value is greater than the given value.
      */
-    GREATER_THAN(">")
+    GREATER_THAN(">"),
 }

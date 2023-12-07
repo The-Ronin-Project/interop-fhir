@@ -8,8 +8,7 @@ class TimeGenerator : DataGenerator<Time?>() {
     var hour: DataGenerator<Int> = BaseTimeGenerator().hour
     var minute: DataGenerator<Int> = BaseTimeGenerator().minute
 
-    override fun generateInternal(): Time =
-        Time("%02d:%02d".format(hour.generate(), minute.generate()))
+    override fun generateInternal(): Time = Time("%02d:%02d".format(hour.generate(), minute.generate()))
 }
 
 infix fun DataGenerator<Time?>.of(value: String) {

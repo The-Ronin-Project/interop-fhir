@@ -19,13 +19,14 @@ class ParticipantGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val participant = participant {
-            type of listOf(codeableConcept { })
-            actor of reference("Patient", "123")
-            required of "required"
-            status of "status"
-            period of period { }
-        }
+        val participant =
+            participant {
+                type of listOf(codeableConcept { })
+                actor of reference("Patient", "123")
+                required of "required"
+                status of "status"
+                period of period { }
+            }
         assertNotNull(participant.type)
         assertEquals("Patient/123", participant.actor?.reference?.value)
         assertEquals("required", participant.required?.value)

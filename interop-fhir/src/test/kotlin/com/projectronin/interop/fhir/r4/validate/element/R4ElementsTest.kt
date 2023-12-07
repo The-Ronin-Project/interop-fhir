@@ -89,9 +89,10 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class R4ElementsTest {
-    private val failedValidation = validation {
-        checkNotNull(null, RequiredFieldError(Patient::name), null)
-    }
+    private val failedValidation =
+        validation {
+            checkNotNull(null, RequiredFieldError(Patient::name), null)
+        }
     private val locationContext = LocationContext("Sample", "field")
 
     @AfterEach
@@ -249,7 +250,7 @@ class R4ElementsTest {
         every {
             immunizationEducation.validate(
                 R4ImmunizationEducationValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -263,7 +264,7 @@ class R4ElementsTest {
         every {
             medicationAdministrationDosage.validate(
                 R4MedAdminDosageValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -286,7 +287,7 @@ class R4ElementsTest {
         every {
             observationComponent.validate(
                 R4ObservationComponentValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -300,7 +301,7 @@ class R4ElementsTest {
         every {
             observationReferenceRange.validate(
                 R4ObservationReferenceRangeValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -413,7 +414,7 @@ class R4ElementsTest {
         every {
             valueSetContains.validate(
                 R4ValueSetContainsValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -427,7 +428,7 @@ class R4ElementsTest {
         every {
             valueSetInclude.validate(
                 R4ValueSetIncludeValidator,
-                locationContext
+                locationContext,
             )
         } returns failedValidation
 
@@ -451,7 +452,7 @@ class R4ElementsTest {
         data class MadeUpElement(
             override val id: FHIRString? = null,
             override val extension: List<Extension> = listOf(),
-            val versionId: Id? = null
+            val versionId: Id? = null,
         ) : Element<MadeUpElement>
 
         mockkStatic("com.projectronin.interop.fhir.r4.validate.datatype.primitive.R4PrimitivesKt")

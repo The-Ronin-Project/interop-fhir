@@ -11,14 +11,19 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 ServiceRequest](http://hl7.org/fhir/R4/servicerequest.html)
  */
 object R4ServiceRequestValidator : R4ElementContainingValidator<ServiceRequest>() {
-    private val orderDetailWithNoCodeError = FHIRError(
-        code = "R4_PRR_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "orderDetail SHALL only be present if code is present",
-        location = LocationContext(ServiceRequest::orderDetail)
-    )
+    private val orderDetailWithNoCodeError =
+        FHIRError(
+            code = "R4_PRR_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "orderDetail SHALL only be present if code is present",
+            location = LocationContext(ServiceRequest::orderDetail),
+        )
 
-    override fun validateElement(element: ServiceRequest, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: ServiceRequest,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         validation.apply {
             checkTrue(element.orderDetail.isEmpty() || element.code != null, orderDetailWithNoCodeError, parentContext)
         }

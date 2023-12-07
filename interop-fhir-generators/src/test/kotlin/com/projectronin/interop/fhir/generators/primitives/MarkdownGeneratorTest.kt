@@ -20,9 +20,10 @@ class MarkdownGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val markdown = markdown {
-            value of "# header"
-        }
+        val markdown =
+            markdown {
+                value of "# header"
+            }
         assertEquals("# header", markdown.value)
     }
 

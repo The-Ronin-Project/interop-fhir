@@ -53,12 +53,13 @@ data class CareTeam(
     @SupportedReferenceTypes(ResourceType.Organization)
     val managingOrganization: List<Reference> = emptyList(),
     val telecom: List<ContactPoint> = emptyList(),
-    val note: List<Annotation> = emptyList()
+    val note: List<Annotation> = emptyList(),
 ) : DomainResource<CareTeam> {
     override val resourceType: String = "CareTeam"
 }
 
 class CareTeamSerializer : BaseFHIRSerializer<CareTeam>(CareTeam::class.java)
+
 class CareTeamDeserializer : BaseFHIRDeserializer<CareTeam>(CareTeam::class.java)
 
 @JsonSerialize(using = CareTeamParticipantSerializer::class)
@@ -74,13 +75,14 @@ data class CareTeamParticipant(
         ResourceType.RelatedPerson,
         ResourceType.Patient,
         ResourceType.Organization,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val member: Reference? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
     val onBehalfOf: Reference? = null,
-    val period: Period? = null
+    val period: Period? = null,
 ) : BackboneElement<CareTeamParticipant>
 
 class CareTeamParticipantSerializer : BaseFHIRSerializer<CareTeamParticipant>(CareTeamParticipant::class.java)
+
 class CareTeamParticipantDeserializer : BaseFHIRDeserializer<CareTeamParticipant>(CareTeamParticipant::class.java)

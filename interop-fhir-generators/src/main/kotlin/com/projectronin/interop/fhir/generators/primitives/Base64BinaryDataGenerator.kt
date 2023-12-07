@@ -7,6 +7,7 @@ import java.util.Base64
 
 class Base64BinaryDataGenerator : DataGenerator<Base64Binary?>() {
     private val defaultString = Faker().lorem().fixedString(((1..10).random()) * 4)
+
     override fun generateInternal(): Base64Binary = Base64Binary(encode(defaultString))
 }
 

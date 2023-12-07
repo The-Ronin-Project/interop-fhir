@@ -8,5 +8,5 @@ import com.projectronin.interop.fhir.validate.InvalidPrimitiveError
  */
 object R4TimeValidator : BaseRegexPrimitiveValidator<Time>(
     Regex("""([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]+)?"""),
-    InvalidPrimitiveError(Time::class)
+    InvalidPrimitiveError(Time::class),
 )

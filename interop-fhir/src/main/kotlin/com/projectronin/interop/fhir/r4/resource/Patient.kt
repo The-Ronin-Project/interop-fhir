@@ -69,12 +69,13 @@ data class Patient(
     val generalPractitioner: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Organization)
     val managingOrganization: Reference? = null,
-    val link: List<PatientLink> = listOf()
+    val link: List<PatientLink> = listOf(),
 ) : DomainResource<Patient> {
     override val resourceType: String = "Patient"
 }
 
 class PatientDeserializer : BaseFHIRDeserializer<Patient>(Patient::class.java)
+
 class PatientSerializer : BaseFHIRSerializer<Patient>(Patient::class.java)
 
 /**
@@ -88,10 +89,11 @@ data class PatientCommunication(
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
     val language: CodeableConcept?,
-    val preferred: FHIRBoolean? = null
+    val preferred: FHIRBoolean? = null,
 ) : BackboneElement<PatientCommunication>
 
 class PatientCommunicationSerializer : BaseFHIRSerializer<PatientCommunication>(PatientCommunication::class.java)
+
 class PatientCommunicationDeserializer : BaseFHIRDeserializer<PatientCommunication>(PatientCommunication::class.java)
 
 /**
@@ -112,10 +114,11 @@ data class PatientContact(
     val gender: Code? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
     val organization: Reference? = null,
-    val period: Period? = null
+    val period: Period? = null,
 ) : BackboneElement<PatientContact>
 
 class ContactSerializer : BaseFHIRSerializer<PatientContact>(PatientContact::class.java)
+
 class ContactDeserializer : BaseFHIRDeserializer<PatientContact>(PatientContact::class.java)
 
 /**
@@ -132,8 +135,9 @@ data class PatientLink(
     val other: Reference?,
     @RequiredField
     @RequiredValueSet(LinkType::class)
-    val type: Code?
+    val type: Code?,
 ) : BackboneElement<PatientLink>
 
 class PatientLinkSerializer : BaseFHIRSerializer<PatientLink>(PatientLink::class.java)
+
 class PatientLinkDeserializer : BaseFHIRDeserializer<PatientLink>(PatientLink::class.java)

@@ -34,7 +34,7 @@ data class Signature(
         ResourceType.RelatedPerson,
         ResourceType.Patient,
         ResourceType.Device,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
     val who: Reference?,
     @SupportedReferenceTypes(
@@ -43,13 +43,14 @@ data class Signature(
         ResourceType.RelatedPerson,
         ResourceType.Patient,
         ResourceType.Device,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
     val onBehalfOf: Reference? = null,
     val targetFormat: Code? = null,
     val sigFormat: Code? = null,
-    val data: Base64Binary? = null
+    val data: Base64Binary? = null,
 ) : Element<Signature>
 
 class SignatureSerializer : BaseFHIRSerializer<Signature>(Signature::class.java)
+
 class SignatureDeserializer : BaseFHIRDeserializer<Signature>(Signature::class.java)

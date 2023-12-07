@@ -83,12 +83,13 @@ data class Immunization(
     val programEligibility: List<CodeableConcept> = listOf(),
     val fundingSource: CodeableConcept? = null,
     val reaction: List<ImmunizationReaction> = listOf(),
-    val protocolApplied: List<ImmunizationProtocolApplied> = listOf()
+    val protocolApplied: List<ImmunizationProtocolApplied> = listOf(),
 ) : DomainResource<Immunization> {
     override val resourceType: String = "Immunization"
 }
 
 class ImmunizationDeserializer : BaseFHIRDeserializer<Immunization>(Immunization::class.java)
+
 class ImmunizationSerializer : BaseFHIRSerializer<Immunization>(Immunization::class.java)
 
 @JsonSerialize(using = ImmunizationPerformerSerializer::class)
@@ -100,10 +101,11 @@ data class ImmunizationPerformer(
     val function: CodeableConcept? = null,
     @RequiredField
     @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.Organization)
-    val actor: Reference?
+    val actor: Reference?,
 ) : BackboneElement<ImmunizationPerformer>
 
 class ImmunizationPerformerSerializer : BaseFHIRSerializer<ImmunizationPerformer>(ImmunizationPerformer::class.java)
+
 class ImmunizationPerformerDeserializer : BaseFHIRDeserializer<ImmunizationPerformer>(ImmunizationPerformer::class.java)
 
 @JsonSerialize(using = ImmunizationEducationSerializer::class)
@@ -115,10 +117,11 @@ data class ImmunizationEducation(
     val documentType: FHIRString? = null,
     val reference: Uri? = null,
     val publicationDate: DateTime? = null,
-    val presentationDate: DateTime? = null
+    val presentationDate: DateTime? = null,
 ) : BackboneElement<ImmunizationEducation>
 
 class ImmunizationEducationSerializer : BaseFHIRSerializer<ImmunizationEducation>(ImmunizationEducation::class.java)
+
 class ImmunizationEducationDeserializer : BaseFHIRDeserializer<ImmunizationEducation>(ImmunizationEducation::class.java)
 
 @JsonSerialize(using = ImmunizationReactionSerializer::class)
@@ -130,10 +133,11 @@ data class ImmunizationReaction(
     val date: DateTime? = null,
     @SupportedReferenceTypes(ResourceType.Observation)
     val detail: Reference? = null,
-    val reported: FHIRBoolean? = null
+    val reported: FHIRBoolean? = null,
 ) : BackboneElement<ImmunizationReaction>
 
 class ImmunizationReactionSerializer : BaseFHIRSerializer<ImmunizationReaction>(ImmunizationReaction::class.java)
+
 class ImmunizationReactionDeserializer : BaseFHIRDeserializer<ImmunizationReaction>(ImmunizationReaction::class.java)
 
 @JsonSerialize(using = ImmunizationProtocolAppliedSerializer::class)
@@ -150,7 +154,7 @@ data class ImmunizationProtocolApplied(
     @SupportedDynamicValueTypes(DynamicValueType.POSITIVE_INT, DynamicValueType.STRING)
     val doseNumber: DynamicValue<Any>?,
     @SupportedDynamicValueTypes(DynamicValueType.POSITIVE_INT, DynamicValueType.STRING)
-    val seriesDoses: DynamicValue<Any>? = null
+    val seriesDoses: DynamicValue<Any>? = null,
 ) : BackboneElement<ImmunizationProtocolApplied>
 
 class ImmunizationProtocolAppliedSerializer :

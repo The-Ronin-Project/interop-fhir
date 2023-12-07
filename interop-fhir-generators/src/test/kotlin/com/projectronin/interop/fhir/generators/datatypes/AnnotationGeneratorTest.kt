@@ -21,9 +21,10 @@ class AnnotationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val annotation = annotation {
-            author of DynamicValues.string("Josh Smith")
-        }
+        val annotation =
+            annotation {
+                author of DynamicValues.string("Josh Smith")
+            }
         assertEquals(DynamicValue(DynamicValueType.STRING, FHIRString("Josh Smith")), annotation.author)
     }
 }

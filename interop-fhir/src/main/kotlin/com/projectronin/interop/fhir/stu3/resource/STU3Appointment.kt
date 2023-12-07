@@ -60,7 +60,7 @@ data class STU3Appointment(
     val created: DateTime? = null,
     val comment: FHIRString? = null,
     val participant: List<Participant>,
-    val requestedPeriod: List<Period> = listOf()
+    val requestedPeriod: List<Period> = listOf(),
 ) : STU3DomainResource<STU3Appointment> {
     override val resourceType: String = "Appointment"
 
@@ -92,10 +92,11 @@ data class STU3Appointment(
             requestedPeriod = requestedPeriod,
             reasonCode = reason,
             reasonReference = indication,
-            basedOn = incomingReferral
+            basedOn = incomingReferral,
         )
     }
 }
 
 class STU3AppointmentSerializer : BaseFHIRSerializer<STU3Appointment>(STU3Appointment::class.java)
+
 class STU3AppointmentDeserializer : BaseFHIRDeserializer<STU3Appointment>(STU3Appointment::class.java)

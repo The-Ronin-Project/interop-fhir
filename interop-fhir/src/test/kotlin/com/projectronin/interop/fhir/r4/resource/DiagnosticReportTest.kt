@@ -27,52 +27,58 @@ import org.junit.jupiter.api.Test
 class DiagnosticReportTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val diagnosticReport = DiagnosticReport(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninAppointment"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            basedOn = listOf(Reference(display = FHIRString("based-on"))),
-            status = DiagnosticReportStatus.FINAL.asCode(),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            code = CodeableConcept(text = FHIRString("code")),
-            subject = Reference(display = FHIRString("subject")),
-            encounter = Reference(display = FHIRString("encounter")),
-            effective = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2023")),
-            issued = Instant("2023-01-25T13:28:17.239+02:00"),
-            performer = listOf(Reference(display = FHIRString("performer"))),
-            resultsInterpreter = listOf(Reference(display = FHIRString("results-interpreter"))),
-            specimen = listOf(Reference(display = FHIRString("specimen"))),
-            result = listOf(Reference(display = FHIRString("result"))),
-            imagingStudy = listOf(Reference(display = FHIRString("imaging-study"))),
-            media = listOf(DiagnosticReportMedia(link = Reference(display = FHIRString("link")))),
-            conclusion = FHIRString("conclusion"),
-            conclusionCode = listOf(CodeableConcept(text = FHIRString("conclusion-code"))),
-            presentedForm = listOf(Attachment(title = FHIRString("presented-form")))
-        )
+        val diagnosticReport =
+            DiagnosticReport(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninAppointment")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                basedOn = listOf(Reference(display = FHIRString("based-on"))),
+                status = DiagnosticReportStatus.FINAL.asCode(),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                code = CodeableConcept(text = FHIRString("code")),
+                subject = Reference(display = FHIRString("subject")),
+                encounter = Reference(display = FHIRString("encounter")),
+                effective = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2023")),
+                issued = Instant("2023-01-25T13:28:17.239+02:00"),
+                performer = listOf(Reference(display = FHIRString("performer"))),
+                resultsInterpreter = listOf(Reference(display = FHIRString("results-interpreter"))),
+                specimen = listOf(Reference(display = FHIRString("specimen"))),
+                result = listOf(Reference(display = FHIRString("result"))),
+                imagingStudy = listOf(Reference(display = FHIRString("imaging-study"))),
+                media = listOf(DiagnosticReportMedia(link = Reference(display = FHIRString("link")))),
+                conclusion = FHIRString("conclusion"),
+                conclusionCode = listOf(CodeableConcept(text = FHIRString("conclusion-code"))),
+                presentedForm = listOf(Attachment(title = FHIRString("presented-form"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(diagnosticReport)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "DiagnosticReport",
               "id" : "12345",
@@ -147,7 +153,7 @@ class DiagnosticReportTest {
                 "title" : "presented-form"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedDiagnosticReport = objectMapper.readValue<DiagnosticReport>(json)
@@ -156,13 +162,15 @@ class DiagnosticReportTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val diagnosticReport = DiagnosticReport(
-            status = DiagnosticReportStatus.FINAL.asCode(),
-            code = CodeableConcept(text = FHIRString("code"))
-        )
+        val diagnosticReport =
+            DiagnosticReport(
+                status = DiagnosticReportStatus.FINAL.asCode(),
+                code = CodeableConcept(text = FHIRString("code")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(diagnosticReport)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "DiagnosticReport",
               "status" : "final",
@@ -170,7 +178,7 @@ class DiagnosticReportTest {
                 "text" : "code"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedDiagnosticReport = objectMapper.readValue<DiagnosticReport>(json)
@@ -179,7 +187,8 @@ class DiagnosticReportTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "DiagnosticReport",
               "status" : "final",
@@ -187,7 +196,7 @@ class DiagnosticReportTest {
                 "text" : "code"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val diagnosticReport = objectMapper.readValue<DiagnosticReport>(json)
 
         assertNull(diagnosticReport.id)
@@ -222,26 +231,30 @@ class DiagnosticReportTest {
 class DiagnosticReportMediaTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val media = DiagnosticReportMedia(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            comment = FHIRString("comment"),
-            link = Reference(display = FHIRString("link"))
-        )
+        val media =
+            DiagnosticReportMedia(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                comment = FHIRString("comment"),
+                link = Reference(display = FHIRString("link")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(media)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "67890",
               "extension" : [ {
@@ -257,7 +270,7 @@ class DiagnosticReportMediaTest {
                 "display" : "link"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedMedia = objectMapper.readValue<DiagnosticReportMedia>(json)
@@ -266,18 +279,20 @@ class DiagnosticReportMediaTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val media = DiagnosticReportMedia(
-            link = Reference(display = FHIRString("link"))
-        )
+        val media =
+            DiagnosticReportMedia(
+                link = Reference(display = FHIRString("link")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(media)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "link" : {
                 "display" : "link"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedMedia = objectMapper.readValue<DiagnosticReportMedia>(json)
@@ -286,13 +301,14 @@ class DiagnosticReportMediaTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "link" : {
                 "display" : "link"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val media = objectMapper.readValue<DiagnosticReportMedia>(json)
 
         assertNull(media.id)

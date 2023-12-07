@@ -24,8 +24,9 @@ data class Quantity(
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<Quantity>(id, extension, value, comparator, unit, system, code)
 
 class QuantitySerializer : BaseFHIRSerializer<Quantity>(Quantity::class.java)
+
 class QuantityDeserializer : BaseFHIRDeserializer<Quantity>(Quantity::class.java)

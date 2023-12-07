@@ -28,21 +28,22 @@ data class PractitionerRoleGenerator(
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
     val practitioner: DataGenerator<Reference> = ReferenceGenerator(),
-    val location: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+    val location: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
 ) : DomainResource<PractitionerRole> {
-    override fun toFhir(): PractitionerRole = PractitionerRole(
-        id = id.generate(),
-        meta = meta.generate(),
-        implicitRules = implicitRules.generate(),
-        language = language.generate(),
-        text = text.generate(),
-        contained = contained.generate().filterNotNull(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        identifier = identifier.generate(),
-        practitioner = practitioner.generate(),
-        location = location.generate()
-    )
+    override fun toFhir(): PractitionerRole =
+        PractitionerRole(
+            id = id.generate(),
+            meta = meta.generate(),
+            implicitRules = implicitRules.generate(),
+            language = language.generate(),
+            text = text.generate(),
+            contained = contained.generate().filterNotNull(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            identifier = identifier.generate(),
+            practitioner = practitioner.generate(),
+            location = location.generate(),
+        )
 }
 
 fun practitionerRole(block: PractitionerRoleGenerator.() -> Unit): PractitionerRole {

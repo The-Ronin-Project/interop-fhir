@@ -11,19 +11,28 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Base validator for [R4 Quantity](https://hl7.org/fhir/R4/datatypes.html#Quantity)
  */
 abstract class BaseR4QuantityValidator<T : BaseQuantity<T>> : R4ElementContainingValidator<T>() {
-    private val requiredSystemError = FHIRError(
-        code = "R4_QUAN_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "If a code for the unit is present, the system SHALL also be present",
-        location = LocationContext("Quantity", null)
-    )
+    private val requiredSystemError =
+        FHIRError(
+            code = "R4_QUAN_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "If a code for the unit is present, the system SHALL also be present",
+            location = LocationContext("Quantity", null),
+        )
 
     /**
      * Validates the [quantity] for any implementation-specific validation.
      */
-    protected open fun validateQuantity(quantity: T, parentContext: LocationContext?, validation: Validation) {}
+    protected open fun validateQuantity(
+        quantity: T,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {}
 
-    override fun validateElement(element: T, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: T,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         validation.apply {
             checkTrue((element.code == null || element.system != null), requiredSystemError, parentContext)
 

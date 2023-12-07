@@ -10,7 +10,7 @@ import com.projectronin.interop.fhir.r4.datatype.Extension
 data class Instant(
     override val value: String?,
     override val id: FHIRString? = null,
-    override val extension: List<Extension> = listOf()
+    override val extension: List<Extension> = listOf(),
 ) : Primitive<String, Instant> {
     @JsonCreator
     constructor(value: String) : this(value, null, emptyList())

@@ -13,7 +13,11 @@ import com.projectronin.interop.fhir.validate.validation
 object R4UnsignedIntValidator : ProfileValidator<UnsignedInt> {
     private val error = InvalidPrimitiveError(UnsignedInt::class)
 
-    override fun validate(element: UnsignedInt, parentContext: LocationContext?): Validation = validation {
-        element.value?.let { checkTrue(it >= 0, error, parentContext) }
-    }
+    override fun validate(
+        element: UnsignedInt,
+        parentContext: LocationContext?,
+    ): Validation =
+        validation {
+            element.value?.let { checkTrue(it >= 0, error, parentContext) }
+        }
 }

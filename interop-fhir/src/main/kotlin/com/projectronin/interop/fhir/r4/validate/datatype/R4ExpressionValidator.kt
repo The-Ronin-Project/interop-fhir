@@ -11,19 +11,24 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Expression](https://hl7.org/fhir/R4/metadatatypes.html#Expression).
  */
 object R4ExpressionValidator : R4ElementContainingValidator<Expression>() {
-    private val expressionOrReferenceError = FHIRError(
-        code = "R4_EXPR_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "An expression or a reference must be provided",
-        location = LocationContext(Expression::class)
-    )
+    private val expressionOrReferenceError =
+        FHIRError(
+            code = "R4_EXPR_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "An expression or a reference must be provided",
+            location = LocationContext(Expression::class),
+        )
 
-    override fun validateElement(element: Expression, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: Expression,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         validation.apply {
             checkTrue(
                 (element.expression != null || element.reference != null),
                 expressionOrReferenceError,
-                parentContext
+                parentContext,
             )
         }
     }

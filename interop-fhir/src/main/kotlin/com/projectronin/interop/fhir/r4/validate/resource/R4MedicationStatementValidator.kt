@@ -9,7 +9,7 @@ object R4MedicationStatementValidator : R4ElementContainingValidator<MedicationS
     override fun validateElement(
         element: MedicationStatement,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         // MedicationStatement has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }

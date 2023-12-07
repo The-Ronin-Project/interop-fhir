@@ -16,7 +16,10 @@ import com.projectronin.interop.fhir.stu3.resource.STU3UnknownResource
 class STU3UnknownResourceDeserializer : BaseFHIRDeserializer<STU3UnknownResource>(STU3UnknownResource::class.java) {
     private val discreteValues = setOf("resourceType", "id", "meta", "implicitRules", "language")
 
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): STU3UnknownResource {
+    override fun deserialize(
+        p: JsonParser,
+        ctxt: DeserializationContext,
+    ): STU3UnknownResource {
         // First we read the tree so that we can easily handle some of the required fields for a resource.
         val node = p.codec.readTree<JsonNode>(p) ?: throw JsonParseException(p, "Unable to parse node")
 
@@ -33,7 +36,7 @@ class STU3UnknownResourceDeserializer : BaseFHIRDeserializer<STU3UnknownResource
             meta = node.getAsOrNull("meta", p),
             implicitRules = node.getAsOrNull("implicitRules", p),
             language = node.getAsOrNull("language", p),
-            otherData = otherData
+            otherData = otherData,
         )
     }
 }

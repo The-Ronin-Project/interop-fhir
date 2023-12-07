@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://hl7.org/fhir/r4/valueset-document-relationship-type.html)
  */
-enum class DocumentRelationshipType(@JsonValue override val code: String) : CodedEnum<DocumentRelationshipType> {
+enum class DocumentRelationshipType(
+    @JsonValue override val code: String,
+) : CodedEnum<DocumentRelationshipType> {
     /**
      * This document logically replaces or supersedes the target document.
      */
@@ -25,5 +27,5 @@ enum class DocumentRelationshipType(@JsonValue override val code: String) : Code
     /**
      * This document adds additional information to the target document.
      */
-    APPENDS("appends")
+    APPENDS("appends"),
 }

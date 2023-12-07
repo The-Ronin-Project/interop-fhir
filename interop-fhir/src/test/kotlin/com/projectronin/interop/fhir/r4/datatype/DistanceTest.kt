@@ -16,23 +16,26 @@ import org.junit.jupiter.api.Test
 class DistanceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val distance = Distance(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            unit = FHIRString("millimeters"),
-            system = CodeSystem.UCUM.uri,
-            code = Code("mm")
-        )
+        val distance =
+            Distance(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
+                unit = FHIRString("millimeters"),
+                system = CodeSystem.UCUM.uri,
+                code = Code("mm"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distance)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -45,7 +48,7 @@ class DistanceTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mm"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDistance = objectMapper.readValue<Distance>(json)
@@ -54,21 +57,24 @@ class DistanceTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val distance = Distance(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            system = CodeSystem.UCUM.uri,
-            code = Code("mm")
-        )
+        val distance =
+            Distance(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                system = CodeSystem.UCUM.uri,
+                code = Code("mm"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(distance)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -79,17 +85,18 @@ class DistanceTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mm"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "comparator" : ">="
             |}
-        """.trimMargin()
+            """.trimMargin()
         val distance = objectMapper.readValue<Distance>(json)
 
         assertNull(distance.id)

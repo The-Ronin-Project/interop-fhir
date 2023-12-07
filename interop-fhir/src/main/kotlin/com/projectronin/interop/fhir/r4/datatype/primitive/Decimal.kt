@@ -12,7 +12,7 @@ import java.math.BigDecimal
 data class Decimal(
     override val value: BigDecimal?,
     override val id: FHIRString? = null,
-    override val extension: List<Extension> = listOf()
+    override val extension: List<Extension> = listOf(),
 ) : Primitive<BigDecimal, Decimal> {
     @JsonCreator
     @Deprecated("Use Decimal(BigDecimal) instead")

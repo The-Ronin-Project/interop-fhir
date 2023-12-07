@@ -44,40 +44,47 @@ class MedicationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val medication = medication {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            code of codeableConcept {
-                text of "code"
+        val medication =
+            medication {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                code of
+                    codeableConcept {
+                        text of "code"
+                    }
+                status of "status"
+                manufacturer of reference("Organization", "123")
+                form of
+                    codeableConcept {
+                        text of "code"
+                    }
+                amount of
+                    ratio {
+                        numerator of Quantity(value = Decimal(BigDecimal(2.0)))
+                        denominator of Quantity(value = Decimal(BigDecimal(3.5)))
+                    }
+                ingredient of
+                    listOf(
+                        ingredient {
+                            isActive of true
+                        },
+                    )
+                batch of
+                    batch {
+                        lotNumber of "12345"
+                        expirationDate of DateTime("2017-01-01T00:00:00.000Z")
+                    }
             }
-            status of "status"
-            manufacturer of reference("Organization", "123")
-            form of codeableConcept {
-                text of "code"
-            }
-            amount of ratio {
-                numerator of Quantity(value = Decimal(BigDecimal(2.0)))
-                denominator of Quantity(value = Decimal(BigDecimal(3.5)))
-            }
-            ingredient of listOf(
-                ingredient {
-                    isActive of true
-                }
-            )
-            batch of batch {
-                lotNumber of "12345"
-                expirationDate of DateTime("2017-01-01T00:00:00.000Z")
-            }
-        }
         assertEquals("id", medication.id?.value)
         assertEquals(1, medication.identifier.size)
         assertEquals("code", medication.code?.text?.value)
         assertEquals("status", medication.status?.value)
         assertEquals(
             "Organization/123",
-            medication.manufacturer?.reference?.value
+            medication.manufacturer?.reference?.value,
         )
         assertEquals("code", medication.form?.text?.value)
         assertEquals(Decimal(BigDecimal(2.0)), medication.amount?.numerator?.value)
@@ -102,27 +109,32 @@ class IngredientGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val ingredient = ingredient {
-            item of DynamicValues.codeableConcept(
-                codeableConcept {
-                    text of "code"
-                }
-            )
-            isActive of FHIRBoolean(false)
-            strength of Ratio(
-                numerator = Quantity(value = Decimal(BigDecimal(6.2))),
-                denominator = Quantity(value = Decimal(BigDecimal(9.4)))
-            )
-        }
+        val ingredient =
+            ingredient {
+                item of
+                    DynamicValues.codeableConcept(
+                        codeableConcept {
+                            text of "code"
+                        },
+                    )
+                isActive of FHIRBoolean(false)
+                strength of
+                    Ratio(
+                        numerator = Quantity(value = Decimal(BigDecimal(6.2))),
+                        denominator = Quantity(value = Decimal(BigDecimal(9.4))),
+                    )
+            }
 
-        val ingredientWithReference = ingredient {
-            item of DynamicValues.reference(reference("Substance", "5678"))
-            isActive of FHIRBoolean(false)
-            strength of Ratio(
-                numerator = Quantity(value = Decimal(BigDecimal(6.2))),
-                denominator = Quantity(value = Decimal(BigDecimal(9.4)))
-            )
-        }
+        val ingredientWithReference =
+            ingredient {
+                item of DynamicValues.reference(reference("Substance", "5678"))
+                isActive of FHIRBoolean(false)
+                strength of
+                    Ratio(
+                        numerator = Quantity(value = Decimal(BigDecimal(6.2))),
+                        denominator = Quantity(value = Decimal(BigDecimal(9.4))),
+                    )
+            }
 
         assertEquals(DynamicValueType.CODEABLE_CONCEPT, ingredient.item?.type)
         assertEquals(codeableConcept { text of "code" }, ingredient.item?.value)
@@ -147,10 +159,11 @@ class BatchGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val batch = batch {
-            lotNumber of "123232345"
-            expirationDate of DateTime("2019-12-01T00:00:00.000Z")
-        }
+        val batch =
+            batch {
+                lotNumber of "123232345"
+                expirationDate of DateTime("2019-12-01T00:00:00.000Z")
+            }
         assertEquals("123232345", batch.lotNumber?.value)
         assertEquals("2019-12-01T00:00:00.000Z", batch.expirationDate?.value)
     }

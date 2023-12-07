@@ -33,67 +33,73 @@ import org.junit.jupiter.api.Test
 class ServiceRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val serviceRequest = ServiceRequest(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninServiceRequest"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf(Canonical("instantiates-canonical")),
-            instantiatesUri = listOf(Uri("instantiates-uri")),
-            basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
-            replaces = listOf(Reference(reference = FHIRString("ServiceRequest/4321"))),
-            requisition = Identifier(value = FHIRString("requisition")),
-            status = RequestStatus.ACTIVE.asCode(),
-            intent = RequestIntent.ORDER.asCode(),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            priority = RequestPriority.ROUTINE.asCode(),
-            doNotPerform = FHIRBoolean.FALSE,
-            code = CodeableConcept(text = FHIRString("code")),
-            orderDetail = listOf(CodeableConcept(text = FHIRString("order-detail"))),
-            quantity = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(2.0))),
-            subject = Reference(reference = FHIRString("Patient/1234")),
-            encounter = Reference(reference = FHIRString("Encounter/1234")),
-            occurrence = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2015-02-07T13:28:17-05:00")),
-            asNeeded = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
-            authoredOn = DateTime("2017-01-01T00:00:00.000Z"),
-            requester = Reference(reference = FHIRString("Practitioner/1234")),
-            performerType = CodeableConcept(text = FHIRString("performer-type")),
-            performer = listOf(Reference(reference = FHIRString("Practitioner/5678"))),
-            locationCode = listOf(CodeableConcept(text = FHIRString("location-code"))),
-            locationReference = listOf(Reference(reference = FHIRString("Location/1234"))),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason-code"))),
-            reasonReference = listOf(Reference(reference = FHIRString("Condition/1234"))),
-            insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
-            supportingInfo = listOf(Reference(reference = FHIRString("Observation/1234"))),
-            specimen = listOf(Reference(reference = FHIRString("Specimen/1234"))),
-            bodySite = listOf(CodeableConcept(text = FHIRString("body-site"))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            patientInstruction = FHIRString("patient-instruction"),
-            relevantHistory = listOf(Reference(reference = FHIRString("Provenance/1234")))
-        )
+        val serviceRequest =
+            ServiceRequest(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninServiceRequest")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                instantiatesCanonical = listOf(Canonical("instantiates-canonical")),
+                instantiatesUri = listOf(Uri("instantiates-uri")),
+                basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
+                replaces = listOf(Reference(reference = FHIRString("ServiceRequest/4321"))),
+                requisition = Identifier(value = FHIRString("requisition")),
+                status = RequestStatus.ACTIVE.asCode(),
+                intent = RequestIntent.ORDER.asCode(),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                priority = RequestPriority.ROUTINE.asCode(),
+                doNotPerform = FHIRBoolean.FALSE,
+                code = CodeableConcept(text = FHIRString("code")),
+                orderDetail = listOf(CodeableConcept(text = FHIRString("order-detail"))),
+                quantity = DynamicValue(DynamicValueType.QUANTITY, Quantity(value = Decimal(2.0))),
+                subject = Reference(reference = FHIRString("Patient/1234")),
+                encounter = Reference(reference = FHIRString("Encounter/1234")),
+                occurrence = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2015-02-07T13:28:17-05:00")),
+                asNeeded = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                authoredOn = DateTime("2017-01-01T00:00:00.000Z"),
+                requester = Reference(reference = FHIRString("Practitioner/1234")),
+                performerType = CodeableConcept(text = FHIRString("performer-type")),
+                performer = listOf(Reference(reference = FHIRString("Practitioner/5678"))),
+                locationCode = listOf(CodeableConcept(text = FHIRString("location-code"))),
+                locationReference = listOf(Reference(reference = FHIRString("Location/1234"))),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason-code"))),
+                reasonReference = listOf(Reference(reference = FHIRString("Condition/1234"))),
+                insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
+                supportingInfo = listOf(Reference(reference = FHIRString("Observation/1234"))),
+                specimen = listOf(Reference(reference = FHIRString("Specimen/1234"))),
+                bodySite = listOf(CodeableConcept(text = FHIRString("body-site"))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                patientInstruction = FHIRString("patient-instruction"),
+                relevantHistory = listOf(Reference(reference = FHIRString("Provenance/1234"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(serviceRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ServiceRequest",
               "id" : "12345",
@@ -199,7 +205,7 @@ class ServiceRequestTest {
                 "reference" : "Provenance/1234"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedServiceRequest = JacksonManager.objectMapper.readValue<ServiceRequest>(json)
@@ -208,14 +214,16 @@ class ServiceRequestTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val serviceRequest = ServiceRequest(
-            status = RequestStatus.COMPLETED.asCode(),
-            intent = RequestIntent.DIRECTIVE.asCode(),
-            subject = Reference(reference = FHIRString("Patient/5678"))
-        )
+        val serviceRequest =
+            ServiceRequest(
+                status = RequestStatus.COMPLETED.asCode(),
+                intent = RequestIntent.DIRECTIVE.asCode(),
+                subject = Reference(reference = FHIRString("Patient/5678")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(serviceRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "ServiceRequest",
               "status" : "completed",
@@ -224,13 +232,14 @@ class ServiceRequestTest {
                 "reference" : "Patient/5678"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "ServiceRequest",
               "status" : "completed",
@@ -240,7 +249,7 @@ class ServiceRequestTest {
               }
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         val serviceRequest = JacksonManager.objectMapper.readValue<ServiceRequest>(json)
 
         assertNull(serviceRequest.id)

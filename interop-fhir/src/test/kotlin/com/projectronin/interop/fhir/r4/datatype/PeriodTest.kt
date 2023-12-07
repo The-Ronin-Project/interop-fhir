@@ -12,20 +12,23 @@ import org.junit.jupiter.api.Test
 class PeriodTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val period = Period(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            start = DateTime("1998-08"),
-            end = DateTime("2002-05")
-        )
+        val period =
+            Period(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                start = DateTime("1998-08"),
+                end = DateTime("2002-05"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(period)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -35,7 +38,7 @@ class PeriodTest {
             |  "start" : "1998-08",
             |  "end" : "2002-05"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPeriod = objectMapper.readValue<Period>(json)
@@ -44,22 +47,25 @@ class PeriodTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val period = Period(
-            start = DateTime("1998-08")
-        )
+        val period =
+            Period(
+                start = DateTime("1998-08"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(period)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "start" : "1998-08"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -69,7 +75,7 @@ class PeriodTest {
             |  "start" : "1998-08",
             |  "end" : "2002-05"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val period = objectMapper.readValue<Period>(json)
 
         assertEquals(FHIRString("12345"), period.id)
@@ -77,7 +83,7 @@ class PeriodTest {
         val expectedSubExtension =
             Extension(
                 url = Uri("http://localhost/extension"),
-                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
             )
         assertEquals(listOf(expectedSubExtension), period.extension)
 
@@ -87,11 +93,12 @@ class PeriodTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "end" : "2002-05"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val period = objectMapper.readValue<Period>(json)
 
         assertNull(period.id)

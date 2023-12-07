@@ -20,10 +20,11 @@ class ExtensionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val extension = extension {
-            url of Uri("http://example.org/extension")
-            value of DynamicValues.boolean(true)
-        }
+        val extension =
+            extension {
+                url of Uri("http://example.org/extension")
+                value of DynamicValues.boolean(true)
+            }
         assertEquals(Uri("http://example.org/extension"), extension.url)
         assertEquals(DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE), extension.value)
     }

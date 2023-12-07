@@ -15,23 +15,24 @@ class RequiredFieldValidatorTest {
 
     @Test
     fun `fails validation when non-collection is null`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredField()),
-                    NonCollectionElement::value,
-                    FHIRString::class,
-                    NonCollectionElement(null),
-                    "NonCollectionElement",
-                    LocationContext(NonCollectionElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredField()),
+                        NonCollectionElement::value,
+                        FHIRString::class,
+                        NonCollectionElement(null),
+                        "NonCollectionElement",
+                        LocationContext(NonCollectionElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: value is a required element @ NonCollectionElement.value",
-            exception.message
+            exception.message,
         )
     }
 
@@ -45,52 +46,54 @@ class RequiredFieldValidatorTest {
                 NonCollectionElement(FHIRString("value")),
                 "NonCollectionElement",
                 LocationContext(NonCollectionElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
 
     @Test
     fun `fails validation when collection is null`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredField()),
-                    CollectionElement::value,
-                    List::class,
-                    CollectionElement(null),
-                    "CollectionElement",
-                    LocationContext(CollectionElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredField()),
+                        CollectionElement::value,
+                        List::class,
+                        CollectionElement(null),
+                        "CollectionElement",
+                        LocationContext(CollectionElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: value is a required element @ CollectionElement.value",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails validation when collection is empty`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            Validation().apply {
-                validator.validateAnnotations(
-                    listOf(RequiredField()),
-                    CollectionElement::value,
-                    List::class,
-                    CollectionElement(emptyList()),
-                    "CollectionElement",
-                    LocationContext(CollectionElement::class),
-                    this
-                )
-            }.alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                Validation().apply {
+                    validator.validateAnnotations(
+                        listOf(RequiredField()),
+                        CollectionElement::value,
+                        List::class,
+                        CollectionElement(emptyList()),
+                        "CollectionElement",
+                        LocationContext(CollectionElement::class),
+                        this,
+                    )
+                }.alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR REQ_FIELD: value is a required element @ CollectionElement.value",
-            exception.message
+            exception.message,
         )
     }
 
@@ -104,16 +107,16 @@ class RequiredFieldValidatorTest {
                 CollectionElement(listOf(FHIRBoolean.TRUE)),
                 "CollectionElement",
                 LocationContext(CollectionElement::class),
-                this
+                this,
             )
         }.alertIfErrors()
     }
 
     data class NonCollectionElement(
-        val value: FHIRString?
+        val value: FHIRString?,
     ) : Validatable<NonCollectionElement>
 
     data class CollectionElement(
-        val value: List<FHIRBoolean>?
+        val value: List<FHIRBoolean>?,
     ) : Validatable<CollectionElement>
 }

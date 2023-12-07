@@ -17,7 +17,7 @@ class R4CodeFilterValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CDFILT_001: Either a path or a searchParam must be provided, but not both @ CodeFilter",
-            exception.message
+            exception.message,
         )
     }
 
@@ -31,7 +31,7 @@ class R4CodeFilterValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CDFILT_001: Either a path or a searchParam must be provided, but not both @ CodeFilter",
-            exception.message
+            exception.message,
         )
     }
 

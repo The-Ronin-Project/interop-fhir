@@ -35,8 +35,10 @@ class CodeTest {
         assertNull(test)
     }
 
-    enum class Fake(@JsonValue override val code: String) :
+    enum class Fake(
+        @JsonValue override val code: String,
+    ) :
         CodedEnum<Fake> {
-        JOEVER("joever")
+        JOEVER("joever"),
     }
 }

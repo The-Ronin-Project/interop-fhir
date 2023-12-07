@@ -11,25 +11,28 @@ class ExampleTests {
     @Test
     fun `example using data generators`() {
         // You are building a person, Jane Doe, who is female, and needs a specific birthdate for searching.
-        val patient = patient {
-            // You only need to specify the features you required.
-            // For Example the name
-            name of listOf(
-                name {
-                    given of listOf("Jane")
-                    family of "Doe"
-                }
-            )
-            // Gender
-            gender of "Female"
+        val patient =
+            patient {
+                // You only need to specify the features you required.
+                // For Example the name
+                name of
+                    listOf(
+                        name {
+                            given of listOf("Jane")
+                            family of "Doe"
+                        },
+                    )
+                // Gender
+                gender of "Female"
 
-            // And birthdate
-            birthDate of date {
-                month of 10
-                day of 27
-                year of 1990
+                // And birthdate
+                birthDate of
+                    date {
+                        month of 10
+                        day of 27
+                        year of 1990
+                    }
             }
-        }
 
         // Now you have a valid patient that reflects everything you need for your tests and fills in any other required elements with random data.
         println(patient)

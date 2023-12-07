@@ -17,5 +17,5 @@ data class UnknownResource(
     override var meta: Meta? = null,
     override val implicitRules: Uri? = null,
     override val language: Code? = null,
-    val otherData: Map<String, Any?>
+    val otherData: Map<String, Any?>,
 ) : Resource<UnknownResource>

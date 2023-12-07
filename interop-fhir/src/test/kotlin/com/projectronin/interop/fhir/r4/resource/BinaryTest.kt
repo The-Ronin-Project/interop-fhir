@@ -17,20 +17,23 @@ import org.junit.jupiter.api.Test
 class BinaryTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val binary = Binary(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("Binary"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            contentType = Code("text/plain"),
-            securityContent = Reference(display = FHIRString("securityContent")),
-            data = Base64Binary("zyxw")
-        )
+        val binary =
+            Binary(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("Binary")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                contentType = Code("text/plain"),
+                securityContent = Reference(display = FHIRString("securityContent")),
+                data = Base64Binary("zyxw"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(binary)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Binary",
               "id" : "12345",
@@ -45,7 +48,7 @@ class BinaryTest {
               },
               "data" : "zyxw"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedBinary = objectMapper.readValue<Binary>(json)
@@ -54,28 +57,31 @@ class BinaryTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val binary = Binary(
-            contentType = Code("text/plain")
-        )
+        val binary =
+            Binary(
+                contentType = Code("text/plain"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(binary)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "Binary",
               "contentType" : "text/plain"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "Binary",
               "contentType" : "text/plain"
             }
-        """.trimIndent()
+            """.trimIndent()
         val binary = objectMapper.readValue<Binary>(json)
 
         assertNull(binary.id)

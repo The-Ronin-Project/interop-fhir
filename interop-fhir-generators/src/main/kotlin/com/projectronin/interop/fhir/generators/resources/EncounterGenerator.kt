@@ -44,10 +44,11 @@ data class EncounterGenerator(
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
     val status: CodeGenerator = CodeGenerator(EncounterStatus::class),
-    val statusHistory: ListDataGenerator<EncounterStatusHistory> = ListDataGenerator(
-        0,
-        EncounterStatusHistoryGenerator()
-    ),
+    val statusHistory: ListDataGenerator<EncounterStatusHistory> =
+        ListDataGenerator(
+            0,
+            EncounterStatusHistoryGenerator(),
+        ),
     val `class`: CodingGenerator = CodingGenerator(),
     val classHistory: ListDataGenerator<EncounterClassHistory> = ListDataGenerator(0, EncounterClassHistoryGenerator()),
     val type: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
@@ -67,9 +68,8 @@ data class EncounterGenerator(
     val hospitalization: DataGenerator<EncounterHospitalization?> = NullDataGenerator(),
     val location: ListDataGenerator<EncounterLocation> = ListDataGenerator(0, EncounterLocationGenerator()),
     val serviceProvider: DataGenerator<Reference?> = NullDataGenerator(),
-    val partOf: DataGenerator<Reference?> = NullDataGenerator()
+    val partOf: DataGenerator<Reference?> = NullDataGenerator(),
 ) : DomainResource<Encounter> {
-
     override fun toFhir(): Encounter =
         Encounter(
             id = id.generate(),
@@ -102,7 +102,7 @@ data class EncounterGenerator(
             hospitalization = hospitalization.generate(),
             location = location.generate(),
             serviceProvider = serviceProvider.generate(),
-            partOf = partOf.generate()
+            partOf = partOf.generate(),
         )
 }
 
@@ -110,6 +110,8 @@ class EncounterClassHistoryGenerator : DataGenerator<EncounterClassHistory>() {
     val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
     val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
+
+    @Suppress("ktlint:standard:property-naming")
     val `class`: DataGenerator<Code?> = CodeGenerator(listOf("inpatient", "outpatient", "ambulatory", "emergency"))
     val period: DataGenerator<Period> = PeriodGenerator()
 
@@ -119,7 +121,7 @@ class EncounterClassHistoryGenerator : DataGenerator<EncounterClassHistory>() {
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             `class` = `class`.generate(),
-            period = period.generate()
+            period = period.generate(),
         )
 }
 
@@ -138,7 +140,7 @@ class EncounterParticipantGenerator : DataGenerator<EncounterParticipant>() {
             modifierExtension = modifierExtension.generate(),
             type = type.generate(),
             period = period.generate(),
-            individual = individual.generate()
+            individual = individual.generate(),
         )
 }
 
@@ -157,7 +159,7 @@ class EncounterDiagnosisGenerator : DataGenerator<EncounterDiagnosis>() {
             modifierExtension = modifierExtension.generate(),
             condition = condition.generate(),
             use = use.generate(),
-            rank = rank.generate()
+            rank = rank.generate(),
         )
 }
 
@@ -188,7 +190,7 @@ class EncounterHospitalizationGenerator : DataGenerator<EncounterHospitalization
             specialCourtesy = specialCourtesy.generate(),
             specialArrangement = specialArrangement.generate(),
             destination = destination.generate(),
-            dischargeDisposition = dischargeDisposition.generate()
+            dischargeDisposition = dischargeDisposition.generate(),
         )
 }
 
@@ -209,7 +211,7 @@ class EncounterLocationGenerator : DataGenerator<EncounterLocation>() {
             location = location.generate(),
             status = status.generate(),
             physicalType = physicalType.generate(),
-            period = period.generate()
+            period = period.generate(),
         )
 }
 
@@ -226,7 +228,7 @@ class EncounterStatusHistoryGenerator : DataGenerator<EncounterStatusHistory>() 
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             status = status.generate(),
-            period = period.generate()
+            period = period.generate(),
         )
 }
 

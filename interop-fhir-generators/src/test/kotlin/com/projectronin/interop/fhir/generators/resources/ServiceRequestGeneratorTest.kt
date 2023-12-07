@@ -59,10 +59,11 @@ class ServiceRequestGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val serviceRequest = serviceRequest {
-            requester of reference("Practitioner", "1234")
-            patientInstruction of "No food 8 hours before"
-        }
+        val serviceRequest =
+            serviceRequest {
+                requester of reference("Practitioner", "1234")
+                patientInstruction of "No food 8 hours before"
+            }
 
         assertEquals(Reference(reference = FHIRString("Practitioner/1234")), serviceRequest.requester)
         assertEquals(FHIRString("No food 8 hours before"), serviceRequest.patientInstruction)

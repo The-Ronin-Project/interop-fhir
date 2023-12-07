@@ -8,5 +8,5 @@ import com.projectronin.interop.fhir.validate.InvalidPrimitiveError
  */
 object R4OidValidator : BaseRegexPrimitiveValidator<Oid>(
     Regex("""urn:oid:[0-2](\.(0|[1-9][0-9]*))+"""),
-    InvalidPrimitiveError(Oid::class)
+    InvalidPrimitiveError(Oid::class),
 )

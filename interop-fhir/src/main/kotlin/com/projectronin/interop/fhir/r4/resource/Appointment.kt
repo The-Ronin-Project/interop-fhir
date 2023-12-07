@@ -61,7 +61,7 @@ data class Appointment(
         ResourceType.Condition,
         ResourceType.Procedure,
         ResourceType.Observation,
-        ResourceType.ImmunizationRecommendation
+        ResourceType.ImmunizationRecommendation,
     )
     val reasonReference: List<Reference> = listOf(),
     val priority: UnsignedInt? = null,
@@ -79,12 +79,13 @@ data class Appointment(
     val basedOn: List<Reference> = listOf(),
     @RequiredField
     val participant: List<Participant>,
-    val requestedPeriod: List<Period> = listOf()
+    val requestedPeriod: List<Period> = listOf(),
 ) : DomainResource<Appointment> {
     override val resourceType: String = "Appointment"
 }
 
 class AppointmentSerializer : BaseFHIRSerializer<Appointment>(Appointment::class.java)
+
 class AppointmentDeserializer : BaseFHIRDeserializer<Appointment>(Appointment::class.java)
 
 /**
@@ -104,7 +105,7 @@ data class Participant(
         ResourceType.RelatedPerson,
         ResourceType.Device,
         ResourceType.HealthcareService,
-        ResourceType.Location
+        ResourceType.Location,
     )
     val actor: Reference? = null,
     @RequiredValueSet(ParticipantRequired::class)
@@ -112,8 +113,9 @@ data class Participant(
     @RequiredField
     @RequiredValueSet(ParticipationStatus::class)
     val status: Code?,
-    val period: Period? = null
+    val period: Period? = null,
 ) : BackboneElement<Participant>
 
 class ParticipantSerializer : BaseFHIRSerializer<Participant>(Participant::class.java)
+
 class ParticipantDeserializer : BaseFHIRDeserializer<Participant>(Participant::class.java)

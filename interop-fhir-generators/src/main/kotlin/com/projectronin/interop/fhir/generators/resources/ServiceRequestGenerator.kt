@@ -72,7 +72,7 @@ data class ServiceRequestGenerator(
     val bodySite: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
     val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
     val patientInstruction: DataGenerator<FHIRString?> = NullDataGenerator(),
-    val relevantHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
+    val relevantHistory: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
 ) : DomainResource<ServiceRequest> {
     override fun toFhir(): ServiceRequest =
         ServiceRequest(
@@ -116,7 +116,7 @@ data class ServiceRequestGenerator(
             bodySite = bodySite.generate(),
             note = note.generate(),
             patientInstruction = patientInstruction.generate(),
-            relevantHistory = relevantHistory.generate()
+            relevantHistory = relevantHistory.generate(),
         )
 }
 

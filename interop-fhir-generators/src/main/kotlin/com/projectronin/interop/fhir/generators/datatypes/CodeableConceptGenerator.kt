@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 
 class CodeableConceptGenerator(
     private val possibleValues: List<String> = listOf(),
-    private val defaultSystem: String? = null
+    private val defaultSystem: String? = null,
 ) : DataGenerator<CodeableConcept>() {
     // Constructor to accept a enum class
     constructor(enumClass: KClass<out CodedEnum<*>>) : this(enumClass.java.enumConstants.map { it.code })
@@ -27,24 +27,26 @@ class CodeableConceptGenerator(
             // By default, generate a codeable concept
             CodeableConcept(
                 coding = coding.generate(),
-                text = text.generate()
+                text = text.generate(),
             )
         } else {
             // When required values are provided build a codeable concept based on that.
             val selectedCode = CodeGenerator(possibleValues).generate()
             CodeableConcept(
-                coding = listOf(
-                    coding {
-                        system of if (defaultSystem == null) {
-                            UriGenerator().generate()
-                        } else {
-                            Uri(defaultSystem)
-                        }
-                        code of selectedCode
-                        text of FHIRString(selectedCode!!.value)
-                    }
-                ),
-                text = text.generate()
+                coding =
+                    listOf(
+                        coding {
+                            system of
+                                if (defaultSystem == null) {
+                                    UriGenerator().generate()
+                                } else {
+                                    Uri(defaultSystem)
+                                }
+                            code of selectedCode
+                            text of FHIRString(selectedCode!!.value)
+                        },
+                    ),
+                text = text.generate(),
             )
         }
 }

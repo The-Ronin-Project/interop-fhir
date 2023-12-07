@@ -41,9 +41,10 @@ class DynamicValuesTest {
 
     @Test
     fun `can create boolean DynamicValue from boolean data generator`() {
-        val generator = mockk<DataGenerator<FHIRBoolean>> {
-            every { generate() } returns FHIRBoolean.FALSE
-        }
+        val generator =
+            mockk<DataGenerator<FHIRBoolean>> {
+                every { generate() } returns FHIRBoolean.FALSE
+            }
         val value = DynamicValues.boolean(generator)
         assertEquals(DynamicValueType.BOOLEAN, value.type)
         assertEquals(FHIRBoolean.FALSE, value.value)
@@ -60,9 +61,10 @@ class DynamicValuesTest {
     @Test
     fun `can create CodeableConcept DynamicValue from CodeableConcept data generator`() {
         val codeableConcept = CodeableConcept()
-        val generator = mockk<DataGenerator<CodeableConcept>> {
-            every { generate() } returns codeableConcept
-        }
+        val generator =
+            mockk<DataGenerator<CodeableConcept>> {
+                every { generate() } returns codeableConcept
+            }
         val value = DynamicValues.codeableConcept(generator)
         assertEquals(DynamicValueType.CODEABLE_CONCEPT, value.type)
         assertEquals(codeableConcept, value.value)
@@ -87,9 +89,10 @@ class DynamicValuesTest {
     @Test
     fun `can create DateTime DynamicValue from DateTime data generator`() {
         val dateTime = DateTime("2017-01-01T00:00:00.000Z")
-        val generator = mockk<DataGenerator<DateTime>> {
-            every { generate() } returns dateTime
-        }
+        val generator =
+            mockk<DataGenerator<DateTime>> {
+                every { generate() } returns dateTime
+            }
 
         val value = DynamicValues.dateTime(generator)
         assertEquals(DynamicValueType.DATE_TIME, value.type)
@@ -115,9 +118,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Instant DynamicValue from Instant data generator`() {
         val instant = Instant("2015-02-07T13:28:17.239+02:00")
-        val generator = mockk<DataGenerator<Instant>> {
-            every { generate() } returns instant
-        }
+        val generator =
+            mockk<DataGenerator<Instant>> {
+                every { generate() } returns instant
+            }
         val value = DynamicValues.instant(generator)
         assertEquals(DynamicValueType.INSTANT, value.type)
         assertEquals(instant, value.value)
@@ -139,9 +143,10 @@ class DynamicValuesTest {
 
     @Test
     fun `can create integer DynamicValue from FHIRInteger data generator`() {
-        val generator = mockk<DataGenerator<FHIRInteger>> {
-            every { generate() } returns FHIRInteger(789)
-        }
+        val generator =
+            mockk<DataGenerator<FHIRInteger>> {
+                every { generate() } returns FHIRInteger(789)
+            }
         val value = DynamicValues.integer(generator)
         assertEquals(DynamicValueType.INTEGER, value.type)
         assertEquals(FHIRInteger(789), value.value)
@@ -158,9 +163,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Period DynamicValue from Period data generator`() {
         val period = Period()
-        val generator = mockk<DataGenerator<Period>> {
-            every { generate() } returns period
-        }
+        val generator =
+            mockk<DataGenerator<Period>> {
+                every { generate() } returns period
+            }
         val value = DynamicValues.period(generator)
         assertEquals(DynamicValueType.PERIOD, value.type)
         assertEquals(period, value.value)
@@ -177,9 +183,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Quantity DynamicValue from Quantity data generator`() {
         val quantity = Quantity()
-        val generator = mockk<DataGenerator<Quantity>> {
-            every { generate() } returns quantity
-        }
+        val generator =
+            mockk<DataGenerator<Quantity>> {
+                every { generate() } returns quantity
+            }
         val value = DynamicValues.quantity(generator)
         assertEquals(DynamicValueType.QUANTITY, value.type)
         assertEquals(quantity, value.value)
@@ -196,9 +203,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Range DynamicValue from Range data generator`() {
         val range = Range()
-        val generator = mockk<DataGenerator<Range>> {
-            every { generate() } returns range
-        }
+        val generator =
+            mockk<DataGenerator<Range>> {
+                every { generate() } returns range
+            }
         val value = DynamicValues.range(generator)
         assertEquals(DynamicValueType.RANGE, value.type)
         assertEquals(range, value.value)
@@ -215,9 +223,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Ratio DynamicValue from Ratio data generator`() {
         val ratio = Ratio()
-        val generator = mockk<DataGenerator<Ratio>> {
-            every { generate() } returns ratio
-        }
+        val generator =
+            mockk<DataGenerator<Ratio>> {
+                every { generate() } returns ratio
+            }
         val value = DynamicValues.ratio(generator)
         assertEquals(DynamicValueType.RATIO, value.type)
         assertEquals(ratio, value.value)
@@ -234,9 +243,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Reference DynamicValue from Reference data generator`() {
         val reference = Reference()
-        val generator = mockk<DataGenerator<Reference>> {
-            every { generate() } returns reference
-        }
+        val generator =
+            mockk<DataGenerator<Reference>> {
+                every { generate() } returns reference
+            }
         val value = DynamicValues.reference(generator)
         assertEquals(DynamicValueType.REFERENCE, value.type)
         assertEquals(reference, value.value)
@@ -244,11 +254,12 @@ class DynamicValuesTest {
 
     @Test
     fun `can create SampledData DynamicValue from SampledData`() {
-        val sampledData = SampledData(
-            origin = SimpleQuantity(value = Decimal(42.0)),
-            period = Decimal(0.5),
-            dimensions = PositiveInt(1)
-        )
+        val sampledData =
+            SampledData(
+                origin = SimpleQuantity(value = Decimal(42.0)),
+                period = Decimal(0.5),
+                dimensions = PositiveInt(1),
+            )
         val value = DynamicValues.sampledData(sampledData)
         assertEquals(DynamicValueType.SAMPLED_DATA, value.type)
         assertEquals(sampledData, value.value)
@@ -256,14 +267,16 @@ class DynamicValuesTest {
 
     @Test
     fun `can create SampledData DynamicValue from SampledData data generator`() {
-        val sampledData = SampledData(
-            origin = SimpleQuantity(value = Decimal(42.0)),
-            period = Decimal(0.5),
-            dimensions = PositiveInt(1)
-        )
-        val generator = mockk<DataGenerator<SampledData>> {
-            every { generate() } returns sampledData
-        }
+        val sampledData =
+            SampledData(
+                origin = SimpleQuantity(value = Decimal(42.0)),
+                period = Decimal(0.5),
+                dimensions = PositiveInt(1),
+            )
+        val generator =
+            mockk<DataGenerator<SampledData>> {
+                every { generate() } returns sampledData
+            }
         val value = DynamicValues.sampledData(generator)
         assertEquals(DynamicValueType.SAMPLED_DATA, value.type)
         assertEquals(sampledData, value.value)
@@ -285,9 +298,10 @@ class DynamicValuesTest {
 
     @Test
     fun `can create string DynamicValue from FHIRString data generator`() {
-        val generator = mockk<DataGenerator<FHIRString>> {
-            every { generate() } returns FHIRString("generated")
-        }
+        val generator =
+            mockk<DataGenerator<FHIRString>> {
+                every { generate() } returns FHIRString("generated")
+            }
         val value = DynamicValues.string(generator)
         assertEquals(DynamicValueType.STRING, value.type)
         assertEquals(FHIRString("generated"), value.value)
@@ -312,9 +326,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Time DynamicValue from Time data generator`() {
         val time = Time("12:51:00")
-        val generator = mockk<DataGenerator<Time>> {
-            every { generate() } returns time
-        }
+        val generator =
+            mockk<DataGenerator<Time>> {
+                every { generate() } returns time
+            }
         val value = DynamicValues.time(generator)
         assertEquals(DynamicValueType.TIME, value.type)
         assertEquals(time, value.value)
@@ -331,9 +346,10 @@ class DynamicValuesTest {
     @Test
     fun `can create Timing DynamicValue from Timing data generator`() {
         val timing = Timing()
-        val generator = mockk<DataGenerator<Timing>> {
-            every { generate() } returns timing
-        }
+        val generator =
+            mockk<DataGenerator<Timing>> {
+                every { generate() } returns timing
+            }
         val value = DynamicValues.timing(generator)
         assertEquals(DynamicValueType.TIMING, value.type)
         assertEquals(timing, value.value)

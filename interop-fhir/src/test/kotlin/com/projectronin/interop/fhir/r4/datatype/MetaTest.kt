@@ -14,24 +14,27 @@ import org.junit.jupiter.api.Test
 class MetaTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val meta = Meta(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            versionId = Id("2"),
-            lastUpdated = Instant("2017-01-01T00:00:00Z"),
-            source = Uri("source-uri"),
-            profile = listOf(Canonical("profile-canonical")),
-            security = listOf(Coding(display = FHIRString("security-coding"))),
-            tag = listOf(Coding(display = FHIRString("tag-coding")))
-        )
+        val meta =
+            Meta(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                versionId = Id("2"),
+                lastUpdated = Instant("2017-01-01T00:00:00Z"),
+                source = Uri("source-uri"),
+                profile = listOf(Canonical("profile-canonical")),
+                security = listOf(Coding(display = FHIRString("security-coding"))),
+                tag = listOf(Coding(display = FHIRString("tag-coding"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(meta)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -49,7 +52,7 @@ class MetaTest {
             |    "display" : "tag-coding"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedMeta = objectMapper.readValue<Meta>(json)
@@ -61,21 +64,23 @@ class MetaTest {
         val meta = Meta(versionId = Id("2"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(meta)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "versionId" : "2"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "source" : "source-uri"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val meta = objectMapper.readValue<Meta>(json)
 
         assertNull(meta.id)

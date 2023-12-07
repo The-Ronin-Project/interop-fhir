@@ -22,7 +22,7 @@ class RequiredValueSetValidator : BaseValidationAnnotationValidator<RequiredValu
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         val enumClass = annotations.singleOrNull()?.value ?: return
 
@@ -33,7 +33,7 @@ class RequiredValueSetValidator : BaseValidationAnnotationValidator<RequiredValu
                     code,
                     enumClass,
                     InvalidValueSetError(LocationContext(elementName, property.name), code.value),
-                    parentContext
+                    parentContext,
                 )
             }
         } else if (kotlinType.isSubclassOf(Collection::class)) {
@@ -48,7 +48,7 @@ class RequiredValueSetValidator : BaseValidationAnnotationValidator<RequiredValu
                                 code,
                                 enumClass,
                                 InvalidValueSetError(indexedContext, code.value),
-                                parentContext
+                                parentContext,
                             )
                         }
                     }

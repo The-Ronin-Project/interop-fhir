@@ -24,7 +24,8 @@ enum class CodeSystem(uriString: String) {
     RONIN_DATA_AUTHORITY("http://projectronin.com/id/dataAuthorityId"),
     RXNORM("http://www.nlm.nih.gov/research/umls/rxnorm"),
     SNOMED_CT("http://snomed.info/sct"),
-    UCUM("http://unitsofmeasure.org");
+    UCUM("http://unitsofmeasure.org"),
+    ;
 
     val uri = Uri(uriString)
 }

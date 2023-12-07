@@ -12,58 +12,65 @@ import org.junit.jupiter.api.assertThrows
 class R4ContactPointValidatorTest {
     @Test
     fun `fails if system is outside of required value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val contactPoint = ContactPoint(
-                value = FHIRString("name@site.com"),
-                system = Code("unsupported-system")
-            )
-            R4ContactPointValidator.validate(contactPoint).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val contactPoint =
+                    ContactPoint(
+                        value = FHIRString("name@site.com"),
+                        system = Code("unsupported-system"),
+                    )
+                R4ContactPointValidator.validate(contactPoint).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unsupported-system' is outside of required value set @ ContactPoint.system",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if use is outside of required value set`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val contactPoint = ContactPoint(
-                value = FHIRString("name@site.com"),
-                system = ContactPointSystem.PHONE.asCode(),
-                use = Code("unsupported-use")
-            )
-            R4ContactPointValidator.validate(contactPoint).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val contactPoint =
+                    ContactPoint(
+                        value = FHIRString("name@site.com"),
+                        system = ContactPointSystem.PHONE.asCode(),
+                        use = Code("unsupported-use"),
+                    )
+                R4ContactPointValidator.validate(contactPoint).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_VALUE_SET: 'unsupported-use' is outside of required value set @ ContactPoint.use",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value provided and no system is provided`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val contactPoint = ContactPoint(
-                value = FHIRString("name@site.com")
-            )
-            R4ContactPointValidator.validate(contactPoint).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val contactPoint =
+                    ContactPoint(
+                        value = FHIRString("name@site.com"),
+                    )
+                R4ContactPointValidator.validate(contactPoint).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_CNTCTPT_001: A system is required if a value is provided @ ContactPoint",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val contactPoint = ContactPoint(
-            value = FHIRString("name@site.com"),
-            system = ContactPointSystem.EMAIL.asCode()
-        )
+        val contactPoint =
+            ContactPoint(
+                value = FHIRString("name@site.com"),
+                system = ContactPointSystem.EMAIL.asCode(),
+            )
         R4ContactPointValidator.validate(contactPoint).alertIfErrors()
     }
 

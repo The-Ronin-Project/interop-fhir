@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](http://hl7.org/fhir/R4/valueset-sort-direction.html)
  */
-enum class SortDirection(@JsonValue override val code: String) : CodedEnum<SortDirection> {
+enum class SortDirection(
+    @JsonValue override val code: String,
+) : CodedEnum<SortDirection> {
     ASCENDING("ascending"),
-    DESCENDING("descending")
+    DESCENDING("descending"),
 }

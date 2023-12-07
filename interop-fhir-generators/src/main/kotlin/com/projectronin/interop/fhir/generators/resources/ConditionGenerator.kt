@@ -52,7 +52,7 @@ data class ConditionGenerator(
     val asserter: DataGenerator<Reference?> = NullDataGenerator(),
     val stage: ListDataGenerator<ConditionStage> = ListDataGenerator(0, ConditionStageGenerator()),
     val evidence: ListDataGenerator<ConditionEvidence> = ListDataGenerator(0, ConditionEvidenceGenerator()),
-    val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator())
+    val note: ListDataGenerator<Annotation> = ListDataGenerator(0, AnnotationGenerator()),
 ) : DomainResource<Condition> {
     override fun toFhir(): Condition =
         Condition(
@@ -81,7 +81,7 @@ data class ConditionGenerator(
             asserter = asserter.generate(),
             stage = stage.generate(),
             evidence = evidence.generate(),
-            note = note.generate()
+            note = note.generate(),
         )
 }
 
@@ -92,13 +92,14 @@ class ConditionEvidenceGenerator : DataGenerator<ConditionEvidence>() {
     val code: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator())
     val detail: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
 
-    override fun generateInternal() = ConditionEvidence(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        code = code.generate(),
-        detail = detail.generate()
-    )
+    override fun generateInternal() =
+        ConditionEvidence(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            code = code.generate(),
+            detail = detail.generate(),
+        )
 }
 
 class ConditionStageGenerator : DataGenerator<ConditionStage>() {
@@ -109,14 +110,15 @@ class ConditionStageGenerator : DataGenerator<ConditionStage>() {
     val assessment: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator())
     val type: DataGenerator<CodeableConcept?> = NullDataGenerator()
 
-    override fun generateInternal() = ConditionStage(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        summary = summary.generate(),
-        assessment = assessment.generate(),
-        type = type.generate()
-    )
+    override fun generateInternal() =
+        ConditionStage(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            summary = summary.generate(),
+            assessment = assessment.generate(),
+            type = type.generate(),
+        )
 }
 
 fun condition(block: ConditionGenerator.() -> Unit): Condition {

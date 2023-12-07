@@ -42,7 +42,7 @@ data class MedicationGenerator(
     val form: DataGenerator<CodeableConcept?> = NullDataGenerator(),
     val amount: DataGenerator<Ratio?> = NullDataGenerator(),
     val ingredient: ListDataGenerator<Ingredient> = ListDataGenerator(0, IngredientGenerator()),
-    val batch: DataGenerator<Batch?> = NullDataGenerator()
+    val batch: DataGenerator<Batch?> = NullDataGenerator(),
 ) : DomainResource<Medication> {
     override fun toFhir(): Medication =
         Medication(
@@ -61,7 +61,7 @@ data class MedicationGenerator(
             form = form.generate(),
             amount = amount.generate(),
             ingredient = ingredient.generate(),
-            batch = batch.generate()
+            batch = batch.generate(),
         )
 }
 
@@ -73,14 +73,15 @@ class IngredientGenerator : DataGenerator<Ingredient>() {
     val isActive: DataGenerator<FHIRBoolean?> = NullDataGenerator()
     val strength: DataGenerator<Ratio?> = NullDataGenerator()
 
-    override fun generateInternal() = Ingredient(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        item = item.generate(),
-        isActive = isActive.generate(),
-        strength = strength.generate()
-    )
+    override fun generateInternal() =
+        Ingredient(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            item = item.generate(),
+            isActive = isActive.generate(),
+            strength = strength.generate(),
+        )
 }
 
 class IngredientItemGenerator : DataGenerator<DynamicValue<Any>>() {
@@ -96,13 +97,14 @@ class BatchGenerator : DataGenerator<Batch>() {
     val lotNumber: DataGenerator<FHIRString?> = NullDataGenerator()
     val expirationDate: DataGenerator<DateTime?> = NullDataGenerator()
 
-    override fun generateInternal() = Batch(
-        id = id.generate(),
-        extension = extension.generate(),
-        modifierExtension = modifierExtension.generate(),
-        lotNumber = lotNumber.generate(),
-        expirationDate = expirationDate.generate()
-    )
+    override fun generateInternal() =
+        Batch(
+            id = id.generate(),
+            extension = extension.generate(),
+            modifierExtension = modifierExtension.generate(),
+            lotNumber = lotNumber.generate(),
+            expirationDate = expirationDate.generate(),
+        )
 }
 
 fun medication(block: MedicationGenerator.() -> Unit): Medication {

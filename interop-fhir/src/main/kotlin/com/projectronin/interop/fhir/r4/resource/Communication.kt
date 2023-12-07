@@ -73,7 +73,7 @@ data class Communication(
         ResourceType.RelatedPerson,
         ResourceType.Group,
         ResourceType.CareTeam,
-        ResourceType.HealthcareService
+        ResourceType.HealthcareService,
     )
     val recipient: List<Reference> = listOf(),
     @SupportedReferenceTypes(
@@ -83,7 +83,7 @@ data class Communication(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.RelatedPerson,
-        ResourceType.HealthcareService
+        ResourceType.HealthcareService,
     )
     val sender: Reference? = null,
     val reasonCode: List<CodeableConcept> = listOf(),
@@ -91,16 +91,17 @@ data class Communication(
         ResourceType.Condition,
         ResourceType.Observation,
         ResourceType.DiagnosticReport,
-        ResourceType.DocumentReference
+        ResourceType.DocumentReference,
     )
     val reasonReference: List<Reference> = listOf(),
     val payload: List<CommunicationPayload> = listOf(),
-    val note: List<Annotation> = listOf()
+    val note: List<Annotation> = listOf(),
 ) : DomainResource<Communication> {
     override val resourceType: String = "Communication"
 }
 
 class CommunicationSerializer : BaseFHIRSerializer<Communication>(Communication::class.java)
+
 class CommunicationDeserializer : BaseFHIRDeserializer<Communication>(Communication::class.java)
 
 @JsonSerialize(using = CommunicationPayloadSerializer::class)
@@ -111,8 +112,9 @@ data class CommunicationPayload(
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
     @SupportedDynamicValueTypes(DynamicValueType.STRING, DynamicValueType.ATTACHMENT, DynamicValueType.REFERENCE)
-    val content: DynamicValue<Any>?
+    val content: DynamicValue<Any>?,
 ) : BackboneElement<CommunicationPayload>
 
 class CommunicationPayloadSerializer : BaseFHIRSerializer<CommunicationPayload>(CommunicationPayload::class.java)
+
 class CommunicationPayloadDeserializer : BaseFHIRDeserializer<CommunicationPayload>(CommunicationPayload::class.java)

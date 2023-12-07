@@ -13,23 +13,26 @@ import org.junit.jupiter.api.Test
 class ExpressionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val expression = Expression(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            description = FHIRString("expression 1"),
-            name = Id("12-45"),
-            language = Code("en-US"),
-            expression = FHIRString("the expression"),
-            reference = Uri("expression-uri")
-        )
+        val expression =
+            Expression(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                description = FHIRString("expression 1"),
+                name = Id("12-45"),
+                language = Code("en-US"),
+                expression = FHIRString("the expression"),
+                reference = Uri("expression-uri"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expression)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -42,7 +45,7 @@ class ExpressionTest {
             |  "expression" : "the expression",
             |  "reference" : "expression-uri"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExpression = objectMapper.readValue<Expression>(json)
@@ -51,29 +54,32 @@ class ExpressionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val expression = Expression(
-            language = Code("en-US"),
-            expression = FHIRString("expression")
-        )
+        val expression =
+            Expression(
+                language = Code("en-US"),
+                expression = FHIRString("expression"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expression)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "language" : "en-US",
             |  "expression" : "expression"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "language" : "en-US",
             |  "reference" : "reference"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val expression = objectMapper.readValue<Expression>(json)
 
         assertNull(expression.id)

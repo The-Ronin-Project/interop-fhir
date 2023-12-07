@@ -38,18 +38,30 @@ abstract class R4ElementContainingValidator<T : Validatable<T>>(private val elem
     /**
      * Validates the specific [element] as part of the [validation].
      */
-    protected abstract fun validateElement(element: T, parentContext: LocationContext?, validation: Validation)
+    protected abstract fun validateElement(
+        element: T,
+        parentContext: LocationContext?,
+        validation: Validation,
+    )
 
-    override fun validate(element: T, parentContext: LocationContext?): Validation = validation {
-        validateElement(element, parentContext, this)
+    override fun validate(
+        element: T,
+        parentContext: LocationContext?,
+    ): Validation =
+        validation {
+            validateElement(element, parentContext, this)
 
-        validateProperties(element, parentContext, this)
-    }
+            validateProperties(element, parentContext, this)
+        }
 
     /**
      * Validates the properties of the [element]. This is done through reflections by inspecting each property and determining if it includes a type we should validate against.
      */
-    private fun validateProperties(element: T, parentContext: LocationContext?, validation: Validation) {
+    private fun validateProperties(
+        element: T,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         val elementName = elementName ?: element.javaClass.simpleName
 
         element.javaClass.kotlin.memberProperties.forEach { property ->
@@ -64,7 +76,7 @@ abstract class R4ElementContainingValidator<T : Validatable<T>>(private val elem
                     element,
                     elementName,
                     parentContext,
-                    validation
+                    validation,
                 )
             }
 

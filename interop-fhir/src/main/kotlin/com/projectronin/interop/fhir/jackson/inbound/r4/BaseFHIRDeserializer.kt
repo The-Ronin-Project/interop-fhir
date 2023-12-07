@@ -20,13 +20,17 @@ import kotlin.reflect.jvm.jvmErasure
 
 abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class<T>) :
     StdDeserializer<T>(clazz) {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): T {
+    override fun deserialize(
+        p: JsonParser,
+        ctxt: DeserializationContext,
+    ): T {
         val node = p.codec.readTree<JsonNode>(p) ?: throw JsonParseException(p, "unable to parse node")
 
         val typesByName = getTypesByName()
-        val values = typesByName.mapValues { (name, type) ->
-            readNode(node, p, name, type)
-        }
+        val values =
+            typesByName.mapValues { (name, type) ->
+                readNode(node, p, name, type)
+            }
         return createInstance(values)
     }
 
@@ -36,7 +40,12 @@ abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class
         }
     }
 
-    private fun readNode(node: JsonNode, parser: JsonParser, fieldName: String, type: KType): Any? {
+    private fun readNode(
+        node: JsonNode,
+        parser: JsonParser,
+        fieldName: String,
+        type: KType,
+    ): Any? {
         val kotlinType = type.jvmErasure
         val javaType = kotlinType.java
 
@@ -46,13 +55,15 @@ abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class
             node.getDynamicValueOrNull(fieldName, parser)
         } else if (kotlinType == List::class) {
             val itemType = type.arguments[0].type!!.jvmErasure.java
-            val list = node.get(fieldName)?.elements()?.asSequence()
-                ?.map { if (it.isNull) null else it.readValueAs(parser, itemType) }?.toList()
-                ?: emptyList()
-            if (type.arguments[0].type!!.jvmErasure.isSubclassOf(Primitive::class)) {
-                val primitiveDataList = node.get("_$fieldName")?.elements()?.asSequence()
-                    ?.map { if (it.isNull) null else it.readValueAs(parser, PrimitiveData::class.java) }?.toList()
+            val list =
+                node.get(fieldName)?.elements()?.asSequence()
+                    ?.map { if (it.isNull) null else it.readValueAs(parser, itemType) }?.toList()
                     ?: emptyList()
+            if (type.arguments[0].type!!.jvmErasure.isSubclassOf(Primitive::class)) {
+                val primitiveDataList =
+                    node.get("_$fieldName")?.elements()?.asSequence()
+                        ?.map { if (it.isNull) null else it.readValueAs(parser, PrimitiveData::class.java) }?.toList()
+                        ?: emptyList()
                 if (primitiveDataList.isEmpty()) {
                     list
                 } else {
@@ -62,8 +73,9 @@ abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class
                     primitiveDataList.mapIndexed { i, primitiveData ->
                         when (primitiveData) {
                             null -> itemType.getDeclaredConstructor(valueType).newInstance(primitiveValues[i])
-                            else -> itemType.getDeclaredConstructor(valueType, FHIRString::class.java, List::class.java)
-                                .newInstance(primitiveValues[i], primitiveData.id, primitiveData.extension)
+                            else ->
+                                itemType.getDeclaredConstructor(valueType, FHIRString::class.java, List::class.java)
+                                    .newInstance(primitiveValues[i], primitiveData.id, primitiveData.extension)
                         }
                     }
                 }
@@ -90,14 +102,15 @@ abstract class BaseFHIRDeserializer<T : Validatable<T>>(private val clazz: Class
     private fun createInstance(values: Map<String, Any?>): T {
         val constructor = clazz.kotlin.constructors.first()
         val constructorParameters = constructor.parameters
-        val actualParameters = constructorParameters.mapNotNull { param ->
-            val value = values[param.name]
-            if (!param.isOptional) {
-                Pair(param, value)
-            } else {
-                value?.let { Pair(param, it) }
-            }
-        }.associate { it }
+        val actualParameters =
+            constructorParameters.mapNotNull { param ->
+                val value = values[param.name]
+                if (!param.isOptional) {
+                    Pair(param, value)
+                } else {
+                    value?.let { Pair(param, it) }
+                }
+            }.associate { it }
         return constructor.callBy(actualParameters)
     }
 }

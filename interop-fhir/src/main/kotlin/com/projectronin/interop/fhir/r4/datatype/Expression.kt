@@ -26,8 +26,9 @@ data class Expression(
     @RequiredField
     val language: Code?,
     val expression: FHIRString? = null,
-    val reference: Uri? = null
+    val reference: Uri? = null,
 ) : Element<Expression>
 
 class ExpressionSerializer : BaseFHIRSerializer<Expression>(Expression::class.java)
+
 class ExpressionDeserializer : BaseFHIRDeserializer<Expression>(Expression::class.java)

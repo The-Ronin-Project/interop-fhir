@@ -35,44 +35,50 @@ import org.junit.jupiter.api.Test
 class PractitionerTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val practitioner = Practitioner(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninPractitionerRole"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            active = FHIRBoolean.TRUE,
-            name = listOf(HumanName(family = FHIRString("Doe"))),
-            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
-            address = listOf(Address(country = FHIRString("USA"))),
-            gender = AdministrativeGender.FEMALE.asCode(),
-            birthDate = Date("1975-07-05"),
-            photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
-            qualification = listOf(Qualification(code = CodeableConcept(text = FHIRString("code")))),
-            communication = listOf(CodeableConcept(text = FHIRString("communication")))
-        )
+        val practitioner =
+            Practitioner(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninPractitionerRole")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                active = FHIRBoolean.TRUE,
+                name = listOf(HumanName(family = FHIRString("Doe"))),
+                telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+                address = listOf(Address(country = FHIRString("USA"))),
+                gender = AdministrativeGender.FEMALE.asCode(),
+                birthDate = Date("1975-07-05"),
+                photo = listOf(Attachment(contentType = Code("text"), data = Base64Binary("abcd"))),
+                qualification = listOf(Qualification(code = CodeableConcept(text = FHIRString("code")))),
+                communication = listOf(CodeableConcept(text = FHIRString("communication"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "Practitioner",
             |  "id" : "12345",
@@ -127,7 +133,7 @@ class PractitionerTest {
             |    "text" : "communication"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPractitioner = objectMapper.readValue<Practitioner>(json)
@@ -136,28 +142,31 @@ class PractitionerTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val practitioner = Practitioner(
-            birthDate = Date("1936-12-25")
-        )
+        val practitioner =
+            Practitioner(
+                birthDate = Date("1936-12-25"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "Practitioner",
             |  "birthDate" : "1936-12-25"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "resourceType" : "Practitioner",
             |  "active" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         val practitioner = objectMapper.readValue<Practitioner>(json)
 
         assertNull(practitioner.id)
@@ -184,28 +193,32 @@ class PractitionerTest {
 class QualificationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val qualification = Qualification(
-            id = FHIRString("67890"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            code = CodeableConcept(text = FHIRString("code")),
-            period = Period(start = DateTime("2001")),
-            issuer = Reference(reference = FHIRString("Organization/12345"))
-        )
+        val qualification =
+            Qualification(
+                id = FHIRString("67890"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                code = CodeableConcept(text = FHIRString("code")),
+                period = Period(start = DateTime("2001")),
+                issuer = Reference(reference = FHIRString("Organization/12345")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "67890",
             |  "extension" : [ {
@@ -229,7 +242,7 @@ class QualificationTest {
             |    "reference" : "Organization/12345"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedQualification = objectMapper.readValue<Qualification>(json)
@@ -238,30 +251,33 @@ class QualificationTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val qualification = Qualification(
-            code = CodeableConcept(text = FHIRString("code"))
-        )
+        val qualification =
+            Qualification(
+                code = CodeableConcept(text = FHIRString("code")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(qualification)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "code" : {
             |    "text" : "code"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "code" : {
             |    "text" : "code"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         val qualification = objectMapper.readValue<Qualification>(json)
 
         assertNull(qualification.id)

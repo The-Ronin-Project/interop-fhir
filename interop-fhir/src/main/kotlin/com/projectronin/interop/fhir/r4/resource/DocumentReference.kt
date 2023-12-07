@@ -63,7 +63,7 @@ data class DocumentReference(
         ResourceType.Organization,
         ResourceType.Device,
         ResourceType.Patient,
-        ResourceType.RelatedPerson
+        ResourceType.RelatedPerson,
     )
     val author: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Practitioner, ResourceType.PractitionerRole, ResourceType.Organization)
@@ -75,12 +75,13 @@ data class DocumentReference(
     val securityLabel: List<CodeableConcept> = listOf(),
     @RequiredField
     val content: List<DocumentReferenceContent> = listOf(),
-    val context: DocumentReferenceContext? = null
+    val context: DocumentReferenceContext? = null,
 ) : DomainResource<DocumentReference> {
     override val resourceType: String = "DocumentReference"
 }
 
 class DocumentReferenceSerializer : BaseFHIRSerializer<DocumentReference>(DocumentReference::class.java)
+
 class DocumentReferenceDeserializer : BaseFHIRDeserializer<DocumentReference>(DocumentReference::class.java)
 
 /**
@@ -97,7 +98,7 @@ data class DocumentReferenceRelatesTo(
     val code: Code?,
     @RequiredField
     @SupportedReferenceTypes(ResourceType.DocumentReference)
-    val target: Reference?
+    val target: Reference?,
 ) : BackboneElement<DocumentReferenceRelatesTo>
 
 class DocumentReferenceRelatesToSerializer :
@@ -117,7 +118,7 @@ data class DocumentReferenceContent(
     override val modifierExtension: List<Extension> = listOf(),
     @RequiredField
     val attachment: Attachment?,
-    val format: Coding? = null
+    val format: Coding? = null,
 ) : BackboneElement<DocumentReferenceContent>
 
 class DocumentReferenceContentSerializer :
@@ -143,7 +144,7 @@ data class DocumentReferenceContext(
     val practiceSetting: CodeableConcept? = null,
     @SupportedReferenceTypes(ResourceType.Patient)
     val sourcePatientInfo: Reference? = null,
-    val related: List<Reference> = listOf()
+    val related: List<Reference> = listOf(),
 ) : BackboneElement<DocumentReferenceContext>
 
 class DocumentReferenceContextSerializer :

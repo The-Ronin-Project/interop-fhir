@@ -10,25 +10,29 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
+@Suppress("ktlint:standard:max-line-length")
 class ReferenceTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val reference = Reference(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            reference = FHIRString("Patient/123"),
-            type = Uri("Patient"),
-            identifier = Identifier(value = FHIRString("123")),
-            display = FHIRString("Patient 123")
-        )
+        val reference =
+            Reference(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                reference = FHIRString("Patient/123"),
+                type = Uri("Patient"),
+                identifier = Identifier(value = FHIRString("123")),
+                display = FHIRString("Patient 123"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reference)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -42,7 +46,7 @@ class ReferenceTest {
             |  },
             |  "display" : "Patient 123"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedReference = objectMapper.readValue<Reference>(json)
@@ -54,22 +58,24 @@ class ReferenceTest {
         val reference = Reference(type = Uri("Patient"), display = FHIRString("any"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reference)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "Patient",
             |  "display" : "any"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "reference" : "Patient/123"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val reference = objectMapper.readValue<Reference>(json)
 
         assertNull(reference.id)
@@ -176,7 +182,9 @@ class ReferenceTest {
     @Test
     fun `static getId returns type from full reference`() {
         val id =
-            Reference.getId("https://apporchard.epic.com/interconnect-aocurprd-oauth/api/FHIR/R4/PractitionerRole/e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3")
+            Reference.getId(
+                "https://apporchard.epic.com/interconnect-aocurprd-oauth/api/FHIR/R4/PractitionerRole/e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3",
+            )
         assertEquals("e.TaXco-8ZEq63hw9riexz13ynhjloQIZHYC70uq-52zzam5A3iL3sq4D036f3.9u3", id)
     }
 

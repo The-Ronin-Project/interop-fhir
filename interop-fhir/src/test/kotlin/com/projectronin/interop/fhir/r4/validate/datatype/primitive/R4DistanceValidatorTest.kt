@@ -22,33 +22,35 @@ class R4DistanceValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Quantity",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if value provided without code`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val distance = Distance(value = Decimal(2.0))
-            R4DistanceValidator.validate(distance).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val distance = Distance(value = Decimal(2.0))
+                R4DistanceValidator.validate(distance).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_DIST_001: There SHALL be a code if there is a value @ Distance",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if system is provided and not UCUM`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val distance = Distance(system = Uri("SNOMED"))
-            R4DistanceValidator.validate(distance).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val distance = Distance(system = Uri("SNOMED"))
+                R4DistanceValidator.validate(distance).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_DIST_002: If system is present, it SHALL be UCUM @ Distance.system",
-            exception.message
+            exception.message,
         )
     }
 
@@ -62,17 +64,18 @@ class R4DistanceValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val distance = Distance(
-            value = Decimal(17.5),
-            system = CodeSystem.UCUM.uri,
-            code = Code("mm")
-        )
+        val distance =
+            Distance(
+                value = Decimal(17.5),
+                system = CodeSystem.UCUM.uri,
+                code = Code("mm"),
+            )
         R4DistanceValidator.validate(distance).alertIfErrors()
     }
 }

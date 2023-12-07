@@ -51,17 +51,19 @@ data class DocumentReferenceGenerator(
     val author: ListDataGenerator<Reference> = ListDataGenerator(0, ReferenceGenerator()),
     val authenticator: DataGenerator<Reference?> = NullDataGenerator(),
     val custodian: DataGenerator<Reference?> = NullDataGenerator(),
-    val relatesTo: ListDataGenerator<DocumentReferenceRelatesTo> = ListDataGenerator(
-        0,
-        DocumentReferenceRelatesToGenerator()
-    ),
+    val relatesTo: ListDataGenerator<DocumentReferenceRelatesTo> =
+        ListDataGenerator(
+            0,
+            DocumentReferenceRelatesToGenerator(),
+        ),
     val description: DataGenerator<FHIRString?> = NullDataGenerator(),
     val securityLabel: ListDataGenerator<CodeableConcept> = ListDataGenerator(0, CodeableConceptGenerator()),
-    val content: ListDataGenerator<DocumentReferenceContent> = ListDataGenerator(
-        1,
-        DocumentReferenceContentGenerator()
-    ),
-    val context: DataGenerator<DocumentReferenceContext?> = NullDataGenerator()
+    val content: ListDataGenerator<DocumentReferenceContent> =
+        ListDataGenerator(
+            1,
+            DocumentReferenceContentGenerator(),
+        ),
+    val context: DataGenerator<DocumentReferenceContext?> = NullDataGenerator(),
 ) : DomainResource<DocumentReference> {
     override fun toFhir(): DocumentReference =
         DocumentReference(
@@ -87,7 +89,7 @@ data class DocumentReferenceGenerator(
             description = description.generate(),
             securityLabel = securityLabel.generate(),
             content = content.generate(),
-            context = context.generate()
+            context = context.generate(),
         )
 }
 
@@ -104,7 +106,7 @@ class DocumentReferenceContentGenerator : DataGenerator<DocumentReferenceContent
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             attachment = attachment.generate(),
-            format = format.generate()
+            format = format.generate(),
         )
     }
 }
@@ -132,7 +134,7 @@ class DocumentReferenceContextGenerator : DataGenerator<DocumentReferenceContext
             facilityType = facilityType.generate(),
             practiceSetting = practiceSetting.generate(),
             sourcePatientInfo = sourcePatientInfo.generate(),
-            related = related.generate()
+            related = related.generate(),
         )
     }
 }
@@ -149,7 +151,7 @@ class DocumentReferenceRelatesToGenerator : DataGenerator<DocumentReferenceRelat
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             code = code.generate(),
-            target = reference("DocumentReference", id.generate()?.value)
+            target = reference("DocumentReference", id.generate()?.value),
         )
     }
 }

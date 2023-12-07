@@ -21,7 +21,7 @@ class R4DateFilterValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_DTFILT_001: Either a path or a searchParam must be provided, but not both @ DateFilter",
-            exception.message
+            exception.message,
         )
     }
 
@@ -35,7 +35,7 @@ class R4DateFilterValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_DTFILT_001: Either a path or a searchParam must be provided, but not both @ DateFilter",
-            exception.message
+            exception.message,
         )
     }
 
@@ -46,23 +46,24 @@ class R4DateFilterValidatorTest {
                 val dateFilter =
                     DateFilter(
                         path = FHIRString("path"),
-                        value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1))
+                        value = DynamicValue(DynamicValueType.INTEGER, FHIRInteger(1)),
                     )
                 R4DateFilterValidator.validate(dateFilter).alertIfErrors()
             }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR INV_DYN_VAL: value can only be one of the following: DateTime, Period, Duration @ DateFilter.value",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val dateFilter = DateFilter(
-            path = FHIRString("date-filter-path"),
-            value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31"))
-        )
+        val dateFilter =
+            DateFilter(
+                path = FHIRString("date-filter-path"),
+                value = DynamicValue(DynamicValueType.DATE_TIME, DateTime("2021-10-31")),
+            )
         R4DateFilterValidator.validate(dateFilter).alertIfErrors()
     }
 }

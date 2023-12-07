@@ -16,23 +16,26 @@ import org.junit.jupiter.api.Test
 class QuantityTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val quantity = Quantity(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            unit = FHIRString("years"),
-            system = CodeSystem.UCUM.uri,
-            code = Code("a")
-        )
+        val quantity =
+            Quantity(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
+                unit = FHIRString("years"),
+                system = CodeSystem.UCUM.uri,
+                code = Code("a"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(quantity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -45,7 +48,7 @@ class QuantityTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "a"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedQuantity = objectMapper.readValue<Quantity>(json)
@@ -54,21 +57,24 @@ class QuantityTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val quantity = Quantity(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.5),
-            system = CodeSystem.UCUM.uri,
-            code = Code("mL/min/{1.73_m2}")
-        )
+        val quantity =
+            Quantity(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.5),
+                system = CodeSystem.UCUM.uri,
+                code = Code("mL/min/{1.73_m2}"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(quantity)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -79,17 +85,18 @@ class QuantityTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "mL/min/{1.73_m2}"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "comparator" : ">="
             |}
-        """.trimMargin()
+            """.trimMargin()
         val quantity = objectMapper.readValue<Quantity>(json)
 
         assertNull(quantity.id)

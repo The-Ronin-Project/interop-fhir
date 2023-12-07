@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class FHIRStringDataGeneratorTest {
-
     @Test
     fun `generic FHIRString String-based infix setter`() {
         val generator: DataGenerator<FHIRString?> = NullDataGenerator()

@@ -17,8 +17,9 @@ data class CodeableConcept(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val coding: List<Coding> = listOf(),
-    val text: FHIRString? = null
+    val text: FHIRString? = null,
 ) : Element<CodeableConcept>
 
 class CodeableConceptSerializer : BaseFHIRSerializer<CodeableConcept>(CodeableConcept::class.java)
+
 class CodeableConceptDeserializer : BaseFHIRDeserializer<CodeableConcept>(CodeableConcept::class.java)

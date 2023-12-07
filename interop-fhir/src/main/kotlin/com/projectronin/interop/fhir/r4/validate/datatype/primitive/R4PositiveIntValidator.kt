@@ -13,7 +13,11 @@ import com.projectronin.interop.fhir.validate.validation
 object R4PositiveIntValidator : ProfileValidator<PositiveInt> {
     private val error = InvalidPrimitiveError(PositiveInt::class)
 
-    override fun validate(element: PositiveInt, parentContext: LocationContext?): Validation = validation {
-        element.value?.let { checkTrue(it > 0, error, parentContext) }
-    }
+    override fun validate(
+        element: PositiveInt,
+        parentContext: LocationContext?,
+    ): Validation =
+        validation {
+            element.value?.let { checkTrue(it > 0, error, parentContext) }
+        }
 }

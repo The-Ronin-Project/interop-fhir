@@ -3,7 +3,9 @@ package com.projectronin.interop.fhir.r4.valueset
 import com.fasterxml.jackson.annotation.JsonValue
 import com.projectronin.interop.common.enums.CodedEnum
 
-enum class EventStatus(@JsonValue override val code: String) : CodedEnum<EventStatus> {
+enum class EventStatus(
+    @JsonValue override val code: String,
+) : CodedEnum<EventStatus> {
     /**
      * The core event has not started yet, but some staging activities have begun (e.g. surgical suite preparation).
      * Preparation stages may be tracked for billing purposes.
@@ -48,5 +50,5 @@ enum class EventStatus(@JsonValue override val code: String) : CodedEnum<EventSt
      * Note: This concept is not to be used for "other" - one of the listed statuses is presumed to apply,
      * but the authoring/source system does not know which.
      */
-    UNKNOWN("unknown")
+    UNKNOWN("unknown"),
 }

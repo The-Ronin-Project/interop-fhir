@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class AppointmentGeneratorTest {
-
     @Test
     fun `function works with defaults`() {
         val appt = appointment {}
@@ -50,19 +49,22 @@ class AppointmentGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val appt = appointment {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            status of "status"
-            participant of listOf(
-                participant {}
-            )
-            minutesDuration of 10
-            start of instant { year of 1990 }
-            end of instant { year of 1990 }
-        }
+        val appt =
+            appointment {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                status of "status"
+                participant of
+                    listOf(
+                        participant {},
+                    )
+                minutesDuration of 10
+                start of instant { year of 1990 }
+                end of instant { year of 1990 }
+            }
         assertEquals("id", appt.id?.value)
         assertEquals(1, appt.identifier.size)
         assertEquals("status", appt.status?.value)

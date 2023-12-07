@@ -26,7 +26,7 @@ data class UsageContext(
         DynamicValueType.CODEABLE_CONCEPT,
         DynamicValueType.QUANTITY,
         DynamicValueType.RANGE,
-        DynamicValueType.REFERENCE
+        DynamicValueType.REFERENCE,
     )
     @SupportedReferenceTypes(
         ResourceType.PlanDefinition,
@@ -35,10 +35,11 @@ data class UsageContext(
         ResourceType.HealthcareService,
         ResourceType.Group,
         ResourceType.Location,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
-    val value: DynamicValue<Any>?
+    val value: DynamicValue<Any>?,
 ) : Element<UsageContext>
 
 class UsageContextDeserializer : BaseFHIRDeserializer<UsageContext>(UsageContext::class.java)
+
 class UsageContextSerializer : BaseFHIRSerializer<UsageContext>(UsageContext::class.java)

@@ -30,7 +30,7 @@ data class STU3BundleEntry(
     val resource: STU3Resource<*>? = null,
     val search: BundleSearch? = null,
     val request: BundleRequest? = null,
-    val response: BundleResponse? = null
+    val response: BundleResponse? = null,
 ) : STU3BackboneElement<STU3BundleEntry> {
     override fun transformToR4(): BundleEntry {
         return BundleEntry(
@@ -42,10 +42,11 @@ data class STU3BundleEntry(
             resource?.transformToR4(),
             search,
             request,
-            response
+            response,
         )
     }
 }
 
 class STU3BundleEntrySerializer : BaseFHIRSerializer<STU3BundleEntry>(STU3BundleEntry::class.java)
+
 class STU3BundleEntryDeserializer : BaseFHIRDeserializer<STU3BundleEntry>(STU3BundleEntry::class.java)

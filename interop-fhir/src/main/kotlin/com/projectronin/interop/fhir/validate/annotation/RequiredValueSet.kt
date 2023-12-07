@@ -9,5 +9,5 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class RequiredValueSet(
-    val value: KClass<out CodedEnum<*>>
+    val value: KClass<out CodedEnum<*>>,
 )

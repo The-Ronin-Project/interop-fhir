@@ -26,13 +26,15 @@ class OrganizationGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val organization = organization {
-            id of Id("id")
-            identifier of listOf(
-                identifier {}
-            )
-            name of "name"
-        }
+        val organization =
+            organization {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {},
+                    )
+                name of "name"
+            }
         assertEquals("id", organization.id?.value)
         assertEquals(1, organization.identifier.size)
         assertEquals("name", organization.name?.value)

@@ -21,8 +21,9 @@ data class MoneyQuantity(
     override val comparator: Code? = null,
     override val unit: FHIRString? = null,
     override val system: Uri? = null,
-    override val code: Code? = null
+    override val code: Code? = null,
 ) : BaseQuantity<MoneyQuantity>(id, extension, value, comparator, unit, system, code)
 
 class MoneyQuantitySerializer : BaseFHIRSerializer<MoneyQuantity>(MoneyQuantity::class.java)
+
 class MoneyQuantityDeserializer : BaseFHIRDeserializer<MoneyQuantity>(MoneyQuantity::class.java)

@@ -26,7 +26,7 @@ data class ConceptMapGenerator(
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val status: CodeGenerator = CodeGenerator()
+    val status: CodeGenerator = CodeGenerator(),
 ) : DomainResource<ConceptMap> {
     override fun toFhir(): ConceptMap =
         ConceptMap(
@@ -39,7 +39,7 @@ data class ConceptMapGenerator(
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             identifier = identifier.generate().firstOrNull(),
-            status = status.generate()
+            status = status.generate(),
         )
 }
 

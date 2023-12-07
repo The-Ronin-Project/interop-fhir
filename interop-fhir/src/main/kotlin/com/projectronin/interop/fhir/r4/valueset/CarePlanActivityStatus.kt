@@ -50,5 +50,5 @@ enum class CarePlanActivityStatus(override val code: String) : CodedEnum<CarePla
     /**
      * Care plan activity was entered in error and voided.
      */
-    ENTERED_IN_ERROR("entered-in-error")
+    ENTERED_IN_ERROR("entered-in-error"),
 }

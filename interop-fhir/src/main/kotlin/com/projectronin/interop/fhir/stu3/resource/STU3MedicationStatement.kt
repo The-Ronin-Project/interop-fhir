@@ -58,7 +58,7 @@ data class STU3MedicationStatement(
     val reasonCode: List<CodeableConcept> = listOf(),
     val reasonReference: List<Reference> = listOf(),
     val note: List<Annotation> = listOf(),
-    val dosage: List<STU3Dosage> = listOf()
+    val dosage: List<STU3Dosage> = listOf(),
 ) : STU3DomainResource<STU3MedicationStatement> {
     override val resourceType: String = "MedicationStatement"
 
@@ -88,11 +88,14 @@ data class STU3MedicationStatement(
             reasonCode = reasonCode,
             reasonReference = reasonReference,
             note = note,
-            dosage = dosage.map { it.transformToR4() }
+            dosage = dosage.map { it.transformToR4() },
         )
     }
 
-    private fun transformToR4Status(status: Code?, taken: String?): Code? {
+    private fun transformToR4Status(
+        status: Code?,
+        taken: String?,
+    ): Code? {
         return when (taken) {
             "n" -> MedicationStatementStatus.NOT_TAKEN.asCode()
             "unk" -> MedicationStatementStatus.UNKNOWN.asCode()

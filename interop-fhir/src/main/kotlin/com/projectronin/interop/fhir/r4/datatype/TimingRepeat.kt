@@ -42,8 +42,9 @@ data class TimingRepeat(
     val dayOfWeek: List<Code> = listOf(),
     val timeOfDay: List<Time> = listOf(),
     val `when`: List<Code> = listOf(),
-    val offset: UnsignedInt? = null
+    val offset: UnsignedInt? = null,
 ) : Element<TimingRepeat>
 
 class TimingRepeatDeserializer : BaseFHIRDeserializer<TimingRepeat>(TimingRepeat::class.java)
+
 class TimingRepeatSerializer : BaseFHIRSerializer<TimingRepeat>(TimingRepeat::class.java)

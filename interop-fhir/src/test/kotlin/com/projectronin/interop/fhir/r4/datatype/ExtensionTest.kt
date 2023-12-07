@@ -12,19 +12,22 @@ import org.junit.jupiter.api.Test
 class ExtensionTest {
     @Test
     fun `can serialize and deserialize JSON - extension`() {
-        val extension = Extension(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use")
-        )
+        val extension =
+            Extension(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(extension)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -33,7 +36,7 @@ class ExtensionTest {
             |  } ],
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Extension>(json)
@@ -42,20 +45,22 @@ class ExtensionTest {
 
     @Test
     fun `can serialize and deserialize JSON - value`() {
-        val extension = Extension(
-            id = FHIRString("12345"),
-            url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
-            value = DynamicValue(DynamicValueType.CODE, Code("I"))
-        )
+        val extension =
+            Extension(
+                id = FHIRString("12345"),
+                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
+                value = DynamicValue(DynamicValueType.CODE, Code("I")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(extension)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Extension>(json)
@@ -64,29 +69,32 @@ class ExtensionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val extension = Extension(
-            url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
-            value = DynamicValue(DynamicValueType.CODE, Code("I"))
-        )
+        val extension =
+            Extension(
+                url = Uri("http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use"),
+                value = DynamicValue(DynamicValueType.CODE, Code("I")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(extension)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "url" : "http://hl7.org/fhir/StructureDefinition/iso-21090-EN-use",
             |  "valueCode" : "I"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val extension = objectMapper.readValue<Extension>(json)
 
         assertNull(extension.id)
@@ -97,7 +105,8 @@ class ExtensionTest {
 
     @Test
     fun `can deserialize complex extension set whose children are a mix of extension and value cases`() {
-        val json = """
+        val json =
+            """
             {
               "url": "complex",
               "extension": [
@@ -192,7 +201,7 @@ class ExtensionTest {
                 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val deserializedExtension = objectMapper.readValue<Extension>(json)
         assertEquals(5, deserializedExtension.extension.size)
@@ -201,7 +210,7 @@ class ExtensionTest {
         assertEquals(3, deserializedExtension.extension.get(0).extension.get(1).extension.get(0).extension.size)
         assertEquals(
             "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity",
-            deserializedExtension.extension.get(3).url!!.value
+            deserializedExtension.extension.get(3).url!!.value,
         )
     }
 }

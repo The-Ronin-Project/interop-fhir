@@ -16,23 +16,26 @@ import org.junit.jupiter.api.Test
 class CountTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val count = Count(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.0),
-            comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
-            unit = FHIRString("1"),
-            system = CodeSystem.UCUM.uri,
-            code = Code("1")
-        )
+        val count =
+            Count(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.0),
+                comparator = QuantityComparator.GREATER_OR_EQUAL_TO.asCode(),
+                unit = FHIRString("1"),
+                system = CodeSystem.UCUM.uri,
+                code = Code("1"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(count)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -45,7 +48,7 @@ class CountTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "1"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedCount = objectMapper.readValue<Count>(json)
@@ -54,21 +57,24 @@ class CountTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val count = Count(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            value = Decimal(17.0),
-            system = CodeSystem.UCUM.uri,
-            code = Code("1")
-        )
+        val count =
+            Count(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                value = Decimal(17.0),
+                system = CodeSystem.UCUM.uri,
+                code = Code("1"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(count)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -79,17 +85,18 @@ class CountTest {
             |  "system" : "http://unitsofmeasure.org",
             |  "code" : "1"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "comparator" : ">="
             |}
-        """.trimMargin()
+            """.trimMargin()
         val count = objectMapper.readValue<Count>(json)
 
         Assertions.assertNull(count.id)

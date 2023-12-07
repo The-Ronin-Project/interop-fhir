@@ -21,37 +21,41 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class ConditionGeneratorTest {
-
     @Test
     fun `example use with serialization`() {
         // Create a condition with the details you need.
-        val condition = condition {
-            // Say your test require condition for Breast Cancer
-            code of codeableConcept {
-                coding of listOf(
-                    coding {
-                        code of Code("254837009")
-                        system of CodeSystem.SNOMED_CT.uri
-                        display of "Malignant neoplasm of breast"
+        val condition =
+            condition {
+                // Say your test require condition for Breast Cancer
+                code of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    code of Code("254837009")
+                                    system of CodeSystem.SNOMED_CT.uri
+                                    display of "Malignant neoplasm of breast"
+                                },
+                            )
+                        text of "Breast Cancer"
                     }
-                )
-                text of "Breast Cancer"
-            }
-            // And active status
-            clinicalStatus of codeableConcept {
-                coding of listOf(
-                    coding {
-                        code of "active"
-                        system of CodeSystem.CONDITION_CLINICAL.uri
-                        display of "Active"
+                // And active status
+                clinicalStatus of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    code of "active"
+                                    system of CodeSystem.CONDITION_CLINICAL.uri
+                                    display of "Active"
+                                },
+                            )
                     }
-                )
+                // For a specific patient (reference their FHIR id)
+                patient {
+                    reference("Patient", "FHIR-1234")
+                }
             }
-            // For a specific patient (reference their FHIR id)
-            patient {
-                reference("Patient", "FHIR-1234")
-            }
-        }
 
         // This object can be serialized to JSON to be injected into your workflow, all required R4 attributes wil be generated
         val conditionJSON = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
@@ -76,7 +80,7 @@ class ConditionGeneratorTest {
         assertNotNull(condition.clinicalStatus)
         assertNotNull(
             ConditionClinicalStatusCodes.values()
-                .firstOrNull { it.code == condition.clinicalStatus!!.coding.firstOrNull()!!.code!!.value }
+                .firstOrNull { it.code == condition.clinicalStatus!!.coding.firstOrNull()!!.code!!.value },
         )
         assertNull(condition.verificationStatus)
         assertTrue(condition.category.isEmpty())
@@ -96,24 +100,25 @@ class ConditionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val condition = condition {
-            id of Id("id")
-            identifier of listOf(identifier {})
-            clinicalStatus of codeableConcept { text of "clinicalStatus" }
-            verificationStatus of codeableConcept { text of "verificationStatus" }
-            category of listOf(codeableConcept {})
-            severity of codeableConcept { text of "severity" }
-            code of codeableConcept { text of "code" }
-            bodySite of listOf(codeableConcept { text of "bodySite" })
-            subject of reference("Patient", "123")
-            encounter of reference("Encounter", "456")
-            recordedDate of DateTime("2015-02-07T13:28:17-05:00")
-            recorder of reference("Patient", "789")
-            asserter of reference("Practitioner", "567")
-            stage of listOf(conditionStage { })
-            evidence of listOf(conditionEvidence { })
-            note of listOf(annotation { })
-        }
+        val condition =
+            condition {
+                id of Id("id")
+                identifier of listOf(identifier {})
+                clinicalStatus of codeableConcept { text of "clinicalStatus" }
+                verificationStatus of codeableConcept { text of "verificationStatus" }
+                category of listOf(codeableConcept {})
+                severity of codeableConcept { text of "severity" }
+                code of codeableConcept { text of "code" }
+                bodySite of listOf(codeableConcept { text of "bodySite" })
+                subject of reference("Patient", "123")
+                encounter of reference("Encounter", "456")
+                recordedDate of DateTime("2015-02-07T13:28:17-05:00")
+                recorder of reference("Patient", "789")
+                asserter of reference("Practitioner", "567")
+                stage of listOf(conditionStage { })
+                evidence of listOf(conditionEvidence { })
+                note of listOf(annotation { })
+            }
         assertEquals("id", condition.id?.value)
         assertEquals(1, condition.identifier.size)
         assertEquals("clinicalStatus", condition.clinicalStatus?.text?.value)
@@ -144,26 +149,30 @@ class ConditionEvidenceGeneratorTest {
 
     @Test
     fun `evidence function works with parameters`() {
-        val conditionEvidence = conditionEvidence {
-            code of listOf(
-                codeableConcept {
-                    coding of listOf(
-                        coding {
-                            system of "system"
-                            code of "code"
-                        }
+        val conditionEvidence =
+            conditionEvidence {
+                code of
+                    listOf(
+                        codeableConcept {
+                            coding of
+                                listOf(
+                                    coding {
+                                        system of "system"
+                                        code of "code"
+                                    },
+                                )
+                        },
                     )
-                }
-            )
-            detail of listOf(
-                reference("Patient", "1234")
-            )
-        }
+                detail of
+                    listOf(
+                        reference("Patient", "1234"),
+                    )
+            }
 
         assertEquals(1, conditionEvidence.code.size)
         assertEquals(
             listOf(Coding(code = Code("code"), system = Uri("system"))),
-            conditionEvidence.code.firstOrNull()?.coding
+            conditionEvidence.code.firstOrNull()?.coding,
         )
         assertEquals(1, conditionEvidence.detail.size)
         val actualReference = conditionEvidence.detail.first()
@@ -182,33 +191,38 @@ class ConditionStageGeneratorTest {
 
     @Test
     fun `stage function works with parameters`() {
-        val conditionStage = conditionStage {
-            assessment of listOf(reference("Patient", "123"))
-            type of codeableConcept {
-                coding of listOf(
-                    coding {
-                        system of "system"
-                        code of "code"
+        val conditionStage =
+            conditionStage {
+                assessment of listOf(reference("Patient", "123"))
+                type of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    system of "system"
+                                    code of "code"
+                                },
+                            )
                     }
-                )
-            }
-            summary of codeableConcept {
-                coding of listOf(
-                    coding {
-                        system of "summarySystem"
-                        code of "summaryCode"
+                summary of
+                    codeableConcept {
+                        coding of
+                            listOf(
+                                coding {
+                                    system of "summarySystem"
+                                    code of "summaryCode"
+                                },
+                            )
                     }
-                )
             }
-        }
         assertEquals(1, conditionStage.assessment.size)
         assertEquals(
             Coding(system = Uri("system"), code = Code("code")),
-            conditionStage.type?.coding?.firstOrNull()
+            conditionStage.type?.coding?.firstOrNull(),
         )
         assertEquals(
             Coding(system = Uri("summarySystem"), code = Code("summaryCode")),
-            conditionStage.summary?.coding?.firstOrNull()
+            conditionStage.summary?.coding?.firstOrNull(),
         )
     }
 }

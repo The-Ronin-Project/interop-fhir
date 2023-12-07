@@ -72,7 +72,7 @@ data class MedicationRequest(
         ResourceType.Practitioner,
         ResourceType.PractitionerRole,
         ResourceType.RelatedPerson,
-        ResourceType.Organization
+        ResourceType.Organization,
     )
     val reported: DynamicValue<Any>? = null,
     @RequiredField
@@ -92,7 +92,7 @@ data class MedicationRequest(
         ResourceType.Organization,
         ResourceType.Patient,
         ResourceType.RelatedPerson,
-        ResourceType.Device
+        ResourceType.Device,
     )
     val requester: Reference? = null,
     @SupportedReferenceTypes(
@@ -102,7 +102,7 @@ data class MedicationRequest(
         ResourceType.Patient,
         ResourceType.Device,
         ResourceType.RelatedPerson,
-        ResourceType.CareTeam
+        ResourceType.CareTeam,
     )
     val performer: Reference? = null,
     val performerType: CodeableConcept? = null,
@@ -117,7 +117,7 @@ data class MedicationRequest(
         ResourceType.CarePlan,
         ResourceType.MedicationRequest,
         ResourceType.ServiceRequest,
-        ResourceType.ImmunizationRecommendation
+        ResourceType.ImmunizationRecommendation,
     )
     val basedOn: List<Reference> = listOf(),
     val groupIdentifier: Identifier? = null,
@@ -133,12 +133,13 @@ data class MedicationRequest(
     @SupportedReferenceTypes(ResourceType.DetectedIssue)
     val detectedIssue: List<Reference> = listOf(),
     @SupportedReferenceTypes(ResourceType.Provenance)
-    val eventHistory: List<Reference> = listOf()
+    val eventHistory: List<Reference> = listOf(),
 ) : DomainResource<MedicationRequest> {
     override val resourceType: String = "MedicationRequest"
 }
 
 class MedicationRequestSerializer : BaseFHIRSerializer<MedicationRequest>(MedicationRequest::class.java)
+
 class MedicationRequestDeserializer : BaseFHIRDeserializer<MedicationRequest>(MedicationRequest::class.java)
 
 /**
@@ -157,10 +158,11 @@ data class DispenseRequest(
     val quantity: SimpleQuantity? = null,
     val expectedSupplyDuration: Duration? = null,
     @SupportedReferenceTypes(ResourceType.Organization)
-    val performer: Reference? = null
+    val performer: Reference? = null,
 ) : BackboneElement<DispenseRequest>
 
 class DispenseRequestSerializer : BaseFHIRSerializer<DispenseRequest>(DispenseRequest::class.java)
+
 class DispenseRequestDeserializer : BaseFHIRDeserializer<DispenseRequest>(DispenseRequest::class.java)
 
 /**
@@ -173,10 +175,11 @@ data class InitialFill(
     override val extension: List<Extension> = listOf(),
     override val modifierExtension: List<Extension> = listOf(),
     val quantity: SimpleQuantity? = null,
-    val duration: Duration? = null
+    val duration: Duration? = null,
 ) : BackboneElement<InitialFill>
 
 class InitialFillSerializer : BaseFHIRSerializer<InitialFill>(InitialFill::class.java)
+
 class InitialFillDeserializer : BaseFHIRDeserializer<InitialFill>(InitialFill::class.java)
 
 /**
@@ -191,8 +194,9 @@ data class Substitution(
     @RequiredField
     @SupportedDynamicValueTypes(DynamicValueType.BOOLEAN, DynamicValueType.CODEABLE_CONCEPT)
     val allowed: DynamicValue<Any>?,
-    val reason: CodeableConcept? = null
+    val reason: CodeableConcept? = null,
 ) : BackboneElement<Substitution>
 
 class SubstitutionSerializer : BaseFHIRSerializer<Substitution>(Substitution::class.java)
+
 class SubstitutionDeserializer : BaseFHIRDeserializer<Substitution>(Substitution::class.java)

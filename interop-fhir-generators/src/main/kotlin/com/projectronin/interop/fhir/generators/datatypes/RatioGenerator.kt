@@ -14,10 +14,11 @@ class RatioGenerator : DataGenerator<Ratio>() {
     val numerator: DataGenerator<Quantity?> = NullDataGenerator()
     val denominator: DataGenerator<Quantity?> = NullDataGenerator()
 
-    override fun generateInternal() = Ratio(
-        numerator = numerator.generate(),
-        denominator = denominator.generate()
-    )
+    override fun generateInternal() =
+        Ratio(
+            numerator = numerator.generate(),
+            denominator = denominator.generate(),
+        )
 }
 
 fun ratio(block: RatioGenerator.() -> Unit): Ratio {

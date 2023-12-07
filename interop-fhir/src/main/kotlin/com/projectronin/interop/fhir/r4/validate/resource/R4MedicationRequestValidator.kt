@@ -9,7 +9,11 @@ import com.projectronin.interop.fhir.validate.Validation
  * Validator for the [R4 MedicationRequest](https://www.hl7.org/fhir/R4/medicationrequest.html)
  */
 object R4MedicationRequestValidator : R4ElementContainingValidator<MedicationRequest>() {
-    override fun validateElement(element: MedicationRequest, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: MedicationRequest,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         // MedicationRequest has no special Validation logic, but it should still evaluate its annotations and contained elements.
     }
 }

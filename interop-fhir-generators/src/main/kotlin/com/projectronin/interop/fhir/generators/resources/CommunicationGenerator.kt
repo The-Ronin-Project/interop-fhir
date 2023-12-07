@@ -26,7 +26,7 @@ data class CommunicationGenerator(
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val status: CodeGenerator = CodeGenerator()
+    val status: CodeGenerator = CodeGenerator(),
 ) : DomainResource<Communication> {
     override fun toFhir(): Communication =
         Communication(
@@ -39,7 +39,7 @@ data class CommunicationGenerator(
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             identifier = identifier.generate(),
-            status = status.generate()
+            status = status.generate(),
         )
 }
 

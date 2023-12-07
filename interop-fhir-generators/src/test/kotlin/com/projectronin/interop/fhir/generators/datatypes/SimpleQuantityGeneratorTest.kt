@@ -21,12 +21,13 @@ class SimpleQuantityGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val quantity = simpleQuantity {
-            value of 1.23
-            unit of "centimeters"
-            system of Uri("mySystem")
-            code of Code("myCode")
-        }
+        val quantity =
+            simpleQuantity {
+                value of 1.23
+                unit of "centimeters"
+                system of Uri("mySystem")
+                code of Code("myCode")
+            }
         assertEquals(Decimal(1.23), quantity.value)
         assertEquals("centimeters".asFHIR(), quantity.unit)
         assertEquals(Uri("mySystem"), quantity.system)

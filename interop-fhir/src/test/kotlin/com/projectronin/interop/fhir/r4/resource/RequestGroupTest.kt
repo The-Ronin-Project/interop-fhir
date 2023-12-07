@@ -31,53 +31,59 @@ import org.junit.jupiter.api.Test
 class RequestGroupTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val requestGroup = RequestGroup(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninRequestGroup"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            instantiatesCanonical = listOf(Canonical("instantiatesCanonical")),
-            instantiatesUri = listOf(Uri("instantiatesUri")),
-            basedOn = listOf(Reference(id = "basedOn".asFHIR())),
-            replaces = listOf(Reference(id = "replaces".asFHIR())),
-            groupIdentifier = Identifier(value = FHIRString("id")),
-            status = Code("status"),
-            intent = Code("intent"),
-            priority = Code("priority"),
-            code = CodeableConcept(text = "coding".asFHIR()),
-            subject = Reference(id = "subject".asFHIR()),
-            encounter = Reference(id = "encounter".asFHIR()),
-            authoredOn = DateTime("2023-05-02"),
-            author = Reference(id = "encounter".asFHIR()),
-            reasonCode = listOf(CodeableConcept(text = "coding".asFHIR())),
-            reasonReference = listOf(Reference(id = "reasonReference".asFHIR())),
-            note = listOf(Annotation(text = Markdown("note"))),
-            action = listOf(RequestGroupAction(id = "action".asFHIR()))
-        )
+        val requestGroup =
+            RequestGroup(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninRequestGroup")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = com.projectronin.interop.fhir.r4.valueset.NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                instantiatesCanonical = listOf(Canonical("instantiatesCanonical")),
+                instantiatesUri = listOf(Uri("instantiatesUri")),
+                basedOn = listOf(Reference(id = "basedOn".asFHIR())),
+                replaces = listOf(Reference(id = "replaces".asFHIR())),
+                groupIdentifier = Identifier(value = FHIRString("id")),
+                status = Code("status"),
+                intent = Code("intent"),
+                priority = Code("priority"),
+                code = CodeableConcept(text = "coding".asFHIR()),
+                subject = Reference(id = "subject".asFHIR()),
+                encounter = Reference(id = "encounter".asFHIR()),
+                authoredOn = DateTime("2023-05-02"),
+                author = Reference(id = "encounter".asFHIR()),
+                reasonCode = listOf(CodeableConcept(text = "coding".asFHIR())),
+                reasonReference = listOf(Reference(id = "reasonReference".asFHIR())),
+                note = listOf(Annotation(text = Markdown("note"))),
+                action = listOf(RequestGroupAction(id = "action".asFHIR())),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(requestGroup)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "RequestGroup",
               "id" : "12345",
@@ -146,7 +152,7 @@ class RequestGroupTest {
                 "id" : "action"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroup>(json)
@@ -155,20 +161,22 @@ class RequestGroupTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val requestGroup = RequestGroup(
-            status = Code("status"),
-            intent = Code("intent")
-        )
+        val requestGroup =
+            RequestGroup(
+                status = Code("status"),
+                intent = Code("intent"),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(requestGroup)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "RequestGroup",
               "status" : "status",
               "intent" : "intent"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroup>(json)
@@ -177,13 +185,14 @@ class RequestGroupTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "RequestGroup",
               "status" : "status",
               "intent" : "intent"
             }
-        """.trimIndent()
+            """.trimIndent()
         val requestGroup = JacksonManager.objectMapper.readValue<RequestGroup>(json)
 
         assertNull(requestGroup.id)
@@ -218,43 +227,47 @@ class RequestGroupTest {
 class RequestGroupActionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val action = RequestGroupAction(
-            id = "id".asFHIR(),
-            extension = listOf(Extension("extId".asFHIR())),
-            modifierExtension = listOf(Extension("extId".asFHIR())),
-            prefix = "prefix".asFHIR(),
-            title = "title".asFHIR(),
-            description = "description".asFHIR(),
-            textEquivalent = "textEquivalent".asFHIR(),
-            priority = Code("priority"),
-            code = listOf(CodeableConcept(text = "coding".asFHIR())),
-            documentation = listOf(RelatedArtifact(type = Code("documentation"))),
-            condition = listOf(
-                RequestGroupCondition(
-                    kind = Code("kind")
-                )
-            ),
-            relatedAction = listOf(
-                RequestGroupRelatedAction(
-                    actionId = Id("actionId"),
-                    relationship = Code("relationship")
-                )
-            ),
-            timing = DynamicValue(DynamicValueType.DATE_TIME, value = DateTime("2023-05-02")),
-            participant = listOf(Reference()),
-            type = CodeableConcept(text = "type".asFHIR()),
-            groupingBehavior = Code("groupingBehavior"),
-            selectionBehavior = Code("selectionBehavior"),
-            requiredBehavior = Code("requiredBehavior"),
-            precheckBehavior = Code("precheckBehavior"),
-            cardinalityBehavior = Code("cardinalityBehavior"),
-            resource = Reference(),
-            action = listOf(RequestGroupAction(id = "action2".asFHIR()))
-        )
+        val action =
+            RequestGroupAction(
+                id = "id".asFHIR(),
+                extension = listOf(Extension("extId".asFHIR())),
+                modifierExtension = listOf(Extension("extId".asFHIR())),
+                prefix = "prefix".asFHIR(),
+                title = "title".asFHIR(),
+                description = "description".asFHIR(),
+                textEquivalent = "textEquivalent".asFHIR(),
+                priority = Code("priority"),
+                code = listOf(CodeableConcept(text = "coding".asFHIR())),
+                documentation = listOf(RelatedArtifact(type = Code("documentation"))),
+                condition =
+                    listOf(
+                        RequestGroupCondition(
+                            kind = Code("kind"),
+                        ),
+                    ),
+                relatedAction =
+                    listOf(
+                        RequestGroupRelatedAction(
+                            actionId = Id("actionId"),
+                            relationship = Code("relationship"),
+                        ),
+                    ),
+                timing = DynamicValue(DynamicValueType.DATE_TIME, value = DateTime("2023-05-02")),
+                participant = listOf(Reference()),
+                type = CodeableConcept(text = "type".asFHIR()),
+                groupingBehavior = Code("groupingBehavior"),
+                selectionBehavior = Code("selectionBehavior"),
+                requiredBehavior = Code("requiredBehavior"),
+                precheckBehavior = Code("precheckBehavior"),
+                cardinalityBehavior = Code("cardinalityBehavior"),
+                resource = Reference(),
+                action = listOf(RequestGroupAction(id = "action2".asFHIR())),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(action)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "id",
               "extension" : [ {
@@ -296,7 +309,7 @@ class RequestGroupActionTest {
                 "id" : "action2"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroupAction>(json)
@@ -309,9 +322,10 @@ class RequestGroupActionTest {
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(action)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroupAction>(json)
@@ -320,9 +334,10 @@ class RequestGroupActionTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             { }
-        """.trimIndent()
+            """.trimIndent()
         val action = JacksonManager.objectMapper.readValue<RequestGroupAction>(json)
 
         assertNull(action.id)
@@ -353,17 +368,19 @@ class RequestGroupActionTest {
 class RequestGroupConditionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val condition = RequestGroupCondition(
-            id = "id".asFHIR(),
-            extension = listOf(Extension("extId".asFHIR())),
-            modifierExtension = listOf(Extension("extId".asFHIR())),
-            kind = Code("kind"),
-            expression = Expression(language = Code("language"))
-        )
+        val condition =
+            RequestGroupCondition(
+                id = "id".asFHIR(),
+                extension = listOf(Extension("extId".asFHIR())),
+                modifierExtension = listOf(Extension("extId".asFHIR())),
+                kind = Code("kind"),
+                expression = Expression(language = Code("language")),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "id",
               "extension" : [ {
@@ -377,7 +394,7 @@ class RequestGroupConditionTest {
                 "language" : "language"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroupCondition>(json)
@@ -386,17 +403,19 @@ class RequestGroupConditionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val condition = RequestGroupCondition(
-            kind = Code("kind")
-        )
+        val condition =
+            RequestGroupCondition(
+                kind = Code("kind"),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(condition)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "kind" : "kind"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroupCondition>(json)
@@ -405,11 +424,12 @@ class RequestGroupConditionTest {
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "kind" : "kind"
             }
-        """.trimIndent()
+            """.trimIndent()
         val condition = JacksonManager.objectMapper.readValue<RequestGroupCondition>(json)
 
         assertNull(condition.id)
@@ -423,18 +443,20 @@ class RequestGroupConditionTest {
 class RequestGroupRelatedActionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val action = RequestGroupRelatedAction(
-            id = "id".asFHIR(),
-            extension = listOf(Extension("extId".asFHIR())),
-            modifierExtension = listOf(Extension("extId".asFHIR())),
-            actionId = Id("actionId"),
-            relationship = Code("relationship"),
-            offset = DynamicValue(type = DynamicValueType.DURATION, value = Duration(value = Decimal(12)))
-        )
+        val action =
+            RequestGroupRelatedAction(
+                id = "id".asFHIR(),
+                extension = listOf(Extension("extId".asFHIR())),
+                modifierExtension = listOf(Extension("extId".asFHIR())),
+                actionId = Id("actionId"),
+                relationship = Code("relationship"),
+                offset = DynamicValue(type = DynamicValueType.DURATION, value = Duration(value = Decimal(12))),
+            )
 
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(action)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "id" : "id",
               "extension" : [ {
@@ -449,7 +471,7 @@ class RequestGroupRelatedActionTest {
                 "value" : 12.0
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserialized = JacksonManager.objectMapper.readValue<RequestGroupRelatedAction>(json)
@@ -458,29 +480,32 @@ class RequestGroupRelatedActionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val action = RequestGroupRelatedAction(
-            actionId = Id("actionId"),
-            relationship = Code("relationship")
-        )
+        val action =
+            RequestGroupRelatedAction(
+                actionId = Id("actionId"),
+                relationship = Code("relationship"),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(action)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "actionId" : "actionId",
               "relationship" : "relationship"
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "actionId" : "actionId",
               "relationship" : "relationship"
             }
-        """.trimIndent()
+            """.trimIndent()
         val action = JacksonManager.objectMapper.readValue<RequestGroupRelatedAction>(json)
 
         assertNull(action.id)

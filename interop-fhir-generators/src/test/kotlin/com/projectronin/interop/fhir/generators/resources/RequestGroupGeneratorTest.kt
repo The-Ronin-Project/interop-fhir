@@ -46,10 +46,11 @@ class RequestGroupGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val requestGroup = requestGroup {
-            code of codeableConcept { }
-            author of reference("Practitioner", "1234")
-        }
+        val requestGroup =
+            requestGroup {
+                code of codeableConcept { }
+                author of reference("Practitioner", "1234")
+            }
         assertNotNull(requestGroup.code)
         assertNotNull(requestGroup.author)
     }
@@ -84,12 +85,14 @@ class RequestGroupActionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val requestGroupAction = requestGroupAction {
-            title of "action title"
-            action plus requestGroupAction {
-                title of "sub action title"
+        val requestGroupAction =
+            requestGroupAction {
+                title of "action title"
+                action plus
+                    requestGroupAction {
+                        title of "sub action title"
+                    }
             }
-        }
         assertEquals(FHIRString("action title"), requestGroupAction.title)
         assertEquals(listOf(RequestGroupAction(title = FHIRString("sub action title"))), requestGroupAction.action)
     }
@@ -108,9 +111,10 @@ class RequestGroupConditionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val requestGroupCondition = requestGroupCondition {
-            expression of expression { }
-        }
+        val requestGroupCondition =
+            requestGroupCondition {
+                expression of expression { }
+            }
         assertNotNull(requestGroupCondition.expression)
     }
 }
@@ -128,9 +132,10 @@ class RequestGroupRelatedActionGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val requestGroupRelatedAction = requestGroupRelatedAction {
-            actionId of Id("action123")
-        }
+        val requestGroupRelatedAction =
+            requestGroupRelatedAction {
+                actionId of Id("action123")
+            }
         assertEquals(Id("action123"), requestGroupRelatedAction.actionId)
     }
 }

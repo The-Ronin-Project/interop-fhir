@@ -34,72 +34,80 @@ import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
+@Suppress("ktlint:standard:max-line-length")
 class MedicationRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val medicationRequest = MedicationRequest(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("RoninMedicationRequest"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            status = MedicationRequestStatus.CANCELLED.asCode(),
-            statusReason = CodeableConcept(text = FHIRString("statusReason")),
-            intent = MedicationRequestIntent.PROPOSAL.asCode(),
-            category = listOf(CodeableConcept(text = FHIRString("category"))),
-            priority = Code("priority"),
-            doNotPerform = FHIRBoolean.FALSE,
-            reported = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
-            medication = DynamicValue(
-                DynamicValueType.CODEABLE_CONCEPT,
-                CodeableConcept(text = FHIRString("medication"))
-            ),
-            subject = Reference(reference = FHIRString("Patient/1234")),
-            encounter = Reference(reference = FHIRString("Encounter/1234")),
-            supportingInformation = listOf(Reference(reference = FHIRString("Condition/1234"))),
-            authoredOn = DateTime("2022-11-03"),
-            requester = Reference(reference = FHIRString("Practitioner/1234")),
-            performer = Reference(reference = FHIRString("Practitioner/5678")),
-            performerType = CodeableConcept(text = FHIRString("performer type")),
-            recorder = Reference(reference = FHIRString("Practitioner/3456")),
-            reasonCode = listOf(CodeableConcept(text = FHIRString("reason"))),
-            reasonReference = listOf(Reference(reference = FHIRString("Condition/5678"))),
-            instantiatesCanonical = listOf(Canonical("canonical")),
-            instantiatesUri = listOf(Uri("uri")),
-            basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
-            groupIdentifier = Identifier(value = FHIRString("group")),
-            courseOfTherapyType = CodeableConcept(text = FHIRString("therapy")),
-            insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
-            note = listOf(Annotation(text = Markdown("note"))),
-            dosageInstruction = listOf(Dosage(text = FHIRString("dosage"))),
-            dispenseRequest = DispenseRequest(numberOfRepeatsAllowed = UnsignedInt(2)),
-            substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)),
-            priorPrescription = Reference(reference = FHIRString("MedicationRequest/1234")),
-            detectedIssue = listOf(Reference(reference = FHIRString("DetectedIssue/1234"))),
-            eventHistory = listOf(Reference(reference = FHIRString("Provenance/1234")))
-        )
+        val medicationRequest =
+            MedicationRequest(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("RoninMedicationRequest")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                status = MedicationRequestStatus.CANCELLED.asCode(),
+                statusReason = CodeableConcept(text = FHIRString("statusReason")),
+                intent = MedicationRequestIntent.PROPOSAL.asCode(),
+                category = listOf(CodeableConcept(text = FHIRString("category"))),
+                priority = Code("priority"),
+                doNotPerform = FHIRBoolean.FALSE,
+                reported = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                medication =
+                    DynamicValue(
+                        DynamicValueType.CODEABLE_CONCEPT,
+                        CodeableConcept(text = FHIRString("medication")),
+                    ),
+                subject = Reference(reference = FHIRString("Patient/1234")),
+                encounter = Reference(reference = FHIRString("Encounter/1234")),
+                supportingInformation = listOf(Reference(reference = FHIRString("Condition/1234"))),
+                authoredOn = DateTime("2022-11-03"),
+                requester = Reference(reference = FHIRString("Practitioner/1234")),
+                performer = Reference(reference = FHIRString("Practitioner/5678")),
+                performerType = CodeableConcept(text = FHIRString("performer type")),
+                recorder = Reference(reference = FHIRString("Practitioner/3456")),
+                reasonCode = listOf(CodeableConcept(text = FHIRString("reason"))),
+                reasonReference = listOf(Reference(reference = FHIRString("Condition/5678"))),
+                instantiatesCanonical = listOf(Canonical("canonical")),
+                instantiatesUri = listOf(Uri("uri")),
+                basedOn = listOf(Reference(reference = FHIRString("CarePlan/1234"))),
+                groupIdentifier = Identifier(value = FHIRString("group")),
+                courseOfTherapyType = CodeableConcept(text = FHIRString("therapy")),
+                insurance = listOf(Reference(reference = FHIRString("Coverage/1234"))),
+                note = listOf(Annotation(text = Markdown("note"))),
+                dosageInstruction = listOf(Dosage(text = FHIRString("dosage"))),
+                dispenseRequest = DispenseRequest(numberOfRepeatsAllowed = UnsignedInt(2)),
+                substitution = Substitution(allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE)),
+                priorPrescription = Reference(reference = FHIRString("MedicationRequest/1234")),
+                detectedIssue = listOf(Reference(reference = FHIRString("DetectedIssue/1234"))),
+                eventHistory = listOf(Reference(reference = FHIRString("Provenance/1234"))),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "MedicationRequest",
               "id" : "12345",
@@ -206,7 +214,7 @@ class MedicationRequestTest {
                 "reference" : "Provenance/1234"
               } ]
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
 
         val deserializedMedicationRequest = JacksonManager.objectMapper.readValue<MedicationRequest>(json)
@@ -215,18 +223,21 @@ class MedicationRequestTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val medicationRequest = MedicationRequest(
-            status = MedicationRequestStatus.COMPLETED.asCode(),
-            intent = MedicationRequestIntent.OPTION.asCode(),
-            medication = DynamicValue(
-                DynamicValueType.CODEABLE_CONCEPT,
-                CodeableConcept(text = FHIRString("medication"))
-            ),
-            subject = Reference(reference = FHIRString("Patient/1234"))
-        )
+        val medicationRequest =
+            MedicationRequest(
+                status = MedicationRequestStatus.COMPLETED.asCode(),
+                intent = MedicationRequestIntent.OPTION.asCode(),
+                medication =
+                    DynamicValue(
+                        DynamicValueType.CODEABLE_CONCEPT,
+                        CodeableConcept(text = FHIRString("medication")),
+                    ),
+                subject = Reference(reference = FHIRString("Patient/1234")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(medicationRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             {
               "resourceType" : "MedicationRequest",
               "status" : "completed",
@@ -238,13 +249,14 @@ class MedicationRequestTest {
                 "reference" : "Patient/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             {
               "resourceType" : "MedicationRequest",
               "status" : "completed",
@@ -256,7 +268,7 @@ class MedicationRequestTest {
                 "reference" : "Patient/1234"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val medicationRequest = JacksonManager.objectMapper.readValue<MedicationRequest>(json)
 
         assertNull(medicationRequest.id)
@@ -277,7 +289,7 @@ class MedicationRequestTest {
         assertNull(medicationRequest.reported)
         assertEquals(
             DynamicValue(DynamicValueType.CODEABLE_CONCEPT, CodeableConcept(text = FHIRString("medication"))),
-            medicationRequest.medication
+            medicationRequest.medication,
         )
         assertEquals(Reference(reference = FHIRString("Patient/1234")), medicationRequest.subject)
         assertNull(medicationRequest.encounter)
@@ -323,35 +335,40 @@ class MedicationRequestTest {
 class DispenseRequestTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val dispenseRequest = DispenseRequest(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            initialFill = InitialFill(
-                id = FHIRString("67890"),
-                extension = listOf(
-                    Extension(
-                        url = Uri("http://localhost/extension"),
-                        value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                    )
-                ),
-                quantity = SimpleQuantity(value = Decimal(23.0)),
-                duration = Duration(value = Decimal(5.5))
-            ),
-            dispenseInterval = Duration(value = Decimal(1.0)),
-            validityPeriod = Period(start = DateTime("2022-11-03")),
-            numberOfRepeatsAllowed = UnsignedInt(3),
-            quantity = SimpleQuantity(value = Decimal(36.0)),
-            expectedSupplyDuration = Duration(value = Decimal(14.0)),
-            performer = Reference(reference = FHIRString("Practitioner/13579"))
-        )
+        val dispenseRequest =
+            DispenseRequest(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                initialFill =
+                    InitialFill(
+                        id = FHIRString("67890"),
+                        extension =
+                            listOf(
+                                Extension(
+                                    url = Uri("http://localhost/extension"),
+                                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                                ),
+                            ),
+                        quantity = SimpleQuantity(value = Decimal(23.0)),
+                        duration = Duration(value = Decimal(5.5)),
+                    ),
+                dispenseInterval = Duration(value = Decimal(1.0)),
+                validityPeriod = Period(start = DateTime("2022-11-03")),
+                numberOfRepeatsAllowed = UnsignedInt(3),
+                quantity = SimpleQuantity(value = Decimal(36.0)),
+                expectedSupplyDuration = Duration(value = Decimal(14.0)),
+                performer = Reference(reference = FHIRString("Practitioner/13579")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dispenseRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -388,7 +405,7 @@ class DispenseRequestTest {
             |    "reference" : "Practitioner/13579"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedDispenseRequest = JacksonManager.objectMapper.readValue<DispenseRequest>(json)
@@ -397,28 +414,31 @@ class DispenseRequestTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val dispenseRequest = DispenseRequest(
-            quantity = SimpleQuantity(value = Decimal(36.0))
-        )
+        val dispenseRequest =
+            DispenseRequest(
+                quantity = SimpleQuantity(value = Decimal(36.0)),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dispenseRequest)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "quantity" : {
             |    "value" : 36.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "numberOfRepeatsAllowed" : 3
             |}
-        """.trimMargin()
+            """.trimMargin()
         val dispenseRequest = JacksonManager.objectMapper.readValue<DispenseRequest>(json)
 
         assertNull(dispenseRequest.id)
@@ -436,20 +456,23 @@ class DispenseRequestTest {
 class SubstitutionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val substitution = Substitution(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
-            reason = CodeableConcept(text = FHIRString("reason"))
-        )
+        val substitution =
+            Substitution(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                allowed = DynamicValue(DynamicValueType.BOOLEAN, FHIRBoolean.TRUE),
+                reason = CodeableConcept(text = FHIRString("reason")),
+            )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(substitution)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -461,7 +484,7 @@ class SubstitutionTest {
             |    "text" : "reason"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedSubstitution = JacksonManager.objectMapper.readValue<Substitution>(json)
@@ -470,33 +493,37 @@ class SubstitutionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val substitution = Substitution(
-            allowed = DynamicValue(
-                DynamicValueType.CODEABLE_CONCEPT,
-                CodeableConcept(
-                    text = FHIRString("allowed")
-                )
+        val substitution =
+            Substitution(
+                allowed =
+                    DynamicValue(
+                        DynamicValueType.CODEABLE_CONCEPT,
+                        CodeableConcept(
+                            text = FHIRString("allowed"),
+                        ),
+                    ),
             )
-        )
         val json = JacksonManager.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(substitution)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "allowedCodeableConcept" : {
             |    "text" : "allowed"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "allowedBoolean" : true
             |}
-        """.trimMargin()
+            """.trimMargin()
         val substitution = JacksonManager.objectMapper.readValue<Substitution>(json)
 
         assertNull(substitution.id)

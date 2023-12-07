@@ -19,7 +19,7 @@ data class BinaryGenerator(
     override val language: DataGenerator<Code?> = NullDataGenerator(),
     val contentType: DataGenerator<Code?> = CodeGenerator(listOf("text/plain")),
     val securityContent: DataGenerator<Reference?> = NullDataGenerator(),
-    val data: DataGenerator<Base64Binary?> = Base64BinaryDataGenerator()
+    val data: DataGenerator<Base64Binary?> = Base64BinaryDataGenerator(),
 ) : FhirTestResource<Binary> {
     override fun toFhir(): Binary =
         Binary(
@@ -29,7 +29,7 @@ data class BinaryGenerator(
             language = language.generate(),
             contentType = contentType.generate(),
             securityContent = securityContent.generate(),
-            data = data.generate()
+            data = data.generate(),
         )
 }
 

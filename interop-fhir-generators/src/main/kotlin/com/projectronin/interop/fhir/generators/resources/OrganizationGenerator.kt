@@ -27,10 +27,8 @@ data class OrganizationGenerator(
     override val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     override val modifierExtension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator()),
     val identifier: ListDataGenerator<Identifier> = ListDataGenerator(0, IdentifierGenerator()),
-    val name: DataGenerator<String> = HospitalNameGenerator()
-
+    val name: DataGenerator<String> = HospitalNameGenerator(),
 ) : DomainResource<Organization> {
-
     override fun toFhir(): Organization =
         Organization(
             id = id.generate(),
@@ -42,7 +40,7 @@ data class OrganizationGenerator(
             extension = extension.generate(),
             modifierExtension = modifierExtension.generate(),
             identifier = identifier.generate(),
-            name = name.generate().asFHIR()
+            name = name.generate().asFHIR(),
         )
 }
 

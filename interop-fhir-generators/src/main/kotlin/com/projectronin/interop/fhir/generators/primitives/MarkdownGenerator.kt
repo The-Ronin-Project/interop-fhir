@@ -14,11 +14,12 @@ class MarkdownGenerator : DataGenerator<Markdown>() {
     val id: DataGenerator<FHIRString?> = NullDataGenerator()
     val extension: ListDataGenerator<Extension> = ListDataGenerator(0, ExtensionGenerator())
 
-    override fun generateInternal() = Markdown(
-        value = value.generate(),
-        id = id.generate(),
-        extension = extension.generate()
-    )
+    override fun generateInternal() =
+        Markdown(
+            value = value.generate(),
+            id = id.generate(),
+            extension = extension.generate(),
+        )
 }
 
 fun markdown(block: MarkdownGenerator.() -> Unit): Markdown {

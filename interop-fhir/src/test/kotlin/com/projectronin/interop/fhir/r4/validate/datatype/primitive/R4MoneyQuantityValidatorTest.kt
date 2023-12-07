@@ -22,7 +22,7 @@ class R4MoneyQuantityValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Quantity",
-            exception.message
+            exception.message,
         )
     }
 
@@ -36,20 +36,21 @@ class R4MoneyQuantityValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_MONQUAN_001: There SHALL be a code if there is a value @ MoneyQuantity",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails if system is provided and not CURRENCY`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val quantity = MoneyQuantity(system = Uri("SNOMED"))
-            R4MoneyQuantityValidator.validate(quantity).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val quantity = MoneyQuantity(system = Uri("SNOMED"))
+                R4MoneyQuantityValidator.validate(quantity).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_MONQUAN_002: If system is present, it SHALL be CURRENCY @ MoneyQuantity.system",
-            exception.message
+            exception.message,
         )
     }
 
@@ -63,17 +64,18 @@ class R4MoneyQuantityValidatorTest {
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_QUAN_001: If a code for the unit is present, the system SHALL also be present @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `validates successfully`() {
-        val quantity = MoneyQuantity(
-            value = Decimal(17.5),
-            system = CodeSystem.CURRENCY.uri,
-            code = Code("USD")
-        )
+        val quantity =
+            MoneyQuantity(
+                value = Decimal(17.5),
+                system = CodeSystem.CURRENCY.uri,
+                code = Code("USD"),
+            )
         R4MoneyQuantityValidator.validate(quantity).alertIfErrors()
     }
 }

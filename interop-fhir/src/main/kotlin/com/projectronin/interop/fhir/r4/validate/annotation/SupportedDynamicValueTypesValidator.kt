@@ -22,7 +22,7 @@ class SupportedDynamicValueTypesValidator :
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     ) {
         val supportedTypes = annotations.flatMap { it.value.toList() }
         if (supportedTypes.isNotEmpty()) {

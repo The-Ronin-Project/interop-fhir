@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class ObservationCategoryCodesTest {
-
     @Test
     fun `can find enums by code`() {
         for (enum in ObservationCategoryCodes.values()) {

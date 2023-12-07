@@ -26,6 +26,6 @@ interface ValidationAnnotationValidator {
         element: T,
         elementName: String,
         parentContext: LocationContext?,
-        validation: Validation
+        validation: Validation,
     )
 }

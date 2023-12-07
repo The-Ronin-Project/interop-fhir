@@ -15,28 +15,31 @@ import org.junit.jupiter.api.Test
 class AddressTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val address = Address(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            use = AddressUse.HOME.asCode(),
-            type = AddressType.POSTAL.asCode(),
-            text = FHIRString("925 Powder Springs St, Smyrna, GA 30080"),
-            line = listOf(FHIRString("925 Powder Springs St")),
-            city = FHIRString("Smyrna"),
-            district = FHIRString("Cobb"),
-            state = FHIRString("GA"),
-            postalCode = FHIRString("30080"),
-            country = FHIRString("USA"),
-            period = Period(start = DateTime("1998-08"), end = DateTime("2002-05"))
-        )
+        val address =
+            Address(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                use = AddressUse.HOME.asCode(),
+                type = AddressType.POSTAL.asCode(),
+                text = FHIRString("925 Powder Springs St, Smyrna, GA 30080"),
+                line = listOf(FHIRString("925 Powder Springs St")),
+                city = FHIRString("Smyrna"),
+                district = FHIRString("Cobb"),
+                state = FHIRString("GA"),
+                postalCode = FHIRString("30080"),
+                country = FHIRString("USA"),
+                period = Period(start = DateTime("1998-08"), end = DateTime("2002-05")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(address)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -57,7 +60,7 @@ class AddressTest {
             |    "end" : "2002-05"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAddress = objectMapper.readValue<Address>(json)
@@ -66,41 +69,46 @@ class AddressTest {
 
     @Test
     fun `can serialize and deserialize JSON with string extensions`() {
-        val extension = Extension(
-            url = Uri("http://localhost/string-extension"),
-            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-        )
+        val extension =
+            Extension(
+                url = Uri("http://localhost/string-extension"),
+                value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+            )
 
-        val address = Address(
-            id = FHIRString("12345", null, listOf(extension)),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            use = AddressUse.HOME.asCode(),
-            type = AddressType.POSTAL.asCode(),
-            text = FHIRString("925 Powder Springs St, Smyrna, GA 30080", null, listOf(extension)),
-            line = listOf(FHIRString("925 Powder Springs St", null, listOf(extension))),
-            city = FHIRString("Smyrna", null, listOf(extension)),
-            district = FHIRString("Cobb", null, listOf(extension)),
-            state = FHIRString("GA", null, listOf(extension)),
-            postalCode = FHIRString("30080", null, listOf(extension)),
-            country = FHIRString("USA", null, listOf(extension)),
-            period = Period(start = DateTime("1998-08"), end = DateTime("2002-05"))
-        )
+        val address =
+            Address(
+                id = FHIRString("12345", null, listOf(extension)),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                use = AddressUse.HOME.asCode(),
+                type = AddressType.POSTAL.asCode(),
+                text = FHIRString("925 Powder Springs St, Smyrna, GA 30080", null, listOf(extension)),
+                line = listOf(FHIRString("925 Powder Springs St", null, listOf(extension))),
+                city = FHIRString("Smyrna", null, listOf(extension)),
+                district = FHIRString("Cobb", null, listOf(extension)),
+                state = FHIRString("GA", null, listOf(extension)),
+                postalCode = FHIRString("30080", null, listOf(extension)),
+                country = FHIRString("USA", null, listOf(extension)),
+                period = Period(start = DateTime("1998-08"), end = DateTime("2002-05")),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(address)
 
-        val stringExtensionJSON = """{
+        val stringExtensionJSON =
+            """{
             |    "extension" : [ {
             |      "url" : "http://localhost/string-extension",
             |      "valueString" : "Value"
             |    } ]
             |  }
-        """.trimMargin()
+            """.trimMargin()
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "_id" : $stringExtensionJSON,
@@ -129,7 +137,7 @@ class AddressTest {
             |    "end" : "2002-05"
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedAddress = objectMapper.readValue<Address>(json)
@@ -142,21 +150,23 @@ class AddressTest {
 
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(address)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "postal"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "use" : "home"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val address = objectMapper.readValue<Address>(json)
 
         assertNull(address.id)
@@ -177,11 +187,12 @@ class AddressTest {
     fun `can deserialize from JSON with an empty line`() {
         // Previously this test expected us to filter out the empty line; however, due to the way that primitive extensions
         // work within a List, this could cause problems. So we will now return this empty line encapsulated by the FHIRString.
-        val json = """
+        val json =
+            """
             |{
             |  "line" : [ "925 Powder Springs St", "" ]
             |}
-        """.trimMargin()
+            """.trimMargin()
 
         val address = objectMapper.readValue<Address>(json)
 
@@ -192,11 +203,12 @@ class AddressTest {
     fun `can deserialize from JSON with a blank line`() {
         // Previously this test expected us to filter out the blank line; however, due to the way that primitive extensions
         // work within a List, this could cause problems. So we will now return this blank line encapsulated by the FHIRString.
-        val json = """
+        val json =
+            """
             |{
             |  "line" : [ "925 Powder Springs St", "   " ]
             |}
-        """.trimMargin()
+            """.trimMargin()
 
         val address = objectMapper.readValue<Address>(json)
 

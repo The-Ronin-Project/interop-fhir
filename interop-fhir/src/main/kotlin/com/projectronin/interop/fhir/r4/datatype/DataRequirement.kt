@@ -34,10 +34,11 @@ data class DataRequirement(
     val codeFilter: List<CodeFilter> = listOf(),
     val dateFilter: List<DateFilter> = listOf(),
     val limit: PositiveInt? = null,
-    val sort: List<Sort> = listOf()
+    val sort: List<Sort> = listOf(),
 ) : Element<DataRequirement>
 
 class DataRequirementDeserializer : BaseFHIRDeserializer<DataRequirement>(DataRequirement::class.java)
+
 class DataRequirementSerializer : BaseFHIRSerializer<DataRequirement>(DataRequirement::class.java)
 
 @JsonDeserialize(using = CodeFilterDeserializer::class)
@@ -48,10 +49,11 @@ data class CodeFilter(
     val path: FHIRString? = null,
     val searchParam: FHIRString? = null,
     val valueSet: Canonical? = null,
-    val code: List<Coding> = listOf()
+    val code: List<Coding> = listOf(),
 ) : Element<CodeFilter>
 
 class CodeFilterDeserializer : BaseFHIRDeserializer<CodeFilter>(CodeFilter::class.java)
+
 class CodeFilterSerializer : BaseFHIRSerializer<CodeFilter>(CodeFilter::class.java)
 
 @JsonDeserialize(using = DateFilterDeserializer::class)
@@ -62,10 +64,11 @@ data class DateFilter(
     val path: FHIRString? = null,
     val searchParam: FHIRString? = null,
     @SupportedDynamicValueTypes(DynamicValueType.DATE_TIME, DynamicValueType.PERIOD, DynamicValueType.DURATION)
-    val value: DynamicValue<Any>? = null
+    val value: DynamicValue<Any>? = null,
 ) : Element<DateFilter>
 
 class DateFilterDeserializer : BaseFHIRDeserializer<DateFilter>(DateFilter::class.java)
+
 class DateFilterSerializer : BaseFHIRSerializer<DateFilter>(DateFilter::class.java)
 
 @JsonDeserialize(using = SortDeserializer::class)
@@ -77,8 +80,9 @@ data class Sort(
     val path: FHIRString?,
     @RequiredField
     @RequiredValueSet(SortDirection::class)
-    val direction: Code?
+    val direction: Code?,
 ) : Element<Sort>
 
 class SortDeserializer : BaseFHIRDeserializer<Sort>(Sort::class.java)
+
 class SortSerializer : BaseFHIRSerializer<Sort>(Sort::class.java)

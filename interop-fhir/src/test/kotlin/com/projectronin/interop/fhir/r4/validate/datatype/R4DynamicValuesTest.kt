@@ -21,9 +21,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class R4DynamicValuesTest {
-    private val failedValidation = validation {
-        checkNotNull(null, RequiredFieldError(Patient::name), null)
-    }
+    private val failedValidation =
+        validation {
+            checkNotNull(null, RequiredFieldError(Patient::name), null)
+        }
     private val locationContext = LocationContext("Sample", "field")
 
     @AfterEach

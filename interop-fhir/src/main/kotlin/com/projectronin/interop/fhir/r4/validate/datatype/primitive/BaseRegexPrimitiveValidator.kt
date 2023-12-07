@@ -12,10 +12,14 @@ import com.projectronin.interop.fhir.validate.validation
  */
 abstract class BaseRegexPrimitiveValidator<PT : Primitive<String, PT>>(
     private val regex: Regex,
-    private val fhirError: FHIRError
+    private val fhirError: FHIRError,
 ) :
     ProfileValidator<PT> {
-    override fun validate(element: PT, parentContext: LocationContext?): Validation = validation {
-        element.value?.let { checkTrue(regex.matches(it), fhirError, parentContext) }
-    }
+    override fun validate(
+        element: PT,
+        parentContext: LocationContext?,
+    ): Validation =
+        validation {
+            element.value?.let { checkTrue(regex.matches(it), fhirError, parentContext) }
+        }
 }

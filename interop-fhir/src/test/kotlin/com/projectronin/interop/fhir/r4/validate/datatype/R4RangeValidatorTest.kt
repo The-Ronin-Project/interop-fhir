@@ -10,14 +10,15 @@ import org.junit.jupiter.api.assertThrows
 class R4RangeValidatorTest {
     @Test
     fun `fails if low has a higher value than high`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val range = Range(low = SimpleQuantity(value = Decimal(1.0)), high = SimpleQuantity(value = Decimal(0.5)))
-            R4RangeValidator.validate(range).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val range = Range(low = SimpleQuantity(value = Decimal(1.0)), high = SimpleQuantity(value = Decimal(0.5)))
+                R4RangeValidator.validate(range).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\n" +
                 "ERROR R4_RANGE_001: If present, low SHALL have a lower value than high @ Range",
-            exception.message
+            exception.message,
         )
     }
 

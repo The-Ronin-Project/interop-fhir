@@ -21,17 +21,18 @@ class SupportedReferenceTypesValidatorTest {
     fun `no validation occurs when no resource types provided`() {
         val annotation = SupportedReferenceTypes(value = emptyArray())
         val element = SingleReferenceElement(null)
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                SingleReferenceElement::reference,
-                Reference::class,
-                element,
-                "SingleReferenceElement",
-                LocationContext(SingleReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    SingleReferenceElement::reference,
+                    Reference::class,
+                    element,
+                    "SingleReferenceElement",
+                    LocationContext(SingleReferenceElement::class),
+                    this,
+                )
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -39,17 +40,18 @@ class SupportedReferenceTypesValidatorTest {
     fun `passes when provided null Reference property`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = SingleReferenceElement(null)
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                SingleReferenceElement::reference,
-                Reference::class,
-                element,
-                "SingleReferenceElement",
-                LocationContext(SingleReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    SingleReferenceElement::reference,
+                    Reference::class,
+                    element,
+                    "SingleReferenceElement",
+                    LocationContext(SingleReferenceElement::class),
+                    this,
+                )
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -57,17 +59,18 @@ class SupportedReferenceTypesValidatorTest {
     fun `passes when provided Reference property with supported resource type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = SingleReferenceElement(Reference(reference = FHIRString("Patient/1234")))
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                SingleReferenceElement::reference,
-                Reference::class,
-                element,
-                "SingleReferenceElement",
-                LocationContext(SingleReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    SingleReferenceElement::reference,
+                    Reference::class,
+                    element,
+                    "SingleReferenceElement",
+                    LocationContext(SingleReferenceElement::class),
+                    this,
+                )
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -75,24 +78,25 @@ class SupportedReferenceTypesValidatorTest {
     fun `errors when provided Reference property with unsupported resource type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = SingleReferenceElement(Reference(reference = FHIRString("Observation/1234")))
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                SingleReferenceElement::reference,
-                Reference::class,
-                element,
-                "SingleReferenceElement",
-                LocationContext(SingleReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    SingleReferenceElement::reference,
+                    Reference::class,
+                    element,
+                    "SingleReferenceElement",
+                    LocationContext(SingleReferenceElement::class),
+                    this,
+                )
+            }
 
         assertTrue(validation.hasIssues())
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
             "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ SingleReferenceElement.reference.reference",
-            issues.first().toString()
+            issues.first().toString(),
         )
     }
 
@@ -100,17 +104,18 @@ class SupportedReferenceTypesValidatorTest {
     fun `passes when provided Reference property with local reference`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
         val element = SingleReferenceElement(Reference(reference = FHIRString("#1234")))
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                SingleReferenceElement::reference,
-                Reference::class,
-                element,
-                "SingleReferenceElement",
-                LocationContext(SingleReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    SingleReferenceElement::reference,
+                    Reference::class,
+                    element,
+                    "SingleReferenceElement",
+                    LocationContext(SingleReferenceElement::class),
+                    this,
+                )
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -121,20 +126,21 @@ class SupportedReferenceTypesValidatorTest {
             DynamicValueElement(
                 DynamicValue(
                     DynamicValueType.REFERENCE,
-                    Reference(reference = FHIRString("Patient/1234"))
+                    Reference(reference = FHIRString("Patient/1234")),
+                ),
+            )
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    DynamicValueElement::value,
+                    DynamicValue::class,
+                    element,
+                    "DynamicValueElement",
+                    LocationContext(DynamicValueElement::class),
+                    this,
                 )
-            )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                DynamicValueElement::value,
-                DynamicValue::class,
-                element,
-                "DynamicValueElement",
-                LocationContext(DynamicValueElement::class),
-                this
-            )
-        }
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -145,20 +151,21 @@ class SupportedReferenceTypesValidatorTest {
             DynamicValueElement(
                 DynamicValue(
                     DynamicValueType.STRING,
-                    FHIRString("Patient/1234")
+                    FHIRString("Patient/1234"),
+                ),
+            )
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    DynamicValueElement::value,
+                    DynamicValue::class,
+                    element,
+                    "DynamicValueElement",
+                    LocationContext(DynamicValueElement::class),
+                    this,
                 )
-            )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                DynamicValueElement::value,
-                DynamicValue::class,
-                element,
-                "DynamicValueElement",
-                LocationContext(DynamicValueElement::class),
-                this
-            )
-        }
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -169,20 +176,21 @@ class SupportedReferenceTypesValidatorTest {
             DynamicValueElement(
                 DynamicValue(
                     DynamicValueType.REFERENCE,
-                    FHIRString("Patient/1234")
+                    FHIRString("Patient/1234"),
+                ),
+            )
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    DynamicValueElement::value,
+                    DynamicValue::class,
+                    element,
+                    "DynamicValueElement",
+                    LocationContext(DynamicValueElement::class),
+                    this,
                 )
-            )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                DynamicValueElement::value,
-                DynamicValue::class,
-                element,
-                "DynamicValueElement",
-                LocationContext(DynamicValueElement::class),
-                this
-            )
-        }
+            }
         assertFalse(validation.hasIssues())
     }
 
@@ -193,126 +201,133 @@ class SupportedReferenceTypesValidatorTest {
             DynamicValueElement(
                 DynamicValue(
                     DynamicValueType.REFERENCE,
-                    Reference(reference = FHIRString("Practitioner/1234"))
+                    Reference(reference = FHIRString("Practitioner/1234")),
+                ),
+            )
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    DynamicValueElement::value,
+                    DynamicValue::class,
+                    element,
+                    "DynamicValueElement",
+                    LocationContext(DynamicValueElement::class),
+                    this,
                 )
-            )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                DynamicValueElement::value,
-                DynamicValue::class,
-                element,
-                "DynamicValueElement",
-                LocationContext(DynamicValueElement::class),
-                this
-            )
-        }
+            }
 
         assertTrue(validation.hasIssues())
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
             "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ DynamicValueElement.value.reference",
-            issues.first().toString()
+            issues.first().toString(),
         )
     }
 
     @Test
     fun `passes when provided List of Reference property with only supported resource types`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
-        val element = ListReferenceElement(
-            listOf(
-                Reference(reference = FHIRString("Patient/1234")),
-                Reference(reference = FHIRString("Group/1234"))
+        val element =
+            ListReferenceElement(
+                listOf(
+                    Reference(reference = FHIRString("Patient/1234")),
+                    Reference(reference = FHIRString("Group/1234")),
+                ),
             )
-        )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                ListReferenceElement::references,
-                List::class,
-                element,
-                "ListReferenceElement",
-                LocationContext(ListReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    ListReferenceElement::references,
+                    List::class,
+                    element,
+                    "ListReferenceElement",
+                    LocationContext(ListReferenceElement::class),
+                    this,
+                )
+            }
         assertFalse(validation.hasIssues())
     }
 
     @Test
     fun `errors when provided List of Reference property with single unsupported resource type`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
-        val element = ListReferenceElement(
-            listOf(
-                Reference(reference = FHIRString("Observation/1234")),
-                Reference(reference = FHIRString("Group/1234"))
+        val element =
+            ListReferenceElement(
+                listOf(
+                    Reference(reference = FHIRString("Observation/1234")),
+                    Reference(reference = FHIRString("Group/1234")),
+                ),
             )
-        )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                ListReferenceElement::references,
-                List::class,
-                element,
-                "ListReferenceElement",
-                LocationContext(ListReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    ListReferenceElement::references,
+                    List::class,
+                    element,
+                    "ListReferenceElement",
+                    LocationContext(ListReferenceElement::class),
+                    this,
+                )
+            }
 
         assertTrue(validation.hasIssues())
         val issues = validation.issues()
         assertEquals(1, issues.size)
         assertEquals(
             "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
-            issues.first().toString()
+            issues.first().toString(),
         )
     }
 
     @Test
     fun `errors when provided List of Reference property with multiple unsupported resource types`() {
         val annotation = SupportedReferenceTypes(ResourceType.Group, ResourceType.Patient)
-        val element = ListReferenceElement(
-            listOf(
-                Reference(reference = FHIRString("Observation/1234")),
-                Reference(reference = FHIRString("Condition/1234"))
+        val element =
+            ListReferenceElement(
+                listOf(
+                    Reference(reference = FHIRString("Observation/1234")),
+                    Reference(reference = FHIRString("Condition/1234")),
+                ),
             )
-        )
-        val validation = Validation().apply {
-            validator.validateAnnotations(
-                listOf(annotation),
-                ListReferenceElement::references,
-                List::class,
-                element,
-                "ListReferenceElement",
-                LocationContext(ListReferenceElement::class),
-                this
-            )
-        }
+        val validation =
+            Validation().apply {
+                validator.validateAnnotations(
+                    listOf(annotation),
+                    ListReferenceElement::references,
+                    List::class,
+                    element,
+                    "ListReferenceElement",
+                    LocationContext(ListReferenceElement::class),
+                    this,
+                )
+            }
 
         assertTrue(validation.hasIssues())
         val issues = validation.issues()
         assertEquals(2, issues.size)
         assertEquals(
             "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[0].reference",
-            issues[0].toString()
+            issues[0].toString(),
         )
         assertEquals(
             "ERROR INV_REF_TYPE: reference can only be one of the following: Group, Patient @ ListReferenceElement.references[1].reference",
-            issues[1].toString()
+            issues[1].toString(),
         )
     }
 
     data class SingleReferenceElement(
-        val reference: Reference?
+        val reference: Reference?,
     ) : Validatable<SingleReferenceElement>
 
     data class DynamicValueElement(
-        val value: DynamicValue<Any>?
+        val value: DynamicValue<Any>?,
     ) : Validatable<DynamicValueElement>
 
     data class ListReferenceElement(
-        val references: List<Reference>
+        val references: List<Reference>,
     ) : Validatable<ListReferenceElement>
 }

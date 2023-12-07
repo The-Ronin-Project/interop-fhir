@@ -6,7 +6,9 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-contact-point-use.html)
  */
-enum class ContactPointUse(@JsonValue override val code: String) : CodedEnum<ContactPointUse> {
+enum class ContactPointUse(
+    @JsonValue override val code: String,
+) : CodedEnum<ContactPointUse> {
     /**
      * A communication contact point at a home; attempted contacts for business purposes might intrude privacy and chances are one will contact family or other household members instead of the person one wishes to call. Typically used with urgent cases, or if no other contacts are available.
      */
@@ -30,5 +32,5 @@ enum class ContactPointUse(@JsonValue override val code: String) : CodedEnum<Con
     /**
      * A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes, suitable for urgent matters, not the first choice for routine business.
      */
-    MOBILE("mobile")
+    MOBILE("mobile"),
 }

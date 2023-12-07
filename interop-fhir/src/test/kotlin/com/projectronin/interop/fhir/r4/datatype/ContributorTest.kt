@@ -14,30 +14,35 @@ import org.junit.jupiter.api.Test
 class ContributorTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val contributor = Contributor(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            type = ContributorType.AUTHOR.asCode(),
-            name = FHIRString("Josh Smith"),
-            contact = listOf(
-                ContactDetail(
-                    telecom = listOf(
-                        ContactPoint(
-                            value = FHIRString("josh@projectronin.com"),
-                            system = ContactPointSystem.EMAIL.asCode()
-                        )
-                    )
-                )
+        val contributor =
+            Contributor(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                type = ContributorType.AUTHOR.asCode(),
+                name = FHIRString("Josh Smith"),
+                contact =
+                    listOf(
+                        ContactDetail(
+                            telecom =
+                                listOf(
+                                    ContactPoint(
+                                        value = FHIRString("josh@projectronin.com"),
+                                        system = ContactPointSystem.EMAIL.asCode(),
+                                    ),
+                                ),
+                        ),
+                    ),
             )
-        )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contributor)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -53,7 +58,7 @@ class ContributorTest {
             |    } ]
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedExtension = objectMapper.readValue<Contributor>(json)
@@ -62,29 +67,32 @@ class ContributorTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val contributor = Contributor(
-            type = ContributorType.AUTHOR.asCode(),
-            name = FHIRString("Josh Smith")
-        )
+        val contributor =
+            Contributor(
+                type = ContributorType.AUTHOR.asCode(),
+                name = FHIRString("Josh Smith"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contributor)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "type" : "author",
             |  "name" : "Josh Smith"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "type" : "author",
             |  "name" : "Josh Smith"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val contributor = objectMapper.readValue<Contributor>(json)
 
         assertNull(contributor.id)

@@ -25,15 +25,17 @@ class ConceptMapGeneratorTest {
 
     @Test
     fun `function works with parameters`() {
-        val conceptMap = conceptMap {
-            id of Id("id")
-            identifier of listOf(
-                identifier {
-                    value of "identifier"
-                }
-            )
-            status of "status"
-        }
+        val conceptMap =
+            conceptMap {
+                id of Id("id")
+                identifier of
+                    listOf(
+                        identifier {
+                            value of "identifier"
+                        },
+                    )
+                status of "status"
+            }
 
         assertEquals("id", conceptMap.id?.value)
         assertEquals("identifier", conceptMap.identifier?.value?.value)

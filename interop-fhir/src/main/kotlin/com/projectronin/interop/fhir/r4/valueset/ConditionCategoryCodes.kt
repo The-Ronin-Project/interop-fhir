@@ -10,5 +10,5 @@ enum class ConditionCategoryCodes(override val code: String) : CodedEnum<Conditi
     PROBLEM_LIST_ITEM("problem-list-item"),
     ENCOUNTER_DIAGNOSIS("encounter-diagnosis"),
     HEALTH_CONCERN("health-concern"),
-    DEATH_DIAGNOSIS("16100001")
+    DEATH_DIAGNOSIS("16100001"),
 }

@@ -67,12 +67,13 @@ data class Location(
     val hoursOfOperation: List<LocationHoursOfOperation> = listOf(),
     val availabilityExceptions: FHIRString? = null,
     @SupportedReferenceTypes(ResourceType.Endpoint)
-    val endpoint: List<Reference> = listOf()
+    val endpoint: List<Reference> = listOf(),
 ) : DomainResource<Location> {
     override val resourceType: String = "Location"
 }
 
 class LocationSerializer : BaseFHIRSerializer<Location>(Location::class.java)
+
 class LocationDeserializer : BaseFHIRDeserializer<Location>(Location::class.java)
 
 /**
@@ -88,7 +89,7 @@ data class LocationHoursOfOperation(
     val daysOfWeek: List<Code> = listOf(),
     val allDay: FHIRBoolean? = null,
     val openingTime: Time? = null,
-    val closingTime: Time? = null
+    val closingTime: Time? = null,
 ) : BackboneElement<LocationHoursOfOperation>
 
 class LocationHoursOfOperationSerializer :
@@ -110,8 +111,9 @@ data class LocationPosition(
     val longitude: Decimal?,
     @RequiredField
     val latitude: Decimal?,
-    val altitude: Decimal? = null
+    val altitude: Decimal? = null,
 ) : BackboneElement<LocationPosition>
 
 class LocationPositionSerializer : BaseFHIRSerializer<LocationPosition>(LocationPosition::class.java)
+
 class LocationPositionDeserializer : BaseFHIRDeserializer<LocationPosition>(LocationPosition::class.java)

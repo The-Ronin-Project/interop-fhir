@@ -34,76 +34,88 @@ import org.junit.jupiter.api.Test
 class LocationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val type = listOf(
+        val type =
+            listOf(
+                CodeableConcept(
+                    text = FHIRString("Diagnostic"),
+                    coding =
+                        listOf(
+                            Coding(
+                                code = Code("DX"),
+                                system = Uri(value = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"),
+                            ),
+                        ),
+                ),
+            )
+        val physicalType =
             CodeableConcept(
-                text = FHIRString("Diagnostic"),
-                coding = listOf(
-                    Coding(
-                        code = Code("DX"),
-                        system = Uri(value = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType")
-                    )
-                )
-            )
-        )
-        val physicalType = CodeableConcept(
-            text = FHIRString("Room"),
-            coding = listOf(
-                Coding(
-                    code = Code("ro"),
-                    system = Uri(value = "http://terminology.hl7.org/CodeSystem/location-physical-type")
-                )
-            )
-        )
-        val location = Location(
-            id = Id("12345"),
-            meta = Meta(
-                profile = listOf(Canonical("https://www.hl7.org/fhir/location"))
-            ),
-            implicitRules = Uri("implicit-rules"),
-            language = Code("en-US"),
-            text = Narrative(
-                status = NarrativeStatus.GENERATED.asCode(),
-                div = FHIRString("div")
-            ),
-            contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            modifierExtension = listOf(
-                Extension(
-                    url = Uri("http://localhost/modifier-extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            identifier = listOf(Identifier(value = FHIRString("id"))),
-            mode = LocationMode.INSTANCE.asCode(),
-            status = LocationStatus.ACTIVE.asCode(),
-            name = FHIRString("My Office"),
-            alias = listOf(FHIRString("Guest Room")),
-            description = FHIRString("Sun Room"),
-            type = type,
-            telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
-            address = Address(country = FHIRString("USA")),
-            physicalType = physicalType,
-            position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
-            hoursOfOperation = listOf(
-                LocationHoursOfOperation(
-                    daysOfWeek = listOf(
-                        DayOfWeek.SATURDAY.asCode(),
-                        DayOfWeek.SUNDAY.asCode()
+                text = FHIRString("Room"),
+                coding =
+                    listOf(
+                        Coding(
+                            code = Code("ro"),
+                            system = Uri(value = "http://terminology.hl7.org/CodeSystem/location-physical-type"),
+                        ),
                     ),
-                    allDay = FHIRBoolean.TRUE
-                )
-            ),
-            availabilityExceptions = FHIRString("Call for details"),
-            endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321")))
-        )
+            )
+        val location =
+            Location(
+                id = Id("12345"),
+                meta =
+                    Meta(
+                        profile = listOf(Canonical("https://www.hl7.org/fhir/location")),
+                    ),
+                implicitRules = Uri("implicit-rules"),
+                language = Code("en-US"),
+                text =
+                    Narrative(
+                        status = NarrativeStatus.GENERATED.asCode(),
+                        div = FHIRString("div"),
+                    ),
+                contained = listOf(Location(id = Id("1234"), name = FHIRString("Contained Location"))),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                modifierExtension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/modifier-extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                identifier = listOf(Identifier(value = FHIRString("id"))),
+                mode = LocationMode.INSTANCE.asCode(),
+                status = LocationStatus.ACTIVE.asCode(),
+                name = FHIRString("My Office"),
+                alias = listOf(FHIRString("Guest Room")),
+                description = FHIRString("Sun Room"),
+                type = type,
+                telecom = listOf(ContactPoint(value = FHIRString("8675309"), system = ContactPointSystem.PHONE.asCode())),
+                address = Address(country = FHIRString("USA")),
+                physicalType = physicalType,
+                position = LocationPosition(longitude = Decimal(13.81531), latitude = Decimal(66.077132)),
+                hoursOfOperation =
+                    listOf(
+                        LocationHoursOfOperation(
+                            daysOfWeek =
+                                listOf(
+                                    DayOfWeek.SATURDAY.asCode(),
+                                    DayOfWeek.SUNDAY.asCode(),
+                                ),
+                            allDay = FHIRBoolean.TRUE,
+                        ),
+                    ),
+                availabilityExceptions = FHIRString("Call for details"),
+                endpoint = listOf(Reference(reference = FHIRString("Endpoint/4321"))),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(location)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "Location",
             |  "id" : "12345",
@@ -171,7 +183,7 @@ class LocationTest {
             |    "reference" : "Endpoint/4321"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedLocation = objectMapper.readValue<Location>(json)
@@ -183,23 +195,25 @@ class LocationTest {
         val location = Location(status = LocationStatus.ACTIVE.asCode())
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(location)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "resourceType" : "Location",
             |  "status" : "active"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "resourceType" : "Location",
             |  "mode" : "instance"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val location = objectMapper.readValue<Location>(json)
 
         assertNull(location.id)
@@ -223,22 +237,25 @@ class LocationTest {
 class LocationHoursOfOperationTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val hoursOfOperation = LocationHoursOfOperation(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            daysOfWeek = listOf(DayOfWeek.SATURDAY.asCode(), DayOfWeek.SUNDAY.asCode()),
-            allDay = FHIRBoolean.TRUE,
-            openingTime = Time("06:30:00"),
-            closingTime = Time("18:00:00")
-        )
+        val hoursOfOperation =
+            LocationHoursOfOperation(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                daysOfWeek = listOf(DayOfWeek.SATURDAY.asCode(), DayOfWeek.SUNDAY.asCode()),
+                allDay = FHIRBoolean.TRUE,
+                openingTime = Time("06:30:00"),
+                closingTime = Time("18:00:00"),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(hoursOfOperation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -250,7 +267,7 @@ class LocationHoursOfOperationTest {
             |  "openingTime" : "06:30:00",
             |  "closingTime" : "18:00:00"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedHoursOfOperation = objectMapper.readValue<LocationHoursOfOperation>(json)
@@ -262,21 +279,23 @@ class LocationHoursOfOperationTest {
         val hoursOfOperation = LocationHoursOfOperation(id = FHIRString("12345"))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(hoursOfOperation)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345"
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "id" : "12345"
             |}
-        """.trimMargin()
+            """.trimMargin()
         val hoursOfOperation = objectMapper.readValue<LocationHoursOfOperation>(json)
 
         assertEquals(FHIRString("12345"), hoursOfOperation.id)
@@ -291,21 +310,24 @@ class LocationHoursOfOperationTest {
 class LocationPositionTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val position = LocationPosition(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            longitude = Decimal(13.81531),
-            latitude = Decimal(66.077132),
-            altitude = Decimal(17.0)
-        )
+        val position =
+            LocationPosition(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                longitude = Decimal(13.81531),
+                latitude = Decimal(66.077132),
+                altitude = Decimal(17.0),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(position)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -316,7 +338,7 @@ class LocationPositionTest {
             |  "latitude" : 66.077132,
             |  "altitude" : 17.0
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedPosition = objectMapper.readValue<LocationPosition>(json)
@@ -325,29 +347,32 @@ class LocationPositionTest {
 
     @Test
     fun `serialized JSON ignores null and empty fields`() {
-        val position = LocationPosition(
-            longitude = Decimal(13.81531),
-            latitude = Decimal(66.077132)
-        )
+        val position =
+            LocationPosition(
+                longitude = Decimal(13.81531),
+                latitude = Decimal(66.077132),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(position)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "longitude" : 13.81531,
             |  "latitude" : 66.077132
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "longitude" : 13.81531,
             |  "latitude" : 66.077132
             |}
-        """.trimMargin()
+            """.trimMargin()
         val position = objectMapper.readValue<LocationPosition>(json)
 
         assertNull(position.id)

@@ -12,20 +12,23 @@ import org.junit.jupiter.api.Test
 class RatioTest {
     @Test
     fun `can serialize and deserialize JSON`() {
-        val ratio = Ratio(
-            id = FHIRString("12345"),
-            extension = listOf(
-                Extension(
-                    url = Uri("http://localhost/extension"),
-                    value = DynamicValue(DynamicValueType.STRING, FHIRString("Value"))
-                )
-            ),
-            numerator = Quantity(value = Decimal(3.0)),
-            denominator = Quantity(value = Decimal(4.0))
-        )
+        val ratio =
+            Ratio(
+                id = FHIRString("12345"),
+                extension =
+                    listOf(
+                        Extension(
+                            url = Uri("http://localhost/extension"),
+                            value = DynamicValue(DynamicValueType.STRING, FHIRString("Value")),
+                        ),
+                    ),
+                numerator = Quantity(value = Decimal(3.0)),
+                denominator = Quantity(value = Decimal(4.0)),
+            )
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ratio)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "id" : "12345",
             |  "extension" : [ {
@@ -39,7 +42,7 @@ class RatioTest {
             |    "value" : 4.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
 
         val deserializedRatio = objectMapper.readValue<Ratio>(json)
@@ -51,7 +54,8 @@ class RatioTest {
         val ratio = Ratio(numerator = Quantity(value = Decimal(3.0)), denominator = Quantity(value = Decimal(4.0)))
         val json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ratio)
 
-        val expectedJson = """
+        val expectedJson =
+            """
             |{
             |  "numerator" : {
             |    "value" : 3.0
@@ -60,20 +64,21 @@ class RatioTest {
             |    "value" : 4.0
             |  }
             |}
-        """.trimMargin()
+            """.trimMargin()
         assertEquals(expectedJson, json)
     }
 
     @Test
     fun `can deserialize from JSON with nullable and empty fields`() {
-        val json = """
+        val json =
+            """
             |{
             |  "extension" : [ {
             |    "url" : "http://localhost/extension",
             |    "valueString" : "Value"
             |  } ]
             |}
-        """.trimMargin()
+            """.trimMargin()
         val ratio = objectMapper.readValue<Ratio>(json)
 
         assertNull(ratio.id)

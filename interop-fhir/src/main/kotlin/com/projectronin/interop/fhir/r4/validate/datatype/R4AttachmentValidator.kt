@@ -11,14 +11,19 @@ import com.projectronin.interop.fhir.validate.ValidationIssueSeverity
  * Validator for the [R4 Attachment](http://hl7.org/fhir/R4/datatypes.html#Attachment).
  */
 object R4AttachmentValidator : R4ElementContainingValidator<Attachment>() {
-    private val requiredContentTypeError = FHIRError(
-        code = "R4_ATTACH_001",
-        severity = ValidationIssueSeverity.ERROR,
-        description = "If the Attachment has data, it SHALL have a contentType",
-        location = LocationContext(Attachment::class)
-    )
+    private val requiredContentTypeError =
+        FHIRError(
+            code = "R4_ATTACH_001",
+            severity = ValidationIssueSeverity.ERROR,
+            description = "If the Attachment has data, it SHALL have a contentType",
+            location = LocationContext(Attachment::class),
+        )
 
-    override fun validateElement(element: Attachment, parentContext: LocationContext?, validation: Validation) {
+    override fun validateElement(
+        element: Attachment,
+        parentContext: LocationContext?,
+        validation: Validation,
+    ) {
         validation.apply {
             checkTrue((element.data == null || element.contentType != null), requiredContentTypeError, parentContext)
         }

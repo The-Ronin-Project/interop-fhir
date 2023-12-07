@@ -6,8 +6,10 @@ import com.projectronin.interop.common.enums.CodedEnum
 /**
  * See [FHIR Spec](https://www.hl7.org/fhir/valueset-participantrequired.html)
  */
-enum class ParticipantRequired(@JsonValue override val code: String) : CodedEnum<ParticipantRequired> {
+enum class ParticipantRequired(
+    @JsonValue override val code: String,
+) : CodedEnum<ParticipantRequired> {
     REQUIRED("required"),
     OPTIONAL("optional"),
-    INFORMATION_ONLY("information-only")
+    INFORMATION_ONLY("information-only"),
 }

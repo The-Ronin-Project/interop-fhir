@@ -16,8 +16,9 @@ data class ContactDetail(
     override val id: FHIRString? = null,
     override val extension: List<Extension> = listOf(),
     val name: FHIRString? = null,
-    val telecom: List<ContactPoint> = listOf()
+    val telecom: List<ContactPoint> = listOf(),
 ) : Element<ContactDetail>
 
 class ContactDetailSerializer : BaseFHIRSerializer<ContactDetail>(ContactDetail::class.java)
+
 class ContactDetailDeserializer : BaseFHIRDeserializer<ContactDetail>(ContactDetail::class.java)

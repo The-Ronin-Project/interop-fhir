@@ -39,25 +39,27 @@ class R4InstantValidatorTest {
 
     @Test
     fun `fails on invalid format`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val instant = Instant("2017-01-01 00:00:00")
-            R4InstantValidator.validate(instant).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val instant = Instant("2017-01-01 00:00:00")
+                R4InstantValidator.validate(instant).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Instant",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val instant = Instant("2017-01-01 00:00:00")
-            R4InstantValidator.validate(instant, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val instant = Instant("2017-01-01 00:00:00")
+                R4InstantValidator.validate(instant, LocationContext("Test", "field")).alertIfErrors()
+            }
         assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Instant @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

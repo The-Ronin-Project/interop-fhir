@@ -15,25 +15,27 @@ class R4IdValidatorTest {
 
     @Test
     fun `fails on underscore`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val id = Id("app_o_snd-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.")
-            R4IdValidator.validate(id).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val id = Id("app_o_snd-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.")
+                R4IdValidator.validate(id).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Id",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `fails on empty value`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val id = Id("")
-            R4IdValidator.validate(id).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val id = Id("")
+                R4IdValidator.validate(id).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Id",
-            exception.message
+            exception.message,
         )
     }
 
@@ -45,25 +47,27 @@ class R4IdValidatorTest {
 
     @Test
     fun `fails on invalid character`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val id = Id("@")
-            R4IdValidator.validate(id).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val id = Id("@")
+                R4IdValidator.validate(id).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Id",
-            exception.message
+            exception.message,
         )
     }
 
     @Test
     fun `includes parent context`() {
-        val exception = assertThrows<IllegalArgumentException> {
-            val id = Id("@")
-            R4IdValidator.validate(id, LocationContext("Test", "field")).alertIfErrors()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                val id = Id("@")
+                R4IdValidator.validate(id, LocationContext("Test", "field")).alertIfErrors()
+            }
         Assertions.assertEquals(
             "Encountered validation error(s):\nERROR R4_INV_PRIM: Supplied value is not valid for a Id @ Test.field",
-            exception.message
+            exception.message,
         )
     }
 }

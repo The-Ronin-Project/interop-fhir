@@ -8,7 +8,11 @@ import com.projectronin.interop.fhir.r4.resource.UnknownResource
  * Jackson serializer for [UnknownResource]s
  */
 class UnknownResourceSerializer : BaseResourceSerializer<UnknownResource>(UnknownResource::class.java) {
-    override fun serializeSpecificElement(value: UnknownResource, gen: JsonGenerator, provider: SerializerProvider) {
+    override fun serializeSpecificElement(
+        value: UnknownResource,
+        gen: JsonGenerator,
+        provider: SerializerProvider,
+    ) {
         value.otherData.entries.forEach { (key, value) ->
             value?.let {
                 gen.writeObjectField(key, it)

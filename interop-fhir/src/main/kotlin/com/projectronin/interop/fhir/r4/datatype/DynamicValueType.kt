@@ -79,9 +79,13 @@ enum class DynamicValueType(override val code: String, val associatedKClass: KCl
     URI("Uri", Uri::class),
     URL("Url", Url::class),
     USAGE_CONTEXT("UsageContext", UsageContext::class),
-    UUID("Uuid", Uuid::class);
+    UUID("Uuid", Uuid::class),
+    ;
 
-    override fun readValue(jsonNode: JsonNode, jsonParser: JsonParser): Any {
+    override fun readValue(
+        jsonNode: JsonNode,
+        jsonParser: JsonParser,
+    ): Any {
         return jsonNode.readValueAs(jsonParser, associatedKClass.java)
     }
 }
