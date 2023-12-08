@@ -1,10 +1,9 @@
 [versions]
 classgraph = "4.8.165"
-# @pin until JDK 17 implemented
-datafaker = "1.9.0"
-interop-common = "3.13.4"
+datafaker = "2.0.2"
+interop-common = "4.0.0"
 interop-event-resource-internal = "1.2.3"
-interop-gradle = "3.4.0"
+interop-gradle = "4.0.0"
 jackson = "2.16.0"
 mockk = "1.13.8"
 ronin-test = "0.2.0"
