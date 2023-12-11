@@ -1,7 +1,7 @@
 [versions]
 classgraph = "4.8.165"
 datafaker = "2.0.2"
-interop-common = "4.0.0"
+interop-common = "4.1.0"
 interop-event-resource-internal = "1.2.3"
 interop-gradle = "4.0.0"
 jackson = "2.16.0"
