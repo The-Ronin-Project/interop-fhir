@@ -17,3 +17,21 @@ fun Id?.toFhirIdentifier(): Identifier? =
             type = CodeableConcepts.RONIN_FHIR_ID,
         )
     }
+
+/**
+ * Localizes the Id relative to the [tenantMnemonic]
+ */
+fun Id.localize(tenantMnemonic: String): Id = Id(value?.localizeFhirId(tenantMnemonic), id, extension)
+
+/**
+ * Localizes the String relative to the [tenantMnemonic]
+ */
+fun String.localizeFhirId(tenantMnemonic: String): String {
+    val prefix = "$tenantMnemonic-"
+    return if (this.startsWith(prefix)) this else "$prefix$this"
+}
+
+/**
+ * Unlocalizes the String relative to the [tenantMnemonic]
+ */
+fun String.unlocalizeFhirId(tenantMnemonic: String): String = this.removePrefix("$tenantMnemonic-")
