@@ -3,6 +3,7 @@ package com.projectronin.interop.fhir.util
 import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.CodeableConcepts
 import com.projectronin.interop.fhir.r4.datatype.Identifier
+import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 
@@ -35,3 +36,22 @@ fun String.localizeFhirId(tenantMnemonic: String): String {
  * Unlocalizes the String relative to the [tenantMnemonic]
  */
 fun String.unlocalizeFhirId(tenantMnemonic: String): String = this.removePrefix("$tenantMnemonic-")
+
+/**
+ * Localizes a Reference.
+ */
+fun Reference.localize(tenantMnemonic: String): Reference {
+    reference?.value?.let {
+        val matchResult = Reference.FHIR_RESOURCE_REGEX.matchEntire(it) ?: return this
+
+        val (_, _, _, type, fhirId, history) = matchResult.destructured
+        return copy(
+            reference =
+                FHIRString(
+                    "$type/${fhirId.localizeFhirId(tenantMnemonic)}$history",
+                    reference.id,
+                    reference.extension,
+                ),
+        )
+    } ?: return this
+}

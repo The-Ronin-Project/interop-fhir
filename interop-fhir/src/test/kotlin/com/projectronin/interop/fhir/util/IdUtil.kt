@@ -4,6 +4,7 @@ import com.projectronin.interop.fhir.r4.CodeSystem
 import com.projectronin.interop.fhir.r4.CodeableConcepts
 import com.projectronin.interop.fhir.r4.datatype.Extension
 import com.projectronin.interop.fhir.r4.datatype.Identifier
+import com.projectronin.interop.fhir.r4.datatype.Reference
 import com.projectronin.interop.fhir.r4.datatype.primitive.FHIRString
 import com.projectronin.interop.fhir.r4.datatype.primitive.Id
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -86,5 +87,37 @@ class IdUtil {
     @Test
     fun `unlocalizeFhirId for non-prefixed string`() {
         assertEquals("1234", "1234".unlocalizeFhirId("test"))
+    }
+
+    @Test
+    fun `localize reference with no reference`() {
+        val reference = Reference()
+        val localizedReference = reference.localize("test")
+        assertEquals(reference, localizedReference)
+    }
+
+    @Test
+    fun `localize reference with reference with no value`() {
+        val reference = Reference(reference = FHIRString(null))
+        val localizedReference = reference.localize("test")
+        assertEquals(reference, localizedReference)
+    }
+
+    @Test
+    fun `localize reference with reference with no id or extension`() {
+        val reference = Reference(reference = FHIRString("Patient/1234"))
+        val localizedReference = reference.localize("test")
+        assertEquals(Reference(reference = FHIRString("Patient/test-1234")), localizedReference)
+    }
+
+    @Test
+    fun `localize reference with reference with id and extension`() {
+        val extension = Extension()
+        val reference = Reference(reference = FHIRString("Patient/1234", FHIRString("9876"), listOf(extension)))
+        val localizedReference = reference.localize("test")
+        assertEquals(
+            Reference(reference = FHIRString("Patient/test-1234", FHIRString("9876"), listOf(extension))),
+            localizedReference,
+        )
     }
 }
